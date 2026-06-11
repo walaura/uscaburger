@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c7ir7cd6c2523"]
+
+[ext_resource type="Script" uid="uid://pf221hhsrmnf" path="res://addons/godot-debug-panel/dp.gd" id="1_v7vxt"]
+
+[node name="Dp" type="Node" unique_id=1055962957]
+script = ExtResource("1_v7vxt")
+
+[node name="Container" type="HFlowContainer" parent="." unique_id=121797123]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = -1
+theme_override_constants/v_separation = -1

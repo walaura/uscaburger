@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dj3d6kyexgqic"]
+
+[ext_resource type="Script" uid="uid://dkbq44dqln6rv" path="res://Object/burger_tower.gd" id="1_dlsms"]
+[ext_resource type="PackedScene" uid="uid://d26nks86pu5yd" path="res://Asset/Parts.blend" id="2_jxsn0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4mug4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_p0ybc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
+margin = 1.367
+size = Vector3(40, 2, 40)
+
+[node name="Tower" type="Node3D" unique_id=2082163755 node_paths=PackedStringArray("floor_collider")]
+script = ExtResource("1_dlsms")
+parts_scene = ExtResource("2_jxsn0")
+floor_collider = NodePath("Floor")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=914771398]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1699525382]
+shape = SubResource("BoxShape3D_4mug4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/CollisionShape3D" unique_id=571655426]
+mesh = SubResource("BoxMesh_p0ybc")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1671366472]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1355751970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_psm7c")
+debug_fill = false
