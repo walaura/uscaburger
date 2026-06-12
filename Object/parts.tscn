@@ -15,7 +15,7 @@ size = Vector3(2.3076172, 0.3149414, 2.1640625)
 size = Vector3(2.293213, 0.6062012, 2.1640625)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a0xuf"]
-size = Vector3(2.0178223, 0.03881836, 2.1640625)
+size = Vector3(2.0178223, 0.072143555, 2.1640625)
 
 [node name="Parts" type="Node3D" unique_id=1021000598]
 
@@ -50,5 +50,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.434717, 0, 0.0109500885)
 [node name="Topz-cheese2" parent="Topz-cheese" unique_id=313934079 instance=ExtResource("4_4r0k8")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Topz-cheese" unique_id=2079788473]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011599988, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00506261, 0)
 shape = SubResource("BoxShape3D_a0xuf")

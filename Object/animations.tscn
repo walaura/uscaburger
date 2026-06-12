@@ -1,44 +1,15 @@
 [gd_scene format=3 uid="uid://5qqfsuju4n5w"]
 
+[ext_resource type="AnimationLibrary" uid="uid://bhnliylp02d7u" path="res://asset/animations.res" id="1_dhc2t"]
+
 [sub_resource type="BoxMesh" id="BoxMesh_g4rr3"]
 
 [sub_resource type="Animation" id="Animation_dhc2t"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(1, 1, 1)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i80qm"]
 _data = {
 &"RESET": SubResource("Animation_dhc2t")
-}
-
-[sub_resource type="Animation" id="Animation_m3k54"]
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_6uikw"]
-_data = {
-&"pop": SubResource("Animation_m3k54")
 }
 
 [node name="Animations" type="Node3D" unique_id=1185578013]
@@ -50,4 +21,4 @@ mesh = SubResource("BoxMesh_g4rr3")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="MeshInstance3D" unique_id=180758745]
 root_motion_local = true
 libraries/ = SubResource("AnimationLibrary_i80qm")
-libraries/generic = SubResource("AnimationLibrary_6uikw")
+libraries/generic = ExtResource("1_dhc2t")

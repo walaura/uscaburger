@@ -16,7 +16,7 @@ const SPEED_TIMER_SPEED = 3;
 
 func _ready() -> void:
 	self.continuous_cd = true;
-	self.mass = 2;
+	self.mass = 5;
 	self.position = Vector3(0, height+2, 0) + (Vector3.RIGHT * -MAX_OFFSET);
 	self.gravity_scale = 0;
 	self.contact_monitor = true;
@@ -44,7 +44,6 @@ func on_body_entered(body: Node3D):
 	if(body == floor_collider):
 		on_touch_floor()
 	
-
 func on_touch_floor():
 	self.freeze = true
 	drop_timer.stop()
@@ -55,6 +54,8 @@ func on_time_out():
 	was_stacked.emit(true, self.position.y)
 	
 func sling_sideways():
+	if(self.freeze):
+		return
 	var position_time_normal = speed_timer.time_left / SPEED_TIMER_SPEED;
 	if(position_time_normal > .5):
 		position_time_normal = 1 - position_time_normal;

@@ -13,6 +13,6 @@ func get_random_part() -> RigidBody3D:
 	]
 	return instance.get_node(all_parts.pick_random()).duplicate();
 	
-func get_heel():
+func get_heel() -> RigidBody3D:
 	var instance = parts_scene.instantiate();
 	return instance.get_node("Bun-heel").duplicate();

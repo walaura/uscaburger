@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://ct8q810o3cigk"]
+
+[ext_resource type="Script" uid="uid://cgy1xi5wyxtj8" path="res://object/ui/score_overlay.gd" id="1_fafp4"]
+[ext_resource type="Shader" uid="uid://b0lds446ytdn3" path="res://object/ui/score_overlay_trim.gdshader" id="2_4e27g"]
+[ext_resource type="Script" uid="uid://baggt65jfxuym" path="res://object/ui/ticker_item.gd" id="2_4n6jb"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4e27g"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4e27g"]
+shader = ExtResource("2_4e27g")
+
+[node name="ScoreOverlay" type="Control" unique_id=1677377286]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.69751
+offset_top = -85.25751
+offset_right = 145.69751
+offset_bottom = 85.25751
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fafp4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1356684726]
+clip_children = 1
+layout_mode = 0
+offset_left = 5.69751
+offset_top = -24.742493
+offset_right = 397.6975
+offset_bottom = 101.25751
+texture = SubResource("ViewportTexture_4e27g")
+expand_mode = 1
+
+[node name="Receipt" type="VBoxContainer" parent="TextureRect" unique_id=483562382]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 254.0
+offset_bottom = 151.0
+
+[node name="Container" type="Container" parent="TextureRect/Receipt" unique_id=498238667]
+custom_minimum_size = Vector2(0, 151.555)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=196598524]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -67.0
+offset_right = 266.0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Panel" unique_id=2034699334]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.0
+offset_top = -11.014999
+offset_right = 26.0
+offset_bottom = 16.985
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0.3882353, 0.6627451, 1)
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 6
+text = "$ 5556"
+
+[node name="Button" type="Button" parent="." unique_id=86156741]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 113.0
+offset_right = 419.0
+offset_bottom = 144.0
+text = "top up"
+
+[node name="TickerItem" type="HBoxContainer" parent="." unique_id=264498960]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -334.3025
+offset_top = -182.7425
+offset_right = -180.30249
+offset_bottom = -133.7425
+pivot_offset_ratio = Vector2(0, 1)
+script = ExtResource("2_4n6jb")
+
+[node name="Label" type="Label" parent="TickerItem" unique_id=1584213493]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "$ 5556dfghfg
+gfhfgh"
+
+[node name="Label2" type="Label" parent="TickerItem" unique_id=594222236]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "$ 5556"
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=183490989]
+transparent_bg = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=2063717093]
+material = SubResource("ShaderMaterial_4e27g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.22745098, 1, 1, 1)
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
