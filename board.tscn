@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cpeihasc5dpvl"]
 
 [ext_resource type="Script" uid="uid://d2faqx5j3qi1h" path="res://board.gd" id="1_psm7c"]
+[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://camera_3d.gd" id="2_psm7c"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
 margin = 1.367
@@ -16,8 +17,9 @@ size = Vector2(30, 30)
 script = ExtResource("1_psm7c")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=856205969]
-transform = Transform3D(1, 0, 0, 0, 0.98768836, 0.15643448, 0, -0.15643448, 0.98768836, 0, 7.2863045, 23.571)
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5.381181, 11.609192)
 fov = 30.0
+script = ExtResource("2_psm7c")
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=1671366472]
 

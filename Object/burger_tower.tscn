@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dj3d6kyexgqic"]
 
-[ext_resource type="Script" uid="uid://dkbq44dqln6rv" path="res://Object/burger_tower.gd" id="1_dlsms"]
-[ext_resource type="PackedScene" uid="uid://d26nks86pu5yd" path="res://Asset/Parts.blend" id="2_jxsn0"]
+[ext_resource type="Script" uid="uid://dkbq44dqln6rv" path="res://object/burger_tower.gd" id="1_dlsms"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4mug4"]
 
@@ -11,10 +10,10 @@
 margin = 1.367
 size = Vector3(40, 2, 40)
 
-[node name="Tower" type="Node3D" unique_id=2082163755 node_paths=PackedStringArray("floor_collider")]
+[node name="Tower" type="Node3D" unique_id=2082163755 node_paths=PackedStringArray("floor_collider", "aninm")]
 script = ExtResource("1_dlsms")
-parts_scene = ExtResource("2_jxsn0")
 floor_collider = NodePath("Floor")
+aninm = NodePath("RigidBody3D/CollisionShape3D/MeshInstance3D")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=914771398]
 

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dn80kasyurhbx"]
+
+[ext_resource type="PackedScene" uid="uid://dy02m4tl5hv6y" path="res://asset/Patty-meat.glb" id="1_00kt5"]
+[ext_resource type="PackedScene" uid="uid://d3g1bwh7f5w1v" path="res://asset/Bun-heel.glb" id="2_t1r1t"]
+[ext_resource type="PackedScene" uid="uid://cx5j5lrpq662w" path="res://asset/Bun-crown.glb" id="3_nphv1"]
+[ext_resource type="PackedScene" uid="uid://siu7oj5ovauc" path="res://asset/Topz-cheese.glb" id="4_4r0k8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4m10n"]
+size = Vector3(2.2216797, 0.24511719, 2.1640625)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tu57c"]
+size = Vector3(2.3076172, 0.3149414, 2.1640625)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yt8ac"]
+size = Vector3(2.293213, 0.6062012, 2.1640625)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0xuf"]
+size = Vector3(2.0178223, 0.03881836, 2.1640625)
+
+[node name="Parts" type="Node3D" unique_id=1021000598]
+
+[node name="Patty-meat" type="RigidBody3D" parent="." unique_id=1931079967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.8239918, 0, 0)
+
+[node name="Patty-meat" parent="Patty-meat" unique_id=849929296 instance=ExtResource("1_00kt5")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Patty-meat" unique_id=494635116]
+shape = SubResource("BoxShape3D_4m10n")
+
+[node name="Bun-heel" type="RigidBody3D" parent="." unique_id=742236855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.9881353, 0, 0)
+
+[node name="Bun-heelnm" parent="Bun-heel" unique_id=1891166799 instance=ExtResource("2_t1r1t")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bun-heel" unique_id=850590925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.021240234, 0)
+shape = SubResource("BoxShape3D_tu57c")
+
+[node name="Bun-crown" type="RigidBody3D" parent="." unique_id=770947591]
+
+[node name="Bun-crownm" parent="Bun-crown" unique_id=1806407782 instance=ExtResource("3_nphv1")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bun-crown" unique_id=327374425]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.087768555, 0)
+shape = SubResource("BoxShape3D_yt8ac")
+
+[node name="Topz-cheese" type="RigidBody3D" parent="." unique_id=762389270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.434717, 0, 0.0109500885)
+
+[node name="Topz-cheese2" parent="Topz-cheese" unique_id=313934079 instance=ExtResource("4_4r0k8")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Topz-cheese" unique_id=2079788473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.011599988, 0)
+shape = SubResource("BoxShape3D_a0xuf")

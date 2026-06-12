@@ -2,18 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cp67knod3cm4n"
-path.s3tc="res://.godot/imported/base.png-606ad0bda96ef643b37bed6d01b12822.s3tc.ctex"
-path.etc2="res://.godot/imported/base.png-606ad0bda96ef643b37bed6d01b12822.etc2.ctex"
+uid="uid://db6x8uhcysjgs"
+path.s3tc="res://.godot/imported/Topz-cheese_Topz-cheese Base Color.png-2fc2c720a704f945e3484e7ecb4b90a2.s3tc.ctex"
+path.etc2="res://.godot/imported/Topz-cheese_Topz-cheese Base Color.png-2fc2c720a704f945e3484e7ecb4b90a2.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "b722f6bcb5807ccd659162203d30bcac"
+}
 
 [deps]
 
-source_file="res://Asset/textures/base.png"
-dest_files=["res://.godot/imported/base.png-606ad0bda96ef643b37bed6d01b12822.s3tc.ctex", "res://.godot/imported/base.png-606ad0bda96ef643b37bed6d01b12822.etc2.ctex"]
+source_file="res://asset/Topz-cheese_Topz-cheese Base Color.png"
+dest_files=["res://.godot/imported/Topz-cheese_Topz-cheese Base Color.png-2fc2c720a704f945e3484e7ecb4b90a2.s3tc.ctex", "res://.godot/imported/Topz-cheese_Topz-cheese Base Color.png-2fc2c720a704f945e3484e7ecb4b90a2.etc2.ctex"]
 
 [params]
 

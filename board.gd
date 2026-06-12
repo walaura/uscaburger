@@ -22,7 +22,7 @@ func _process(delta: float) -> void:
 	Dp.push('game over??', is_game_over)
 	if(track_cam_to):
 		var cam = find_child('Camera3D');
-		cam.position.y = track_cam_to.position.y
+		cam.target = track_cam_to
 
 
 func on_game_over():
