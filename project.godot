@@ -27,7 +27,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-debug-panel/plugin.cfg")
+enabled=PackedStringArray("res://addons/godot-debug-panel/plugin.cfg", "res://addons/moderntitlebar/plugin.cfg")
 
 [input]
 
