@@ -1,0 +1,24 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ufxb0y2etd10"]
+
+[ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="1_clr1m"]
+[ext_resource type="Texture2D" uid="uid://c2woxp68jjl86" path="res://asset/Countertop_tiles-gloss_2.png" id="2_2civo"]
+[ext_resource type="Texture2D" uid="uid://bx6bumu6s1x3o" path="res://asset/Countertop_tiles-gloss.png" id="3_fddvk"]
+
+[resource]
+resource_name = "Counter"
+cull_mode = 2
+albedo_texture = ExtResource("1_clr1m")
+metallic = 0.67
+metallic_specular = 0.0
+metallic_texture = ExtResource("2_2civo")
+metallic_texture_channel = 2
+roughness = 0.0
+roughness_texture = ExtResource("2_2civo")
+roughness_texture_channel = 2
+normal_texture = ExtResource("3_fddvk")
+clearcoat = 0.0
+clearcoat_roughness = 0.0
+heightmap_enabled = true
+heightmap_scale = -5.0
+heightmap_texture = ExtResource("3_fddvk")
+texture_filter = 2

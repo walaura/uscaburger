@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://cpeihasc5dpvl"]
+
+[ext_resource type="Script" uid="uid://d2faqx5j3qi1h" path="res://board.gd" id="1_psm7c"]
+[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://camera_3d.gd" id="2_psm7c"]
+[ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="4_jqgjh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
+margin = 1.367
+size = Vector3(40, 2, 40)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jqgjh"]
+sky_top_color = Color(0.8413357, 0.9836357, 1, 1)
+sky_horizon_color = Color(0.84327555, 0.7771574, 3.85046e-07, 1)
+sky_curve = 0.42426354
+
+[sub_resource type="Sky" id="Sky_vf5bc"]
+sky_material = SubResource("ProceduralSkyMaterial_jqgjh")
+
+[sub_resource type="Environment" id="Environment_vf5bc"]
+background_mode = 2
+background_color = Color(1, 0.26000598, 0.2008352, 1)
+sky = SubResource("Sky_vf5bc")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+tonemap_mode = 4
+tonemap_exposure = 1.1
+tonemap_agx_white = 16.5
+ssr_enabled = true
+ssao_enabled = true
+ssao_intensity = 4.4
+
+[node name="Board" type="Node3D" unique_id=2082163755]
+script = ExtResource("1_psm7c")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=856205969]
+transform = Transform3D(1, 0, 0, 0, 0.9396926, 0.34202012, 0, -0.34202012, 0.9396926, 0, 5.381181, 11.609192)
+fov = 30.0
+script = ExtResource("2_psm7c")
+lerp_speed = null
+offset = null
+OVERRIDE_dramatic_timer_zoom = null
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1671366472]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1355751970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_psm7c")
+debug_fill = false
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=126814468]
+transform = Transform3D(1, 0, 0, 0, -0.1045285, 0.99452186, 0, -0.99452186, -0.1045285, 6.044801, 7.4743357, 3.2949858)
+light_color = Color(0.9567724, 0.996288, 0, 1)
+light_energy = 3.909
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_normal_bias = 0.0
+shadow_blur = 8.784
+
+[node name="Countertop" parent="." unique_id=1375733711 instance=ExtResource("4_jqgjh")]
+transform = Transform3D(-1.7899812e-07, 0, -4.095, 0, 4.095, 0, 4.095, 0, -1.7899812e-07, -5.6641026, 0, -1.0475583)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1709788215]
+environment = SubResource("Environment_vf5bc")

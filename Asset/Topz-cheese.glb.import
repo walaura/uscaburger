@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/Topz-cheese.glb-71ff7b2f84f0e7716c4cdfee79c8d
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=null
+nodes/root_script=Resource("uid://0lkb0u3bgdh7", "res://node/droppable.gd")
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
@@ -34,9 +34,26 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-materials/extract=0
+materials/extract=2
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"materials": {
+"Cheese": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://asset/Cheese.tres",
+"use_external/path": "uid://bd3u4e6rsb03f"
+}
+},
+"nodes": {
+"PATH:Topz-cheese": {
+"generate/physics": true,
+"physics/body_type": 1,
+"physics/physics_material_override": Object(PhysicsMaterial,"resource_local_to_scene":false,"resource_name":"","friction":1.0,"rough":false,"bounce":0.0,"absorbent":false,"script":null)
+,
+"physics/shape_type": 3
+}
+}
+}
 gltf/naming_version=2
 gltf/embedded_image_handling=1

@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://qfal75b4we66"]
+
+[ext_resource type="Texture2D" uid="uid://h2owhnb71mgd" path="res://asset/Bun-heel_base.png" id="1_pe0y2"]
+
+[resource]
+resource_name = "Heel"
+cull_mode = 2
+albedo_texture = ExtResource("1_pe0y2")
+texture_filter = 2

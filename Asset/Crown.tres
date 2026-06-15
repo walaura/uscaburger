@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b36wqjeijli67"]
+
+[ext_resource type="Texture2D" uid="uid://c70u3to635ro8" path="res://asset/Bun-crown_base.png" id="1_pi7i5"]
+
+[resource]
+resource_name = "Crown"
+cull_mode = 2
+albedo_texture = ExtResource("1_pi7i5")
+texture_filter = 2

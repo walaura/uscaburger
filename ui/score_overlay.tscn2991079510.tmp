@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://ct8q810o3cigk"]
+
+[ext_resource type="Script" uid="uid://cgy1xi5wyxtj8" path="res://object/ui/score_overlay.gd" id="1_fafp4"]
+[ext_resource type="Shader" uid="uid://b0lds446ytdn3" path="res://object/ui/score_overlay_trim.gdshader" id="2_4e27g"]
+[ext_resource type="Script" uid="uid://baggt65jfxuym" path="res://object/ui/ticker_item.gd" id="2_4n6jb"]
+[ext_resource type="Texture2D" uid="uid://crg131hv1wneq" path="res://asset/price-arr.png" id="2_83dqk"]
+[ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_ox7kp"]
+[ext_resource type="Script" uid="uid://ccjxaub2wvah4" path="res://object/ui/big_number.gd" id="4_ceu1u"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://object/ui/ticket.tres" id="5_gj74g"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4e27g"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ox7kp"]
+texture = ExtResource("2_83dqk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4e27g"]
+shader = ExtResource("2_4e27g")
+
+[node name="ScoreOverlay" type="Control" unique_id=1677377286]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.69751
+offset_top = -85.25751
+offset_right = 145.69751
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fafp4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1356684726]
+clip_children = 1
+layout_mode = 0
+offset_left = 40.0
+offset_right = 432.0
+offset_bottom = 156.2575
+texture = SubResource("ViewportTexture_4e27g")
+expand_mode = 1
+
+[node name="Receipt" type="VBoxContainer" parent="TextureRect" unique_id=483562382]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 220.0
+offset_bottom = 257.0
+
+[node name="Label" type="Label" parent="TextureRect/Receipt" unique_id=1062544171]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+text = "walalalalla im a test thingy to test shits working properly ignore meee"
+
+[node name="Container" type="Container" parent="TextureRect/Receipt" unique_id=498238667]
+custom_minimum_size = Vector2(0, 151.555)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=196598524]
+custom_minimum_size = Vector2(0, 72.98)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_ox7kp")
+
+[node name="BigNumber" type="Label" parent="Panel" unique_id=2034699334]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -26.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.36078432)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_ox7kp")
+theme_override_font_sizes/font_size = 30
+text = "$ 5556"
+script = ExtResource("4_ceu1u")
+
+[node name="Button" type="Button" parent="." unique_id=86156741]
+layout_mode = 0
+offset_left = 370.6975
+offset_top = 132.2575
+offset_right = 429.6975
+offset_bottom = 163.2575
+text = "top up"
+
+[node name="TickerItem" type="HBoxContainer" parent="." unique_id=264498960]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -334.3025
+offset_top = -182.7425
+offset_right = -180.30249
+offset_bottom = -133.7425
+pivot_offset_ratio = Vector2(0, 1)
+script = ExtResource("2_4n6jb")
+
+[node name="Label" type="Label" parent="TickerItem" unique_id=1584213493]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme = ExtResource("5_gj74g")
+text = "$ 5556dfghfg
+gfhfgh"
+
+[node name="Label2" type="Label" parent="TickerItem" unique_id=594222236]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("5_gj74g")
+text = "$ 5556"
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=183490989]
+transparent_bg = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=2063717093]
+material = SubResource("ShaderMaterial_4e27g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.22745098, 1, 1, 1)
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

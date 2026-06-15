@@ -1,0 +1,77 @@
+extends Node
+
+var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
+
+const DROP_TIMEOUT = 1.0
+const WAVE_MAX_OFFSET = 2
+const WAVE_SPEED_TIMER_SPEED = 3
+const ITEM_Y_SCALE = 1
+
+
+func format_number_with_commas(number: int) -> String:
+	var num_str: String = str(abs(number))
+	var result: String = ""
+	var count: int = 0
+
+	for i in range(num_str.length() - 1, -1, -1):
+		result = num_str[i] + result
+		count += 1
+		if count % 3 == 0 and i != 0:
+			result = "," + result
+
+	if number < 0:
+		result = "-" + result
+
+	return result
+
+
+func format_number(number: float, precision = 100) -> String:
+	var decls = fmod(number, 1)
+	var start = format_number_with_commas(abs(number))
+	return start + "." + ("%02d" % abs(decls * precision))
+
+
+func add_animation(node: Node) -> AnimationPlayer:
+	var player = AnimationPlayer.new()
+	node.add_child(player)
+	player.add_animation_library("animations", anim_lib)
+	return player
+
+
+func get_screen_rect(aabb: AABB) -> Rect2:
+	# 1. Get the active camera from the viewport globals
+	var camera = get_viewport().get_camera_3d()
+	if not camera:
+		return Rect2()
+
+	var p = aabb.position
+	var s = aabb.size
+
+	var corners: Array[Vector3] = [
+		p,
+		p + Vector3(s.x, 0, 0),
+		p + Vector3(s.x, 0, s.z),
+		p + Vector3(0, 0, s.z),
+		p + Vector3(0, s.y, 0),
+		p + Vector3(s.x, s.y, 0),
+		p + Vector3(s.x, s.y, s.z),
+		p + Vector3(0, s.y, s.z)
+	]
+
+	var min_pos: Vector2 = Vector2(INF, INF)
+	var max_pos: Vector2 = Vector2(-INF, -INF)
+
+	for corner in corners:
+		var global_pt = corner
+
+		if camera.is_position_behind(global_pt):
+			continue
+
+		var screen_pt = camera.unproject_position(global_pt)
+
+		min_pos.x = min(min_pos.x, screen_pt.x)
+		min_pos.y = min(min_pos.y, screen_pt.y)
+		max_pos.x = max(max_pos.x, screen_pt.x)
+		max_pos.y = max(max_pos.y, screen_pt.y)
+
+	return Rect2(min_pos, max_pos - min_pos)

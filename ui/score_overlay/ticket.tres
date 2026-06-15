@@ -1,0 +1,12 @@
+[gd_resource type="Theme" format=3 uid="uid://cmxpotaj2iqxf"]
+
+[ext_resource type="FontFile" uid="uid://f2qurtddxr6y" path="res://asset/DMMono-Regular.ttf" id="1_wehnl"]
+
+[resource]
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.83137256)
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 14
+Label/fonts/font = ExtResource("1_wehnl")
