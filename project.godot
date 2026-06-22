@@ -8,11 +8,25 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
+resources_spreadsheet_view/freeze_first_column=true
+
 [application]
 
-config/name="USCaB"
+config/name="You Should Consider Making a Burger EX"
+config/version="1.0.0.1"
 run/main_scene="uid://cpeihasc5dpvl"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -21,9 +35,20 @@ Dp="*uid://c7ir7cd6c2523"
 Helper="*uid://dengpkhoosrij"
 Camera="*uid://cclolrai5mkok"
 DebugDraw="*uid://vlqgjvtbh1hu"
+CurrentRunState="*uid://cc75821r61bby"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+gdscript/warnings/unsafe_cast=1
+gdscript/warnings/unsafe_call_argument=1
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 
 [editor]
@@ -33,7 +58,42 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/format_on_save/plugin.cfg", "res://addons/godot-debug-panel/plugin.cfg", "res://addons/moderntitlebar/plugin.cfg")
+enabled=PackedStringArray("res://addons/GDQuest_GDScript_formatter/plugin.cfg", "res://addons/godot-debug-panel/plugin.cfg", "res://addons/moderntitlebar/plugin.cfg", "res://addons/resources_spreadsheet_view/plugin.cfg")
+
+[gui]
+
+theme/default_font_antialiasing=2
+theme/default_font_multichannel_signed_distance_field=true
+theme/default_font_generate_mipmaps=true
+theme/default_theme_scale=2.0
+
+[importer_defaults]
+
+texture={
+"compress/channel_pack": 0,
+"compress/hdr_compression": 1,
+"compress/high_quality": false,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"compress/rdo_quality_loss": 0.0,
+"compress/uastc_level": 0,
+"detect_3d/compress_to": 1,
+"mipmaps/generate": true,
+"mipmaps/limit": -1,
+"process/channel_remap/alpha": 3,
+"process/channel_remap/blue": 2,
+"process/channel_remap/green": 1,
+"process/channel_remap/red": 0,
+"process/fix_alpha_border": true,
+"process/hdr_as_srgb": false,
+"process/hdr_clamp_exposure": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"process/size_limit": 0,
+"roughness/mode": 0,
+"roughness/src_normal": ""
+}
 
 [input]
 
@@ -66,16 +126,31 @@ DBG-Splort={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":96,"key_label":0,"unicode":96,"location":0,"echo":false,"script":null)
 ]
 }
+Rotate-R={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+Rotate-L={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":true,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":82,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
+]
+}
 
 [physics]
 
 common/physics_ticks_per_second=120
-jolt_physics_3d/simulation/velocity_steps=20
 common/physics_interpolation=true
+jolt_physics_3d/physics_interpolation=false
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
 textures/vram_compression/import_etc2_astc=true
+global_illumination/gi/use_half_resolution=true
+camera/depth_of_field/depth_of_field_bokeh_quality=3
+camera/depth_of_field/depth_of_field_use_jitter=true
 anti_aliasing/quality/screen_space_aa=1
 anti_aliasing/quality/use_taa=true

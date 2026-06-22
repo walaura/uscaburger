@@ -1,0 +1,270 @@
+[gd_scene format=3 uid="uid://ufb8u4b13l1g"]
+
+[ext_resource type="Script" uid="uid://0v6jvvg0p8tw" path="res://ui/game_over.gd" id="1_oo8kp"]
+[ext_resource type="Shader" uid="uid://c2l5mqqn3icr" path="res://ui/game_over/game_over_bg.tres" id="2_5eixk"]
+[ext_resource type="Texture2D" uid="uid://cpy5pqm25ey1b" path="res://asset/nice-one.png" id="3_j1fe5"]
+[ext_resource type="PackedScene" uid="uid://tfa61h60raq3" path="res://ui/game_over/ticket.tscn" id="4_akjlf"]
+[ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="4_k8651"]
+[ext_resource type="PackedScene" uid="uid://o4d30tkgffys" path="res://ui/game_over/line_item.tscn" id="4_xjda6"]
+[ext_resource type="Texture2D" uid="uid://b52gn2w40txy" path="res://asset/ui/receipt-alpha.jpeg" id="5_55k1u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j1fe5"]
+shader = ExtResource("2_5eixk")
+shader_parameter/Texture2DParameter = ExtResource("3_j1fe5")
+
+[sub_resource type="Animation" id="Animation_j1fe5"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1842.8794, -0.25, 0, 2.3333333, -1537.8663),
+"times": PackedFloat32Array(-0.099999994)
+}
+
+[sub_resource type="Animation" id="Animation_xjda6"]
+resource_name = "new_animation"
+length = 10.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 3, 2),
+"points": PackedFloat32Array(648.93604, -0.25, 0, 0.06666667, -1118.5367, -3611.5579, -0.73333323, 37.703125, 0.73333323, -37.703125, -4290.2207, -2.6129875, -50.270508, 0, 0),
+"times": PackedFloat32Array(0, 1.3, 10)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_akjlf"]
+_data = {
+&"RESET": SubResource("Animation_j1fe5"),
+&"scroll": SubResource("Animation_xjda6")
+}
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_o4wni"]
+constant = 0.423
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_xjda6"]
+constant = Color(1, 0.14999998, 0.14999998, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_akjlf"]
+load_path = "res://.godot/imported/receipt-crump.jpeg-2dcafe8828acfd059f193852433dd427.ctex"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_tb368"]
+source = 5
+texture = SubResource("CompressedTexture2D_akjlf")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_lgxpc"]
+texture = ExtResource("5_55k1u")
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_rcx4q"]
+size = Vector2(660, 400)
+expression = "float height = mix(.1, 8.0, UV.y);
+
+uv_out = vec2(UV.x, height / aspect_ratio);"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_k8651"]
+parameter_name = "AspectRatio"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_k8651"]
+size = Vector2(500, 200)
+expression = "uv_out = vec2(UV.x, UV.y / aspect_ratio);"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_k8651"]
+parameter_name = "Crumple"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_oxcw8"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(-4.635, 0.5, 0.5)]
+op_type = 3
+
+[sub_resource type="VisualShader" id="VisualShader_akjlf"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1380, 280)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_xjda6")
+nodes/fragment/2/position = Vector2(520, 140)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_tb368")
+nodes/fragment/3/position = Vector2(540, 660)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_lgxpc")
+nodes/fragment/4/position = Vector2(480, 280)
+nodes/fragment/5/node = SubResource("VisualShaderNodeExpression_rcx4q")
+nodes/fragment/5/position = Vector2(-280, 240)
+nodes/fragment/5/size = Vector2(660, 400)
+nodes/fragment/5/input_ports = "0,0,aspect_ratio;"
+nodes/fragment/5/output_ports = "0,3,uv_out;"
+nodes/fragment/5/expression = "float height = mix(.1, 8.0, UV.y);
+
+uv_out = vec2(UV.x, height / aspect_ratio);"
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatParameter_k8651")
+nodes/fragment/6/position = Vector2(-640, 240)
+nodes/fragment/7/node = SubResource("VisualShaderNodeExpression_k8651")
+nodes/fragment/7/position = Vector2(-420, 720)
+nodes/fragment/7/size = Vector2(500, 200)
+nodes/fragment/7/input_ports = "0,0,aspect_ratio;"
+nodes/fragment/7/output_ports = "0,3,uv_out;"
+nodes/fragment/7/expression = "uv_out = vec2(UV.x, UV.y / aspect_ratio);"
+nodes/fragment/8/node = SubResource("VisualShaderNodeTexture2DParameter_k8651")
+nodes/fragment/8/position = Vector2(100, 900)
+nodes/fragment/9/node = SubResource("VisualShaderNodeMix_oxcw8")
+nodes/fragment/9/position = Vector2(960, 580)
+nodes/fragment/10/node = SubResource("VisualShaderNodeFloatConstant_o4wni")
+nodes/fragment/10/position = Vector2(901.7041, 880.17883)
+nodes/fragment/connections = PackedInt32Array(5, 0, 4, 0, 6, 0, 5, 0, 4, 0, 0, 1, 7, 0, 3, 0, 6, 0, 7, 0, 8, 0, 3, 2, 3, 0, 9, 0, 9, 0, 0, 0, 10, 0, 9, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_55k1u"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_akjlf")
+shader_parameter/AspectRatio = 0.5975
+shader_parameter/Crumple = ExtResource("4_k8651")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tb368"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_akjlf")
+shader_parameter/AspectRatio = 0.5975
+shader_parameter/Crumple = ExtResource("4_k8651")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1fe5"]
+bg_color = Color(0.8862616, 0.88626146, 0.8862615, 1)
+
+[node name="GameOver" type="Control" unique_id=333364085]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oo8kp")
+speed_mult = null
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1752460511]
+material = SubResource("ShaderMaterial_j1fe5")
+layout_mode = 0
+offset_left = -209.00002
+offset_top = 1842.8794
+offset_right = -189.63928
+offset_bottom = 1920.3224
+scale = Vector2(125.77, 125.77)
+color = Color(1, 0.19, 0.19, 1)
+
+[node name="NiceOneAnim" type="AnimationPlayer" parent="ColorRect" unique_id=1321632053]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_akjlf")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1752038526]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -638.0
+offset_top = 162.0
+offset_right = -314.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1594498624]
+layout_mode = 2
+
+[node name="Score" type="Label" parent="Panel/VBoxContainer" unique_id=400618618]
+unique_name_in_owner = true
+layout_mode = 2
+text = "U R DED"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=707939906]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer/HBoxContainer" unique_id=105287206]
+layout_mode = 2
+text = "restart"
+
+[node name="Button3" type="Button" parent="Panel/VBoxContainer/HBoxContainer" unique_id=2075982155]
+layout_mode = 2
+text = "reroll"
+
+[node name="Button2" type="Button" parent="Panel/VBoxContainer/HBoxContainer" unique_id=2107996681]
+layout_mode = 2
+text = "next
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=608837787]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -198.0
+offset_top = -318.0
+offset_right = 198.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScoreTkt" parent="HBoxContainer" unique_id=1248793771 instance=ExtResource("4_akjlf")]
+unique_name_in_owner = true
+z_index = 2
+material = SubResource("ShaderMaterial_55k1u")
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(1.25, 0.5)
+
+[node name="MarginContainer" parent="HBoxContainer/ScoreTkt" index="0" unique_id=1310417389]
+theme_override_constants/margin_bottom = 120
+
+[node name="ScoresTkt" type="VBoxContainer" parent="HBoxContainer/ScoreTkt/MarginContainer" index="0" unique_id=498487289]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="LineItem" parent="HBoxContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=1969047378 instance=ExtResource("4_xjda6")]
+layout_mode = 2
+style = 1
+
+[node name="LineItem2" parent="HBoxContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=523191178 instance=ExtResource("4_xjda6")]
+layout_mode = 2
+style = 2
+
+[node name="LineItem3" parent="HBoxContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=129435040 instance=ExtResource("4_xjda6")]
+layout_mode = 2
+style = 3
+deets = "ENJOY YOUR MEAL"
+
+[node name="LineItem4" parent="HBoxContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=629304316 instance=ExtResource("4_xjda6")]
+layout_mode = 2
+style = 2
+
+[node name="LineItem5" parent="HBoxContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=619229121 instance=ExtResource("4_xjda6")]
+layout_mode = 2
+style = 1
+
+[node name="UpgradesTkt" parent="HBoxContainer" unique_id=1079486513 instance=ExtResource("4_akjlf")]
+unique_name_in_owner = true
+z_index = 1
+material = SubResource("ShaderMaterial_tb368")
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(1.25, 0.5)
+
+[node name="StorePlaceholder" type="PanelContainer" parent="HBoxContainer/UpgradesTkt/MarginContainer" parent_id_path=PackedInt32Array(1079486513, 1310417389) index="0" unique_id=1438494537]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 36.055)
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_j1fe5")
+
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Button3" to="." method="_on_reroll_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_next_round_pressed"]
+
+[editable path="HBoxContainer/ScoreTkt"]
+[editable path="HBoxContainer/UpgradesTkt"]

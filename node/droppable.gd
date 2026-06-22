@@ -4,8 +4,8 @@ const PHYS_MATERIAL = preload("res://asset/part_phys_material.tres")
 
 @export var price: int
 @export var receipt_name: String
-@export var is_heel = false
-@export var is_crown = false
+@export var is_heel := false
+@export var is_crown := false
 
 @export_group("Hidden stuffs lol")
 @export var floor_collider: StaticBody3D
@@ -16,42 +16,40 @@ var state := State.WAVE
 
 signal was_stacked(success: bool, height: float)
 
-var drop_timer = Timer.new()
-var wave_speed_timer = Timer.new()
-var wave_speed_timer_rand_offsset = 0.0
+var drop_timer := Timer.new()
+var wave_speed_timer := Timer.new()
+var wave_speed_timer_rand_offsset := 0.0
 
 var _internal_animatable := Animatable.new()
-var _mesh
-var _collider
+var _mesh: MeshInstance3D
+var _collider: CollisionShape3D
 var _rb: RigidBody3D
 
+var _has_splooched := false
 
-func set_initial_size():
-	var rng = RandomNumberGenerator.new()
-	var initial_scale = Vector3(1, Helper.ITEM_Y_SCALE, 1) * rng.randf_range(.9, 1.1)
-	var rotate_y = rng.randf() * PI * 2
 
-	_internal_animatable.rotate_y(rotate_y)
+func set_initial_size() -> void:
+	var rng := RandomNumberGenerator.new()
+	var initial_scale := Vector3(1, Helper.ITEM_Y_SCALE, 1) * rng.randf_range(.9, 1.1)
+	_rotate(rng.randf())
 	_internal_animatable.scale_object_local(initial_scale)
-
-	get_child(0).get_child(1).rotate_y(rotate_y)
-	get_child(0).get_child(1).scale_object_local(initial_scale)
+	(get_child(0).get_child(1) as Node3D).scale_object_local(initial_scale)
 	return
 
 
 func get_aabb() -> AABB:
-	var aabb = (_mesh as VisualInstance3D).get_aabb()
+	var aabb := (_mesh as VisualInstance3D).get_aabb()
 	return _rb.transform * aabb
 
 
-func get_collider():
+func get_collider() -> CollisionShape3D:
 	return _collider
 
 
-func destroy():
+func destroy() -> void:
 	_change_state(State.DONE)
 	_internal_animatable.player.animation_finished.connect(
-		func(_p): self.get_parent().remove_child(self)
+		func(_p: Variant) -> void: self.get_parent().remove_child(self)
 	)
 	_internal_animatable.player.play("animations/pop", -1, -2, true)
 
@@ -73,11 +71,12 @@ func _ready() -> void:
 	_rb.add_child(_internal_animatable)
 
 	_rb.continuous_cd = true
-	_rb.mass = .001
 	_rb.physics_material_override = PHYS_MATERIAL
 	_rb.freeze = 1
 	_rb.contact_monitor = true
 	_rb.max_contacts_reported = 1
+
+	_collider.shape.margin = 10.
 
 	self.add_child(drop_timer)
 	self.add_child(wave_speed_timer)
@@ -95,10 +94,19 @@ func _ready() -> void:
 	drop_timer.one_shot = true
 
 
-func _on_body_entered(body: Node3D):
+func _rotate(step: float) -> void:
+	var rotate_y_by := step * PI * 2
+
+	_internal_animatable.rotate_y(rotate_y_by)
+	(get_child(0).get_child(1) as Node3D).rotate_y(rotate_y_by)
+
+
+func _on_body_entered(body: Node3D) -> void:
+	if not _has_splooched:
+		_internal_animatable.player.play("animations/splooch", -1, 2)
+		_has_splooched = true
 	if body != floor_collider:
 		return
-	print(1212)
 
 	_change_state(State.DONE)
 	# Heels can touch the floor duh
@@ -108,13 +116,13 @@ func _on_body_entered(body: Node3D):
 	was_stacked.emit(false, self)
 
 
-func _on_drop_timer_time_out():
+func _on_drop_timer_time_out() -> void:
 	_change_state(State.DONE)
 	was_stacked.emit(true, self)
 
 
-func _sling_sideways():
-	var position_time_normal = fmod(
+func _sling_sideways() -> void:
+	var position_time_normal := fmod(
 		(
 			(wave_speed_timer.time_left / Helper.WAVE_SPEED_TIMER_SPEED)
 			+ wave_speed_timer_rand_offsset
@@ -126,17 +134,17 @@ func _sling_sideways():
 		position_time_normal = 1 - position_time_normal
 	position_time_normal = (position_time_normal * 2)
 
-	var posi = lerp(
+	var posi := lerpf(
 		Helper.WAVE_MAX_OFFSET * -1.0, Helper.WAVE_MAX_OFFSET * +1.0, position_time_normal
 	)
 	self._rb.position.x = posi
 
 
 func _is_falling() -> bool:
-	return abs(_rb.get_linear_velocity().y) > 2
+	return abs(_rb.get_linear_velocity().y) > 1
 
 
-func _change_state(new_state: State):
+func _change_state(new_state: State) -> void:
 	self.state = new_state
 	match state:
 		State.DONE:
@@ -144,12 +152,16 @@ func _change_state(new_state: State):
 			drop_timer.stop()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	match state:
 		State.WAVE:
 			_sling_sideways()
 			if Input.is_action_just_pressed("Drop"):
 				_change_state(State.DROP)
+			if Input.is_action_pressed("Rotate-R"):
+				_rotate(-.1 * delta)
+			if Input.is_action_pressed("Rotate-L"):
+				_rotate(.1 * delta)
 		State.DROP:
 			self._rb.freeze = false
 

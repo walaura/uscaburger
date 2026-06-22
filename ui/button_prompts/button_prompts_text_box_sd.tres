@@ -1,0 +1,62 @@
+[gd_resource type="VisualShader" format=3 uid="uid://4482r4wbmaej"]
+
+[ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="1_etus3"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_o4ab4"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, 0.5]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_k2pr1"]
+expanded_output_ports = [0]
+constant = Color(0, 0, 0, 0.3019608)
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_o4ab4"]
+expanded_output_ports = [0]
+source = 5
+texture = ExtResource("1_etus3")
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_8bd11"]
+function = 31
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_etus3"]
+parameter_name = "Texture2DParameter"
+texture_filter = 1
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_etus3"]
+output_port_for_preview = 0
+default_input_values = [0, 0.0, 1, 0.0, 2, -46.565]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_etus3"]
+parameter_name = "Highlightedness"
+hint = 1
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_o4ab4"]
+default_input_values = [1, 1.0, 2, 0.0, 3, 0.0, 4, 0.8]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_8bd11"]
+expanded_output_ports = [0]
+constant = Color(1, 0.2, 0.078431375, 1)
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(840, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_k2pr1")
+nodes/fragment/2/position = Vector2(-160, -280)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_o4ab4")
+nodes/fragment/3/position = Vector2(-420, 340)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatFunc_8bd11")
+nodes/fragment/4/position = Vector2(-80, 400)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_etus3")
+nodes/fragment/5/position = Vector2(-780, 180)
+nodes/fragment/6/node = SubResource("VisualShaderNodeMix_etus3")
+nodes/fragment/6/position = Vector2(180, 340)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_etus3")
+nodes/fragment/7/position = Vector2(-480, 680)
+nodes/fragment/8/node = SubResource("VisualShaderNodeRemap_o4ab4")
+nodes/fragment/8/position = Vector2(0, 780)
+nodes/fragment/9/node = SubResource("VisualShaderNodeColorConstant_8bd11")
+nodes/fragment/9/position = Vector2(-260, -60)
+nodes/fragment/11/node = SubResource("VisualShaderNodeMix_o4ab4")
+nodes/fragment/11/position = Vector2(380, -140)
+nodes/fragment/connections = PackedInt32Array(3, 1, 4, 0, 5, 0, 3, 2, 4, 0, 6, 0, 6, 0, 0, 1, 7, 0, 8, 0, 8, 0, 6, 2, 2, 0, 11, 0, 9, 0, 11, 1, 11, 0, 0, 0, 7, 0, 11, 2)

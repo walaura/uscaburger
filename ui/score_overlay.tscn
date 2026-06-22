@@ -25,10 +25,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -145.69751
-offset_top = -85.25751
-offset_right = 145.69751
-offset_bottom = 148.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -668.605
+offset_bottom = -306.7425
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fafp4")
@@ -36,28 +36,32 @@ script = ExtResource("1_fafp4")
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1356684726]
 clip_children = 1
 layout_mode = 0
-offset_left = 29.755
-offset_right = 317.52002
-offset_bottom = 195.2575
+offset_left = 49.697502
+offset_top = -151.7425
+offset_right = 419.6975
+offset_bottom = 178.0
 texture = SubResource("ViewportTexture_4e27g")
 expand_mode = 1
 
 [node name="Receipt" type="VBoxContainer" parent="TextureRect" unique_id=483562382]
 unique_name_in_owner = true
 layout_mode = 0
-offset_right = 220.0
-offset_bottom = 257.0
+offset_left = 33.0
+offset_right = 319.0
+offset_bottom = 327.0
 theme_override_constants/separation = 12
 
 [node name="Label" type="Label" parent="TextureRect/Receipt" unique_id=1062544171]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 2
 text = "walalalalla im a test thingy to test shits working properly ignore meee"
 
 [node name="Control" type="Control" parent="TextureRect/Receipt" unique_id=1617717363]
-custom_minimum_size = Vector2(0, 300)
+custom_minimum_size = Vector2(0.33, 300)
 layout_mode = 2
+size_flags_horizontal = 0
 
 [node name="Panel" type="Panel" parent="." unique_id=196598524]
 custom_minimum_size = Vector2(0, 56.43)
@@ -66,9 +70,9 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -27.065002
-offset_right = -25.69751
-offset_bottom = 29.36499
+offset_top = -37.700012
+offset_right = 69.30249
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset_ratio = Vector2(0.115, 0.5)
@@ -81,17 +85,17 @@ anchors_preset = -1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 29.69751
-offset_top = -35.149994
-offset_right = -20.30249
-offset_bottom = 28.850006
+offset_left = 44.69751
+offset_top = -52.149994
+offset_right = -61.0
+offset_bottom = 42.850006
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.36078432)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("3_ox7kp")
-theme_override_font_sizes/font_size = 41
+theme_override_font_sizes/font_size = 60
 text = "$ 5556"
 script = ExtResource("4_ceu1u")
 
@@ -113,10 +117,10 @@ script = ExtResource("6_tfmnm")
 
 [node name="TickerItem" type="HBoxContainer" parent="Node2D" unique_id=264498960]
 unique_name_in_owner = true
-offset_left = 868.0
-offset_top = 449.0
-offset_right = 1024.0
-offset_bottom = 498.0
+offset_left = 722.0
+offset_top = 661.0
+offset_right = 925.0
+offset_bottom = 714.0
 pivot_offset_ratio = Vector2(0, 1)
 script = ExtResource("2_4n6jb")
 
@@ -125,6 +129,7 @@ layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0
 theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
 text = "$ 5556dfghfg
 gfhfgh"
 
@@ -133,23 +138,5 @@ layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
 text = "$ 5556"
-
-[node name="Button" type="Button" parent="Node2D" unique_id=86156741]
-offset_left = 442.0
-offset_top = 516.0
-offset_right = 501.0
-offset_bottom = 547.0
-text = "top up"
-metadata/_edit_use_anchors_ = true
-
-[node name="Button" type="Button" parent="Node2D/Button" unique_id=1040534739]
-layout_mode = 0
-offset_left = 73.0
-offset_top = 3.0
-offset_right = 133.0
-offset_bottom = 34.0
-text = "add $$"
-
-[connection signal="pressed" from="Node2D/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Node2D/Button/Button" to="." method="_on_adds_button_pressed"]

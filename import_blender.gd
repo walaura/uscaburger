@@ -1,12 +1,21 @@
-@tool # Needed so it runs in editor.
+@tool
 extends EditorScenePostImport
 
-# This sample changes all node names.
-# Called right after the scene is imported and gets the root node.
-func _post_import(scene):
-	for child in scene.get_children():
-		iterate(child)
-	return scene 
+var maybe_collider: MeshInstance3D
 
-func iterate( node: Node):
-	return node;
+
+func _post_import(scene: Node) -> Node:
+	scene = iterate(scene)
+	return scene
+
+
+func iterate(node: Node) -> Node:
+	for child in node.get_children():
+		if child.name.contains('_collider':
+			maybe_collider = child
+			node.remove_child(child)
+		if child is CollisionShape3D and maybe_collider != null:
+			(child as CollisionShape3D).shape = maybe_collider.mesh.create_convex_shape()
+		else:
+			iterate(child)
+	return node

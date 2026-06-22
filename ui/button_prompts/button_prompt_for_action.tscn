@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dsgefsev4tao"]
+
+[ext_resource type="Script" uid="uid://c220wnlcw3gav" path="res://ui/button_prompts/button_prompt_for_action.gd" id="1_75opk"]
+[ext_resource type="Shader" uid="uid://5f732gdg4ct6" path="res://ui/button_prompts/button_prompt_for_action_sd.tres" id="1_yfah4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_un5ui"]
+resource_local_to_scene = true
+shader = ExtResource("1_yfah4")
+shader_parameter/ColorParameter = Color(1, 0.2, 0.078431375, 1)
+
+[node name="ButtonPromptForAction" type="Control" unique_id=1369142264]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 20.0
+offset_bottom = 20.0
+script = ExtResource("1_75opk")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=502590692]
+material = SubResource("ShaderMaterial_un5ui")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

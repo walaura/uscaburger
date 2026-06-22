@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://ceo1puu8fl8vv"]
+
+[ext_resource type="Script" uid="uid://c6nfar4tt60s1" path="res://ui/button_prompts/button_prompts_text_box.gd" id="1_fia8u"]
+[ext_resource type="Shader" uid="uid://4482r4wbmaej" path="res://ui/button_prompts/button_prompts_text_box_sd.tres" id="1_ocnlr"]
+[ext_resource type="PackedScene" uid="uid://dsgefsev4tao" path="res://ui/button_prompts/button_prompt_for_action.tscn" id="2_2fet8"]
+[ext_resource type="FontFile" uid="uid://22ievibxbtgr" path="res://asset/SchibstedGrotesk-Medium.ttf" id="4_75vpt"]
+[ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_fia8u"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_yqbr2"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fia8u"]
+resource_local_to_scene = true
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+texture = SubResource("ViewportTexture_yqbr2")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="Theme" id="Theme_2fet8"]
+default_font = ExtResource("4_75vpt")
+default_font_size = 18
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fet8"]
+shader = ExtResource("1_ocnlr")
+shader_parameter/Highlightedness = 1.0
+shader_parameter/Texture2DParameter = ExtResource("4_fia8u")
+
+[node name="ButtonPromptsTextBox" type="PanelContainer" unique_id=900385817]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -1080.0
+offset_right = 149.0
+offset_bottom = -1041.0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0, 1)
+theme_override_styles/panel = SubResource("StyleBoxTexture_fia8u")
+script = ExtResource("1_fia8u")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1558947514]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 8
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonPromptForAction" parent="HBoxContainer" unique_id=1369142264 instance=ExtResource("2_2fet8")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=386262553]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_2fet8")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+text = "Lol test hi hi"
+vertical_alignment = 1
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=139779702]
+size = Vector2i(40, 40)
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=643663634]
+unique_name_in_owner = true
+texture_filter = 1
+material = SubResource("ShaderMaterial_2fet8")
+use_parent_material = true
+offset_right = 40.0
+offset_bottom = 40.0

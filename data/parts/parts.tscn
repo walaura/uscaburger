@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dn80kasyurhbx"]
+
+[ext_resource type="Script" uid="uid://dn03hoj7yxewf" path="res://data/parts/parts.gd" id="1_u34ey"]
+[ext_resource type="PackedScene" uid="uid://cx5j5lrpq662w" path="res://asset/Bun-crown.glb" id="2_6mjts"]
+[ext_resource type="PackedScene" uid="uid://d3g1bwh7f5w1v" path="res://asset/Bun-heel.glb" id="3_i617x"]
+[ext_resource type="PackedScene" uid="uid://dy02m4tl5hv6y" path="res://asset/Patty-meat.glb" id="4_a4iiv"]
+[ext_resource type="PhysicsMaterial" uid="uid://be08uryrqndii" path="res://asset/part_phys_material.tres" id="5_hyjl0"]
+[ext_resource type="PackedScene" uid="uid://sq2e0xka4y57" path="res://asset/Topz-tomato.glb" id="6_amx0b"]
+[ext_resource type="PackedScene" uid="uid://b4tn17fkip32b" path="res://asset/Topz-lettuce.glb" id="7_oblpx"]
+[ext_resource type="Script" uid="uid://0lkb0u3bgdh7" path="res://node/droppable.gd" id="8_mmtwn"]
+[ext_resource type="PackedScene" uid="uid://covsdjneqr6gi" path="res://asset/topz_cheese_2.tscn" id="9_dkd73"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s808u"]
+size = Vector3(2, 0.23034668, 2)
+
+[node name="Parts" type="Node3D" unique_id=1021000598]
+script = ExtResource("1_u34ey")
+
+[node name="Bun-crown" parent="." unique_id=1101852662 instance=ExtResource("2_6mjts")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.776955, 0, 3.199481)
+price = 19
+receipt_name = "Crown"
+is_crown = true
+
+[node name="Bun-heel" parent="." unique_id=244372931 instance=ExtResource("3_i617x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.977032, 4.7683716e-07, 2.563095)
+price = 19
+receipt_name = "Heel"
+is_heel = true
+
+[node name="Patty-meat" parent="." unique_id=374647338 instance=ExtResource("4_a4iiv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.103964, 0, 1.9602981)
+price = 299
+receipt_name = "Meat"
+
+[node name="Patty-meat" parent="Patty-meat" index="0" unique_id=404555360]
+mass = 0.1
+physics_material_override = ExtResource("5_hyjl0")
+
+[node name="Topz-tomato" parent="." unique_id=1024246324 instance=ExtResource("6_amx0b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.353991, 0, 4.258424)
+price = 129
+receipt_name = "Tomato"
+
+[node name="Topz-lettuce" parent="." unique_id=1234733143 instance=ExtResource("7_oblpx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.721074, 0, -0.18045473)
+script = ExtResource("8_mmtwn")
+price = 29
+receipt_name = "Lettuce"
+
+[node name="Topz-cheese" parent="." unique_id=440267049 instance=ExtResource("9_dkd73")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
+price = 69
+receipt_name = "Cheese"
+
+[node name="Topz-cheese" parent="Topz-cheese" index="0" unique_id=418621301]
+physics_material_override = ExtResource("5_hyjl0")
+
+[node name="CollisionShape3D" parent="Topz-cheese/Topz-cheese" index="1" unique_id=1543388866]
+shape = SubResource("BoxShape3D_s808u")
+
+[editable path="Patty-meat"]
+[editable path="Topz-lettuce"]
+[editable path="Topz-cheese"]

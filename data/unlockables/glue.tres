@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Data_UnlockableResource" format=3 uid="uid://iw7ohj2pdgog"]
+
+[ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="1_72q06"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_j8dkq"]
+
+[resource]
+script = ExtResource("2_j8dkq")
+name = "Parts glue"
+icon = ExtResource("1_72q06")
+desc = "Makes all parts half as likely to slide off"
+price = 19989
+is_incremental = true
+incremental_mult = 1.25
+incremental_initial_value = 10
+incremental_value = 10
+metadata/_custom_type_script = "uid://cuu2a4r833k1g"

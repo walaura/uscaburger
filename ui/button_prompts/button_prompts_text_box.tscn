@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://ceo1puu8fl8vv"]
+
+[ext_resource type="Script" uid="uid://c6nfar4tt60s1" path="res://ui/button_prompts/button_prompts_text_box.gd" id="1_fia8u"]
+[ext_resource type="PackedScene" uid="uid://dsgefsev4tao" path="res://ui/button_prompts/button_prompt_for_action.tscn" id="2_2fet8"]
+[ext_resource type="FontFile" uid="uid://22ievibxbtgr" path="res://asset/SchibstedGrotesk-Medium.ttf" id="4_75vpt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2fet8"]
+bg_color = Color(0, 0, 0, 0.3529412)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_75vpt"]
+bg_color = Color(1, 0.2, 0.078431375, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 20
+
+[sub_resource type="Theme" id="Theme_2fet8"]
+default_font = ExtResource("4_75vpt")
+default_font_size = 18
+
+[node name="ButtonPromptsTextBox" type="PanelContainer" unique_id=900385817]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -1080.0
+offset_right = 137.0
+offset_bottom = -1049.0
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_2fet8")
+script = ExtResource("1_fia8u")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=301008054]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_75vpt")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=142316818]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1558947514]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="ButtonPromptForAction" parent="MarginContainer/HBoxContainer" unique_id=1369142264 instance=ExtResource("2_2fet8")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=386262553]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_2fet8")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+text = "Lol test hi hi"

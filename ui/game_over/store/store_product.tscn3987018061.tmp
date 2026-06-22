@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://cktupsrrlknb5"]
+
+[ext_resource type="Script" uid="uid://dew04wo6bpeia" path="res://ui/game_over/store/store_product.gd" id="1_5y7ok"]
+[ext_resource type="Texture2D" uid="uid://f02hg5ge4mbd" path="res://asset/badge/badge-underlay.png" id="2_anrbw"]
+[ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_b28u2"]
+[ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_7um22"]
+[ext_resource type="Texture2D" uid="uid://cblbbw810r3el" path="res://asset/badge/badge-ketchup.png" id="5_th61n"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_wi4i5"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, 0.5]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ahob7"]
+expanded_output_ports = [0]
+texture = ExtResource("2_anrbw")
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_4qaso"]
+output_port_for_preview = 0
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_4a1iv"]
+size = Vector2(464, 420)
+expression = "vec4 r_output = base / (1. - blend);
+output = mix(base, r_output, opacity);"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7jxe3"]
+expanded_output_ports = [0]
+texture = ExtResource("3_b28u2")
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_anrbw"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 2)]
+op_type = 2
+operator = 1
+
+[sub_resource type="VisualShaderNodeVec4Constant" id="VisualShaderNodeVec4Constant_b28u2"]
+constant = Quaternion(0, 0, 0, 6)
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_anrbw"]
+constant = 0.538
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u843p"]
+expanded_output_ports = [0]
+source = 5
+texture = ExtResource("4_7um22")
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_8xoy4"]
+parameter_name = "Badge"
+texture_filter = 4
+
+[sub_resource type="VisualShader" id="VisualShader_hw0qg"]
+resource_local_to_scene = true
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(800, 200)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_u843p")
+nodes/fragment/3/position = Vector2(-340, 220)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_8xoy4")
+nodes/fragment/5/position = Vector2(-840, 120)
+nodes/fragment/11/node = SubResource("VisualShaderNodeMix_wi4i5")
+nodes/fragment/11/position = Vector2(-840, 480)
+nodes/fragment/12/node = SubResource("VisualShaderNodeTexture_ahob7")
+nodes/fragment/12/position = Vector2(-840, 760)
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_4qaso")
+nodes/fragment/13/position = Vector2(-40, 180)
+nodes/fragment/14/node = SubResource("VisualShaderNodeExpression_4a1iv")
+nodes/fragment/14/position = Vector2(260, 160)
+nodes/fragment/14/size = Vector2(464, 420)
+nodes/fragment/14/input_ports = "0,5,base;1,5,blend;2,0,opacity;"
+nodes/fragment/14/output_ports = "0,5,output;"
+nodes/fragment/14/expression = "vec4 r_output = base / (1. - blend);
+output = mix(base, r_output, opacity);"
+nodes/fragment/15/node = SubResource("VisualShaderNodeTexture_7jxe3")
+nodes/fragment/15/position = Vector2(-840, 1180)
+nodes/fragment/16/node = SubResource("VisualShaderNodeVectorOp_anrbw")
+nodes/fragment/16/position = Vector2(-340, 1260)
+nodes/fragment/17/node = SubResource("VisualShaderNodeVec4Constant_b28u2")
+nodes/fragment/17/position = Vector2(-840, 1620)
+nodes/fragment/18/node = SubResource("VisualShaderNodeFloatConstant_anrbw")
+nodes/fragment/18/position = Vector2(0, 80)
+nodes/fragment/connections = PackedInt32Array(5, 0, 3, 2, 12, 4, 0, 1, 3, 4, 13, 2, 12, 0, 13, 0, 3, 0, 13, 1, 13, 0, 14, 0, 15, 0, 16, 0, 16, 0, 14, 1, 17, 0, 16, 1, 14, 0, 0, 0, 18, 0, 14, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tf1xl"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_hw0qg")
+shader_parameter/Badge = ExtResource("5_th61n")
+
+[node name="PanelContainer" type="PanelContainer" unique_id=1234322840]
+offset_right = 397.0
+offset_bottom = 200.0
+script = ExtResource("1_5y7ok")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=869957961]
+layout_mode = 2
+
+[node name="unlock1" type="ColorRect" parent="HBoxContainer" unique_id=1671812076]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_tf1xl")
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+color = Color(1, 0.18, 0.18, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=236078435]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=288839098]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Name"
+
+[node name="Desc" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1018788798]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Desc"
+
+[node name="Price" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=44453165]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Price"
+
+[node name="Dbg" type="LinkButton" parent="HBoxContainer/VBoxContainer" unique_id=2016935299]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer" unique_id=2078883248]
+layout_mode = 2
+text = "buy?"

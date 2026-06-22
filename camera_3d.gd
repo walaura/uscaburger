@@ -1,19 +1,19 @@
 extends Camera3D
 
-var lerp_speed = 6
-var offset = Vector3(10, 10, 10)
+var lerp_speed := 6
+var offset := Vector3(10, 10, 10)
 
-var og_transform = transform
-var og_fov = fov
+var og_transform := transform
+var og_fov := fov
 
 
 func get_camera_position_for_aabb(aabb: AABB) -> Vector3:
 	# Get the largest size dimension of the AABB
-	var size: float = max(aabb.size.x, max(aabb.size.y, aabb.size.z))
+	var largest_size: float = maxf(aabb.size.x, maxf(aabb.size.y, aabb.size.z))
 
 	# Calculate required distance
 	var fov_rad: float = deg_to_rad(fov)
-	var distance: float = (size / 2.0) / tan(fov_rad / 2.0)
+	var distance: float = (largest_size / 2.0) / tan(fov_rad / 2.0)
 
 	# Add a slight padding so the AABB does not touch the exact screen edge
 	distance *= 1.5
@@ -25,7 +25,7 @@ func get_camera_position_for_aabb(aabb: AABB) -> Vector3:
 	return center - (view_dir * distance)
 
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	match Camera.mode:
 		Camera.Mode.ZOOM_OUT:
 			transform.origin = transform.origin.lerp(
@@ -36,7 +36,7 @@ func _physics_process(delta):
 			if !Camera.GAMEPLAY_target:
 				return
 
-			var target_fov = og_fov
+			var target_fov := og_fov
 			if (
 				Camera.GAMEPLAY_dramatic_timer_zoom != 1.0
 				&& Camera.GAMEPLAY_dramatic_timer_zoom != 0.0
@@ -46,7 +46,7 @@ func _physics_process(delta):
 			fov = move_toward(fov, target_fov, delta * lerp_speed)
 
 			# Calculate the final desired transform
-			var target_transform = transform.looking_at(
+			var target_transform := transform.looking_at(
 				Vector3(0.2, 1, 1) * (Camera.GAMEPLAY_target.global_position - Vector3(-4, 1, 0)),
 				Vector3.UP
 			)

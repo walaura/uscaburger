@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://devcdtpi66gcl"]
+
+[ext_resource type="Script" uid="uid://prhd74jsboi" path="res://ui/button_prompts.gd" id="1_gs37i"]
+[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="2_gs37i"]
+
+[node name="ButtonPrompts" type="Control" unique_id=2053814882]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_gs37i")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=976641388]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -106.0
+offset_right = 131.0
+grow_vertical = 0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2099113783]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="VisibleOnDev" type="Node2D" parent="." unique_id=1814896246]
+script = ExtResource("2_gs37i")
+metadata/_custom_type_script = "uid://bruyqau2rx8ma"
+
+[node name="Button" type="Button" parent="VisibleOnDev" unique_id=1230155399]
+offset_left = 185.0
+offset_top = 389.0
+offset_right = 349.73517
+offset_bottom = 444.23376
+text = "push"
+
+[connection signal="pressed" from="VisibleOnDev/Button" to="." method="_on_button_pressed"]

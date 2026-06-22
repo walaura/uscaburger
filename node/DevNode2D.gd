@@ -1,10 +1,10 @@
 extends Node2D
 
+class_name VisibleOnDev
 
 func _init() -> void:
-	visible = false
+	visible = Helper.is_debug
 
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("DBG-Splort"):
-		visible = not visible
+func _process(_delta: float) -> void:
+	visible = Helper.is_debug

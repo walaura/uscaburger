@@ -1,0 +1,4 @@
+class_name CurrentRunState_ScoreLineItemDividerResource
+extends CurrentRunState_ScoreLineItemResource
+
+@export var is_empty_line: bool = false

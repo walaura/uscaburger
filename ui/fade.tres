@@ -1,0 +1,74 @@
+[gd_resource type="VisualShader" format=3 uid="uid://bm2ribdrubxn7"]
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_3momx"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_1hks3"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_rnkcr"]
+constant = 0.8
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_3momx"]
+parameter_name = "Image"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_1hks3"]
+parameter_name = "fade"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_rnkcr"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_l8wlm"]
+default_input_values = [0, 0.0, 1, 0.5]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_0qsap"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_q8ke0"]
+default_input_values = [1, 0.8, 2, 0.9, 3, 0.17, 4, 1.0]
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_3momx"]
+size = Vector2(620, 340)
+expression = "vec2 uv = UV; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(UV.x * aspect_ratio, UV.y);"
+
+[resource]
+resource_local_to_scene = true
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(2220, 100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_3momx")
+nodes/fragment/3/position = Vector2(280, 120)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_1hks3")
+nodes/fragment/4/position = Vector2(180, 460)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_rnkcr")
+nodes/fragment/5/position = Vector2(720, 40)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_l8wlm")
+nodes/fragment/6/position = Vector2(1340, 520)
+nodes/fragment/7/node = SubResource("VisualShaderNodeTexture_0qsap")
+nodes/fragment/7/position = Vector2(780, 400)
+nodes/fragment/8/node = SubResource("VisualShaderNodeRemap_q8ke0")
+nodes/fragment/8/position = Vector2(1080, 480)
+nodes/fragment/9/node = SubResource("VisualShaderNodeExpression_3momx")
+nodes/fragment/9/position = Vector2(-160, 760)
+nodes/fragment/9/size = Vector2(620, 340)
+nodes/fragment/9/input_ports = ""
+nodes/fragment/9/output_ports = "0,3,output0;"
+nodes/fragment/9/expression = "vec2 uv = UV; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(UV.x * aspect_ratio, UV.y);"
+nodes/fragment/10/node = SubResource("VisualShaderNodeColorOp_3momx")
+nodes/fragment/10/position = Vector2(1640, 360)
+nodes/fragment/11/node = SubResource("VisualShaderNodeColorOp_1hks3")
+nodes/fragment/11/position = Vector2(1920, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_rnkcr")
+nodes/fragment/12/position = Vector2(1660, 620)
+nodes/fragment/connections = PackedInt32Array(3, 0, 5, 2, 4, 0, 7, 2, 7, 0, 8, 0, 8, 0, 6, 0, 9, 0, 7, 0, 5, 0, 0, 0, 5, 4, 10, 0, 6, 0, 10, 1, 10, 0, 11, 0, 11, 0, 0, 1, 12, 0, 11, 1)

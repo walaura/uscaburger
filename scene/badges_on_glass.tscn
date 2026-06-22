@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c61mq3bawqxuf"]
+
+[ext_resource type="Script" uid="uid://co6qncydle5y5" path="res://scene/badges_on_glass.gd" id="1_vev5c"]
+
+[node name="Control" type="Control" unique_id=1421891035]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vev5c")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=801399304]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -149.0
+offset_top = -45.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = -33
+alignment = 2
+
+[node name="LinkButton" type="LinkButton" parent="HBoxContainer" unique_id=1270556751]
+layout_mode = 2
+text = "fghfghfgh"
+
+[node name="Button" type="Button" parent="." unique_id=425403228]
+layout_mode = 0
+offset_left = 701.0
+offset_top = 77.0
+offset_right = 1045.0
+offset_bottom = 329.0
+text = "add"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

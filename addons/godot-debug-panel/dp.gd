@@ -1,4 +1,5 @@
 extends Node
+
 #class_name Dp
 
 const DP_ROW = preload("res://addons/godot-debug-panel/dp_row.tscn")
@@ -7,9 +8,8 @@ const DP_ROW = preload("res://addons/godot-debug-panel/dp_row.tscn")
 
 var _data: Dictionary[StringName, Label]
 
-
 ## Debug panel visibilty.
-@export var visible := true :
+@export var visible := true:
 	set(v):
 		visible = v
 		if is_node_ready():
@@ -23,23 +23,23 @@ func _ready() -> void:
 ## Insert or update row by id with provided value.
 func push(id: StringName, value: Variant) -> void:
 	var label := _data.get(id)
-	
+
 	if label == null:
 		var row := DP_ROW.instantiate()
-		
+
 		var row_name := str(id)
-		
+
 		_container.add_child(row)
 		row.name = row_name
-		
+
 		var title_label: Label = row.get_node("%Title")
 		var value_label: Label = row.get_node("%Value")
-		
+
 		title_label.text = "%s:" % row_name
-		
+
 		_data[id] = value_label
 		label = value_label
-	
+
 	label.text = str(value)
 
 
@@ -48,7 +48,7 @@ func erase(id: StringName) -> void:
 	if not _data.has(id):
 		push_warning("Dp.erase Row %s doesn't exit" % id)
 		return
-	
+
 	_container.get_node(NodePath(id)).queue_free()
 	_data.erase(id)
 
@@ -58,7 +58,7 @@ func hide(id: StringName) -> void:
 	if not _data.has(id):
 		push_warning("Dp.hide Row %s doesn't exit" % id)
 		return
-	
+
 	_container.get_node(NodePath(id)).hide()
 
 

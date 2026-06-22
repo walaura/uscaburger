@@ -5,12 +5,17 @@
 [ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="4_jqgjh"]
 [ext_resource type="Texture2D" uid="uid://nvda3v2nphrh" path="res://asset/sky.png" id="5_mgc1s"]
 [ext_resource type="PackedScene" uid="uid://dwbxrbap8s51s" path="res://asset/Ct-Glass.glb" id="5_vf5bc"]
+[ext_resource type="PackedScene" uid="uid://cwgjbqpatnqcd" path="res://asset/Ct-booth.glb" id="6_mgc1s"]
+[ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/badges_on_glass.tscn" id="7_rq8yp"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vf5bc"]
 dof_blur_far_enabled = true
-dof_blur_far_distance = 0.01
-dof_blur_far_transition = 1157.14
-dof_blur_amount = 1.0
+dof_blur_far_distance = 19.46
+dof_blur_far_transition = 1.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.01
+dof_blur_near_transition = 3869.92
+dof_blur_amount = 0.07
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
 margin = 1.367
@@ -31,12 +36,16 @@ sky = SubResource("Sky_vf5bc")
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 tonemap_mode = 4
-tonemap_exposure = 1.1
+tonemap_exposure = 1.26
 tonemap_agx_white = 16.5
+tonemap_agx_contrast = 1.36
 ssr_enabled = true
 ssao_enabled = true
-ssao_intensity = 4.4
-fog_enabled = true
+ssao_intensity = 4.65
+ssao_sharpness = 1.0
+ssil_enabled = true
+glow_enabled = true
+glow_intensity = 0.1
 fog_mode = 1
 fog_light_color = Color(0.9575, 1, 0.85, 1)
 fog_light_energy = 0.56
@@ -51,6 +60,41 @@ texture_filter = 0
 [sub_resource type="QuadMesh" id="QuadMesh_vf5bc"]
 material = SubResource("StandardMaterial3D_jqgjh")
 size = Vector2(1, 4)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vf5bc"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dn3wt"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mgc1s"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_rq8yp"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_tngv2"]
+constant = Color(0.8274265, 0, 0.07823897, 1)
+
+[sub_resource type="VisualShader" id="VisualShader_c4ttu"]
+resource_local_to_scene = true
+nodes/vertex/0/position = Vector2(820, 200)
+nodes/fragment/0/position = Vector2(400, 160)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_mgc1s")
+nodes/fragment/2/position = Vector2(-31.436096, 649.98694)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_rq8yp")
+nodes/fragment/3/position = Vector2(-391.4361, 489.98697)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_tngv2")
+nodes/fragment/4/position = Vector2(40, 340)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_abu4r"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgc1s"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("VisualShader_c4ttu")
+shader_parameter/Texture2DParameter = SubResource("ViewportTexture_abu4r")
 
 [node name="Board" type="Node3D" unique_id=2082163755]
 script = ExtResource("1_psm7c")
@@ -70,7 +114,7 @@ debug_fill = false
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=126814468]
 transform = Transform3D(1, 0, 0, 0, -0.1045285, 0.99452186, 0, -0.99452186, -0.1045285, 6.044801, 7.4743357, 3.2949858)
-light_color = Color(0.9567724, 0.996288, 0, 1)
+light_color = Color(0.98433334, 1, 0.53, 1)
 light_energy = 3.909
 shadow_enabled = true
 shadow_bias = 0.0
@@ -93,5 +137,39 @@ transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 13
 transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -14.389, -0.0011018515, -0.864)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1835651310]
-transform = Transform3D(260.46, 0, 0, 0, 260.46, 0, 0, 0, 260.46, 1.8368607, 332.31015, -163.38347)
+transform = Transform3D(260.46, 0, 0, 0, 260.46, 0, 0, 0, 260.46, 1.8368607, 332.31015, -51.671738)
 mesh = SubResource("QuadMesh_vf5bc")
+
+[node name="bg" type="Node" parent="." unique_id=1378351249]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="bg" unique_id=1199295584]
+transform = Transform3D(56.29, 0, 0, 0, 56.29, 0, 0, 0, 56.29, 0, -7.7717195, -24.514896)
+mesh = SubResource("PlaneMesh_vf5bc")
+
+[node name="Booth" parent="bg" unique_id=1053700820 instance=ExtResource("6_mgc1s")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, 38.471706, -6.013516, -39.332596)
+
+[node name="Booth2" parent="bg" unique_id=235484487 instance=ExtResource("6_mgc1s")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, -6.379423, -6.013516, -39.332596)
+
+[node name="Booth3" parent="bg" unique_id=1076614048 instance=ExtResource("6_mgc1s")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, -27.650627, -6.013516, -39.332596)
+
+[node name="Booth4" parent="bg" unique_id=468249501 instance=ExtResource("6_mgc1s")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, 16.500593, -6.013516, -39.332596)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="bg" unique_id=996177973]
+transform = Transform3D(56.289997, 0, 0, 0, -2.460514e-06, -56.289997, 0, 56.289997, -2.460514e-06, 0, -51.569504, -45.57455)
+mesh = SubResource("PlaneMesh_vf5bc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=944642751]
+transform = Transform3D(6.556, 0, 0, 0, -0.08715577, -1.6327631, 0, 0.9961947, -0.14284831, -0.5497769, 2.7217503, -4.741846)
+mesh = SubResource("PlaneMesh_dn3wt")
+surface_material_override/0 = SubResource("ShaderMaterial_mgc1s")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=90617148]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(2048, 512)
+
+[node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("7_rq8yp")]

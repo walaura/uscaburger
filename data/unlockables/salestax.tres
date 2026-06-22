@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bstxf4vgswshb"]
+
+[ext_resource type="Texture2D" uid="uid://80rph11ocady" path="res://asset/badge/badge-taxes.png" id="1_6oo4p"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_6oo4p"]
+
+[resource]
+script = ExtResource("2_6oo4p")
+name = "Forget to file a return"
+icon = ExtResource("1_6oo4p")
+desc = "Pay [boing]{0}%[/boing] less sales tax"
+price = 8999
+is_incremental = true
+incremental_mult = 2.0
+incremental_value = 5.0
+incremental_extra_names = Array[String](["Creative accounting", "Broken card reader machine", "Write-off pizzas"])

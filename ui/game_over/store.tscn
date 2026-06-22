@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cfipbkba45p51"]
+
+[ext_resource type="Script" uid="uid://dpxbmhsm3lwpj" path="res://ui/game_over/store.gd" id="1_atysq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_atysq"]
+
+[node name="PanelContainer" type="PanelContainer" unique_id=1121974928]
+propagate_maximum_size = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_atysq")
+script = ExtResource("1_atysq")
+
+[node name="StoreRoot" type="VBoxContainer" parent="." unique_id=1764346322]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 32

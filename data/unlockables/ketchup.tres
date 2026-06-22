@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://gsi6o2v5w3y4"]
+
+[ext_resource type="Texture2D" uid="uid://cblbbw810r3el" path="res://asset/badge/badge-ketchup.png" id="1_dx0cl"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_dx0cl"]
+
+[resource]
+script = ExtResource("2_dx0cl")
+name = "Ketchup"
+icon = ExtResource("1_dx0cl")
+desc = "Its tasty! - Unlocks [boing]ketchup[/boing]"
+price = 2099
+incremental_extra_names = null
