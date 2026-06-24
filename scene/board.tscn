@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://cpeihasc5dpvl"]
+
+[ext_resource type="Script" uid="uid://d2faqx5j3qi1h" path="res://scene/board.gd" id="1_psm7c"]
+[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://scene/camera_3d.gd" id="2_ar3ho"]
+[ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="4_jqgjh"]
+[ext_resource type="PackedScene" uid="uid://dwbxrbap8s51s" path="res://asset/Ct-Glass.glb" id="5_vf5bc"]
+[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://scene_parts/bg.tscn" id="5_wr7qi"]
+[ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/board/badges_on_glass.tscn" id="8_tbg0t"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vf5bc"]
+dof_blur_far_enabled = true
+dof_blur_far_distance = 19.46
+dof_blur_far_transition = 1.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.01
+dof_blur_near_transition = 3869.92
+dof_blur_amount = 0.07
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
+margin = 1.367
+size = Vector3(40, 2, 40)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dn3wt"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mgc1s"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_rq8yp"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_tngv2"]
+constant = Color(0.8274265, 0, 0.07823897, 1)
+
+[sub_resource type="VisualShader" id="VisualShader_c4ttu"]
+resource_local_to_scene = true
+nodes/vertex/0/position = Vector2(820, 200)
+nodes/fragment/0/position = Vector2(400, 160)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_mgc1s")
+nodes/fragment/2/position = Vector2(-31.436096, 649.98694)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_rq8yp")
+nodes/fragment/3/position = Vector2(-391.4361, 489.98697)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_tngv2")
+nodes/fragment/4/position = Vector2(40, 340)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_abu4r"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mgc1s"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("VisualShader_c4ttu")
+shader_parameter/Texture2DParameter = SubResource("ViewportTexture_abu4r")
+
+[node name="Board" type="Node3D" unique_id=2082163755]
+script = ExtResource("1_psm7c")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=856205969]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 5.381181, 11.609192)
+attributes = SubResource("CameraAttributesPractical_vf5bc")
+fov = 30.0
+script = ExtResource("2_ar3ho")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1671366472]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1355751970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_psm7c")
+debug_fill = false
+
+[node name="Countertop" parent="." unique_id=1375733711 instance=ExtResource("4_jqgjh")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 0, -0.009101868, -0.806)
+
+[node name="Ct-Glass" parent="." unique_id=331242409 instance=ExtResource("5_vf5bc")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -0.664, -0.0011018515, -0.864)
+
+[node name="Ct-Glass2" parent="." unique_id=290627271 instance=ExtResource("5_vf5bc")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 13.091, -0.0011018515, -0.864)
+
+[node name="Ct-Glass3" parent="." unique_id=1693766777 instance=ExtResource("5_vf5bc")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -14.389, -0.0011018515, -0.864)
+
+[node name="bg" parent="." unique_id=1772998672 instance=ExtResource("5_wr7qi")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=944642751]
+transform = Transform3D(6.556, 0, 0, 0, -0.08715577, -1.6327631, 0, 0.9961947, -0.14284831, -0.5497769, 2.7217503, -4.741846)
+mesh = SubResource("PlaneMesh_dn3wt")
+surface_material_override/0 = SubResource("ShaderMaterial_mgc1s")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=90617148]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(2048, 512)
+
+[node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("8_tbg0t")]

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://devcdtpi66gcl"]
 
 [ext_resource type="Script" uid="uid://prhd74jsboi" path="res://ui/button_prompts.gd" id="1_gs37i"]
-[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="2_gs37i"]
 
 [node name="ButtonPrompts" type="Control" unique_id=2053814882]
 layout_mode = 3
@@ -31,16 +30,3 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 2
 alignment = 2
-
-[node name="VisibleOnDev" type="Node2D" parent="." unique_id=1814896246]
-script = ExtResource("2_gs37i")
-metadata/_custom_type_script = "uid://bruyqau2rx8ma"
-
-[node name="Button" type="Button" parent="VisibleOnDev" unique_id=1230155399]
-offset_left = 185.0
-offset_top = 389.0
-offset_right = 349.73517
-offset_bottom = 444.23376
-text = "push"
-
-[connection signal="pressed" from="VisibleOnDev/Button" to="." method="_on_button_pressed"]

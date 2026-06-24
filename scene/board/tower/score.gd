@@ -3,8 +3,11 @@ extends Node
 class_name Scene_Tower_ScooreHandler
 
 var current_session_score := 0
-var appearances: Dictionary[String, int] = {}
+var appearances: Dictionary[String, int] = { }
 var previous_item := "no"
+
+var sauce_cooldown_mult := 0
+var sauce_cooldown := 0
 
 @export var overlay_ui: UI_ScoreOverlay
 

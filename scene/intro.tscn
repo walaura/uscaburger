@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://e1vyixvrx7xi"]
+
+[ext_resource type="Script" uid="uid://blayeshhg3du0" path="res://scene/intro.gd" id="1_dlfbb"]
+[ext_resource type="PackedScene" uid="uid://dn80kasyurhbx" path="res://data/parts/parts.tscn" id="2_yv8ol"]
+[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://scene_parts/bg.tscn" id="3_srnjo"]
+
+[node name="Intro" type="Control" unique_id=644232800]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dlfbb")
+main_scene_path = "uid://cpeihasc5dpvl"
+settings_scene_path = "uid://ye05btta37gb"
+
+[node name="MainMenuWrap" type="Control" parent="." unique_id=1732302031]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -194.3075
+offset_top = -93.29999
+offset_right = 194.3075
+offset_bottom = 93.29999
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonSeets" type="Button" parent="MainMenuWrap" unique_id=1281542566]
+layout_mode = 0
+offset_right = 175.0
+offset_bottom = 61.0
+text = "settings"
+
+[node name="ButtonPlay" type="Button" parent="MainMenuWrap" unique_id=179729562]
+layout_mode = 0
+offset_left = 169.5
+offset_top = 106.5
+offset_right = 344.5
+offset_bottom = 167.5
+text = "play game"
+
+[node name="Parts" parent="." unique_id=1021000598 instance=ExtResource("2_yv8ol")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.675793, 0, -10.403344)
+
+[node name="bg" parent="." unique_id=1772998672 instance=ExtResource("3_srnjo")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1439421244]
+
+[connection signal="pressed" from="MainMenuWrap/ButtonSeets" to="." method="_on_button_seets_pressed"]
+[connection signal="pressed" from="MainMenuWrap/ButtonPlay" to="." method="_on_button_play_pressed"]

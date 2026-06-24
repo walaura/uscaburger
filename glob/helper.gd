@@ -9,7 +9,13 @@ const ITEM_Y_SCALE = 1
 
 const COLOR_RED := Color("ff3314")
 
-var is_debug := false
+signal is_debug_changed
+var is_debug := false:
+	set(val):
+		is_debug = val
+		is_debug_changed.emit()
+
+@onready var stock := ResourceLoader.list_directory("res://data/unlockables")
 
 
 func _init() -> void:
@@ -99,3 +105,32 @@ func get_screen_rect(aabb: AABB) -> Rect2:
 		max_pos.y = max(max_pos.y, screen_pt.y)
 
 	return Rect2(min_pos, max_pos - min_pos)
+
+
+func get_item_raw(file_name: String) -> UnlockableResource:
+	return load("res://data/unlockables/" + file_name)
+
+
+func get_all_items() -> PackedStringArray:
+	return stock
+
+
+func get_purchasable_items() -> Array[String]:
+	var keys: Array[String] = []
+	var all_keys: Array[String] = Array(Array(get_all_items()), TYPE_STRING, "", null)
+	all_keys = all_keys.filter(
+		func(item: String) -> bool:
+			var raw := get_item_raw(item)
+			if raw.requires.size() == 0:
+				return true
+			for requisite in raw.requires:
+				if (!CurrentRunState.inventory_handler.is_holding_item(requisite)):
+					return false
+			return true
+	)
+	for key in all_keys:
+		if get_item_raw(key).is_incremental == true:
+			keys.push_back(key)
+		elif !CurrentRunState.inventory_handler.is_holding_item(key):
+			keys.push_back(key)
+	return keys

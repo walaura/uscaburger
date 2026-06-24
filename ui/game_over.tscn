@@ -110,8 +110,8 @@ metadata/_custom_type_script = "uid://bruyqau2rx8ma"
 [node name="Panel" type="PanelContainer" parent="VisibleOnDev" unique_id=1752038526]
 offset_left = 31.885
 offset_top = 34.96
-offset_right = 378.03497
-offset_bottom = 147.95999
+offset_right = 355.885
+offset_bottom = 95.96
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VisibleOnDev/Panel" unique_id=1594498624]
 layout_mode = 2

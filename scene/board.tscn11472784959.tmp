@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://cpeihasc5dpvl"]
 
-[ext_resource type="Script" uid="uid://d2faqx5j3qi1h" path="res://board.gd" id="1_psm7c"]
-[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://camera_3d.gd" id="2_psm7c"]
+[ext_resource type="Script" uid="uid://d2faqx5j3qi1h" path="res://scene/board.gd" id="1_psm7c"]
+[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://scene/camera_3d.gd" id="2_ar3ho"]
 [ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="4_jqgjh"]
 [ext_resource type="Texture2D" uid="uid://nvda3v2nphrh" path="res://asset/sky.png" id="5_mgc1s"]
 [ext_resource type="PackedScene" uid="uid://dwbxrbap8s51s" path="res://asset/Ct-Glass.glb" id="5_vf5bc"]
 [ext_resource type="PackedScene" uid="uid://cwgjbqpatnqcd" path="res://asset/Ct-booth.glb" id="6_mgc1s"]
-[ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/badges_on_glass.tscn" id="7_rq8yp"]
+[ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="6_ye24f"]
+[ext_resource type="PackedScene" uid="uid://bgxlf3ghjjk6f" path="res://asset/ct-table.glb" id="7_vojld"]
+[ext_resource type="Texture2D" uid="uid://b041muwpqyxmv" path="res://asset/Countertop_tiles-normal.png" id="8_6upfg"]
+[ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/board/badges_on_glass.tscn" id="8_tbg0t"]
+[ext_resource type="PackedScene" uid="uid://vmfl5w0ql3nj" path="res://asset/ct-wall.glb" id="11_6upfg"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vf5bc"]
 dof_blur_far_enabled = true
@@ -61,7 +65,120 @@ texture_filter = 0
 material = SubResource("StandardMaterial3D_jqgjh")
 size = Vector2(1, 4)
 
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_6upfg"]
+size = Vector2(780, 440)
+expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_a8jc1"]
+size = Vector2(480, 320)
+expression = "output0 = rotate(PI/4.,input0);"
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_6upfg"]
+constant = Color(0.16565654, 0.16565633, 0.16565648, 1)
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_a8jc1"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7ovj3"]
+constant = 0.2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ye24f"]
+function = 31
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_a8jc1"]
+texture = ExtResource("6_ye24f")
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_gja0w"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(11.25, 8.7)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7pgwx"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_1ahqd"]
+constant = 30.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_f31uq"]
+constant = 0.6
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_gja0w"]
+texture = ExtResource("8_6upfg")
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7pgwx"]
+constant = 0.5
+
+[sub_resource type="VisualShader" id="VisualShader_1hks3"]
+nodes/vertex/0/position = Vector2(720, 140)
+nodes/fragment/0/position = Vector2(1200, 1200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_a8jc1")
+nodes/fragment/2/position = Vector2(-360, 1700)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_gja0w")
+nodes/fragment/4/position = Vector2(-240, 1200)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_7pgwx")
+nodes/fragment/5/position = Vector2(-1200, 1060)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_1ahqd")
+nodes/fragment/6/position = Vector2(-1100, 540)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatConstant_f31uq")
+nodes/fragment/7/position = Vector2(100, 1220)
+nodes/fragment/8/node = SubResource("VisualShaderNodeTexture_gja0w")
+nodes/fragment/8/position = Vector2(120, 1320)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatConstant_7pgwx")
+nodes/fragment/9/position = Vector2(-140, 840)
+nodes/fragment/10/node = SubResource("VisualShaderNodeGlobalExpression_6upfg")
+nodes/fragment/10/position = Vector2(-1720, 1240)
+nodes/fragment/10/size = Vector2(780, 440)
+nodes/fragment/10/input_ports = ""
+nodes/fragment/10/output_ports = ""
+nodes/fragment/10/expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+nodes/fragment/11/node = SubResource("VisualShaderNodeExpression_a8jc1")
+nodes/fragment/11/position = Vector2(-960, 1140)
+nodes/fragment/11/size = Vector2(480, 320)
+nodes/fragment/11/input_ports = "0,3,input0;"
+nodes/fragment/11/output_ports = "0,3,output0;"
+nodes/fragment/11/expression = "output0 = rotate(PI/4.,input0);"
+nodes/fragment/12/node = SubResource("VisualShaderNodeColorConstant_6upfg")
+nodes/fragment/12/position = Vector2(-120, 1600)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorOp_a8jc1")
+nodes/fragment/13/position = Vector2(120, 1740)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_7ovj3")
+nodes/fragment/14/position = Vector2(320, 1980)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatFunc_ye24f")
+nodes/fragment/15/position = Vector2(960, 1360)
+nodes/fragment/connections = PackedInt32Array(6, 0, 4, 1, 4, 0, 2, 0, 8, 0, 0, 9, 4, 0, 8, 0, 9, 0, 0, 2, 5, 0, 11, 0, 11, 0, 4, 0, 2, 0, 13, 0, 13, 0, 0, 0, 12, 0, 13, 1, 14, 0, 0, 10, 2, 0, 15, 0, 15, 0, 0, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3momx"]
+render_priority = 0
+shader = SubResource("VisualShader_1hks3")
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_vf5bc"]
+material = SubResource("ShaderMaterial_3momx")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dn3wt"]
 
@@ -103,7 +220,7 @@ script = ExtResource("1_psm7c")
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 5.381181, 11.609192)
 attributes = SubResource("CameraAttributesPractical_vf5bc")
 fov = 30.0
-script = ExtResource("2_psm7c")
+script = ExtResource("2_ar3ho")
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=1671366472]
 
@@ -158,9 +275,14 @@ transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, 
 [node name="Booth4" parent="bg" unique_id=468249501 instance=ExtResource("6_mgc1s")]
 transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, 16.500593, -6.013516, -39.332596)
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="bg" unique_id=996177973]
-transform = Transform3D(56.289997, 0, 0, 0, -2.460514e-06, -56.289997, 0, 56.289997, -2.460514e-06, 0, -51.569504, -45.57455)
-mesh = SubResource("PlaneMesh_vf5bc")
+[node name="Table" parent="bg" unique_id=824372059 instance=ExtResource("7_vojld")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, 5.7825003, -5.2939377, -43.414814)
+
+[node name="Table2" parent="bg" unique_id=1486512866 instance=ExtResource("7_vojld")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, 28.326237, -5.2939377, -43.414818)
+
+[node name="Table3" parent="bg" unique_id=995960994 instance=ExtResource("7_vojld")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, -18.148148, -5.2939377, -43.41481)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=944642751]
 transform = Transform3D(6.556, 0, 0, 0, -0.08715577, -1.6327631, 0, 0.9961947, -0.14284831, -0.5497769, 2.7217503, -4.741846)
@@ -172,4 +294,13 @@ disable_3d = true
 transparent_bg = true
 size = Vector2i(2048, 512)
 
-[node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("7_rq8yp")]
+[node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("8_tbg0t")]
+
+[node name="Wall2" parent="." unique_id=913093611 instance=ExtResource("11_6upfg")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, -38.2685, -2.5945115, -45.774055)
+
+[node name="Wall3" parent="." unique_id=154258009 instance=ExtResource("11_6upfg")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, 0.8247967, -2.5945115, -45.774063)
+
+[node name="Wall4" parent="." unique_id=1980758771 instance=ExtResource("11_6upfg")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, 39.967247, -2.5945115, -45.774067)

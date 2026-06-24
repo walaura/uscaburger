@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://c61mq3bawqxuf"]
+
+[ext_resource type="Script" uid="uid://co6qncydle5y5" path="res://scene/board/badges_on_glass.gd" id="1_vev5c"]
+[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="2_hs6uf"]
+
+[node name="Control" type="Control" unique_id=1421891035]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vev5c")
+
+[node name="VisibleOnDev" type="Node2D" parent="." unique_id=2047581749]
+script = ExtResource("2_hs6uf")
+metadata/_custom_type_script = "uid://bruyqau2rx8ma"
+
+[node name="Button" type="Button" parent="VisibleOnDev" unique_id=425403228]
+offset_left = 1524.0
+offset_top = 75.0
+offset_right = 1868.0
+offset_bottom = 327.0
+text = "add"
+
+[connection signal="pressed" from="VisibleOnDev/Button" to="." method="_on_button_pressed"]

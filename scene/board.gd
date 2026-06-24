@@ -1,9 +1,9 @@
 extends Node3D
 
 var is_game_over := false
-static var RUN_SCN := preload("res://scene/run.tscn")
+static var RUN_SCN := preload("res://scene/board/run.tscn")
 
-var run_scn: Run
+var run_scn: Scene_Run
 
 
 func _unhandled_input(event: InputEvent) -> void:

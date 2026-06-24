@@ -7,6 +7,5 @@
 script = ExtResource("2_dx0cl")
 name = "Ketchup"
 icon = ExtResource("1_dx0cl")
-desc = "Its tasty! - Unlocks [boing]ketchup[/boing]"
+desc = "Tomatoy! Unlocks [boing]ketchup[/boing]. Never slides & creates a flat floor"
 price = 2099
-incremental_extra_names = null

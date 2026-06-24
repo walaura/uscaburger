@@ -5,7 +5,6 @@ class_name Scene_Tower
 @export var floor_collider: StaticBody3D
 
 static var SCORE_OVERLAY_SCN := preload("res://ui/score_overlay.tscn")
-static var SCORE_HANDLER_SC := preload("res://scene/burger_tower/score.gd")
 static var PARTS_SCN := preload("res://data/parts/parts.tscn")
 
 var score_overlay: Control
@@ -29,9 +28,13 @@ func _ready() -> void:
 	_on_spawn()
 
 	score_overlay = SCORE_OVERLAY_SCN.instantiate() as Control
-	score_handler = SCORE_HANDLER_SC.new()
+	score_handler = Scene_Tower_ScooreHandler.new()
 	score_handler.overlay_ui = score_overlay
 	add_child(score_overlay)
+
+	parts_scn.position.y = 9999999.
+	parts_scn.visible = false
+	add_child(parts_scn)
 
 
 func _physics_process(delta: float) -> void:
@@ -97,17 +100,24 @@ func _on_finish() -> void:
 
 func _on_spawn() -> void:
 	var prompts := %ButtonPrompts as UI_ButtonPrompts
-	part = parts_scn.get_random_part() if stack_len > 0 else parts_scn.get_heel()
+	part = parts_scn.get_random_part(score_handler) if stack_len > 0 else parts_scn.get_heel()
 	_spawn_part(part)
-	match stack_len:
-		0:
-			prompts.push_tutorial("Drop")
-		3:
-			prompts.push_tutorial("Rotate-R")
-		4:
-			prompts.push_tutorial("Zoom-out")
-		6:
-			prompts.push_tutorial("Finish")
+	if CurrentRunState.player_data.needs_tutorial == false and stack_len == 0:
+		prompts.push("Drop")
+		prompts.push("Rotate-R")
+		prompts.push("Zoom-out")
+		prompts.push("Finish")
+	elif CurrentRunState.player_data.needs_tutorial == true:
+		match stack_len:
+			0:
+				prompts.push_tutorial("Drop")
+			3:
+				prompts.push_tutorial("Rotate-R")
+			4:
+				prompts.push_tutorial("Zoom-out")
+			6:
+				CurrentRunState.player_data.needs_tutorial = false
+				prompts.push_tutorial("Finish")
 
 
 func _spawn_part(new_part: Droppable) -> void:
@@ -123,9 +133,11 @@ func _spawn_part(new_part: Droppable) -> void:
 
 func _on_stack(is_success: bool, droppable: Droppable) -> void:
 	if !is_success:
+		remove_child($ButtonPrompts)
 		score_overlay.get_parent().remove_child(score_overlay)
 		on_game_over.emit(false, score_handler)
 	elif droppable.is_crown:
+		remove_child($ButtonPrompts)
 		score_overlay.get_parent().remove_child(score_overlay)
 		on_game_over.emit(true, score_handler)
 	else:
@@ -137,9 +149,7 @@ func _on_stack(is_success: bool, droppable: Droppable) -> void:
 
 
 func _on_win_pressed() -> void:
-	score_handler.push(parts_scn.get_random_part())
-	score_handler.push(parts_scn.get_random_part())
-	score_handler.push(parts_scn.get_random_part())
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
 	on_game_over.emit(true, score_handler)
-
-	pass # Replace with function body.

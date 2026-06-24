@@ -2,7 +2,6 @@ class_name UI_GameOver_Store
 extends Control
 
 @onready var STORE_PRODUCT_SCN := preload("res://ui/game_over/store/store_product.tscn")
-@onready var stock := ResourceLoader.list_directory("res://data/unlockables")
 
 signal on_purchase(product: String, price: int)
 
@@ -16,7 +15,7 @@ func _ready() -> void:
 
 
 func _on_reroll() -> void:
-	var all_keys := get_purchasable_items()
+	var all_keys := Helper.get_purchasable_items()
 	all_keys.shuffle()
 	var pick := all_keys.slice(0, 3) as Array[String]
 
@@ -34,12 +33,8 @@ func _on_reroll() -> void:
 		%StoreRoot.add_child(store_product_scn)
 
 
-func get_item_raw(file_name: String) -> UnlockableResource:
-	return load("res://data/unlockables/" + file_name)
-
-
 func get_item(key: String) -> UnlockableResource:
-	var resource := get_item_raw(key)
+	var resource := Helper.get_item_raw(key)
 	if resource == null:
 		printerr("oopsie")
 		resource = load("res://data/unlockables/ketchup.tres")
@@ -61,13 +56,3 @@ func get_item(key: String) -> UnlockableResource:
 	if inc_res.incremental_extra_names.size() >= tier:
 		inc_res.name = inc_res.incremental_extra_names[tier - 1]
 	return inc_res
-
-
-func get_purchasable_items() -> Array[String]:
-	var keys: Array[String] = []
-	for key in stock:
-		if get_item_raw(key).is_incremental == true:
-			keys.push_back(key)
-		elif !CurrentRunState.inventory_handler.is_holding_item(key):
-			keys.push_back(key)
-	return keys

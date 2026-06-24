@@ -1,4 +1,5 @@
-class_name Droppable extends Node3D
+class_name Droppable
+extends Node3D
 
 const PHYS_MATERIAL = preload("res://asset/part_phys_material.tres")
 
@@ -6,10 +7,13 @@ const PHYS_MATERIAL = preload("res://asset/part_phys_material.tres")
 @export var receipt_name: String
 @export var is_heel := false
 @export var is_crown := false
+@export var is_sauce := false
 
-@export_group("Hidden stuffs lol")
-@export var floor_collider: StaticBody3D
-@export var height := 0
+@export_group('secret stuff dont touch')
+@export var _rb: RigidBody3D
+
+var floor_collider: StaticBody3D
+var height := 0
 
 enum State { WAVE, DROP, DONE }
 var state := State.WAVE
@@ -23,17 +27,19 @@ var wave_speed_timer_rand_offsset := 0.0
 var _internal_animatable := Animatable.new()
 var _mesh: MeshInstance3D
 var _collider: CollisionShape3D
-var _rb: RigidBody3D
+var _maybe_splat: MeshInstance3D = null
 
 var _has_splooched := false
+
+var _initial_scale := Vector3.ONE
 
 
 func set_initial_size() -> void:
 	var rng := RandomNumberGenerator.new()
-	var initial_scale := Vector3(1, Helper.ITEM_Y_SCALE, 1) * rng.randf_range(.9, 1.1)
+	_initial_scale = Vector3(1, Helper.ITEM_Y_SCALE, 1) * rng.randf_range(.9, 1.1)
 	_rotate(rng.randf())
-	_internal_animatable.scale_object_local(initial_scale)
-	(get_child(0).get_child(1) as Node3D).scale_object_local(initial_scale)
+	_internal_animatable.scale_object_local(_initial_scale)
+	(get_child(0).get_child(1) as Node3D).scale_object_local(_initial_scale)
 	return
 
 
@@ -59,12 +65,22 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	if not can_process():
+		return
+
 	self.transform.origin = Vector3.ZERO
 	set_initial_size()
 
 	_rb = get_child(0)
-	_mesh = _rb.get_child(0)
-	_collider = _rb.get_child(1)
+	for child in _rb.get_children():
+		if (child is CollisionShape3D):
+			_collider = child
+		elif (child.name.begins_with('_splat')):
+			_maybe_splat = child
+		else:
+			_mesh = child
+	if _maybe_splat != null:
+		_maybe_splat.hide()
 
 	_rb.remove_child(_mesh)
 	_internal_animatable.add_child(_mesh)
@@ -103,8 +119,16 @@ func _rotate(step: float) -> void:
 
 func _on_body_entered(body: Node3D) -> void:
 	if not _has_splooched:
-		_internal_animatable.player.play("animations/splooch", -1, 2)
 		_has_splooched = true
+		_play_splooch_anim()
+
+	# sauces insta-drop
+	if is_sauce && body != floor_collider:
+		_rb.rotation = Vector3(0, rotation.y, 0)
+		_change_state(State.DONE)
+		was_stacked.emit(true, self)
+		return
+
 	if body != floor_collider:
 		return
 
@@ -116,6 +140,27 @@ func _on_body_entered(body: Node3D) -> void:
 	was_stacked.emit(false, self)
 
 
+func _play_splooch_anim() -> void:
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+
+	if _maybe_splat == null:
+		tween.set_trans(Tween.TRANS_BOUNCE)
+		tween.tween_property(_mesh, "scale", _initial_scale * Vector3(1.25, .5, 1.25), .1)
+		tween.tween_property(_mesh, "scale", _initial_scale, .4)
+
+	else:
+		_maybe_splat.scale = Vector3.ZERO
+		_maybe_splat.transparency = 1.
+		_maybe_splat.visible = true
+
+		tween.tween_property(_mesh, "scale", Vector3(1.25, 0, 1.25), .25)
+		tween.parallel().tween_property(_mesh, "transparency", 1., .25)
+		tween.parallel().tween_property(_maybe_splat, "scale", Vector3(1.3, 1, 1.3), .1)
+		tween.parallel().tween_property(_maybe_splat, "transparency", 0., .05)
+		tween.tween_property(_maybe_splat, "scale", _initial_scale, .25)
+
+
 func _on_drop_timer_time_out() -> void:
 	_change_state(State.DONE)
 	was_stacked.emit(true, self)
@@ -124,10 +169,10 @@ func _on_drop_timer_time_out() -> void:
 func _sling_sideways() -> void:
 	var position_time_normal := fmod(
 		(
-			(wave_speed_timer.time_left / Helper.WAVE_SPEED_TIMER_SPEED)
-			+ wave_speed_timer_rand_offsset
+				(wave_speed_timer.time_left / Helper.WAVE_SPEED_TIMER_SPEED)
+				+ wave_speed_timer_rand_offsset
 		),
-		1
+		1,
 	)
 
 	if position_time_normal > .5:
@@ -135,7 +180,9 @@ func _sling_sideways() -> void:
 	position_time_normal = (position_time_normal * 2)
 
 	var posi := lerpf(
-		Helper.WAVE_MAX_OFFSET * -1.0, Helper.WAVE_MAX_OFFSET * +1.0, position_time_normal
+		Helper.WAVE_MAX_OFFSET * -1.0,
+		Helper.WAVE_MAX_OFFSET * +1.0,
+		position_time_normal,
 	)
 	self._rb.position.x = posi
 

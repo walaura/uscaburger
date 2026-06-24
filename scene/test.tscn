@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cgew2s42rw436"]
+
+[ext_resource type="PackedScene" uid="uid://cpeihasc5dpvl" path="res://scene/board.tscn" id="1_bp0px"]
+[ext_resource type="PackedScene" uid="uid://dn80kasyurhbx" path="res://data/parts/parts.tscn" id="2_5u11y"]
+
+[node name="Test" type="Node3D" unique_id=849344779]
+
+[node name="Board" parent="." unique_id=2082163755 instance=ExtResource("1_bp0px")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3090625, 1.1920929e-07, -0.3899367)
+
+[node name="Parts" parent="." unique_id=1021000598 instance=ExtResource("2_5u11y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3338678, 1.0280002, 0.3886094)

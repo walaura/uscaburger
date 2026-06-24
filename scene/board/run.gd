@@ -1,10 +1,10 @@
 extends Node3D
 
-class_name Run
+class_name Scene_Run
 
-static var GAME_OVER_SCN := preload("res://ui/game_over.tscn")
-static var TOWER_SCN := preload("res://scene/burger_tower.tscn")
+const GAME_OVER_SCENE_PATH: String = "res://ui/game_over.tscn"
 
+static var TOWER_SCN := preload("res://scene/board/tower.tscn")
 static var SCREEN_TS_TIME := .5
 
 var tower_scn: Scene_Tower
@@ -17,6 +17,7 @@ func _ready() -> void:
 
 
 func _instance_tower() -> void:
+	ResourceLoader.load_threaded_request(GAME_OVER_SCENE_PATH)
 	tower_scn = TOWER_SCN.instantiate()
 	tower_scn.on_game_over.connect(on_game_over)
 	tower_scn.on_new_spawn.connect(on_new_spawn)
@@ -58,8 +59,15 @@ func _input(event: InputEvent) -> void:
 
 
 func on_game_over(_did_finish: bool, tower_score_handler: Scene_Tower_ScooreHandler) -> void:
+	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_SCENE_PATH)
+	if scene_resource == null:
+		printerr('failed to preload game over')
+		ResourceLoader.load_threaded_request(GAME_OVER_SCENE_PATH)
+		on_game_over(_did_finish, tower_score_handler)
+		return
+
 	CurrentRunState.score_handler.settle(tower_score_handler.current_session_score)
-	var game_over_screen: UI_GameOver = GAME_OVER_SCN.instantiate()
+	var game_over_screen: UI_GameOver = scene_resource.instantiate()
 	game_over_screen.on_next_round.connect(
 		func() -> void:
 			_play_again()

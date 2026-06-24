@@ -7,6 +7,5 @@
 script = ExtResource("2_gp0mu")
 name = "Mustard"
 icon = ExtResource("1_gp0mu")
-desc = "It's tasty! - Unlocks [boing]mustard[/boing]"
+desc = "Tangy! Unlocks [boing]mustard[/boing]. Never slides & creates a flat floor"
 price = 2099
-incremental_extra_names = null

@@ -1,5 +1,4 @@
 @tool
-
 class_name UnlockableResource
 extends Resource
 
@@ -7,6 +6,9 @@ extends Resource
 @export var icon: CompressedTexture2D
 @export_multiline var desc: String
 @export var price: int
+
+## wont show up without these
+@export var requires: Array[StringName]
 
 @export_group("Incremental stuffs")
 @export var is_incremental: bool

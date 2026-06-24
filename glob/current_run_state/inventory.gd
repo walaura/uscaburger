@@ -14,7 +14,7 @@ func hold_item(item: String) -> void:
 		_held_items[item] += 1
 
 
-func is_holding_item(item: String) -> bool:
+func is_holding_item(item: StringName) -> bool:
 	return _held_items.has(item)
 
 

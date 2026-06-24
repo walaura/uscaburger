@@ -3,6 +3,8 @@ extends Node
 var score_handler := CurrentRunState_Score.new()
 var inventory_handler := CurrentRunState_Inventory.new()
 
+var player_data := PlayerDataResource.new()
+
 signal on_run_start
 
 

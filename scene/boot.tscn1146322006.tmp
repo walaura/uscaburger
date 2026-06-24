@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dnihigwbv0nhx"]
+
+[ext_resource type="Script" uid="uid://ceitdmnjawiy5" path="res://scene/boot.gd" id="1_nv182"]
+
+[node name="Boot" type="Node2D" unique_id=770027070]
+script = ExtResource("1_nv182")
+main_scene_path = "uid://cpeihasc5dpvl"
+
+[node name="Label" type="Label" parent="." unique_id=749001274]
+offset_right = 40.0
+offset_bottom = 45.0
