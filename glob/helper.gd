@@ -1,6 +1,6 @@
 extends Node
 
-var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
+signal is_debug_changed
 
 const DROP_TIMEOUT = .5
 const WAVE_MAX_OFFSET = 2
@@ -9,7 +9,8 @@ const ITEM_Y_SCALE = 1
 
 const COLOR_RED := Color("ff3314")
 
-signal is_debug_changed
+var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
+
 var is_debug := false:
 	set(val):
 		is_debug = val
@@ -55,10 +56,14 @@ func _input(event: InputEvent) -> void:
 		is_debug = not is_debug
 
 
-func format_number(number: float, precision := 100) -> String:
+func format_number(number: float) -> String:
 	var decls := fmod(number, 1)
 	var start := format_number_with_commas(int(number))
-	return start + "." + ("%02d" % abs(decls * precision))
+	return start + "." + ("%02d" % abs(decls * 100))
+
+
+func format_currency(number: float) -> String:
+	return "$ " + Helper.format_number(number / 100.)
 
 
 func add_animation(node: Node) -> AnimationPlayer:
@@ -124,7 +129,7 @@ func get_purchasable_items() -> Array[String]:
 			if raw.requires.size() == 0:
 				return true
 			for requisite in raw.requires:
-				if (!CurrentRunState.inventory_handler.is_holding_item(requisite)):
+				if !CurrentRunState.inventory_handler.is_holding_item(requisite):
 					return false
 			return true
 	)

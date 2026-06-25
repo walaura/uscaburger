@@ -62,30 +62,44 @@ func set_score(val: int) -> void:
 
 	var tease_anim_length := anim_length / 100 * 90
 
-	scaler_tween.tween_property(
-		(%Price as Label),
-		"offset_transform_rotation",
-		-.15,
-		tease_anim_length,
+	(
+		scaler_tween
+		. tween_property(
+			%Price as Label,
+			"offset_transform_rotation",
+			-.15,
+			tease_anim_length,
+		)
 	)
-	scaler_tween.parallel().tween_property(
-		(%Price as Label),
-		"offset_transform_scale",
-		Vector2.ONE * 1.3,
-		tease_anim_length,
+	(
+		scaler_tween
+		. parallel()
+		. tween_property(
+			%Price as Label,
+			"offset_transform_scale",
+			Vector2.ONE * 1.3,
+			tease_anim_length,
+		)
 	)
 
-	scaler_tween.tween_property(
-		(%Price as Label),
-		"offset_transform_rotation",
-		0.,
-		anim_length - tease_anim_length,
+	(
+		scaler_tween
+		. tween_property(
+			%Price as Label,
+			"offset_transform_rotation",
+			0.,
+			anim_length - tease_anim_length,
+		)
 	)
-	scaler_tween.parallel().tween_property(
-		(%Price as Label),
-		"offset_transform_scale",
-		Vector2.ONE * 1.,
-		anim_length - tease_anim_length,
+	(
+		scaler_tween
+		. parallel()
+		. tween_property(
+			%Price as Label,
+			"offset_transform_scale",
+			Vector2.ONE * 1.,
+			anim_length - tease_anim_length,
+		)
 	)
 
 
@@ -94,5 +108,5 @@ func _process(_delta: float) -> void:
 		return
 	if Engine.is_editor_hint():
 		return
-	(get_node("%Price") as Label).text = "$ " + Helper.format_number(_display_score / 100.)
+	(get_node("%Price") as Label).text = Helper.format_currency(_display_score)
 	pass

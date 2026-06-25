@@ -5,6 +5,8 @@ class_name CurrentRunState_Score
 var current_session_score := 0
 var last_settled_score: Array[CurrentRunState_ScoreLineItemResource] = []
 
+const SALES_TAX_BASE := .20
+
 
 func push(score: int) -> void:
 	current_session_score += score
@@ -13,7 +15,13 @@ func push(score: int) -> void:
 func settle(score: int) -> void:
 	last_settled_score = []
 
-	last_settled_score.push_back(_mk_line("This run", score))
+	var sales_tax := SALES_TAX_BASE
+	if CurrentRunState.inventory_handler.is_holding_item("salestax.tres"):
+		var discount := CurrentRunState.inventory_handler.get_item("salestax.tres")
+		print(discount.incremental_value)
+		sales_tax = SALES_TAX_BASE - (sales_tax / 100 * discount.incremental_value)
+
+	last_settled_score.push_back(_mk_line("Gross revenue", score))
 	last_settled_score.push_back(_mk_line("40% Cost of materials", _minus_perc(score, .45)))
 	last_settled_score.push_back(_mk_line("35% Staff salaries", _minus_perc(score, .35)))
 
@@ -26,18 +34,19 @@ func settle(score: int) -> void:
 
 	last_settled_score.push_back(CurrentRunState_ScoreLineItemDividerResource.new())
 
-	var tax := _minus_perc(sub, .20)
-	last_settled_score.push_back(_mk_line("20% Sales tax", tax))
+	var tax := _minus_perc(sub, sales_tax)
+	last_settled_score.push_back(_mk_line("%d%% Sales tax" % int(sales_tax * 100), tax))
 
 	last_settled_score.push_back(CurrentRunState_ScoreLineItemDividerResource.new())
 	last_settled_score.push_back(_mk_divider(true))
 
-	var tot := _mk_line("Total", sub + tax)
+	push(sub + tax)
+	last_settled_score.push_back(_mk_line("Total", sub + tax))
+	var tot := _mk_line("Run total", current_session_score)
 	tot.is_total = true
 	last_settled_score.push_back(tot)
-	last_settled_score.push_back(_mk_divider(true))
 
-	push(sub + tax)
+	last_settled_score.push_back(_mk_divider(true))
 
 
 func _minus_perc(number: int, perc: float) -> int:

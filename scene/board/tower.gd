@@ -1,23 +1,24 @@
-extends Node3D
-
 class_name Scene_Tower
+extends Node3D
 
 @export var floor_collider: StaticBody3D
 
 static var SCORE_OVERLAY_SCN := preload("res://ui/score_overlay.tscn")
 static var PARTS_SCN := preload("res://data/parts/parts.tscn")
 
-var score_overlay: Control
+signal on_new_spawn(part: Variant)
+signal on_game_over(did_finish: bool, score_handler: Scene_Tower_ScooreHandler)
+var score_overlay: UI_ScoreOverlay
 var score_handler: Scene_Tower_ScooreHandler
 var parts_scn: Data_Parts
 
-signal on_new_spawn(part: Variant)
-signal on_game_over(did_finish: bool, score_handler: Scene_Tower_ScooreHandler)
 var stack_height := 0.0
 var stack_len := 0
 
 var last_valid_part_in_stack: CollisionShape3D
 var part: Droppable
+
+var _difficulty_numbers := DifficultyNumbersResource.new()
 
 
 func _init() -> void:
@@ -30,7 +31,8 @@ func _ready() -> void:
 	score_overlay = SCORE_OVERLAY_SCN.instantiate() as Control
 	score_handler = Scene_Tower_ScooreHandler.new()
 	score_handler.overlay_ui = score_overlay
-	add_child(score_overlay)
+	if CurrentRunState.inventory_handler.is_holding_item("ui1.tres"):
+		add_child(score_overlay)
 
 	parts_scn.position.y = 9999999.
 	parts_scn.visible = false
@@ -40,16 +42,23 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var aabb_rect := Helper.get_screen_rect(get_scene_aabb())
 	score_overlay.rotation = -0.025
-	score_overlay.position = score_overlay.position.lerp(
-		Vector2(
-			minf(aabb_rect.end.x, get_viewport().get_visible_rect().end.x - score_overlay.size.x),
-			clampf(
-				aabb_rect.position.y - (score_overlay.size.y * .8),
-				0,
-				get_viewport().get_visible_rect().end.y - score_overlay.size.y,
-			),
-		),
-		delta * 10.,
+	score_overlay.position = (
+			score_overlay
+			.position
+			.lerp(
+				Vector2(
+					minf(
+						aabb_rect.end.x,
+						get_viewport().get_visible_rect().end.x - score_overlay.size.x,
+					),
+					clampf(
+						aabb_rect.position.y - (score_overlay.size.y * .8),
+						0,
+						get_viewport().get_visible_rect().end.y - score_overlay.size.y,
+					),
+				),
+				delta * 10.,
+			)
 	)
 
 
@@ -127,6 +136,7 @@ func _spawn_part(new_part: Droppable) -> void:
 	new_part.floor_collider = floor_collider
 	new_part.height = int(stack_height)
 	new_part.was_stacked.connect(_on_stack)
+	new_part.difficulty_numbers = _difficulty_numbers
 	%Stack.add_child(new_part)
 	on_new_spawn.emit(new_part)
 
@@ -141,7 +151,10 @@ func _on_stack(is_success: bool, droppable: Droppable) -> void:
 		score_overlay.get_parent().remove_child(score_overlay)
 		on_game_over.emit(true, score_handler)
 	else:
+		_difficulty_numbers.on_successful_stack()
 		score_handler.push(droppable)
+		score_overlay.time = _difficulty_numbers.wave_speed_timer_speed
+		score_overlay.sway = _difficulty_numbers.wave_max_offset
 		stack_len += 1
 		if droppable._rb.position.y > stack_height:
 			stack_height = droppable._rb.position.y
@@ -149,6 +162,11 @@ func _on_stack(is_success: bool, droppable: Droppable) -> void:
 
 
 func _on_win_pressed() -> void:
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
+	score_handler.push(parts_scn.get_random_part(score_handler))
 	score_handler.push(parts_scn.get_random_part(score_handler))
 	score_handler.push(parts_scn.get_random_part(score_handler))
 	score_handler.push(parts_scn.get_random_part(score_handler))

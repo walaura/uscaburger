@@ -1,8 +1,283 @@
 [gd_scene format=3 uid="uid://e1vyixvrx7xi"]
 
 [ext_resource type="Script" uid="uid://blayeshhg3du0" path="res://scene/intro.gd" id="1_dlfbb"]
-[ext_resource type="PackedScene" uid="uid://dn80kasyurhbx" path="res://data/parts/parts.tscn" id="2_yv8ol"]
-[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://scene_parts/bg.tscn" id="3_srnjo"]
+[ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="2_tdcom"]
+[ext_resource type="Texture2D" uid="uid://b041muwpqyxmv" path="res://asset/Countertop_tiles-normal.png" id="3_cm5so"]
+[ext_resource type="PackedScene" uid="uid://cwgjbqpatnqcd" path="res://asset/Ct-booth.glb" id="4_b5vnh"]
+[ext_resource type="PackedScene" uid="uid://bgxlf3ghjjk6f" path="res://asset/ct-table.glb" id="5_80ywi"]
+[ext_resource type="PackedScene" uid="uid://vmfl5w0ql3nj" path="res://asset/ct-wall.glb" id="6_h86oa"]
+[ext_resource type="Texture2D" uid="uid://nvda3v2nphrh" path="res://asset/sky.png" id="7_3rl4h"]
+[ext_resource type="PackedScene" uid="uid://drxldp775pkrb" path="res://asset/ct/wall-pillar.glb" id="8_b5vnh"]
+[ext_resource type="PackedScene" uid="uid://phasd56uh7we" path="res://asset/ct/wall-ceil.glb" id="9_80ywi"]
+[ext_resource type="Environment" uid="uid://cj6026pk8t6l7" path="res://asset/shop_inside.tres" id="10_80ywi"]
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_6upfg"]
+size = Vector2(780, 440)
+expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_a8jc1"]
+size = Vector2(480, 320)
+expression = "output0 = rotate(PI/4.,input0);"
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_6upfg"]
+constant = Color(0.16565654, 0.16565633, 0.16565648, 1)
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_a8jc1"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7ovj3"]
+constant = 0.2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ye24f"]
+function = 31
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_a8jc1"]
+texture = ExtResource("2_tdcom")
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_gja0w"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(11.25, 8.7)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7pgwx"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_1ahqd"]
+constant = 30.0
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_f31uq"]
+constant = 0.6
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_gja0w"]
+texture = ExtResource("3_cm5so")
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_7pgwx"]
+
+[sub_resource type="VisualShader" id="VisualShader_1hks3"]
+nodes/vertex/0/position = Vector2(720, 140)
+nodes/fragment/0/position = Vector2(1240, 1120)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_a8jc1")
+nodes/fragment/2/position = Vector2(-360, 1700)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_gja0w")
+nodes/fragment/4/position = Vector2(-240, 1200)
+nodes/fragment/5/node = SubResource("VisualShaderNodeInput_7pgwx")
+nodes/fragment/5/position = Vector2(-1200, 1060)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatConstant_1ahqd")
+nodes/fragment/6/position = Vector2(-1100, 540)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatConstant_f31uq")
+nodes/fragment/7/position = Vector2(100, 1220)
+nodes/fragment/8/node = SubResource("VisualShaderNodeTexture_gja0w")
+nodes/fragment/8/position = Vector2(300, 1380)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatConstant_7pgwx")
+nodes/fragment/9/position = Vector2(340, 1000)
+nodes/fragment/10/node = SubResource("VisualShaderNodeGlobalExpression_6upfg")
+nodes/fragment/10/position = Vector2(-1720, 1240)
+nodes/fragment/10/size = Vector2(780, 440)
+nodes/fragment/10/input_ports = ""
+nodes/fragment/10/output_ports = ""
+nodes/fragment/10/expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+nodes/fragment/11/node = SubResource("VisualShaderNodeExpression_a8jc1")
+nodes/fragment/11/position = Vector2(-960, 1140)
+nodes/fragment/11/size = Vector2(480, 320)
+nodes/fragment/11/input_ports = "0,3,input0;"
+nodes/fragment/11/output_ports = "0,3,output0;"
+nodes/fragment/11/expression = "output0 = rotate(PI/4.,input0);"
+nodes/fragment/12/node = SubResource("VisualShaderNodeColorConstant_6upfg")
+nodes/fragment/12/position = Vector2(-120, 1600)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorOp_a8jc1")
+nodes/fragment/13/position = Vector2(120, 1740)
+nodes/fragment/14/node = SubResource("VisualShaderNodeFloatConstant_7ovj3")
+nodes/fragment/14/position = Vector2(320, 1980)
+nodes/fragment/15/node = SubResource("VisualShaderNodeFloatFunc_ye24f")
+nodes/fragment/15/position = Vector2(560, 1260)
+nodes/fragment/connections = PackedInt32Array(6, 0, 4, 1, 4, 0, 2, 0, 8, 0, 0, 9, 4, 0, 8, 0, 9, 0, 0, 2, 5, 0, 11, 0, 11, 0, 4, 0, 2, 0, 13, 0, 13, 0, 0, 0, 12, 0, 13, 1, 14, 0, 0, 10, 2, 0, 15, 0, 7, 0, 0, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3momx"]
+render_priority = 0
+shader = SubResource("VisualShader_1hks3")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vf5bc"]
+material = SubResource("ShaderMaterial_3momx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqgjh"]
+albedo_texture = ExtResource("7_3rl4h")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_vf5bc"]
+material = SubResource("StandardMaterial3D_jqgjh")
+size = Vector2(1, 4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dn3wt"]
+
+[sub_resource type="Animation" id="Animation_80ywi"]
+length = 0.16666667
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, 0, 0, 0.16666667, 1.4666667),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(5, 0, 0, 0.16666667, 0.5),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer/Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, 0, 0, 0.16666667, -5.7166667),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer/Camera3D:rotation:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer/Camera3D:rotation:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationPlayer/Camera3D:rotation:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_h86oa"]
+resource_name = "camera_to_settings"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/Camera3D:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(2, 2),
+"points": PackedFloat32Array(0, 0, 0, 0.16666667, 1.4666667, 8.8, -0.16666667, -1.4666667, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/Camera3D:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 2),
+"points": PackedFloat32Array(5, 0, 0, 0.16666667, 0.5, 8, -0.16666667, -1.3333334, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer/Camera3D:position:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(2, 2),
+"points": PackedFloat32Array(0, 0, 0, 0.16666667, -5.7166667, -34.3, -0.19619864, 8.107508, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer/Camera3D:rotation:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -1.2584695, -0.17034948, 1.8459454, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer/Camera3D:rotation:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1.6429178, -0.13333333, -1.7905781, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationPlayer/Camera3D:rotation:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -0.346087, -0.16666667, 0.05768117, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3rl4h"]
+_data = {
+&"RESET": SubResource("Animation_80ywi"),
+&"camera_to_settings": SubResource("Animation_h86oa")
+}
 
 [node name="Intro" type="Control" unique_id=644232800]
 layout_mode = 3
@@ -43,12 +318,103 @@ offset_right = 344.5
 offset_bottom = 167.5
 text = "play game"
 
-[node name="Parts" parent="." unique_id=1021000598 instance=ExtResource("2_yv8ol")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.675793, 0, -10.403344)
+[node name="bg" type="Node" parent="." unique_id=1772998672]
 
-[node name="bg" parent="." unique_id=1772998672 instance=ExtResource("3_srnjo")]
+[node name="floor" type="Node3D" parent="bg" unique_id=1615458362]
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1439421244]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="bg/floor" unique_id=1696370356]
+transform = Transform3D(56.29, 0, 0, 0, 56.29, 0, 0, 0, 56.29, 0, -7.7717195, -24.514896)
+mesh = SubResource("PlaneMesh_vf5bc")
+
+[node name="tables" type="Node3D" parent="bg" unique_id=821391449]
+
+[node name="Booth" parent="bg/tables" unique_id=1053700820 instance=ExtResource("4_b5vnh")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, 38.471706, -6.013516, -39.332596)
+
+[node name="Booth2" parent="bg/tables" unique_id=1758999189 instance=ExtResource("4_b5vnh")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, -6.379423, -6.013516, -39.332596)
+
+[node name="Booth3" parent="bg/tables" unique_id=946663180 instance=ExtResource("4_b5vnh")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, -27.650627, -6.013516, -39.332596)
+
+[node name="Booth4" parent="bg/tables" unique_id=30021298 instance=ExtResource("4_b5vnh")]
+transform = Transform3D(-1.145, 0, -1.728902e-07, 0, 1.145, 0, 1.728902e-07, 0, -1.145, 16.500593, -6.013516, -39.332596)
+
+[node name="Table" parent="bg/tables" unique_id=1324928121 instance=ExtResource("5_80ywi")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, 5.7825003, -5.2939377, -43.414814)
+
+[node name="Table2" parent="bg/tables" unique_id=1137649390 instance=ExtResource("5_80ywi")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, 28.326237, -5.2939377, -43.414818)
+
+[node name="Table3" parent="bg/tables" unique_id=785166692 instance=ExtResource("5_80ywi")]
+transform = Transform3D(-1, 0, -8.940697e-08, 0, 1, 0, 8.940697e-08, 0, -1, -18.148148, -5.2939377, -43.41481)
+
+[node name="Wall2" parent="bg" unique_id=154258009 instance=ExtResource("6_h86oa")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, -38.2685, -2.5945115, -45.674057)
+
+[node name="Wall3" parent="bg" unique_id=1213777535 instance=ExtResource("6_h86oa")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, 0.8247967, -2.5945115, -45.674065)
+
+[node name="Wall4" parent="bg" unique_id=850373552 instance=ExtResource("6_h86oa")]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, 39.967247, -2.5945115, -45.67407)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="bg" unique_id=373498248]
+transform = Transform3D(260.46, 0, 0, 0, 260.46, 0, 0, 0, 260.46, 1.8368607, 332.31015, -213.67174)
+mesh = SubResource("QuadMesh_vf5bc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="bg" unique_id=1219090278]
+transform = Transform3D(1, 0, 0, 0, -0.10452851, 0.9945219, 0, -0.9945219, -0.10452851, 6.044801, 7.4743357, 3.2949858)
+light_color = Color(0.98433334, 1, 0.53, 1)
+light_energy = 3.909
+shadow_enabled = true
+shadow_bias = 0.0
+shadow_normal_bias = 0.0
+shadow_blur = 8.784
+
+[node name="wall-pillar" parent="." unique_id=1650184915 instance=ExtResource("8_b5vnh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.70565, 7.866521, -46.14356)
+
+[node name="wall-pillar2" parent="." unique_id=1176930663 instance=ExtResource("8_b5vnh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.70565, 7.866521, -46.14356)
+
+[node name="wall-pillar3" parent="." unique_id=694932973 instance=ExtResource("8_b5vnh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.29435, 7.866521, -46.14356)
+
+[node name="wall-pillar4" parent="." unique_id=598557911 instance=ExtResource("8_b5vnh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2943497, 7.866521, -46.14356)
+
+[node name="wall-ceil" parent="." unique_id=1860516863 instance=ExtResource("9_80ywi")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 52, 18.198017, -45.8)
+
+[node name="wall-ceil2" parent="." unique_id=1123369550 instance=ExtResource("9_80ywi")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 19.4, 18.198017, -45.8)
+
+[node name="wall-ceil3" parent="." unique_id=610345352 instance=ExtResource("9_80ywi")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -13.200001, 18.198017, -45.8)
+
+[node name="wall-ceil4" parent="." unique_id=1431090700 instance=ExtResource("9_80ywi")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -45.800003, 18.198017, -45.8)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="." unique_id=438867050]
+transform = Transform3D(3.6705182, 0, -0.6988114, 0, 1, 0, 0.98351234, 0, 2.6079998, 6, 0, -34)
+mesh = SubResource("BoxMesh_dn3wt")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1050702863]
+environment = ExtResource("10_80ywi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=42647583]
+libraries/ = SubResource("AnimationLibrary_3rl4h")
+
+[node name="Camera3D" type="Camera3D" parent="AnimationPlayer" unique_id=1439421244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+fov = 43.0
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1421786030]
+
+[node name="Button" type="Button" parent="SubViewport" unique_id=460023561]
+offset_right = 16.0
+offset_bottom = 16.0
+text = "tdrfyhrtytry"
 
 [connection signal="pressed" from="MainMenuWrap/ButtonSeets" to="." method="_on_button_seets_pressed"]
 [connection signal="pressed" from="MainMenuWrap/ButtonPlay" to="." method="_on_button_play_pressed"]

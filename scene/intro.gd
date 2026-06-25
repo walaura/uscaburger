@@ -18,12 +18,19 @@ func _on_button_seets_pressed() -> void:
 		return
 
 	var settings_screen: UI_Settings = scene_resource.instantiate()
+	($AnimationPlayer as AnimationPlayer).play("camera_to_settings", -1, 1)
 
 	settings_screen.on_close.connect(
 		func() -> void:
+			($AnimationPlayer as AnimationPlayer).play("camera_to_settings", -1, -1, true)
 			remove_child(settings_screen)
 	)
-	add_child(settings_screen)
+
+	var tween := create_tween()
+	tween.tween_callback(
+		func() -> void:
+			add_child(settings_screen)
+	).set_delay(1.)
 
 
 func _on_button_play_pressed() -> void:

@@ -2,6 +2,20 @@ extends Control
 
 class_name UI_ScoreOverlay
 
+var time := 0.:
+	set(val):
+		time = val
+		update_time_sway()
+var sway := 0.:
+	set(val):
+		sway = val
+		update_time_sway()
+
+
+func update_time_sway() -> void:
+	($Panel/ExtraUI/Sway/Label2 as Label).text = "(s) " + ("%.2f" % sway) + "in"
+	($Panel/ExtraUI/Time/Label as Label).text = "(ts) " + ("%.2f" % time) + "s"
+
 
 func push(line_item: String, value: int) -> void:
 	push_ticker_line(line_item, value)
@@ -20,9 +34,12 @@ func get_big_number() -> UI_ScoreOverlayBigNumber:
 
 
 func _ready() -> void:
+	($Panel/ExtraUI as Node2D).visible = CurrentRunState.inventory_handler.is_holding_item(
+		"ui2.tres",
+	)
 	(%BigNumber.get_parent() as CanvasItem).hide()
 	%Receipt.remove_child(%Receipt.get_child(0))
-	pass  # Replace with function body.
+	pass # Replace with function body.
 
 
 func _process(delta: float) -> void:

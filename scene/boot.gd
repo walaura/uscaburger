@@ -5,6 +5,7 @@ var did_load := false
 
 
 func _ready() -> void:
+	SavedData.apply_env_gfx_settings($WorldEnvironment)
 	ResourceLoader.load_threaded_request(main_scene_path)
 
 

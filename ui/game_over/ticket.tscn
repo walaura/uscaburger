@@ -81,11 +81,6 @@ shader = SubResource("VisualShader_akjlf")
 shader_parameter/AspectRatio = 0.5975
 shader_parameter/Crumple = ExtResource("2_o4wni")
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_xjda6"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_akjlf"]
-texture = SubResource("CanvasTexture_xjda6")
-
 [node name="ScoreTicker" type="PanelContainer" unique_id=1248793771]
 material = SubResource("ShaderMaterial_k8651")
 anchors_preset = 7
@@ -98,7 +93,6 @@ offset_top = -800.0
 offset_right = 278.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxTexture_akjlf")
 script = ExtResource("3_o4wni")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1310417389]

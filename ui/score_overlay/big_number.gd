@@ -18,5 +18,4 @@ func add_to_score(val: int) -> void:
 
 
 func _process(_delta: float) -> void:
-	self.text = "$ " + Helper.format_number(display_score / 100.)
-	pass
+	self.text = Helper.format_currency(display_score)

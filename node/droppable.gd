@@ -1,6 +1,10 @@
 class_name Droppable
 extends Node3D
 
+signal was_stacked(success: bool, height: float)
+
+enum State { WAVE, DROP, DONE }
+
 const PHYS_MATERIAL = preload("res://asset/part_phys_material.tres")
 
 @export var price: int
@@ -9,28 +13,22 @@ const PHYS_MATERIAL = preload("res://asset/part_phys_material.tres")
 @export var is_crown := false
 @export var is_sauce := false
 
-@export_group('secret stuff dont touch')
-@export var _rb: RigidBody3D
-
 var floor_collider: StaticBody3D
 var height := 0
-
-enum State { WAVE, DROP, DONE }
 var state := State.WAVE
+var difficulty_numbers: DifficultyNumbersResource
 
-signal was_stacked(success: bool, height: float)
-
-var drop_timer := Timer.new()
-var wave_speed_timer := Timer.new()
-var wave_speed_timer_rand_offsset := 0.0
+var _drop_timer := Timer.new()
+var _wave_speed_timer := Timer.new()
+var _wave_speed_timer_rand_offsset := 0.0
 
 var _internal_animatable := Animatable.new()
 var _mesh: MeshInstance3D
 var _collider: CollisionShape3D
 var _maybe_splat: MeshInstance3D = null
+var _rb: RigidBody3D
 
 var _has_splooched := false
-
 var _initial_scale := Vector3.ONE
 
 
@@ -73,9 +71,9 @@ func _ready() -> void:
 
 	_rb = get_child(0)
 	for child in _rb.get_children():
-		if (child is CollisionShape3D):
+		if child is CollisionShape3D:
 			_collider = child
-		elif (child.name.begins_with('_splat')):
+		elif child.name.begins_with("_splat"):
 			_maybe_splat = child
 		else:
 			_mesh = child
@@ -94,11 +92,11 @@ func _ready() -> void:
 
 	_collider.shape.margin = 10.
 
-	self.add_child(drop_timer)
-	self.add_child(wave_speed_timer)
+	self.add_child(_drop_timer)
+	self.add_child(_wave_speed_timer)
 
-	wave_speed_timer_rand_offsset = randf()
-	wave_speed_timer.start(Helper.WAVE_SPEED_TIMER_SPEED)
+	_wave_speed_timer_rand_offsset = randf()
+	_wave_speed_timer.start(difficulty_numbers.wave_speed_timer_speed)
 	self._rb.position = Vector3(0, height + 3, 0)
 	_sling_sideways()
 
@@ -106,8 +104,8 @@ func _ready() -> void:
 	visible = true
 
 	self._rb.body_entered.connect(_on_body_entered)
-	drop_timer.timeout.connect(_on_drop_timer_time_out)
-	drop_timer.one_shot = true
+	_drop_timer.timeout.connect(_on_drop_timer_time_out)
+	_drop_timer.one_shot = true
 
 
 func _rotate(step: float) -> void:
@@ -169,8 +167,8 @@ func _on_drop_timer_time_out() -> void:
 func _sling_sideways() -> void:
 	var position_time_normal := fmod(
 		(
-				(wave_speed_timer.time_left / Helper.WAVE_SPEED_TIMER_SPEED)
-				+ wave_speed_timer_rand_offsset
+			(_wave_speed_timer.time_left / difficulty_numbers.wave_speed_timer_speed)
+			+ _wave_speed_timer_rand_offsset
 		),
 		1,
 	)
@@ -180,8 +178,8 @@ func _sling_sideways() -> void:
 	position_time_normal = (position_time_normal * 2)
 
 	var posi := lerpf(
-		Helper.WAVE_MAX_OFFSET * -1.0,
-		Helper.WAVE_MAX_OFFSET * +1.0,
+		difficulty_numbers.wave_max_offset * -1.0,
+		difficulty_numbers.wave_max_offset * +1.0,
 		position_time_normal,
 	)
 	self._rb.position.x = posi
@@ -196,7 +194,7 @@ func _change_state(new_state: State) -> void:
 	match state:
 		State.DONE:
 			self._rb.freeze = 1
-			drop_timer.stop()
+			_drop_timer.stop()
 
 
 func _process(delta: float) -> void:
@@ -212,11 +210,11 @@ func _process(delta: float) -> void:
 		State.DROP:
 			self._rb.freeze = false
 
-			if drop_timer.is_stopped() && !_is_falling():
-				drop_timer.start(Helper.DROP_TIMEOUT)
+			if _drop_timer.is_stopped() && !_is_falling():
+				_drop_timer.start(difficulty_numbers.drop_timeout)
 
-			if !drop_timer.is_stopped() && _is_falling():
-				drop_timer.start(Helper.DROP_TIMEOUT)
+			if !_drop_timer.is_stopped() && _is_falling():
+				_drop_timer.start(difficulty_numbers.drop_timeout)
 
 	# dramatic zoom
-	Camera.GAMEPLAY_dramatic_timer_zoom = drop_timer.time_left / Helper.DROP_TIMEOUT
+	Camera.GAMEPLAY_dramatic_timer_zoom = _drop_timer.time_left / difficulty_numbers.drop_timeout

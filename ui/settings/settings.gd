@@ -4,9 +4,9 @@ extends Control
 # Window project settings:
 #  - Stretch mode is set to `canvas_items` (`2d` in Godot 3.x)
 #  - Stretch aspect is set to `expand`
-@onready var world_environment : WorldEnvironment = $WorldEnvironment
-@onready var fps_label : Label = $FPSLabel
-@onready var resolution_label :Label = $ResolutionLabel
+@onready var world_environment: WorldEnvironment = $WorldEnvironment
+@onready var fps_label: Label = $FPSLabel
+@onready var resolution_label: Label = $ResolutionLabel
 
 signal on_close
 
@@ -14,11 +14,65 @@ var counter := 0.0
 
 
 func _ready() -> void:
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN)
+
+	($SubViewport/ColorRect as ColorRect).material.set('shader_parameter/Scale', 1.9)
+	($PanelContainer as Control).set('offset_transform_scale', Vector2.ZERO)
+	($PanelContainer as Control).modulate.a = 0
+	($PanelContainer as Control).offset_transform_position.y = 500000
+
+	tween.tween_property($PanelContainer as Control, 'offset_transform_scale', Vector2.ONE, .5)
+	tween.parallel().tween_property($PanelContainer as Control, 'modulate:a', 1, .1)
+	tween.parallel().tween_property($PanelContainer as Control, 'offset_transform_position:y', 0, .75).from(1000)
+	tween.parallel().tween_property(($SubViewport/ColorRect as ColorRect).material, 'shader_parameter/Scale', 1, .33).set_delay(.5)
+
 	get_viewport().size_changed.connect(update_resolution_label)
 	update_resolution_label()
 	(%ShadowSizeOptionButton as OptionButton).selected = SavedData.get_gfx_int_setting(SavedData.Options.SHADOW_SIZE)
 	(%ShadowFilterOptionButton as OptionButton).selected = SavedData.get_gfx_int_setting(SavedData.Options.SHADOW_FILTER)
 	(%MeshLODOptionButton as OptionButton).selected = SavedData.get_gfx_int_setting(SavedData.Options.MESH_LOD)
+	_connect_ui()
+	SavedData.on_config_changed.connect(_connect_ui)
+
+
+func _connect_ui() -> void:
+	SavedData.apply_env_gfx_settings(world_environment)
+	update_resolution_label()
+
+	var viewport := get_viewport()
+	if viewport != null:
+		if (get_viewport().scaling_3d_mode == Viewport.SCALING_3D_MODE_FSR):
+			(%FSRSharpnessLabel as Control).visible = true
+			(%FSRSharpnessSlider as Control).visible = true
+		else:
+			(%FSRSharpnessLabel as Control).visible = false
+			(%FSRSharpnessSlider as Control).visible = false
+
+	(%TAAOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.TAA)
+	(%MSAAOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.MSAA)
+	(%FXAAOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.FXAA)
+	(%ShadowSizeOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.SHADOW_SIZE)
+	(%ShadowFilterOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.SHADOW_FILTER)
+	(%MeshLODOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.MESH_LOD)
+	(%UIScaleOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.UI_SCALE)
+
+	(%FullscreenOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.SCREEN_MODE)
+	(%VsyncOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.VSYNC)
+	(%FilterOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.SCALING_ALGO)
+
+	(%QualitySlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.SCALING_SIZE)
+	(%FSRSharpnessSlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.FSR_SHARPNESS)
+	(%LimitFPSSlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.FPS_CAP)
+
+	print(SavedData.get_gfx_setting(SavedData.Options.FPS_CAP))
+
+	(%SSReflectionsOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_SS_REFLECTIONS)
+	(%SSAOOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_SSAO)
+	(%SSILOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_SSIL)
+	(%SDFGIOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_SDFGI)
+	(%GlowOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_GLOW)
+	(%VolumetricFogOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.ENV_FOG)
 
 
 func _process(delta: float) -> void:
@@ -28,321 +82,113 @@ func _process(delta: float) -> void:
 	fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
 	# Color FPS counter depending on framerate.
 	# The Gradient resource is stored as metadata within the FPSLabel node (accessible in the inspector).
-	var grad: Gradient = fps_label.get_meta("gradient");
+	var grad: Gradient = fps_label.get_meta("gradient")
 	fps_label.modulate = grad.sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
 
 
 func update_resolution_label() -> void:
-	var viewport_render_size : Vector2 = get_viewport().size * get_viewport().scaling_3d_scale
+	var viewport := get_viewport()
+	if viewport == null:
+		return
+	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
 	resolution_label.text = "3D viewport resolution: %d × %d (%d%%)" \
-			% [viewport_render_size.x, viewport_render_size.y, round(get_viewport().scaling_3d_scale * 100)]
+			% [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
 
 
 func _on_ui_scale_option_button_item_selected(index: int) -> void:
-	# For changing the UI, we take the viewport size, which we set in the project settings.
-	var new_size := SavedData.viewport_start_size
-	if index == 0: # Smaller (66%)
-		new_size *= 1.5
-	elif index == 1: # Small (80%)
-		new_size *= 1.25
-	elif index == 2: # Medium (100%) (default)
-		new_size *= 1.0
-	elif index == 3: # Large (133%)
-		new_size *= 0.75
-	elif index == 4: # Larger (200%)
-		new_size *= 0.5
-	get_tree().root.set_content_scale_size(new_size)
+	SavedData.apply_gfx_setting(SavedData.Options.UI_SCALE, index)
 
 
 func _on_quality_slider_value_changed(value: float) -> void:
-	get_viewport().scaling_3d_scale = value
-	update_resolution_label()
+	SavedData.apply_gfx_setting(SavedData.Options.SCALING_SIZE, value)
 
 
 func _on_filter_option_button_item_selected(index: int) -> void:
-	# Viewport scale mode setting.
-	if index == 0: # Bilinear (Fastest)
-		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
-		# FSR Sharpness is only effective when the scaling mode is FSR 1.0.
-		(%FSRSharpnessLabel as Control).visible = false
-		(%FSRSharpnessSlider as Control).visible = false
-	elif index == 1: # FSR 1.0 (Fast)
-		get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
-		# FSR Sharpness is only effective when the scaling mode is FSR 1.0.
-		(%FSRSharpnessLabel as Control).visible = true
-		(%FSRSharpnessSlider as Control).visible = true
+	SavedData.apply_gfx_setting(SavedData.Options.SCALING_ALGO, index)
 
 
 func _on_fsr_sharpness_slider_value_changed(value: float) -> void:
-	# Lower FSR sharpness values result in a sharper image.
-	# Invert the slider so that higher values result in a sharper image,
-	# which is generally expected from users.
-	get_viewport().fsr_sharpness = 2.0 - value
+	SavedData.apply_gfx_setting(SavedData.Options.FSR_SHARPNESS, value)
 
 
 func _on_vsync_option_button_item_selected(index: int) -> void:
-	# Vsync is enabled by default.
-	# Vertical synchronization locks framerate and makes screen tearing not visible at the cost of
-	# higher input latency and stuttering when the framerate target is not met.
-	# Adaptive V-Sync automatically disables V-Sync when the framerate target is not met, and enables
-	# V-Sync otherwise. This prevents suttering and reduces input latency when the framerate target
-	# is not met, at the cost of visible tearing.
-	if index == 0: # Disabled (default)
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	elif index == 1: # Adaptive
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
-	elif index == 2: # Enabled
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	SavedData.apply_gfx_setting(SavedData.Options.VSYNC, index)
 
 
 func _on_limit_fps_slider_value_changed(value: float) -> void:
-	# The maximum number of frames per second that can be rendered.
-	# A value of 0 means "no limit".
-	Engine.max_fps = value
+	SavedData.apply_gfx_setting(SavedData.Options.FPS_CAP, value)
 
 
 func _on_msaa_option_button_item_selected(index: int) -> void:
-	# Multi-sample anti-aliasing. High quality, but slow. It also does not smooth out the edges of
-	# transparent (alpha scissor) textures.
-	if index == 0: # Disabled (default)
-		get_viewport().msaa_3d = Viewport.MSAA_DISABLED
-	elif index == 1: # 2×
-		get_viewport().msaa_3d = Viewport.MSAA_2X
-	elif index == 2: # 4×
-		get_viewport().msaa_3d = Viewport.MSAA_4X
-	elif index == 3: # 8×
-		get_viewport().msaa_3d = Viewport.MSAA_8X
+	SavedData.apply_gfx_setting(SavedData.Options.MSAA, index)
 
 
 func _on_taa_option_button_item_selected(index: int) -> void:
-	# Temporal antialiasing. Smooths out everything including specular aliasing, but can introduce
-	# ghosting artifacts and blurring in motion. Moderate performance cost.
-	get_viewport().use_taa = index == 1
+	SavedData.apply_gfx_setting(SavedData.Options.TAA, index)
 
 
 func _on_fxaa_option_button_item_selected(index: int) -> void:
-	# Fast approximate anti-aliasing. Much faster than MSAA (and works on alpha scissor edges),
-	# but blurs the whole scene rendering slightly.
-	get_viewport().screen_space_aa = int(index == 1) as Viewport.ScreenSpaceAA
+	SavedData.apply_gfx_setting(SavedData.Options.FXAA, index)
 
 
 func _on_fullscreen_option_button_item_selected(index: int) -> void:
-	# To change between winow, fullscreen and other window modes,
-	# set the root mode to one of the options of Window.MODE_*.
-	# Other modes are maximized and minimized.
-	if index == 0: # Disabled (default)
-		get_tree().root.set_mode(Window.MODE_WINDOWED)
-	elif index == 1: # Fullscreen
-		get_tree().root.set_mode(Window.MODE_FULLSCREEN)
-	elif index == 2: # Exclusive Fullscreen
-		get_tree().root.set_mode(Window.MODE_EXCLUSIVE_FULLSCREEN)
-
-# Quality settings.
+	SavedData.apply_gfx_setting(SavedData.Options.SCREEN_MODE, index)
 
 
 func _on_shadow_size_option_button_item_selected(index: int) -> void:
-	SavedData.apply_gfx_int_setting(SavedData.Options.SHADOW_SIZE, index)
+	SavedData.apply_gfx_setting(SavedData.Options.SHADOW_SIZE, index)
 
 
 func _on_shadow_filter_option_button_item_selected(index: int) -> void:
-	SavedData.apply_gfx_int_setting(SavedData.Options.SHADOW_FILTER, index)
+	SavedData.apply_gfx_setting(SavedData.Options.SHADOW_FILTER, index)
 
 
 func _on_mesh_lod_option_button_item_selected(index: int) -> void:
-	SavedData.apply_gfx_int_setting(SavedData.Options.MESH_LOD, index)
-# Effect settings.
+	SavedData.apply_gfx_setting(SavedData.Options.MESH_LOD, index)
 
 
 func _on_ss_reflections_option_button_item_selected(index: int) -> void:
-	# This is a setting that is attached to the environment.
-	# If your game requires you to change the environment,
-	# then be sure to run this function again to make the setting effective.
-	if index == 0: # Disabled (default)
-		world_environment.environment.set_ssr_enabled(false)
-	elif index == 1: # Low
-		world_environment.environment.set_ssr_enabled(true)
-		world_environment.environment.set_ssr_max_steps(8)
-	elif index == 2: # Medium
-		world_environment.environment.set_ssr_enabled(true)
-		world_environment.environment.set_ssr_max_steps(32)
-	elif index == 3: # High
-		world_environment.environment.set_ssr_enabled(true)
-		world_environment.environment.set_ssr_max_steps(56)
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_SS_REFLECTIONS, index)
 
 
 func _on_ssao_option_button_item_selected(index: int) -> void:
-	# This is a setting that is attached to the environment.
-	# If your game requires you to change the environment,
-	# then be sure to run this function again to make the setting effective.
-	if index == 0: # Disabled (default)
-		world_environment.environment.ssao_enabled = false
-	if index == 1: # Very Low
-		world_environment.environment.ssao_enabled = true
-		RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_VERY_LOW, true, 0.5, 2, 50, 300)
-	if index == 2: # Low
-		world_environment.environment.ssao_enabled = true
-		RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_VERY_LOW, true, 0.5, 2, 50, 300)
-	if index == 3: # Medium
-		world_environment.environment.ssao_enabled = true
-		RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_MEDIUM, true, 0.5, 2, 50, 300)
-	if index == 4: # High
-		world_environment.environment.ssao_enabled = true
-		RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_HIGH, true, 0.5, 2, 50, 300)
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_SSAO, index)
 
 
 func _on_ssil_option_button_item_selected(index: int) -> void:
-	# This is a setting that is attached to the environment.
-	# If your game requires you to change the environment,
-	# then be sure to run this function again to make the setting effective.
-	if index == 0: # Disabled (default)
-		world_environment.environment.ssil_enabled = false
-	if index == 1: # Very Low
-		world_environment.environment.ssil_enabled = true
-		RenderingServer.environment_set_ssil_quality(RenderingServer.ENV_SSIL_QUALITY_VERY_LOW, true, 0.5, 4, 50, 300)
-	if index == 2: # Low
-		world_environment.environment.ssil_enabled = true
-		RenderingServer.environment_set_ssil_quality(RenderingServer.ENV_SSIL_QUALITY_LOW, true, 0.5, 4, 50, 300)
-	if index == 3: # Medium
-		world_environment.environment.ssil_enabled = true
-		RenderingServer.environment_set_ssil_quality(RenderingServer.ENV_SSIL_QUALITY_MEDIUM, true, 0.5, 4, 50, 300)
-	if index == 4: # High
-		world_environment.environment.ssil_enabled = true
-		RenderingServer.environment_set_ssil_quality(RenderingServer.ENV_SSIL_QUALITY_HIGH, true, 0.5, 4, 50, 300)
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_SSIL, index)
 
 
 func _on_sdfgi_option_button_item_selected(index: int) -> void:
-	# This is a setting that is attached to the environment.
-	# If your game requires you to change the environment,
-	# then be sure to run this function again to make the setting effective.
-	if index == 0: # Disabled (default)
-		world_environment.environment.sdfgi_enabled = false
-	if index == 1: # Low
-		world_environment.environment.sdfgi_enabled = true
-		RenderingServer.gi_set_use_half_resolution(true)
-	if index == 2: # High
-		world_environment.environment.sdfgi_enabled = true
-		RenderingServer.gi_set_use_half_resolution(false)
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_SDFGI, index)
 
 
 func _on_glow_option_button_item_selected(index: int) -> void:
-	# This is a setting that is attached to the environment.
-	# If your game requires you to change the environment,
-	# then be sure to run this function again to make the setting effective.
-	if index == 0: # Disabled (default)
-		world_environment.environment.glow_enabled = false
-	if index == 1: # Low
-		world_environment.environment.glow_enabled = true
-	if index == 2: # High
-		world_environment.environment.glow_enabled = true
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_GLOW, index)
 
 
 func _on_volumetric_fog_option_button_item_selected(index: int) -> void:
-	if index == 0: # Disabled (default)
-		world_environment.environment.volumetric_fog_enabled = false
-	if index == 1: # Low
-		world_environment.environment.volumetric_fog_enabled = true
-		RenderingServer.environment_set_volumetric_fog_filter_active(false)
-	if index == 2: # High
-		world_environment.environment.volumetric_fog_enabled = true
-		RenderingServer.environment_set_volumetric_fog_filter_active(true)
-
-# Quality presets.
+	SavedData.apply_gfx_setting(SavedData.Options.ENV_FOG, index)
 
 
 func _on_very_low_preset_pressed() -> void:
-	%TAAOptionButton.selected = 0
-	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
-	%ShadowSizeOptionButton.selected = 0
-	%ShadowFilterOptionButton.selected = 0
-	%MeshLODOptionButton.selected = 0
-	%SDFGIOptionButton.selected = 0
-	%GlowOptionButton.selected = 0
-	%SSAOOptionButton.selected = 0
-	%SSReflectionsOptionButton.selected = 0
-	%SSILOptionButton.selected = 0
-	%VolumetricFogOptionButton.selected = 0
-	update_preset()
+	SavedData.apply_gfx_preset(0)
 
 
 func _on_low_preset_pressed() -> void:
-	%TAAOptionButton.selected = 0
-	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 1
-	%ShadowSizeOptionButton.selected = 1
-	%ShadowFilterOptionButton.selected = 1
-	%MeshLODOptionButton.selected = 1
-	%SDFGIOptionButton.selected = 0
-	%GlowOptionButton.selected = 0
-	%SSAOOptionButton.selected = 0
-	%SSReflectionsOptionButton.selected = 0
-	%SSILOptionButton.selected = 0
-	%VolumetricFogOptionButton.selected = 0
-	update_preset()
+	SavedData.apply_gfx_preset(1)
 
 
 func _on_medium_preset_pressed() -> void:
-	%TAAOptionButton.selected = 1
-	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
-	%ShadowSizeOptionButton.selected = 2
-	%ShadowFilterOptionButton.selected = 2
-	%MeshLODOptionButton.selected = 1
-	%SDFGIOptionButton.selected = 1
-	%GlowOptionButton.selected = 1
-	%SSAOOptionButton.selected = 1
-	%SSReflectionsOptionButton.selected = 1
-	%SSILOptionButton.selected = 0
-	%VolumetricFogOptionButton.selected = 1
-	update_preset()
+	SavedData.apply_gfx_preset(2)
 
 
 func _on_high_preset_pressed() -> void:
-	%TAAOptionButton.selected = 1
-	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
-	%ShadowSizeOptionButton.selected = 3
-	%ShadowFilterOptionButton.selected = 3
-	%MeshLODOptionButton.selected = 2
-	%SDFGIOptionButton.selected = 1
-	%GlowOptionButton.selected = 2
-	%SSAOOptionButton.selected = 2
-	%SSReflectionsOptionButton.selected = 2
-	%SSILOptionButton.selected = 2
-	%VolumetricFogOptionButton.selected = 2
-	update_preset()
+	SavedData.apply_gfx_preset(3)
 
 
 func _on_ultra_preset_pressed() -> void:
-	%TAAOptionButton.selected = 1
-	%MSAAOptionButton.selected = 1
-	%FXAAOptionButton.selected = 0
-	%ShadowSizeOptionButton.selected = 4
-	%ShadowFilterOptionButton.selected = 4
-	%MeshLODOptionButton.selected = 3
-	%SDFGIOptionButton.selected = 2
-	%GlowOptionButton.selected = 2
-	%SSAOOptionButton.selected = 3
-	%SSReflectionsOptionButton.selected = 3
-	%SSILOptionButton.selected = 3
-	%VolumetricFogOptionButton.selected = 2
-	update_preset()
-
-
-func update_preset() -> void:
-	# Simulate options being manually selected to run their respective update code.
-	%TAAOptionButton.item_selected.emit(%TAAOptionButton.selected)
-	%MSAAOptionButton.item_selected.emit(%MSAAOptionButton.selected)
-	%FXAAOptionButton.item_selected.emit(%FXAAOptionButton.selected)
-	%ShadowSizeOptionButton.item_selected.emit(%ShadowSizeOptionButton.selected)
-	%ShadowFilterOptionButton.item_selected.emit(%ShadowFilterOptionButton.selected)
-	%MeshLODOptionButton.item_selected.emit(%MeshLODOptionButton.selected)
-	%SDFGIOptionButton.item_selected.emit(%SDFGIOptionButton.selected)
-	%GlowOptionButton.item_selected.emit(%GlowOptionButton.selected)
-	%SSAOOptionButton.item_selected.emit(%SSAOOptionButton.selected)
-	%SSReflectionsOptionButton.item_selected.emit(%SSReflectionsOptionButton.selected)
-	%SSILOptionButton.item_selected.emit(%SSILOptionButton.selected)
-	%VolumetricFogOptionButton.item_selected.emit(%VolumetricFogOptionButton.selected)
+	SavedData.apply_gfx_preset(4)
 
 
 func _on_hide_show_button_pressed() -> void:

@@ -11,6 +11,10 @@ func on_reroll() -> void:
 
 
 func _ready() -> void:
+	# for debug
+	if get_tree().current_scene == self:
+		CurrentRunState.inventory_handler.hold_item("ketchup.tres")
+		CurrentRunState.score_handler.settle(100)
 	_on_reroll()
 
 
@@ -22,37 +26,13 @@ func _on_reroll() -> void:
 	for child in %StoreRoot.get_children():
 		%StoreRoot.remove_child(child)
 	for unlockable in pick:
-		var unlockable_cp := get_item(unlockable)
+		var unlockable_cp := CurrentRunState.inventory_handler.get_item(unlockable)
+		if unlockable_cp == null:
+			unlockable_cp = load("res://data/unlockables/ketchup.tres")
 		var store_product_scn: UI_GameOver_StoreProduct = STORE_PRODUCT_SCN.instantiate()
 		store_product_scn.product = unlockable_cp
 		store_product_scn.on_purchase_pressed.connect(
-			func() -> void:
-				on_purchase.emit(unlockable, unlockable_cp.price)
+			func() -> void: on_purchase.emit(unlockable, unlockable_cp.price)
 		)
 
 		%StoreRoot.add_child(store_product_scn)
-
-
-func get_item(key: String) -> UnlockableResource:
-	var resource := Helper.get_item_raw(key)
-	if resource == null:
-		printerr("oopsie")
-		resource = load("res://data/unlockables/ketchup.tres")
-
-	if !resource.is_incremental:
-		return resource
-
-	var inc_res := resource.duplicate(false) as UnlockableResource
-	var tier := CurrentRunState.inventory_handler.get_held_item_tier(key) + 1
-	inc_res.price = int(float(inc_res.price) * inc_res.incremental_mult * float(tier))
-	inc_res.incremental_value = inc_res.incremental_value * inc_res.incremental_mult * tier
-	inc_res._tier = tier
-
-	var value_str := "%.1f" % inc_res.incremental_value
-	if value_str.ends_with(".0"):
-		value_str = "%.0f" % inc_res.incremental_value
-	inc_res.desc = inc_res.desc.format([value_str])
-
-	if inc_res.incremental_extra_names.size() >= tier:
-		inc_res.name = inc_res.incremental_extra_names[tier - 1]
-	return inc_res
