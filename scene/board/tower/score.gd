@@ -3,7 +3,7 @@ extends Node
 class_name Scene_Tower_ScooreHandler
 
 var current_session_score := 0
-var appearances: Dictionary[String, int] = { }
+var appearances: Dictionary[String, int] = {}
 var previous_item := "no"
 
 var sauce_cooldown_mult := 0
@@ -17,19 +17,25 @@ func push(droppable: Droppable) -> void:
 	var price := droppable.price
 	_push_line(key, price)
 
-	## find mult (apppearances + .1x)
 	if !appearances.has(key):
 		appearances.set(key, -1)
 	appearances[key] += 1
-	var mult := appearances[key] / 10.0
-	if mult > 0:
-		var extra := price * mult
-		var mult_dsp := "%.1f" % (1 + mult)
-		_push_line("+ Multiple (" + mult_dsp + "x)", int(extra))
+
+	## find mult (apppearances + .1x)
+	if CurrentRunState.inventory_handler.is_holding_item("condi_mult.tres"):
+		var condi_mult := CurrentRunState.inventory_handler.get_item("condi_mult.tres")
+		var mult := appearances[key]
+		if mult > 0:
+			var extra := (price / 100. * condi_mult.incremental_value) * mult
+			_push_line(
+				"+ " + "%d" % mult + "x " + key + (" (%d" % condi_mult.incremental_value) + "%)",
+				int(extra)
+			)
 
 	## double?
-	if previous_item == key:
-		_push_line("+ STACK", price * 10)
+	if CurrentRunState.inventory_handler.is_holding_item("condi_mult_row.tres"):
+		if previous_item == key:
+			_push_line("+ Two in a row!!", price * 10)
 
 	##wrap up
 	previous_item = key

@@ -15,6 +15,8 @@ extends Resource
 @export var incremental_mult: float
 @export var incremental_value: float
 @export var incremental_extra_names: Array[String]
+@export var incremental_extra_icons: Array[CompressedTexture2D]
+@export var incremental_modulo_at: int = -1
 
 @warning_ignore_start("unused_private_class_variable")
 @export_group("Secret sys stuff")

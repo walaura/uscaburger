@@ -7,6 +7,8 @@ const WAVE_MAX_OFFSET = 2
 const WAVE_SPEED_TIMER_SPEED = 3
 const ITEM_Y_SCALE = 1
 
+var anim_speed := 1.
+
 const COLOR_RED := Color("ff3314")
 
 var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
@@ -14,9 +16,8 @@ var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
 var is_debug := false:
 	set(val):
 		is_debug = val
+		anim_speed = .25 if is_debug else 1.
 		is_debug_changed.emit()
-
-@onready var stock := ResourceLoader.list_directory("res://data/unlockables")
 
 
 func _init() -> void:
@@ -33,9 +34,6 @@ func format_number_with_commas(number: int) -> String:
 		count += 1
 		if count % 3 == 0 and i != 0:
 			result = "," + result
-
-	if number < 0:
-		result = "- " + result
 
 	return result
 
@@ -59,11 +57,35 @@ func _input(event: InputEvent) -> void:
 func format_number(number: float) -> String:
 	var decls := fmod(number, 1)
 	var start := format_number_with_commas(int(number))
-	return start + "." + ("%02d" % abs(decls * 100))
+	var minus := "-" if number < 0 else ""
+	return minus + start + "." + ("%02d" % abs(decls * 100))
+
+
+func get_units() -> int:
+	return CurrentRunState.inventory_handler.get_held_item_tier("currency_fx.tres") % 3
 
 
 func format_currency(number: float) -> String:
-	return "$ " + Helper.format_number(number / 100.)
+	var tier := get_units()
+
+	match tier:
+		1:
+			return Helper.format_number((number * 1.2) / 100.) + "€"
+		2:
+			if absf(number) < 100:
+				return "%dp" % (number)
+			return "£" + Helper.format_number((number * 1.5) / 100.)
+		_:
+			if absf(number) < 100:
+				return "%d¢" % (number)
+			return "$" + Helper.format_number(number / 100.)
+
+
+func format_size(units: float) -> String:
+	if get_units() == 1:
+		return "%.2f" % (units * 3.75) + " cm"
+
+	return "%.2f" % (units * 1.5) + " in"
 
 
 func add_animation(node: Node) -> AnimationPlayer:
@@ -110,32 +132,3 @@ func get_screen_rect(aabb: AABB) -> Rect2:
 		max_pos.y = max(max_pos.y, screen_pt.y)
 
 	return Rect2(min_pos, max_pos - min_pos)
-
-
-func get_item_raw(file_name: String) -> UnlockableResource:
-	return load("res://data/unlockables/" + file_name)
-
-
-func get_all_items() -> PackedStringArray:
-	return stock
-
-
-func get_purchasable_items() -> Array[String]:
-	var keys: Array[String] = []
-	var all_keys: Array[String] = Array(Array(get_all_items()), TYPE_STRING, "", null)
-	all_keys = all_keys.filter(
-		func(item: String) -> bool:
-			var raw := get_item_raw(item)
-			if raw.requires.size() == 0:
-				return true
-			for requisite in raw.requires:
-				if !CurrentRunState.inventory_handler.is_holding_item(requisite):
-					return false
-			return true
-	)
-	for key in all_keys:
-		if get_item_raw(key).is_incremental == true:
-			keys.push_back(key)
-		elif !CurrentRunState.inventory_handler.is_holding_item(key):
-			keys.push_back(key)
-	return keys

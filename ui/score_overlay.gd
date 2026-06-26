@@ -13,8 +13,8 @@ var sway := 0.:
 
 
 func update_time_sway() -> void:
-	($Panel/ExtraUI/Sway/Label2 as Label).text = "(s) " + ("%.2f" % sway) + "in"
-	($Panel/ExtraUI/Time/Label as Label).text = "(ts) " + ("%.2f" % time) + "s"
+	(%SwayLabel as Label).text = Helper.format_size(sway)
+	(%TimeLabel as Label).text = ("%.2f" % time) + "s"
 
 
 func push(line_item: String, value: int) -> void:
@@ -34,12 +34,30 @@ func get_big_number() -> UI_ScoreOverlayBigNumber:
 
 
 func _ready() -> void:
-	($Panel/ExtraUI as Node2D).visible = CurrentRunState.inventory_handler.is_holding_item(
-		"ui2.tres",
+	_change_viz()
+	CurrentRunState.inventory_handler.item_got_held.connect(
+		func(_name: String) -> void: _change_viz()
 	)
+
 	(%BigNumber.get_parent() as CanvasItem).hide()
 	%Receipt.remove_child(%Receipt.get_child(0))
-	pass # Replace with function body.
+
+
+func _change_viz() -> void:
+	visible = (
+			CurrentRunState
+			.inventory_handler
+			.is_holding_item(
+				"ui1.tres",
+			)
+	)
+	(%ExtraUI as Control).visible = (
+			CurrentRunState
+			.inventory_handler
+			.is_holding_item(
+				"ui2.tres",
+			)
+	)
 
 
 func _process(delta: float) -> void:

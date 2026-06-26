@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bbnkgh7x18csd"]
+
+[ext_resource type="Texture2D" uid="uid://4ph4qamp2bj2" path="res://asset/badge/badge-curr-usd.png" id="1_33efm"]
+[ext_resource type="Texture2D" uid="uid://bk8l0msvy05uh" path="res://asset/badge/badge-curr-eu.png" id="2_2bm5j"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_llru5"]
+[ext_resource type="Texture2D" uid="uid://ux80hn3ana0b" path="res://asset/badge/badge-curr-gbp.png" id="3_vcn7h"]
+
+[resource]
+script = ExtResource("2_llru5")
+name = "Tea 'n' crumpets"
+icon = ExtResource("3_vcn7h")
+desc = "Swaps measurement units. +[boing]{0}%[/boing] FX fees."
+requires = Array[StringName]([&"ui1.tres", &"ui2.tres"])
+is_incremental = true
+incremental_mult = 1.5
+incremental_value = 0.1
+incremental_extra_names = Array[String](["°F stands for °Freedom", "Monopoly money"])
+incremental_extra_icons = Array[CompressedTexture2D]([ExtResource("1_33efm"), ExtResource("2_2bm5j")])
+incremental_modulo_at = 3
+metadata/_custom_type_script = "uid://cuu2a4r833k1g"

@@ -58,15 +58,18 @@ func _input(event: InputEvent) -> void:
 		Camera.set_mode_gameplay()
 
 
-func on_game_over(_did_finish: bool, tower_score_handler: Scene_Tower_ScooreHandler) -> void:
+func on_game_over(did_finish: bool, tower_score_handler: Scene_Tower_ScooreHandler) -> void:
 	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_SCENE_PATH)
 	if scene_resource == null:
-		printerr('failed to preload game over')
+		printerr("failed to preload game over")
 		ResourceLoader.load_threaded_request(GAME_OVER_SCENE_PATH)
-		on_game_over(_did_finish, tower_score_handler)
+		on_game_over(did_finish, tower_score_handler)
 		return
 
-	CurrentRunState.score_handler.settle(tower_score_handler.current_session_score)
+	if did_finish:
+		CurrentRunState.score_handler.settle(tower_score_handler.current_session_score)
+	else:
+		CurrentRunState.score_handler.settle_loss(tower_score_handler.current_session_score)
 	var game_over_screen: UI_GameOver = scene_resource.instantiate()
 	game_over_screen.on_next_round.connect(
 		func() -> void:

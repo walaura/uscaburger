@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://crg131hv1wneq" path="res://asset/price-arr.png" id="2_83dqk"]
 [ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_ox7kp"]
 [ext_resource type="Script" uid="uid://ccjxaub2wvah4" path="res://ui/score_overlay/big_number.gd" id="4_ceu1u"]
+[ext_resource type="Texture2D" uid="uid://bc7jc0ar5x58d" path="res://asset/ui/icon-time.png" id="4_wt3f8"]
 [ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/score_overlay/ticket.tres" id="5_gj74g"]
+[ext_resource type="Texture2D" uid="uid://2v35i7x5qkve" path="res://asset/ui/icon-distance.png" id="5_yonsj"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="6_tfmnm"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4e27g"]
@@ -14,6 +16,55 @@ viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ox7kp"]
 texture = ExtResource("2_83dqk")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(15.960641, 15.960641, 15.960641, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_yonsj"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_74sqc"]
+source = 5
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_jege7"]
+parameter_name = "ColorParameter"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_euwwg"]
+function = 31
+
+[sub_resource type="VisualShader" id="VisualShader_abu4r"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(580, 140)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_yonsj")
+nodes/fragment/2/position = Vector2(-320, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_74sqc")
+nodes/fragment/3/position = Vector2(60, 340)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorParameter_jege7")
+nodes/fragment/4/position = Vector2(-100, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_euwwg")
+nodes/fragment/5/position = Vector2(300, 260)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 4, 0, 0, 0, 3, 0, 5, 0, 5, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_abu4r")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/Texture2DParameter = ExtResource("4_wt3f8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_74sqc"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_abu4r")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/Texture2DParameter = ExtResource("5_yonsj")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4e27g"]
 shader = ExtResource("2_4e27g")
@@ -78,33 +129,64 @@ grow_vertical = 0
 pivot_offset_ratio = Vector2(0.115, 0.5)
 theme_override_styles/panel = SubResource("StyleBoxTexture_ox7kp")
 
-[node name="ExtraUI" type="Node2D" parent="Panel" unique_id=764785299]
+[node name="ExtraUI" type="HBoxContainer" parent="Panel" unique_id=1139985584]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -162.69751
+offset_top = 79.442505
+offset_right = -2.6975098
+offset_bottom = 103.442505
+grow_horizontal = 0
+alignment = 2
 
-[node name="Sway" type="Node2D" parent="Panel/ExtraUI" unique_id=1413768652]
+[node name="Time" type="PanelContainer" parent="Panel/ExtraUI" unique_id=1590339297]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
 
-[node name="Label2" type="Label" parent="Panel/ExtraUI/Sway" unique_id=838449682]
-offset_left = 167.0
-offset_top = 95.442505
-offset_right = 297.0
-offset_bottom = 148.6925
-size_flags_horizontal = 2
-size_flags_vertical = 0
-theme = ExtResource("5_gj74g")
-theme_type_variation = &"FloatingLabel"
-text = "(s) 40in"
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/ExtraUI/Time" unique_id=235967525]
+layout_mode = 2
 
-[node name="Time" type="Node2D" parent="Panel/ExtraUI" unique_id=1379957133]
-
-[node name="Label" type="Label" parent="Panel/ExtraUI/Time" unique_id=766967225]
-offset_left = 46.0
-offset_top = 91.442505
-offset_right = 176.0
-offset_bottom = 144.6925
-size_flags_horizontal = 2
-size_flags_vertical = 0
+[node name="TimeLabel" type="Label" parent="Panel/ExtraUI/Time/HBoxContainer" unique_id=766967225]
+unique_name_in_owner = true
+layout_mode = 2
 theme = ExtResource("5_gj74g")
 theme_type_variation = &"FloatingLabel"
 text = "(t) 3s"
+
+[node name="ColorRect" type="ColorRect" parent="Panel/ExtraUI/Time/HBoxContainer" unique_id=1036002141]
+material = SubResource("ShaderMaterial_dn3wt")
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0, 0, 1)
+
+[node name="TiSwqayme2" type="PanelContainer" parent="Panel/ExtraUI" unique_id=457162874]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/ExtraUI/TiSwqayme2" unique_id=419172585]
+layout_mode = 2
+
+[node name="SwayLabel" type="Label" parent="Panel/ExtraUI/TiSwqayme2/HBoxContainer" unique_id=505723418]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "(s)"
+
+[node name="ColorRect" type="ColorRect" parent="Panel/ExtraUI/TiSwqayme2/HBoxContainer" unique_id=1747595538]
+material = SubResource("ShaderMaterial_74sqc")
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0, 0, 1)
 
 [node name="BigNumber" type="Label" parent="Panel" unique_id=2034699334]
 unique_name_in_owner = true
@@ -140,6 +222,7 @@ grow_vertical = 2
 color = Color(0.22745098, 1, 1, 1)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=2090560442]
+visible = false
 position = Vector2(-430.3025, -238.7425)
 script = ExtResource("6_tfmnm")
 

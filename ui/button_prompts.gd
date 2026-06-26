@@ -30,5 +30,9 @@ func push_tutorial(action: String) -> void:
 	push(action).highlight_til_pressed()
 
 
+func push_pressable(action: String) -> void:
+	push(action)
+
+
 func _on_button_pressed() -> void:
 	push_tutorial("Drop")

@@ -6,10 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://tfa61h60raq3" path="res://ui/game_over/ticket.tscn" id="4_akjlf"]
 [ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="4_k8651"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="4_l87h4"]
-[ext_resource type="PackedScene" uid="uid://o4d30tkgffys" path="res://ui/game_over/line_item.tscn" id="4_xjda6"]
 [ext_resource type="Shader" uid="uid://cyei14tc4qxgt" path="res://ui/ticket_shader.tres" id="5_lgxpc"]
+[ext_resource type="PackedScene" uid="uid://doviwsigeqd41" path="res://ui/game_over/scores_tkt.tscn" id="8_rcx4q"]
 [ext_resource type="Shader" uid="uid://bm2ribdrubxn7" path="res://ui/fade.tres" id="8_tb368"]
-[ext_resource type="Texture2D" uid="uid://cq7gsns87ik30" path="res://asset/receipt-agb.png" id="9_rcx4q"]
 [ext_resource type="Texture2D" uid="uid://fdg7igchhgrr" path="res://asset/receipt-uppies.png" id="10_rcx4q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j1fe5"]
@@ -51,20 +50,14 @@ _data = {
 &"scroll": SubResource("Animation_xjda6")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnsmc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcx4q"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(1, 1, 1, 1)
 shader_parameter/AspectRatio = 0.5975
 shader_parameter/Crumple = ExtResource("4_k8651")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_abu4r"]
-resource_local_to_scene = true
-shader = ExtResource("8_tb368")
-shader_parameter/Image = ExtResource("9_rcx4q")
-shader_parameter/fade = ExtResource("4_k8651")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v1fhu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnsmc"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(0.99999994, 0.87990296, 0.68754417, 1)
@@ -152,7 +145,7 @@ theme_override_constants/separation = -20
 [node name="ScoreTkt" parent="UIContainer" unique_id=1248793771 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 2
-material = SubResource("ShaderMaterial_cnsmc")
+material = SubResource("ShaderMaterial_rcx4q")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true
@@ -161,24 +154,14 @@ offset_transform_pivot_ratio = Vector2(0.5, 1)
 [node name="MarginContainer" parent="UIContainer/ScoreTkt" index="0" unique_id=1310417389]
 theme_override_constants/margin_bottom = 180
 
-[node name="ScoresTkt" type="VBoxContainer" parent="UIContainer/ScoreTkt/MarginContainer" index="0" unique_id=498487289]
+[node name="ScoresTkt" parent="UIContainer/ScoreTkt/MarginContainer" index="0" unique_id=795243285 instance=ExtResource("8_rcx4q")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(380, 0)
 layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="UIContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=1502939253]
-material = SubResource("ShaderMaterial_abu4r")
-custom_minimum_size = Vector2(0, 127.765)
-layout_mode = 2
-
-[node name="LineItem5" parent="UIContainer/ScoreTkt/MarginContainer/ScoresTkt" unique_id=619229121 instance=ExtResource("4_xjda6")]
-layout_mode = 2
-style = 1
 
 [node name="UpgradesTkt" parent="UIContainer" unique_id=1079486513 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 1
-material = SubResource("ShaderMaterial_v1fhu")
+material = SubResource("ShaderMaterial_cnsmc")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true

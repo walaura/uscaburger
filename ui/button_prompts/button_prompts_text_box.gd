@@ -4,6 +4,8 @@ extends PanelContainer
 const HIGHLIGHT_ANIM = .25
 var _should_dehighlight := false
 
+var is_clicky := false
+
 @export var action: String:
 	set(val):
 		action = val
@@ -54,7 +56,23 @@ func _get_action_name() -> String:
 			return "Drop piece"
 		"Finish":
 			return "Finish this burger"
+		"Finish":
+			return "Finish this burger"
+		"Zoom-Out":
+			return "Behold"
+		"ui_cancel":
+			return "Back"
 		"Rotate-L", "Rotate-R":
 			return "Rotate"
 		_:
 			return action
+
+
+func _on_gui_input(event: InputEvent) -> void:
+	if !is_clicky:
+		pass
+	if event is InputEventMouseButton:
+		var fk_event := InputEventAction.new()
+		fk_event.action = action
+		fk_event.pressed = true
+		Input.parse_input_event(fk_event)

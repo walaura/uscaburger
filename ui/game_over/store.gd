@@ -19,14 +19,29 @@ func _ready() -> void:
 
 
 func _on_reroll() -> void:
-	var all_keys := Helper.get_purchasable_items()
-	all_keys.shuffle()
-	var pick := all_keys.slice(0, 3) as Array[String]
+	var all_keys := CurrentRunState_Inventory.get_purchasable_items()
+	var all_affordables := (
+			all_keys.filter(CurrentRunState_Inventory.is_item_affordable) as Array[String]
+	)
+	var all_rest := all_keys.filter(CurrentRunState_Inventory.is_item_unaffordable) as Array[String]
+	var pick: Array[String] = []
+
+	var affordables_count := 0
+	for index in range(0, 3):
+		print(all_affordables)
+		var affordable: Variant = all_affordables.pop_back()
+		if affordable != null && affordables_count < 2:
+			affordables_count += 1
+			pick.push_back(affordable)
+		else:
+			pick.push_back(all_rest.pop_back())
+
+	pick.shuffle()
 
 	for child in %StoreRoot.get_children():
 		%StoreRoot.remove_child(child)
 	for unlockable in pick:
-		var unlockable_cp := CurrentRunState.inventory_handler.get_item(unlockable)
+		var unlockable_cp := CurrentRunState.inventory_handler.get_next_item(unlockable)
 		if unlockable_cp == null:
 			unlockable_cp = load("res://data/unlockables/ketchup.tres")
 		var store_product_scn: UI_GameOver_StoreProduct = STORE_PRODUCT_SCN.instantiate()

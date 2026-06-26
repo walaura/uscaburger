@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_thsjt")
-name = "Earnings Ticker"
+name = "More HUD"
 icon = ExtResource("1_eokvn")
 desc = "Live display of [boing]sway[/boing] and [boing]drop time[/boing]"
 requires = Array[StringName]([&"ui1.tres"])

@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/board/badges_on_glass.tscn" id="8_tbg0t"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vf5bc"]
+exposure_multiplier = 1.1
 dof_blur_far_enabled = true
 dof_blur_far_distance = 19.46
 dof_blur_far_transition = 1.0
@@ -32,17 +33,22 @@ parameter_name = "Texture2DParameter"
 [sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_tngv2"]
 constant = Color(0.8274265, 0, 0.07823897, 1)
 
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_wr7qi"]
+constant = 1.0
+
 [sub_resource type="VisualShader" id="VisualShader_c4ttu"]
 resource_local_to_scene = true
 nodes/vertex/0/position = Vector2(820, 200)
-nodes/fragment/0/position = Vector2(400, 160)
+nodes/fragment/0/position = Vector2(780, 300)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_mgc1s")
-nodes/fragment/2/position = Vector2(-31.436096, 649.98694)
+nodes/fragment/2/position = Vector2(-80, 500)
 nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_rq8yp")
-nodes/fragment/3/position = Vector2(-391.4361, 489.98697)
+nodes/fragment/3/position = Vector2(-560, 480)
 nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_tngv2")
 nodes/fragment/4/position = Vector2(40, 340)
-nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_wr7qi")
+nodes/fragment/5/position = Vector2(480, 260)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1, 5, 0, 0, 2, 5, 0, 0, 13, 2, 0, 0, 5)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_abu4r"]
 viewport_path = NodePath("SubViewport")
@@ -57,7 +63,7 @@ shader_parameter/Texture2DParameter = SubResource("ViewportTexture_abu4r")
 script = ExtResource("1_psm7c")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=856205969]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 5.381181, 11.609192)
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 1.326, 11.609)
 attributes = SubResource("CameraAttributesPractical_vf5bc")
 fov = 30.0
 script = ExtResource("2_ar3ho")
@@ -84,7 +90,7 @@ transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -1
 [node name="bg" parent="." unique_id=1772998672 instance=ExtResource("5_wr7qi")]
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=944642751]
-transform = Transform3D(6.556, 0, 0, 0, -0.08715577, -1.6327631, 0, 0.9961947, -0.14284831, -0.5497769, 2.7217503, -4.741846)
+transform = Transform3D(6.5559993, 0, 0, 0, -0.08715575, -1.6327629, 0, 0.99619454, -0.14284828, -0.5497769, 2.7217503, -4.681651)
 mesh = SubResource("PlaneMesh_dn3wt")
 surface_material_override/0 = SubResource("ShaderMaterial_mgc1s")
 
@@ -94,3 +100,6 @@ transparent_bg = true
 size = Vector2i(2048, 512)
 
 [node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("8_tbg0t")]
+
+[editable path="Countertop"]
+[editable path="Ct-Glass"]

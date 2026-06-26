@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_cyedy")
-name = "Earnings HUD"
+name = "HUD"
 icon = ExtResource("1_xj7hp")
-desc = "Real time business intelligence showing your earnings as you drop pieces"
+desc = "Real time! See your [boing]earnings[/boing] as you drop pieces"
 metadata/_custom_type_script = "uid://cuu2a4r833k1g"

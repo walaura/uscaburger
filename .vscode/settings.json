@@ -1,3 +1,7 @@
 {
-    "godotTools.editorPath.godot4": "c:\\Users\\hi\\Local\\Godot.exe"
+    "godotTools.editorPath.godot4": "c:\\Users\\hi\\Local\\Godot.exe",
+    "files.exclude": {
+        "**/*.tmp": true,
+        "**/*.uid": true,
+    }
 }

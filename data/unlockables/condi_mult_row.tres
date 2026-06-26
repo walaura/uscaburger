@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bqad7mcnmps22"]
+
+[ext_resource type="Texture2D" uid="uid://chkjccnip1f3w" path="res://asset/badge/badge-condi-streak.png" id="1_l0j65"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_kyi87"]
+
+[resource]
+script = ExtResource("2_kyi87")
+name = "Two in a row"
+icon = ExtResource("1_l0j65")
+desc = "Lucky! [boing]10x[/boing] bonus for inmediately repeating a part"
+price = 599
+requires = Array[StringName]([&"condi_mult.tres"])
+metadata/_custom_type_script = "uid://cuu2a4r833k1g"

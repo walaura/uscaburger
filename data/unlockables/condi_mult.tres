@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bki81ed1aa15c"]
+
+[ext_resource type="Texture2D" uid="uid://c8qqac46ndkue" path="res://asset/badge/badge-condi-mult.png" id="1_6xaeq"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_4dfsw"]
+
+[resource]
+script = ExtResource("2_4dfsw")
+name = "Repeat multiplier"
+icon = ExtResource("1_6xaeq")
+desc = "Reward Loyalty! [boing]{0}%[/boing] bonus for repeating a part"
+price = 199
+requires = Array[StringName]([&"ui1.tres"])
+is_incremental = true
+incremental_mult = 1.25
+incremental_value = 10.0
+metadata/_custom_type_script = "uid://cuu2a4r833k1g"

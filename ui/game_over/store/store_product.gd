@@ -8,6 +8,7 @@ const BADGE_SLOP := -2.
 @export var product: UnlockableResource:
 	set(val):
 		product = val
+		_is_affordable = CurrentRunState_Inventory.is_affordable(product)
 		if is_node_ready():
 			_draw_ui()
 
@@ -16,6 +17,8 @@ var _did_purchase := false:
 		_did_purchase = val
 		if val == true:
 			on_purchase_pressed.emit()
+
+var _is_affordable := false
 
 signal on_purchase_pressed
 
@@ -37,7 +40,7 @@ func _draw_ui() -> void:
 	desc_node.text = product.desc
 
 	var price_node := get_node("%Price") as Label
-	price_node.text = Helper.format_number(product.price / 100.0)
+	price_node.text = Helper.format_currency(product.price)
 
 	var badge_node := get_node("%Badge") as UI_GameOver_StoreProductBadge
 	var rng := RandomNumberGenerator.new()
@@ -48,10 +51,17 @@ func _draw_ui() -> void:
 	badge_node.icon = product.icon
 	badge_node.animate()
 
+	($ColorRect as Control).offset_transform_rotation = randf_range(-.2, .2)
+	if _is_affordable == false:
+		($"HBoxContainer/VBoxContainer" as Control).modulate.a = .5
+		($ColorRect as Control).visible = true
+	else:
+		($"HBoxContainer/VBoxContainer" as Control).modulate.a = 1
+
 
 func _process(_delta: float) -> void:
 	var buy_node := get_node("%Buy") as Button
-	buy_node.disabled = _did_purchase
+	buy_node.disabled = !_is_affordable or _did_purchase
 
 	if _did_purchase:
 		var check_node := get_node("%TextureRect") as TextureRect
@@ -63,6 +73,8 @@ func _on_buy_pressed() -> void:
 
 
 func _on_buy_mouse_entered() -> void:
+	if not _is_affordable:
+		return
 	hover(false)
 
 

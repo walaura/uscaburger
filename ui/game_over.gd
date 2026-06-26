@@ -15,10 +15,10 @@ func _ready() -> void:
 	# for debug
 	if get_tree().current_scene == self:
 		CurrentRunState.inventory_handler.hold_item("ketchup.tres")
-		CurrentRunState.score_handler.settle(100000)
-		speed_mult = .1
+		CurrentRunState.score_handler.settle(2100)
+		speed_mult = .4
 	if Helper.is_debug:
-		speed_mult = .1
+		speed_mult = .4
 
 	var niceone_player := get_node("%NiceOneAnim") as AnimationPlayer
 
@@ -26,58 +26,28 @@ func _ready() -> void:
 	store_scene = STORE_SCENE.instantiate()
 
 	get_node("%StorePlaceholder").add_child(store_scene)
-	store_scene.on_purchase.connect(
-		func(item: String, _price: int) -> void:
-			CurrentRunState.inventory_handler.hold_item(item)
-			if not Helper.is_debug:
-				(%StorePlaceholder as Container).mouse_behavior_recursive = (
-					Control.MOUSE_BEHAVIOR_DISABLED
-				)
-				(%StorePlaceholder as Container).focus_behavior_recursive = (
-					Control.FOCUS_BEHAVIOR_DISABLED
-				)
-				_on_next_round_pressed()
-	)
+	store_scene.on_purchase.connect(_on_purchased_item)
 
 	_play_intro()
-
 	get_tree().paused = true
 
 
-func _push_ticket_line(
-	line: CurrentRunState_ScoreLineItemResource, tween := create_tween()
-) -> Tween:
-	var scorestkt := get_node("%ScoresTkt") as VBoxContainer
-	var tkt_line: UI_GameOver_LineItem = LINE_ITEM_SCENE.instantiate()
-	if line is CurrentRunState_ScoreLineItemDividerResource:
-		tkt_line.style = (
-			tkt_line.Style.EMPTY
-			if (line as CurrentRunState_ScoreLineItemDividerResource).is_empty_line
-			else tkt_line.Style.LINE
-		)
-	else:
-		tkt_line.deets = line.explanation
-	if line.is_total:
-		tkt_line.style = tkt_line.Style.HONKING
-	tkt_line.scale = Vector2(2, 2)
-	tkt_line.anim_length = .5
-	tkt_line.modulate = Color.TRANSPARENT
-	tkt_line.pivot_offset = Vector2.ONE / 2
-	scorestkt.add_child(tkt_line)
+func _on_purchased_item(item: String, price: int) -> void:
+	CurrentRunState.inventory_handler.hold_item(item)
 
-	(
-		tween
-		. tween_property(tkt_line, "scale", Vector2.ONE, .15 * speed_mult)
-		. from(
-			Vector2.ONE * 1.1,
-		)
-	)
-	tween.parallel().tween_property(tkt_line, "modulate:a", 1, 0.2 * speed_mult)
-	if line is not CurrentRunState_ScoreLineItemDividerResource:
-		tween.parallel().tween_callback(func() -> void: tkt_line.set_score(line.value))
-		tween.tween_property(tkt_line, "modulate:a", 1, .5 * speed_mult)
+	var tween: Tween
+	var lines := CurrentRunState.score_handler.purchase(price)
+	for line in lines:
+		tween = (%ScoresTkt as UI_GameOver_ScoresTkt).push_ticket_line(line)
 
-	return tween
+	if Helper.is_debug:
+		return
+
+	(%StorePlaceholder as Container).mouse_behavior_recursive = (Control.MOUSE_BEHAVIOR_DISABLED)
+	(%StorePlaceholder as Container).focus_behavior_recursive = (Control.FOCUS_BEHAVIOR_DISABLED)
+
+	tween.tween_interval(.5)
+	tween.finished.connect(func() -> void: _on_next_round_pressed())
 
 
 func _play_intro() -> void:
@@ -90,31 +60,32 @@ func _play_intro() -> void:
 	_print_tkt(scoretkt_container).call()
 	var print_upgrades := _print_tkt(upgradestkt_container)
 
-	var tween := create_tween()
-	for line in CurrentRunState.score_handler.last_settled_score:
-		_push_ticket_line(line)
+	var tween := (%ScoresTkt as UI_GameOver_ScoresTkt).play_intro(
+		CurrentRunState.score_handler.last_settled_score,
+	)
+
 	tween.finished.connect(
 		func() -> void:
 			print_upgrades.call()
 			var ttween := create_tween()
 			(
-				ttween
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_rotation",
-					-.035,
-					.5 * speed_mult,
-				)
+					ttween
+					.tween_property(
+						scoretkt_container,
+						"offset_transform_rotation",
+						-.035,
+						.5 * speed_mult,
+					)
 			)
 			(
-				ttween
-				. parallel()
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_position:x",
-					0,
-					.5 * speed_mult,
-				)
+					ttween
+					.parallel()
+					.tween_property(
+						scoretkt_container,
+						"offset_transform_position:x",
+						0,
+						.5 * speed_mult,
+					)
 			)
 	)
 
@@ -142,14 +113,14 @@ func _on_next_round_pressed() -> void:
 	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(%UIContainer as Control, "offset_transform_scale", Vector2.ZERO, .5)
 	(
-		tween
-		. parallel()
-		. tween_property(
-			%UIContainer as Control,
-			"offset_transform_position:y",
-			-300.,
-			.5,
-		)
+			tween
+			.parallel()
+			.tween_property(
+				%UIContainer as Control,
+				"offset_transform_position:y",
+				-300.,
+				.5,
+			)
 	)
 	tween.finished.connect(
 		func() -> void:
@@ -160,4 +131,4 @@ func _on_next_round_pressed() -> void:
 
 func _on_reroll_pressed() -> void:
 	store_scene.on_reroll()
-	pass  # Replace with function body.
+	pass # Replace with function body.

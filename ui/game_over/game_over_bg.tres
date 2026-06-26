@@ -11,7 +11,7 @@ texture = ExtResource("1_smwif")
 input_name = "uv"
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_ldql0"]
-default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 16, 16)]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 20, 16)]
 operator = 2
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_smwif"]

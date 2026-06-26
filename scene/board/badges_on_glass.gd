@@ -1,5 +1,6 @@
 extends Control
 
+@export_file("*.tscn") var badge_scene_path: String
 const BADGE_SIZE := 180
 const PADDING := 40
 
@@ -18,28 +19,33 @@ func _position(index: int) -> Vector2:
 
 	var precise := Vector2(PADDING + (col * BADGE_SIZE), PADDING + (row * BADGE_SIZE))
 	var rng := RandomNumberGenerator.new()
-	var front_to_back := precise + Vector2(
-		rng.randf_range(-SLOP, SLOP),
-		rng.randf_range(-SLOP, SLOP),
+	var front_to_back := (
+			precise
+			+ Vector2(
+				rng.randf_range(-SLOP, SLOP),
+				rng.randf_range(-SLOP, SLOP),
+			)
 	)
 
 	return runway - (Vector2.ONE * BADGE_SIZE) - front_to_back
 
 
-# Called when the node enters the scene tree for the first time.
 func _init() -> void:
 	CurrentRunState.on_run_start.connect(
-		func() -> void:
-			CurrentRunState.inventory_handler.item_got_held.connect(_on_item_added)
+		func() -> void: CurrentRunState.inventory_handler.item_got_held.connect(_on_item_added)
 	)
 
 
 func _on_item_added(item_name: String) -> void:
-	var instance: UI_GameOver_StoreProductBadge = (load("res://ui/game_over/store/store_product_badge.tscn") as PackedScene).instantiate()
-	var data := load("res://data/unlockables/" + item_name) as UnlockableResource
+	var instance: UI_GameOver_StoreProductBadge = (
+			($VisibleOnDev/Control as InstancePlaceholder).create_instance().duplicate()
+	)
+
+	var data := CurrentRunState.inventory_handler.get_item(item_name)
 	if data != null:
 		instance.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 		instance.icon = data.icon
+		instance.edge = randf_range(0, .6)
 		instance.custom_minimum_size = Vector2.ONE * BADGE_SIZE
 		instance.custom_maximum_size = Vector2.ONE * BADGE_SIZE
 		instance.scale = Vector2.ONE * 1.1

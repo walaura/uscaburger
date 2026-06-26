@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://doviwsigeqd41"]
+
+[ext_resource type="Shader" uid="uid://bm2ribdrubxn7" path="res://ui/fade.tres" id="1_420h6"]
+[ext_resource type="Script" uid="uid://co2vs0iymwfel" path="res://ui/game_over/scores_tkt.gd" id="1_ahf23"]
+[ext_resource type="Texture2D" uid="uid://cq7gsns87ik30" path="res://asset/receipt-agb.png" id="2_ahf23"]
+[ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="3_vqk0v"]
+[ext_resource type="PackedScene" uid="uid://o4d30tkgffys" path="res://ui/game_over/line_item.tscn" id="4_wgk84"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_abu4r"]
+resource_local_to_scene = true
+shader = ExtResource("1_420h6")
+shader_parameter/Image = ExtResource("2_ahf23")
+shader_parameter/fade = ExtResource("3_vqk0v")
+
+[node name="ScoresTkt" type="VBoxContainer" unique_id=795243285]
+custom_minimum_size = Vector2(380, 0)
+script = ExtResource("1_ahf23")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1935258940]
+material = SubResource("ShaderMaterial_abu4r")
+custom_minimum_size = Vector2(0, 127.765)
+layout_mode = 2
+
+[node name="LineItem5" parent="." unique_id=1969047378 instance=ExtResource("4_wgk84")]
+layout_mode = 2
+style = 1
+
+[node name="LineItem" parent="." unique_id=1354966470 instance_placeholder="res://ui/game_over/line_item.tscn"]
+visible = false
+layout_mode = 2

@@ -27,6 +27,8 @@ config/name="You Should Consider Making a Burger EX"
 config/version="1.0.0.1"
 run/main_scene="uid://dnihigwbv0nhx"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
 
 [autoload]

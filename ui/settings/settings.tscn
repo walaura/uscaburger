@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bogr5b1gs03ia" path="res://asset/ui/menu-bg-2.png" id="4_ryoa4"]
 [ext_resource type="Texture2D" uid="uid://1y5cwsdcqkei" path="res://asset/ui/menu-bg-3.png" id="5_eenmm"]
 [ext_resource type="Texture2D" uid="uid://bfno4127v3iya" path="res://asset/ui/menu-bg-4.png" id="6_h58ci"]
+[ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="8_eenmm"]
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
@@ -162,18 +163,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bjc66")
 
+[node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("8_eenmm")]
+layout_mode = 1
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=863370407]
 environment = ExtResource("2_hrs25")
-
-[node name="HideShowButton" type="Button" parent="." unique_id=1331646225]
-layout_mode = 0
-offset_right = 149.0
-offset_bottom = 31.0
-focus_mode = 0
-theme_override_font_sizes/font_size = 16
-toggle_mode = true
-button_pressed = true
-text = "Hide settings"
 
 [node name="FPSLabel" type="Label" parent="." unique_id=1933746127]
 layout_mode = 1
@@ -236,6 +230,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_w3j8l")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Control/SettingsMenu" unique_id=241411846]
 layout_mode = 2
+follow_focus = true
+scroll_vertical = 463
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer" unique_id=1859485003]
 layout_mode = 2
@@ -710,11 +706,17 @@ popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
 popup/item_2/id = 2
 
-[node name="Button" type="Button" parent="PanelContainer/Control" unique_id=277730083]
-layout_mode = 1
-offset_right = 327.0
-offset_bottom = 61.0
-text = "ftghfghgfhfghfghfgh"
+[node name="Label" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1385001115]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
+text = "------"
+horizontal_alignment = 1
+
+[node name="HideShowButton" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1331646225]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Save and quit"
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1579627183]
 transparent_bg = true
@@ -728,8 +730,6 @@ offset_right = -21.670013
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="pressed" from="HideShowButton" to="." method="_on_hide_show_button_pressed"]
-[connection signal="toggled" from="HideShowButton" to="." method="_on_HideShowButton_toggled"]
 [connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/VeryLowPreset" to="." method="_on_very_low_preset_pressed"]
 [connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/LowPreset" to="." method="_on_low_preset_pressed"]
 [connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/MediumPreset" to="." method="_on_medium_preset_pressed"]
@@ -754,3 +754,4 @@ grow_vertical = 2
 [connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SSReflectionsOptionButton" to="." method="_on_ss_reflections_option_button_item_selected"]
 [connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SSILOptionButton" to="." method="_on_ssil_option_button_item_selected"]
 [connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/VolumetricFogOptionButton" to="." method="_on_volumetric_fog_option_button_item_selected"]
+[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/HideShowButton" to="." method="_on_hide_show_button_pressed"]

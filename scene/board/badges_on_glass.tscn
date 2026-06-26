@@ -23,4 +23,6 @@ offset_right = 1868.0
 offset_bottom = 327.0
 text = "add"
 
+[node name="Control" parent="VisibleOnDev" unique_id=552038682 instance_placeholder="res://scene/board/store_product_badge.tscn"]
+
 [connection signal="pressed" from="VisibleOnDev/Button" to="." method="_on_button_pressed"]

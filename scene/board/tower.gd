@@ -31,8 +31,7 @@ func _ready() -> void:
 	score_overlay = SCORE_OVERLAY_SCN.instantiate() as Control
 	score_handler = Scene_Tower_ScooreHandler.new()
 	score_handler.overlay_ui = score_overlay
-	if CurrentRunState.inventory_handler.is_holding_item("ui1.tres"):
-		add_child(score_overlay)
+	add_child(score_overlay)
 
 	parts_scn.position.y = 9999999.
 	parts_scn.visible = false
@@ -43,22 +42,22 @@ func _physics_process(delta: float) -> void:
 	var aabb_rect := Helper.get_screen_rect(get_scene_aabb())
 	score_overlay.rotation = -0.025
 	score_overlay.position = (
-			score_overlay
-			.position
-			.lerp(
-				Vector2(
-					minf(
-						aabb_rect.end.x,
-						get_viewport().get_visible_rect().end.x - score_overlay.size.x,
-					),
-					clampf(
-						aabb_rect.position.y - (score_overlay.size.y * .8),
-						0,
-						get_viewport().get_visible_rect().end.y - score_overlay.size.y,
-					),
+		score_overlay
+		. position
+		. lerp(
+			Vector2(
+				minf(
+					aabb_rect.end.x,
+					get_viewport().get_visible_rect().end.x - score_overlay.size.x,
 				),
-				delta * 10.,
-			)
+				clampf(
+					aabb_rect.position.y - (score_overlay.size.y * .8),
+					0,
+					get_viewport().get_visible_rect().end.y - score_overlay.size.y,
+				),
+			),
+			delta * 10.,
+		)
 	)
 
 

@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @export_file("*.tscn") var main_scene_path: String
 var did_load := false
@@ -18,4 +18,5 @@ func _process(_delta: float) -> void:
 	($Label as Label).text = "%f" % (progress[0] * 100)
 	if status == ResourceLoader.THREAD_LOAD_LOADED:
 		did_load = true
-		get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(main_scene_path) as PackedScene)
+		var res := ResourceLoader.load_threaded_get(main_scene_path) as PackedScene
+		($TransitionBase as Parts_TransitionBase).swap_to(res)
