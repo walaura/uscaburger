@@ -14,7 +14,6 @@ var counter := 0.0
 
 
 func _input(event: InputEvent) -> void:
-	print(event, event.is_action("ui_cancel"))
 	if event.is_action("ui_cancel"):
 		(%HideShowButton as Button).pressed.emit()
 
@@ -34,42 +33,42 @@ func _ready() -> void:
 	tween.tween_property($PanelContainer as Control, "offset_transform_scale", Vector2.ONE, .5)
 	tween.parallel().tween_property($PanelContainer as Control, "modulate:a", 1, .1)
 	(
-			tween
-			.parallel()
-			.tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75)
-			.from(1000)
+		tween
+		. parallel()
+		. tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75)
+		. from(1000)
 	)
 	(
-			tween
-			.parallel()
-			.tween_property(
-				($SubViewport/ColorRect as ColorRect).material,
-				"shader_parameter/Scale",
-				1,
-				.33,
-			)
-			.set_delay(.5)
+		tween
+		. parallel()
+		. tween_property(
+			($SubViewport/ColorRect as ColorRect).material,
+			"shader_parameter/Scale",
+			1,
+			.33,
+		)
+		. set_delay(.5)
 	)
 
 	get_viewport().size_changed.connect(update_resolution_label)
 	update_resolution_label()
 	(%ShadowSizeOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_int_setting(
-				SavedData.Options.SHADOW_SIZE,
-			)
+		SavedData
+		. get_gfx_int_setting(
+			SavedData.Options.SHADOW_SIZE,
+		)
 	)
 	(%ShadowFilterOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_int_setting(
-				SavedData.Options.SHADOW_FILTER,
-			)
+		SavedData
+		. get_gfx_int_setting(
+			SavedData.Options.SHADOW_FILTER,
+		)
 	)
 	(%MeshLODOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_int_setting(
-				SavedData.Options.MESH_LOD,
-			)
+		SavedData
+		. get_gfx_int_setting(
+			SavedData.Options.MESH_LOD,
+		)
 	)
 	_connect_ui()
 	SavedData.on_config_changed.connect(_connect_ui)
@@ -92,93 +91,93 @@ func _connect_ui() -> void:
 	(%MSAAOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.MSAA)
 	(%FXAAOptionButton as OptionButton).selected = SavedData.get_gfx_setting(SavedData.Options.FXAA)
 	(%ShadowSizeOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.SHADOW_SIZE,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.SHADOW_SIZE,
+		)
 	)
 	(%ShadowFilterOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.SHADOW_FILTER,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.SHADOW_FILTER,
+		)
 	)
 	(%MeshLODOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.MESH_LOD,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.MESH_LOD,
+		)
 	)
 	(%UIScaleOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.UI_SCALE,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.UI_SCALE,
+		)
 	)
 
 	(%FullscreenOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.SCREEN_MODE,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.SCREEN_MODE,
+		)
 	)
 	(%VsyncOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.VSYNC,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.VSYNC,
+		)
 	)
 	(%FilterOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.SCALING_ALGO,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.SCALING_ALGO,
+		)
 	)
 
 	(%QualitySlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.SCALING_SIZE)
 	(%FSRSharpnessSlider as Slider).value = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.FSR_SHARPNESS,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.FSR_SHARPNESS,
+		)
 	)
 	(%LimitFPSSlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.FPS_CAP)
 
 	(%SSReflectionsOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_SS_REFLECTIONS,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_SS_REFLECTIONS,
+		)
 	)
 	(%SSAOOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_SSAO,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_SSAO,
+		)
 	)
 	(%SSILOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_SSIL,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_SSIL,
+		)
 	)
 	(%SDFGIOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_SDFGI,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_SDFGI,
+		)
 	)
 	(%GlowOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_GLOW,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_GLOW,
+		)
 	)
 	(%VolumetricFogOptionButton as OptionButton).selected = (
-			SavedData
-			.get_gfx_setting(
-				SavedData.Options.ENV_FOG,
-			)
+		SavedData
+		. get_gfx_setting(
+			SavedData.Options.ENV_FOG,
+		)
 	)
 
 
@@ -187,8 +186,8 @@ func _process(delta: float) -> void:
 	# Hide FPS label until it's initially updated by the engine (this can take up to 1 second).
 	fps_label.visible = counter >= 1.0
 	fps_label.text = (
-			"%d FPS (%.2f mspf)"
-			% [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
+		"%d FPS (%.2f mspf)"
+		% [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
 	)
 	# Color FPS counter depending on framerate.
 	# The Gradient resource is stored as metadata within the FPSLabel node (accessible in the inspector).
@@ -204,8 +203,8 @@ func update_resolution_label() -> void:
 	@warning_ignore("unsafe_property_access")
 	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
 	resolution_label.text = (
-			"3D viewport resolution: %d × %d (%d%%)"
-			% [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
+		"3D viewport resolution: %d × %d (%d%%)"
+		% [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
 	)
 
 

@@ -82,10 +82,18 @@ func format_currency(number: float) -> String:
 
 
 func format_size(units: float) -> String:
+	var number := size_in_units(units)
 	if get_units() == 1:
-		return "%.2f" % (units * 3.75) + " cm"
+		return "%.2f" % (number) + " cm"
 
-	return "%.2f" % (units * 1.5) + " in"
+	return "%.2f" % (number) + " in"
+
+
+func size_in_units(units: float) -> float:
+	if get_units() == 1:
+		return units * 3.75
+
+	return units * 1.5
 
 
 func add_animation(node: Node) -> AnimationPlayer:

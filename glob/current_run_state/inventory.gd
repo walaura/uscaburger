@@ -32,11 +32,12 @@ func get_item_at_tier(key: String, tier: int) -> UnlockableResource:
 		return resource
 
 	var inc_res := resource.duplicate(false) as UnlockableResource
-	inc_res.price = int(float(inc_res.price) * inc_res.incremental_mult * float(tier))
+	inc_res.price = (
+		inc_res.price + int(float(inc_res.price) * (inc_res.incremental_mult * 2) * float(tier - 1))
+	)
 	inc_res.incremental_value = inc_res.incremental_value * inc_res.incremental_mult * tier
 
 	if inc_res.incremental_modulo_at > 0:
-		print(tier, "-", inc_res.incremental_modulo_at, "-", tier % inc_res.incremental_modulo_at)
 		tier = tier % inc_res.incremental_modulo_at
 
 	inc_res._tier = tier
@@ -108,6 +109,15 @@ static func is_item_unaffordable(item: String) -> bool:
 	return !is_item_affordable(item)
 
 
+static func is_item_incrementa(item: String) -> bool:
+	var item_resource := CurrentRunState.inventory_handler.get_next_item(item)
+	return is_incremental(item_resource)
+
+
+static func is_item_nonincremental(item: String) -> bool:
+	return !is_item_incrementa(item)
+
+
 static func is_affordable(item: UnlockableResource) -> bool:
 	var money_held := CurrentRunState.score_handler.current_session_score
 	return max(0, money_held) >= item.price
@@ -115,3 +125,11 @@ static func is_affordable(item: UnlockableResource) -> bool:
 
 static func is_unaffordable(item: UnlockableResource) -> bool:
 	return !is_affordable(item)
+
+
+static func is_incremental(item: UnlockableResource) -> bool:
+	return item.is_incremental
+
+
+static func is_nonincremental(item: UnlockableResource) -> bool:
+	return !is_incremental(item)

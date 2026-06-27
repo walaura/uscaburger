@@ -1,6 +1,5 @@
-extends Control
-
 class_name UI_ScoreOverlay
+extends Control
 
 var time := 0.:
 	set(val):
@@ -10,6 +9,12 @@ var sway := 0.:
 	set(val):
 		sway = val
 		update_time_sway()
+
+var _mode: Scene_Tower.Mode
+
+
+func setup(mode: Scene_Tower.Mode) -> void:
+	_mode = mode
 
 
 func update_time_sway() -> void:
@@ -35,6 +40,7 @@ func get_big_number() -> UI_ScoreOverlayBigNumber:
 
 func _ready() -> void:
 	_change_viz()
+	_set_mode()
 	CurrentRunState.inventory_handler.item_got_held.connect(
 		func(_name: String) -> void: _change_viz()
 	)
@@ -45,19 +51,34 @@ func _ready() -> void:
 
 func _change_viz() -> void:
 	visible = (
-			CurrentRunState
-			.inventory_handler
-			.is_holding_item(
-				"ui1.tres",
-			)
+		CurrentRunState
+		. inventory_handler
+		. is_holding_item(
+			"ui1.tres",
+		)
 	)
 	(%ExtraUI as Control).visible = (
-			CurrentRunState
-			.inventory_handler
-			.is_holding_item(
-				"ui2.tres",
-			)
+		CurrentRunState
+		. inventory_handler
+		. is_holding_item(
+			"ui2.tres",
+		)
 	)
+
+
+func _set_mode() -> void:
+	match _mode:
+		Scene_Tower.Mode.Vegan:
+			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.236, .3, -.3))
+			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 2.
+		Scene_Tower.Mode.Chicken:
+			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.076, 0., 0.))
+			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 1.
+		_:
+			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(0, 0, 0))
+			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 1.
+
+	pass
 
 
 func _process(delta: float) -> void:

@@ -12,28 +12,29 @@ func play_intro(ticker: Array[CurrentRunState_ScoreLineItemResource]) -> Tween:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("Drop"):
-		_tween.set_speed_scale(5.0)
+	if _tween != null && event.is_action("UI_Skip"):
+		_tween.set_speed_scale(10.0)
 
 
 func push_ticket_line(
-	line: CurrentRunState_ScoreLineItemResource,
+		line: CurrentRunState_ScoreLineItemResource,
 ) -> Tween:
 	var tkt_line: UI_GameOver_LineItem = (
-		($LineItem as InstancePlaceholder).create_instance().duplicate()
+			($LineItem as InstancePlaceholder).create_instance().duplicate()
 	)
 
 	if not _tween.is_valid():
 		_tween = create_tween()
 
+	if line is CurrentRunState_ScoreLineItemNullResource:
+		return _tween
+
 	tkt_line.visible = true
 
 	if line is CurrentRunState_ScoreLineItemDividerResource:
-		tkt_line.style = (
-			tkt_line.Style.EMPTY
-			if (line as CurrentRunState_ScoreLineItemDividerResource).is_empty_line
-			else tkt_line.Style.LINE
-		)
+		tkt_line.style = tkt_line.Style.LINE
+	elif line is CurrentRunState_ScoreLineItemBrResource:
+		tkt_line.style = tkt_line.Style.EMPTY
 	else:
 		tkt_line.deets = line.explanation
 	if line.is_total:
@@ -46,11 +47,11 @@ func push_ticket_line(
 	add_child(tkt_line)
 
 	(
-		_tween
-		. tween_property(tkt_line, "scale", Vector2.ONE, .15 * Helper.anim_speed)
-		. from(
-			Vector2.ONE * 1.1,
-		)
+			_tween
+			.tween_property(tkt_line, "scale", Vector2.ONE, .15 * Helper.anim_speed)
+			.from(
+				Vector2.ONE * 1.1,
+			)
 	)
 
 	_tween.parallel().tween_property(tkt_line, "modulate:a", 1, 0.2 * Helper.anim_speed)

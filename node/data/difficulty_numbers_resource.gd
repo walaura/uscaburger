@@ -11,13 +11,21 @@ const WAVE_TIMER_MIN_SPEED = .6
 @export var wave_speed_timer_speed := WAVE_SPEED_TIMER_SPEED
 
 
+func _init(mode: Scene_Tower.Mode) -> void:
+	match mode:
+		Scene_Tower.Mode.Chicken:
+			wave_max_offset = WAVE_MAX_OFFSET / 2.
+			wave_speed_timer_speed = WAVE_SPEED_TIMER_SPEED * 2.
+
+
 func on_successful_stack() -> void:
 	# bigger number = easier
 	var time_divider := 10
 	var offset_divider := 150
 
 	wave_speed_timer_speed = (
-			wave_speed_timer_speed - WAVE_TIMER_MIN_SPEED
+			wave_speed_timer_speed
+			- WAVE_TIMER_MIN_SPEED
 			- ((wave_speed_timer_speed - WAVE_TIMER_MIN_SPEED) / time_divider)
 			+ WAVE_TIMER_MIN_SPEED
 	)

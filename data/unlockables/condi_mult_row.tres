@@ -7,7 +7,7 @@
 script = ExtResource("2_kyi87")
 name = "Two in a row"
 icon = ExtResource("1_l0j65")
-desc = "Lucky! [boing]10x[/boing] bonus for inmediately repeating a part"
+desc = "Lucky! [boing]3x[/boing] bonus for inmediately repeating a part"
 price = 599
 requires = Array[StringName]([&"condi_mult.tres"])
 metadata/_custom_type_script = "uid://cuu2a4r833k1g"

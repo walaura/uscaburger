@@ -252,7 +252,6 @@ func _apply_gfx_setting_fast(option: Options, index: Variant) -> void:
 			var value: float = index
 			# The maximum number of frames per second that can be rendered.
 			# A value of 0 means "no limit".
-			print(value, int(value))
 			Engine.max_fps = int(value)
 		Options.VSYNC:
 			if index == 0:  # Disabled (default)
@@ -271,7 +270,6 @@ func _apply_gfx_setting_fast(option: Options, index: Variant) -> void:
 				get_viewport().scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
 		Options.SCALING_SIZE:
 			var value: float = index
-			print(value)
 			get_viewport().scaling_3d_scale = value
 	_save()
 

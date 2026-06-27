@@ -32,6 +32,16 @@ var _has_splooched := false
 var _initial_scale := Vector3.ONE
 
 
+func setup(
+	nw_floor_collider: StaticBody3D,
+	nw_height: int,
+	nw_difficulty_numbers: DifficultyNumbersResource,
+) -> void:
+	floor_collider = nw_floor_collider
+	height = nw_height
+	difficulty_numbers = nw_difficulty_numbers
+
+
 func set_initial_size() -> void:
 	var rng := RandomNumberGenerator.new()
 	_initial_scale = Vector3(1, Helper.ITEM_Y_SCALE, 1) * rng.randf_range(.9, 1.1)
@@ -84,8 +94,14 @@ func _ready() -> void:
 	_internal_animatable.add_child(_mesh)
 	_rb.add_child(_internal_animatable)
 
+	## find height mult
+	var mat := PHYS_MATERIAL
+	if CurrentRunState.inventory_handler.is_holding_item("glue.tres"):
+		var condi_mult := CurrentRunState.inventory_handler.get_item("glue.tres")
+		mat.friction = condi_mult.incremental_value / 100
+
 	_rb.continuous_cd = true
-	_rb.physics_material_override = PHYS_MATERIAL
+	_rb.physics_material_override = mat
 	_rb.freeze = 1
 	_rb.contact_monitor = true
 	_rb.max_contacts_reported = 1

@@ -2,63 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dkbq44dqln6rv" path="res://scene/board/tower.gd" id="1_4etjd"]
 [ext_resource type="PackedScene" uid="uid://bejpf2118t4b7" path="res://asset/Paper-plate.glb" id="2_1iyt8"]
-[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="3_4bi1v"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="4_vjnpv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
 margin = 0.0
 size = Vector3(40, 2.1, 40)
-
-[sub_resource type="GDScript" id="GDScript_dn3wt"]
-resource_name = "UI_DevStoreDebug"
-script/source = "extends FoldableContainer
-
-var config := ConfigFile.new()
-
-var _processed_once := false;
-
-func _process(_delta: float) -> void:
-	if _processed_once:
-		return;
-	_processed_once = true;
-	var datums := CurrentRunState_Inventory.get_all_items()
-	for datum in datums:
-		var btn := Button.new()
-		btn.text = datum
-		btn.pressed.connect(func() -> void:
-			CurrentRunState.inventory_handler.hold_item(datum)
-		)
-		($VBoxContainer as Container).add_child(btn)
-		
-	var err := config.load(\"user://debug.cfg\")
-	if err:
-		return
-	var maybe_stored : Variant = config.get_value('debug','x', null)
-	if maybe_stored is PackedByteArray:
-		@warning_ignore(\"unsafe_cast\")
-		var maybe_stored_d: Dictionary[String, int] = bytes_to_var(maybe_stored as PackedByteArray)
-		for key: String in maybe_stored_d.keys():
-			for i in range(maybe_stored_d[key]):
-				CurrentRunState.inventory_handler.hold_item(key)
-
-
-func _on_save_button_pressed() -> void:
-	config.set_value(\"debug\", \"x\", var_to_bytes(CurrentRunState.inventory_handler._held_items))
-	config.save(\"user://debug.cfg\")
-
-
-func _on_clear_button_pressed() -> void:
-	config.clear()
-	config.save(\"user://debug.cfg\")
-"
-
-[sub_resource type="GDScript" id="GDScript_4etjd"]
-script/source = "extends FoldableContainer
-
-
-func _process(_delta: float) -> void:
-	($VBoxContainer/Label as Label).text = JSON.stringify(CurrentRunState.inventory_handler._held_items, \"  \")
-"
 
 [node name="Tower" type="Node3D" unique_id=2082163755 node_paths=PackedStringArray("floor_collider")]
 script = ExtResource("1_4etjd")
@@ -70,68 +18,14 @@ floor_collider = NodePath("Floor")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_psm7c")
 
-[node name="Paper-plate" parent="." unique_id=1566787311 instance=ExtResource("2_1iyt8")]
+[node name="PaperPlate" parent="." unique_id=1566787311 instance=ExtResource("2_1iyt8")]
+unique_name_in_owner = true
 transform = Transform3D(-1.857734e-07, 0, -4.25, 0, 4.25, 0, 4.25, 0, -1.857734e-07, 0, -0.43696204, 0)
 
 [node name="Stack" type="Node3D" parent="." unique_id=1752603331]
 unique_name_in_owner = true
 
-[node name="VisibleOnDev" type="Node2D" parent="." unique_id=1396574609]
-position = Vector2(1918, -1.9999999)
-scale = Vector2(0.33, 0.33)
-script = ExtResource("3_4bi1v")
-metadata/_custom_type_script = "uid://bruyqau2rx8ma"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VisibleOnDev" unique_id=1897597391]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -383.0
-offset_bottom = 226.0
-grow_horizontal = 0
-
-[node name="FoldableContainer" type="FoldableContainer" parent="VisibleOnDev/VBoxContainer" unique_id=739826777]
-layout_mode = 2
-title = "Dev shit"
-
-[node name="Button" type="Button" parent="VisibleOnDev/VBoxContainer/FoldableContainer" unique_id=1896395184]
-layout_mode = 2
-text = "win immediately"
-
-[node name="FoldableContainer2" type="FoldableContainer" parent="VisibleOnDev/VBoxContainer" unique_id=1742473357]
-layout_mode = 2
-title = "Store"
-script = SubResource("GDScript_dn3wt")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VisibleOnDev/VBoxContainer/FoldableContainer2" unique_id=393870614]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VisibleOnDev/VBoxContainer/FoldableContainer2/VBoxContainer" unique_id=574848597]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="VisibleOnDev/VBoxContainer/FoldableContainer2/VBoxContainer/HBoxContainer" unique_id=757570110]
-layout_mode = 2
-text = "Save"
-
-[node name="ClearButton" type="Button" parent="VisibleOnDev/VBoxContainer/FoldableContainer2/VBoxContainer/HBoxContainer" unique_id=2075789792]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Clear"
-
-[node name="FoldableContainer3" type="FoldableContainer" parent="VisibleOnDev/VBoxContainer" unique_id=562273336]
-layout_mode = 2
-title = "Inventory"
-script = SubResource("GDScript_4etjd")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VisibleOnDev/VBoxContainer/FoldableContainer3" unique_id=1974972627]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VisibleOnDev/VBoxContainer/FoldableContainer3/VBoxContainer" unique_id=1976207814]
-layout_mode = 2
-
 [node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("4_vjnpv")]
 unique_name_in_owner = true
 
-[connection signal="pressed" from="VisibleOnDev/VBoxContainer/FoldableContainer/Button" to="." method="_on_win_pressed"]
-[connection signal="pressed" from="VisibleOnDev/VBoxContainer/FoldableContainer2/VBoxContainer/HBoxContainer/Button" to="VisibleOnDev/VBoxContainer/FoldableContainer2" method="_on_save_button_pressed"]
-[connection signal="pressed" from="VisibleOnDev/VBoxContainer/FoldableContainer2/VBoxContainer/HBoxContainer/ClearButton" to="VisibleOnDev/VBoxContainer/FoldableContainer2" method="_on_clear_button_pressed"]
+[editable path="PaperPlate"]

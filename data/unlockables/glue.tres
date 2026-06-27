@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource("2_j8dkq")
-name = "Parts glue"
+name = "Glue"
 icon = ExtResource("1_72q06")
-desc = "Makes parts [boing]{0}%[/boing] less likely to slide off"
+desc = "Food safe! Makes parts [boing]{0}%[/boing] less likely to slide off"
 price = 1099
 is_incremental = true
 incremental_mult = 1.25

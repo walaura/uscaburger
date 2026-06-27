@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://0v6jvvg0p8tw" path="res://ui/game_over.gd" id="1_oo8kp"]
 [ext_resource type="Shader" uid="uid://c2l5mqqn3icr" path="res://ui/game_over/game_over_bg.tres" id="2_5eixk"]
-[ext_resource type="Texture2D" uid="uid://cpy5pqm25ey1b" path="res://asset/nice-one.png" id="3_j1fe5"]
+[ext_resource type="Texture2D" uid="uid://cr2ci4hnmvqb8" path="res://asset/ui/end/bg-oh-shtt.png" id="3_rcx4q"]
 [ext_resource type="PackedScene" uid="uid://tfa61h60raq3" path="res://ui/game_over/ticket.tscn" id="4_akjlf"]
 [ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="4_k8651"]
-[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="4_l87h4"]
+[ext_resource type="Texture2D" uid="uid://bngem7k0eu70e" path="res://asset/ui/end/bg-nice-one.png" id="4_l87h4"]
 [ext_resource type="Shader" uid="uid://cyei14tc4qxgt" path="res://ui/ticket_shader.tres" id="5_lgxpc"]
 [ext_resource type="PackedScene" uid="uid://doviwsigeqd41" path="res://ui/game_over/scores_tkt.tscn" id="8_rcx4q"]
 [ext_resource type="Shader" uid="uid://bm2ribdrubxn7" path="res://ui/fade.tres" id="8_tb368"]
@@ -13,7 +13,9 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j1fe5"]
 shader = ExtResource("2_5eixk")
-shader_parameter/Texture2DParameter = ExtResource("3_j1fe5")
+shader_parameter/isGood = true
+shader_parameter/Texture2DParameter = ExtResource("4_l87h4")
+shader_parameter/BadImg = ExtResource("3_rcx4q")
 
 [sub_resource type="Animation" id="Animation_j1fe5"]
 length = 0.001
@@ -50,14 +52,14 @@ _data = {
 &"scroll": SubResource("Animation_xjda6")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcx4q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgxpc"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(1, 1, 1, 1)
 shader_parameter/AspectRatio = 0.5975
 shader_parameter/Crumple = ExtResource("4_k8651")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnsmc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcx4q"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(0.99999994, 0.87990296, 0.68754417, 1)
@@ -82,48 +84,31 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_oo8kp")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1752460511]
+[node name="Mask" type="ColorRect" parent="." unique_id=477649335]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="NiceOneBg" type="ColorRect" parent="." unique_id=1752460511]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_j1fe5")
 layout_mode = 0
-offset_left = -209.00002
+offset_left = -253.41
 offset_top = 1842.8794
-offset_right = -189.63928
+offset_right = -234.04927
 offset_bottom = 1920.3224
 scale = Vector2(125.77, 125.77)
 color = Color(1, 0.19, 0.19, 1)
 
-[node name="NiceOneAnim" type="AnimationPlayer" parent="ColorRect" unique_id=1321632053]
+[node name="NiceOneAnim" type="AnimationPlayer" parent="NiceOneBg" unique_id=1321632053]
 unique_name_in_owner = true
 libraries/ = SubResource("AnimationLibrary_akjlf")
-
-[node name="VisibleOnDev" type="Node2D" parent="." unique_id=1890969058]
-script = ExtResource("4_l87h4")
-metadata/_custom_type_script = "uid://bruyqau2rx8ma"
-
-[node name="Panel" type="PanelContainer" parent="VisibleOnDev" unique_id=1752038526]
-offset_left = 31.885
-offset_top = 34.96
-offset_right = 355.885
-offset_bottom = 95.96
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VisibleOnDev/Panel" unique_id=1594498624]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VisibleOnDev/Panel/VBoxContainer" unique_id=707939906]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="VisibleOnDev/Panel/VBoxContainer/HBoxContainer" unique_id=105287206]
-layout_mode = 2
-text = "restart"
-
-[node name="Button3" type="Button" parent="VisibleOnDev/Panel/VBoxContainer/HBoxContainer" unique_id=2075982155]
-layout_mode = 2
-text = "reroll"
-
-[node name="Button2" type="Button" parent="VisibleOnDev/Panel/VBoxContainer/HBoxContainer" unique_id=2107996681]
-layout_mode = 2
-text = "next
-"
 
 [node name="UIContainer" type="HBoxContainer" parent="." unique_id=608837787]
 unique_name_in_owner = true
@@ -145,7 +130,7 @@ theme_override_constants/separation = -20
 [node name="ScoreTkt" parent="UIContainer" unique_id=1248793771 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 2
-material = SubResource("ShaderMaterial_rcx4q")
+material = SubResource("ShaderMaterial_lgxpc")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true
@@ -161,7 +146,7 @@ layout_mode = 2
 [node name="UpgradesTkt" parent="UIContainer" unique_id=1079486513 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 1
-material = SubResource("ShaderMaterial_cnsmc")
+material = SubResource("ShaderMaterial_rcx4q")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true
@@ -186,10 +171,6 @@ custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rcx4q")
-
-[connection signal="pressed" from="VisibleOnDev/Panel/VBoxContainer/HBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="VisibleOnDev/Panel/VBoxContainer/HBoxContainer/Button3" to="." method="_on_reroll_pressed"]
-[connection signal="pressed" from="VisibleOnDev/Panel/VBoxContainer/HBoxContainer/Button2" to="." method="_on_next_round_pressed"]
 
 [editable path="UIContainer/ScoreTkt"]
 [editable path="UIContainer/UpgradesTkt"]

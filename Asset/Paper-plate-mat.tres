@@ -1,0 +1,40 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cgrptilnrh1m1"]
+
+[ext_resource type="Texture2D" uid="uid://dc1xs5p8l6u4g" path="res://asset/Paper-plate_paper.png" id="1_ahr0q"]
+
+[sub_resource type="Shader" id="Shader_cw6j7"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.7.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
+
+uniform vec3 base_color : source_color = vec3(1.0);
+uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap, repeat_enable;
+
+uniform bool flip = false;
+
+void fragment() {
+	vec2 base_uv = UV;
+	
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	if(flip){
+		vec3 flipped = vec3(.8,.8,.8) - albedo_tex.rgb;
+		ALBEDO = max(base_color, flipped);
+	} else {
+		ALBEDO = (base_color * albedo_tex.rgb);		
+	}
+	
+
+	METALLIC = 0.0;
+	SPECULAR = 0.0;
+	ROUGHNESS = 0.0;
+}
+"
+
+[resource]
+resource_name = "Paper"
+render_priority = 0
+shader = SubResource("Shader_cw6j7")
+shader_parameter/base_color = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("1_ahr0q")
+shader_parameter/flip = false

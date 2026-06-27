@@ -1,9 +1,17 @@
-extends Label
-
 class_name UI_ScoreOverlayBigNumber
+extends Label
 
 var score := 0
 var display_score := 0
+
+var multi := 1.:
+	set(val):
+		multi = val
+		if multi < 1.1:
+			($Multi as CanvasItem).hide()
+		else:
+			($Multi as CanvasItem).show()
+			($"Multi/Label" as Label).text = str(int(multi)) + "x"
 
 
 func set_score(val: int) -> void:
@@ -18,4 +26,4 @@ func add_to_score(val: int) -> void:
 
 
 func _process(_delta: float) -> void:
-	self.text = Helper.format_currency(display_score)
+	self.text = Helper.format_currency(display_score * multi)

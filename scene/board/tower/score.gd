@@ -1,21 +1,25 @@
-extends Node
-
-class_name Scene_Tower_ScooreHandler
+class_name Scene_Tower_ScoreHandler
+extends Resource
 
 var current_session_score := 0
 var appearances: Dictionary[String, int] = {}
 var previous_item := "no"
 
 var sauce_cooldown_mult := 0
-var sauce_cooldown := 0
+var sauce_cooldown := 6
 
-@export var overlay_ui: UI_ScoreOverlay
+var _mode := Scene_Tower.Mode.Normal
 
 
-func push(droppable: Droppable) -> void:
+func _init(nw_mode: Scene_Tower.Mode = _mode) -> void:
+	_mode = nw_mode
+
+
+func push(droppable: Droppable, stack_height: float) -> Array[Scene_Tower_ScoreHandler_Line]:
 	var key := droppable.receipt_name
 	var price := droppable.price
-	_push_line(key, price)
+	var returnable: Array[Scene_Tower_ScoreHandler_Line] = []
+	returnable.push_back(_push_line(key, price))
 
 	if !appearances.has(key):
 		appearances.set(key, -1)
@@ -27,21 +31,57 @@ func push(droppable: Droppable) -> void:
 		var mult := appearances[key]
 		if mult > 0:
 			var extra := (price / 100. * condi_mult.incremental_value) * mult
-			_push_line(
-				"+ " + "%d" % mult + "x " + key + (" (%d" % condi_mult.incremental_value) + "%)",
-				int(extra)
+			(
+				returnable
+				. push_back(
+					_push_line(
+						"+ " + "%d" % mult + "x @" + (" %d" % condi_mult.incremental_value) + "%",
+						int(extra),
+					),
+				)
 			)
 
 	## double?
 	if CurrentRunState.inventory_handler.is_holding_item("condi_mult_row.tres"):
 		if previous_item == key:
-			_push_line("+ Two in a row!!", price * 10)
+			returnable.push_back(_push_line("+ Two in a row!!", price * 3))
+
+	## find height mult
+	if CurrentRunState.inventory_handler.is_holding_item("condi_mult_moon.tres"):
+		var condi_mult := CurrentRunState.inventory_handler.get_item("condi_mult_moon.tres")
+
+		var height := Helper.size_in_units(stack_height)
+		if height > 1.:
+			var extra := price * ((height - 1) / 100 * condi_mult.incremental_value)
+			(
+				returnable
+				. push_back(
+					_push_line(
+						(
+							"+ %s @ %s%%"
+							% [Helper.format_size(stack_height), str(condi_mult.incremental_value)]
+						),
+						int(extra),
+					),
+				)
+			)
 
 	##wrap up
 	previous_item = key
 
+	return returnable
 
-func _push_line(key: String, value: int) -> void:
-	overlay_ui.push(key, value)
+
+func _push_line(key: String, value: int) -> Scene_Tower_ScoreHandler_Line:
 	current_session_score += value
-	overlay_ui.get_big_number().set_score(current_session_score)
+	return Scene_Tower_ScoreHandler_Line.new(key, value)
+
+
+class Scene_Tower_ScoreHandler_Line:
+	extends Resource
+	var title: String
+	var value: int
+
+	func _init(nw_title: String, nw_value: int) -> void:
+		title = nw_title
+		value = nw_value

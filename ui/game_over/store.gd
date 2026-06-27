@@ -11,28 +11,40 @@ func on_reroll() -> void:
 
 
 func _ready() -> void:
-	# for debug
-	if get_tree().current_scene == self:
-		CurrentRunState.inventory_handler.hold_item("ketchup.tres")
-		CurrentRunState.score_handler.settle(100)
 	_on_reroll()
 
 
 func _on_reroll() -> void:
 	var all_keys := CurrentRunState_Inventory.get_purchasable_items()
 	var all_affordables := (
-			all_keys.filter(CurrentRunState_Inventory.is_item_affordable) as Array[String]
+		all_keys.filter(CurrentRunState_Inventory.is_item_affordable) as Array[String]
 	)
 	var all_rest := all_keys.filter(CurrentRunState_Inventory.is_item_unaffordable) as Array[String]
 	var pick: Array[String] = []
 
 	var affordables_count := 0
 	for index in range(0, 3):
-		print(all_affordables)
-		var affordable: Variant = all_affordables.pop_back()
-		if affordable != null && affordables_count < 2:
+		# Show at least 2 affordables if possible
+		if !all_affordables.is_empty() && affordables_count < 2:
+			# boost non incrementals on slot 0
+			if affordables_count == 0:
+				var maybe_non_seq := all_affordables.find_custom(
+					CurrentRunState_Inventory.is_item_nonincremental
+				)
+				if maybe_non_seq >= 0:
+					pick.push_back(all_affordables[maybe_non_seq])
+					all_affordables.remove_at(maybe_non_seq)
+				else:
+					pick.push_back(all_affordables.pop_back())
+			else:
+				pick.push_back(all_affordables.pop_back())
 			affordables_count += 1
-			pick.push_back(affordable)
+
+		# if EVERYTHING is affordable, toss one more in
+		elif !all_affordables.is_empty() && all_rest.is_empty():
+			pick.push_back(all_affordables.pop_back())
+
+		# Push 1 unaffordable for motivation
 		else:
 			pick.push_back(all_rest.pop_back())
 

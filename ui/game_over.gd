@@ -7,6 +7,7 @@ const STORE_SCENE = preload("res://ui/game_over/store.tscn")
 const LINE_ITEM_SCENE = preload("res://ui/game_over/line_item.tscn")
 
 var store_scene: UI_GameOver_Store
+var did_finish := true
 
 signal on_next_round
 
@@ -15,21 +16,49 @@ func _ready() -> void:
 	# for debug
 	if get_tree().current_scene == self:
 		CurrentRunState.inventory_handler.hold_item("ketchup.tres")
-		CurrentRunState.score_handler.settle(2100)
-		speed_mult = .4
+		var handler := Scene_Tower_ScoreHandler.new()
+		handler._push_line("XX", 21000)
+		CurrentRunState.score_handler.settle(handler)
 	if Helper.is_debug:
 		speed_mult = .4
 
+	if !did_finish:
+		var mask_tween := create_tween()
+		var end_value := .9 if CurrentRunState.score_handler.current_session_score < 0 else .4
+		mask_tween.tween_property(%Mask as ColorRect, "modulate:a", end_value, .5)
+
+	(%NiceOneBg as CanvasItem).material.set("shader_parameter/isGood", did_finish)
 	var niceone_player := get_node("%NiceOneAnim") as AnimationPlayer
-
 	niceone_player.play("scroll")
-	store_scene = STORE_SCENE.instantiate()
 
+	store_scene = STORE_SCENE.instantiate()
 	get_node("%StorePlaceholder").add_child(store_scene)
 	store_scene.on_purchase.connect(_on_purchased_item)
 
 	_play_intro()
+	_DBG_set_up()
 	get_tree().paused = true
+
+
+func _on_next_round() -> void:
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CIRC)
+	tween.tween_property(%UIContainer as Control, "offset_transform_scale", Vector2.ZERO, .5)
+	(
+		tween
+		. parallel()
+		. tween_property(
+			%UIContainer as Control,
+			"offset_transform_position:y",
+			-300.,
+			.5,
+		)
+	)
+	tween.finished.connect(
+		func() -> void:
+			get_tree().paused = false
+			on_next_round.emit()
+	)
 
 
 func _on_purchased_item(item: String, price: int) -> void:
@@ -47,7 +76,7 @@ func _on_purchased_item(item: String, price: int) -> void:
 	(%StorePlaceholder as Container).focus_behavior_recursive = (Control.FOCUS_BEHAVIOR_DISABLED)
 
 	tween.tween_interval(.5)
-	tween.finished.connect(func() -> void: _on_next_round_pressed())
+	tween.finished.connect(func() -> void: _on_next_round())
 
 
 func _play_intro() -> void:
@@ -60,8 +89,11 @@ func _play_intro() -> void:
 	_print_tkt(scoretkt_container).call()
 	var print_upgrades := _print_tkt(upgradestkt_container)
 
-	var tween := (%ScoresTkt as UI_GameOver_ScoresTkt).play_intro(
-		CurrentRunState.score_handler.last_settled_score,
+	var tween := (
+		(%ScoresTkt as UI_GameOver_ScoresTkt)
+		. play_intro(
+			CurrentRunState.score_handler.last_settled_score,
+		)
 	)
 
 	tween.finished.connect(
@@ -69,23 +101,23 @@ func _play_intro() -> void:
 			print_upgrades.call()
 			var ttween := create_tween()
 			(
-					ttween
-					.tween_property(
-						scoretkt_container,
-						"offset_transform_rotation",
-						-.035,
-						.5 * speed_mult,
-					)
+				ttween
+				. tween_property(
+					scoretkt_container,
+					"offset_transform_rotation",
+					-.035,
+					.5 * speed_mult,
+				)
 			)
 			(
-					ttween
-					.parallel()
-					.tween_property(
-						scoretkt_container,
-						"offset_transform_position:x",
-						0,
-						.5 * speed_mult,
-					)
+				ttween
+				. parallel()
+				. tween_property(
+					scoretkt_container,
+					"offset_transform_position:x",
+					0,
+					.5 * speed_mult,
+				)
 			)
 	)
 
@@ -103,32 +135,38 @@ func _print_tkt(container: Container) -> Callable:
 		tween.tween_property(container, "offset_transform_position:y", 30, .5 * speed_mult)
 
 
-func _on_button_pressed() -> void:
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://board.tscn")
+func _DBG_set_up() -> void:
+	if Cheats == null:
+		return
+	Cheats.with_container(
+		"gameover",
+		func(container: Container) -> void:
+			var label := Label.new()
+			label.text = "if you can read this the store wont auto skip. use this btn"
+			label.autowrap_mode = TextServer.AutowrapMode.AUTOWRAP_ARBITRARY
+			container.add_child(label)
+			var btn1 := Button.new()
+			btn1.text = "Next round"
+			btn1.pressed.connect(_on_next_round)
+			container.add_child(btn1)
 
+			var btn2 := Button.new()
+			btn2.text = "Reroll"
+			btn2.pressed.connect(_DBG_on_reroll_pressed)
+			container.add_child(btn2)
 
-func _on_next_round_pressed() -> void:
-	var tween := create_tween()
-	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CIRC)
-	tween.tween_property(%UIContainer as Control, "offset_transform_scale", Vector2.ZERO, .5)
-	(
-			tween
-			.parallel()
-			.tween_property(
-				%UIContainer as Control,
-				"offset_transform_position:y",
-				-300.,
-				.5,
+			var btn3 := Button.new()
+			btn3.text = "Reroll w/ One million dollars"
+			btn3.pressed.connect(
+				func() -> void:
+					CurrentRunState.score_handler.push(1000000)
+					_DBG_on_reroll_pressed()
 			)
-	)
-	tween.finished.connect(
-		func() -> void:
-			get_tree().paused = false
-			on_next_round.emit()
+			container.add_child(btn3),
+		tree_exiting,
 	)
 
 
-func _on_reroll_pressed() -> void:
+func _DBG_on_reroll_pressed() -> void:
 	store_scene.on_reroll()
-	pass # Replace with function body.
+	pass  # Replace with function body.
