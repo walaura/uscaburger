@@ -6,6 +6,7 @@ var _tween: Tween
 
 func play_intro(ticker: Array[CurrentRunState_ScoreLineItemResource]) -> Tween:
 	_tween = create_tween()
+	print(ticker)
 	for line in ticker:
 		_tween = push_ticket_line(line)
 	return _tween

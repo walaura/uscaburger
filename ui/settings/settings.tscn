@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://vycgaprcs5w4" path="res://asset/ui/menu.png" id="3_ryoa4"]
 [ext_resource type="Texture2D" uid="uid://bogr5b1gs03ia" path="res://asset/ui/menu-bg-2.png" id="4_ryoa4"]
 [ext_resource type="Texture2D" uid="uid://1y5cwsdcqkei" path="res://asset/ui/menu-bg-3.png" id="5_eenmm"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="5_h58ci"]
 [ext_resource type="Texture2D" uid="uid://bfno4127v3iya" path="res://asset/ui/menu-bg-4.png" id="6_h58ci"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="8_eenmm"]
 
@@ -46,12 +47,7 @@ resource_local_to_scene = true
 shader = SubResource("VisualShader_jwfol")
 shader_parameter/Texture2DParameter = ExtResource("3_ryoa4")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3j8l"]
-content_margin_left = 20.0
-content_margin_top = 50.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
-bg_color = Color(0.231373, 0.231373, 0.231373, 0.768627)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yqbr2"]
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_8uhoi"]
 default_input_values = [0, true, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
@@ -66,7 +62,7 @@ default_input_values = [0, 0, 1, 3, 2, 1e-05]
 type = 1
 
 [sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_tymtl"]
-default_input_values = [1, 0.395, 2, 0.685, 3, 0.0, 4, 1.0]
+default_input_values = [1, 0.3, 2, 0.7, 3, 0.0, 4, 1.0]
 
 [sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_h58ci"]
 size = Vector2(760, 360.00003)
@@ -81,6 +77,7 @@ parameter_name = "Scale"
 default_input_values = [1, 2.0, 2, 1.0, 3, 0.0, 4, 3.5]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_q1ftd"]
+expanded_output_ports = [0]
 texture = ExtResource("3_5at5d")
 
 [sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ew8al"]
@@ -93,6 +90,7 @@ texture = ExtResource("4_ryoa4")
 texture = ExtResource("5_eenmm")
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_454rj"]
+expanded_output_ports = [0]
 texture = ExtResource("6_h58ci")
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_7xaet"]
@@ -111,9 +109,9 @@ op_type = 5
 [sub_resource type="VisualShader" id="VisualShader_wqk0c"]
 mode = 1
 flags/light_only = false
-nodes/fragment/0/position = Vector2(1920, 500)
+nodes/fragment/0/position = Vector2(2060, 520)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_q1ftd")
-nodes/fragment/2/position = Vector2(120, 380)
+nodes/fragment/2/position = Vector2(140, 300)
 nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_fqhk4")
 nodes/fragment/3/position = Vector2(131, 666)
 nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_d4swc")
@@ -121,11 +119,11 @@ nodes/fragment/4/position = Vector2(140, 920)
 nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_454rj")
 nodes/fragment/5/position = Vector2(160, 1220)
 nodes/fragment/6/node = SubResource("VisualShaderNodeSwitch_7xaet")
-nodes/fragment/6/position = Vector2(1300, 480)
+nodes/fragment/6/position = Vector2(1400, 500)
 nodes/fragment/8/node = SubResource("VisualShaderNodeCompare_odl14")
 nodes/fragment/8/position = Vector2(960, 160)
 nodes/fragment/9/node = SubResource("VisualShaderNodeSwitch_y8428")
-nodes/fragment/9/position = Vector2(1100, 720)
+nodes/fragment/9/position = Vector2(1140, 780)
 nodes/fragment/10/node = SubResource("VisualShaderNodeSwitch_8uhoi")
 nodes/fragment/10/position = Vector2(1100, 1080)
 nodes/fragment/11/node = SubResource("VisualShaderNodeCompare_winn6")
@@ -133,9 +131,9 @@ nodes/fragment/11/position = Vector2(800, 440)
 nodes/fragment/12/node = SubResource("VisualShaderNodeCompare_ew8al")
 nodes/fragment/12/position = Vector2(780, 1340)
 nodes/fragment/13/node = SubResource("VisualShaderNodeRemap_tymtl")
-nodes/fragment/13/position = Vector2(1568.5557, 658.59625)
+nodes/fragment/13/position = Vector2(1720, 680)
 nodes/fragment/17/node = SubResource("VisualShaderNodeExpression_h58ci")
-nodes/fragment/17/position = Vector2(-940, 520)
+nodes/fragment/17/position = Vector2(-1000, 520)
 nodes/fragment/17/size = Vector2(760, 360.00003)
 nodes/fragment/17/input_ports = "0,0,scale;"
 nodes/fragment/17/output_ports = "0,3,outp;"
@@ -148,11 +146,11 @@ nodes/fragment/19/node = SubResource("VisualShaderNodeRemap_winn6")
 nodes/fragment/19/position = Vector2(-740, 180)
 nodes/fragment/20/node = SubResource("VisualShaderNodeFloatFunc_ew8al")
 nodes/fragment/20/position = Vector2(140, 60)
-nodes/fragment/connections = PackedInt32Array(8, 0, 6, 0, 9, 0, 6, 2, 10, 0, 9, 2, 12, 0, 10, 0, 5, 0, 6, 1, 4, 0, 9, 1, 3, 0, 10, 1, 2, 0, 10, 2, 6, 0, 13, 0, 18, 0, 17, 0, 17, 0, 2, 0, 18, 0, 19, 0, 19, 0, 20, 0, 20, 0, 8, 0, 20, 0, 11, 0, 20, 0, 12, 0, 17, 0, 3, 0, 17, 0, 4, 0, 17, 0, 5, 0, 11, 0, 9, 0, 13, 0, 0, 1, 6, 0, 0, 0)
+nodes/fragment/connections = PackedInt32Array(8, 0, 6, 0, 9, 0, 6, 2, 10, 0, 9, 2, 12, 0, 10, 0, 4, 0, 9, 1, 3, 0, 10, 1, 6, 0, 13, 0, 18, 0, 17, 0, 17, 0, 2, 0, 18, 0, 19, 0, 19, 0, 20, 0, 20, 0, 8, 0, 20, 0, 11, 0, 20, 0, 12, 0, 17, 0, 3, 0, 17, 0, 4, 0, 17, 0, 5, 0, 11, 0, 9, 0, 6, 0, 0, 0, 2, 0, 10, 2, 5, 0, 6, 1, 13, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
 shader = SubResource("VisualShader_wqk0c")
-shader_parameter/Scale = 0.955
+shader_parameter/Scale = 0.875
 
 [node name="Control" type="Control" unique_id=595044286]
 layout_mode = 3
@@ -205,9 +203,9 @@ texture_filter = 1
 material = SubResource("CanvasItemMaterial_abu4r")
 layout_mode = 0
 offset_left = 160.0
-offset_top = -282.0
+offset_top = -294.0
 offset_right = 1774.9652
-offset_bottom = 1308.0
+offset_bottom = 1405.0
 offset_transform_enabled = true
 theme_override_styles/panel = SubResource("StyleBoxTexture_jwfol")
 
@@ -222,109 +220,86 @@ size_flags_vertical = 4
 [node name="SettingsMenu" type="PanelContainer" parent="PanelContainer/Control" unique_id=1949155663]
 custom_minimum_size = Vector2(15.125, 0)
 layout_mode = 0
-offset_left = 481.0
-offset_top = 19.0
-offset_right = 1393.0
-offset_bottom = 930.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_w3j8l")
+offset_left = 480.0
+offset_top = 34.0
+offset_right = 975.0
+offset_bottom = 917.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_yqbr2")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/Control/SettingsMenu" unique_id=241411846]
 layout_mode = 2
+theme = ExtResource("5_h58ci")
 follow_focus = true
-scroll_vertical = 463
+scroll_vertical = 483
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer" unique_id=1859485003]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer" unique_id=130691332]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer" unique_id=1859485003]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
-[node name="PresetSection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=538465252]
+[node name="GridContainer5" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=663617991]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.682353, 0.917647, 1, 1)
-text = "Apply Preset"
-horizontal_alignment = 1
-
-[node name="Presets" type="HBoxContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=271696769]
-layout_mode = 2
-
-[node name="VeryLowPreset" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets" unique_id=23430789]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Very Low"
-
-[node name="LowPreset" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets" unique_id=2114844829]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Low"
-
-[node name="MediumPreset" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets" unique_id=623956546]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Medium"
-
-[node name="HighPreset" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets" unique_id=317486329]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "High"
-
-[node name="UltraPreset" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets" unique_id=856340487]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Ultra"
-
-[node name="HSeparator" type="HSeparator" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1352366615]
-layout_mode = 2
-
-[node name="UISection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=119579947]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "User Interface Settings"
-horizontal_alignment = 1
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1170522826]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+theme_override_constants/h_separation = 28
 columns = 2
 
-[node name="UIScaleLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer" unique_id=1425490149]
+[node name="PresetLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer5" unique_id=634834256]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 0
 theme_override_font_sizes/font_size = 16
-text = "UI Scale:"
+text = "Preset:"
+horizontal_alignment = 2
 
-[node name="UIScaleOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer" unique_id=31023952]
-unique_name_in_owner = true
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer5" unique_id=1728334095]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-selected = 2
-item_count = 3
-popup/item_0/text = "Small (80%)"
-popup/item_0/id = 0
-popup/item_1/text = "Medium (100%)"
-popup/item_1/id = 1
-popup/item_2/text = "Large (133%)"
-popup/item_2/id = 2
 
-[node name="ViewportSection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1023689635]
+[node name="Button" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer5/VBoxContainer" unique_id=974973687]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "Video Settings"
+theme_override_font_sizes/font_size = 16
+text = "Dodgy"
+
+[node name="Button2" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer5/VBoxContainer" unique_id=522888177]
+layout_mode = 2
+theme = ExtResource("5_h58ci")
+theme_override_font_sizes/font_size = 16
+text = "Alright"
+
+[node name="Button3" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer5/VBoxContainer" unique_id=1657005817]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Fantastic"
+
+[node name="UISection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=119579947]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "
+Video"
 horizontal_alignment = 1
 
-[node name="GridContainer2" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1616810312]
+[node name="GridContainer2" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1616810312]
 layout_mode = 2
+theme_override_constants/h_separation = 28
 columns = 2
 
-[node name="QualityLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=589470580]
+[node name="QualityLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=589470580]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("5_h58ci")
 theme_override_font_sizes/font_size = 16
 text = "Resolution Scale:"
+horizontal_alignment = 2
 
-[node name="QualitySlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=686330078]
+[node name="QualitySlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=686330078]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -334,16 +309,18 @@ max_value = 2.0
 step = 0.05
 value = 1.0
 
-[node name="FilterLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=1110958770]
+[node name="FilterLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=1110958770]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Display Filter:"
+horizontal_alignment = 2
 
-[node name="FilterOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=1090314847]
+[node name="FilterOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=1090314847]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("5_h58ci")
 theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 2
@@ -352,15 +329,16 @@ popup/item_0/id = 0
 popup/item_1/text = "FSR 1.0 (Fast)"
 popup/item_1/id = 1
 
-[node name="FSRSharpnessLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=404250119]
+[node name="FSRSharpnessLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=404250119]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "FSR Sharpness:"
+horizontal_alignment = 2
 
-[node name="FSRSharpnessSlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=635846896]
+[node name="FSRSharpnessSlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=635846896]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -370,13 +348,14 @@ max_value = 2.0
 step = 0.2
 value = 0.2
 
-[node name="FullscreenLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=117151966]
+[node name="FullscreenLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=117151966]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Fullscreen:"
+horizontal_alignment = 2
 
-[node name="FullscreenOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=1345265151]
+[node name="FullscreenOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=1345265151]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -388,13 +367,14 @@ popup/item_0/id = 0
 popup/item_1/text = "Enabled"
 popup/item_1/id = 1
 
-[node name="VsyncLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=256822446]
+[node name="VsyncLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=256822446]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "V-Sync:"
+horizontal_alignment = 2
 
-[node name="VsyncOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=2025373200]
+[node name="VsyncOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=2025373200]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -408,13 +388,14 @@ popup/item_1/id = 1
 popup/item_2/text = "Enabled"
 popup/item_2/id = 2
 
-[node name="LimitFPSLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=631438100]
+[node name="LimitFPSLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=631438100]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Limit FPS:"
+horizontal_alignment = 2
 
-[node name="LimitFPSSlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=262386236]
+[node name="LimitFPSSlider" type="HSlider" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=262386236]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -422,15 +403,16 @@ size_flags_vertical = 3
 max_value = 240.0
 step = 10.0
 tick_count = 30
-ticks_position = 2
+ticks_on_borders = true
 
-[node name="TAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=34484153]
+[node name="TAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=34484153]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Anti-Aliasing (TAA):"
+horizontal_alignment = 2
 
-[node name="TAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=99381316]
+[node name="TAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=99381316]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -442,13 +424,14 @@ popup/item_0/id = 0
 popup/item_1/text = "Enabled (Average)"
 popup/item_1/id = 1
 
-[node name="MSAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=953479792]
+[node name="MSAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=953479792]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Anti-Aliasing (MSAA):"
+horizontal_alignment = 2
 
-[node name="MSAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=2092143543]
+[node name="MSAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=2092143543]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -464,13 +447,14 @@ popup/item_2/id = 2
 popup/item_3/text = "8× (Slower)"
 popup/item_3/id = 3
 
-[node name="FXAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=1070359123]
+[node name="FXAALabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=1070359123]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Anti-Aliasing (FXAA):"
+horizontal_alignment = 2
 
-[node name="FXAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2" unique_id=1789438603]
+[node name="FXAAOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2" unique_id=1789438603]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -482,23 +466,26 @@ popup/item_0/id = 0
 popup/item_1/text = "Enabled (Fast)"
 popup/item_1/id = 1
 
-[node name="QualitySection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=653544519]
+[node name="QualitySection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=653544519]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "Quality Settings"
+theme_type_variation = &"HeaderLarge"
+text = "
+Quality"
 horizontal_alignment = 1
 
-[node name="GridContainer4" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1996885669]
+[node name="GridContainer4" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1996885669]
 layout_mode = 2
+theme_override_constants/h_separation = 28
 columns = 2
 
-[node name="ShadowSizeLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=373587134]
+[node name="ShadowSizeLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=373587134]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Shadow Resolution:"
+horizontal_alignment = 2
 
-[node name="ShadowSizeOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=27118125]
+[node name="ShadowSizeOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=27118125]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -518,13 +505,14 @@ popup/item_4/id = 4
 popup/item_5/text = "Ultra (Slowest)"
 popup/item_5/id = 5
 
-[node name="ShadowFilterLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=2112623770]
+[node name="ShadowFilterLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=2112623770]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Shadow Filtering:"
+horizontal_alignment = 2
 
-[node name="ShadowFilterOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=1371927920]
+[node name="ShadowFilterOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=1371927920]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -544,13 +532,14 @@ popup/item_4/id = 4
 popup/item_5/text = "Ultra (Slower)"
 popup/item_5/id = 5
 
-[node name="MeshLODLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=1857297953]
+[node name="MeshLODLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=1857297953]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Model Quality:"
+horizontal_alignment = 2
 
-[node name="MeshLODOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4" unique_id=1303788620]
+[node name="MeshLODOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4" unique_id=1303788620]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -566,43 +555,26 @@ popup/item_2/id = 2
 popup/item_3/text = "Ultra (Slow)"
 popup/item_3/id = 3
 
-[node name="EnvironmentSection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=42636440]
+[node name="EnvironmentSection" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=42636440]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "Effect Settings"
+theme_type_variation = &"HeaderLarge"
+text = "
+Effects"
 horizontal_alignment = 1
 
-[node name="Environment" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1583624615]
+[node name="Environment" type="GridContainer" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1583624615]
 layout_mode = 2
+theme_override_constants/h_separation = 28
 columns = 2
 
-[node name="SDFGILabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=1648353597]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-text = "Global Illumination:"
-
-[node name="SDFGIOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=356854088]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-selected = 0
-item_count = 3
-popup/item_0/text = "Disabled (Fastest)"
-popup/item_0/id = 0
-popup/item_1/text = "Low (Average)"
-popup/item_1/id = 1
-popup/item_2/text = "High (Slow)"
-popup/item_2/id = 2
-
-[node name="GlowLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=823148364]
+[node name="GlowLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=823148364]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Bloom:"
+horizontal_alignment = 2
 
-[node name="GlowOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=596323235]
+[node name="GlowOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=596323235]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -616,13 +588,14 @@ popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
 popup/item_2/id = 2
 
-[node name="SSAOLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=1113788312]
+[node name="SSAOLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=1113788312]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Ambient Occlusion:"
+horizontal_alignment = 2
 
-[node name="SSAOOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=476734055]
+[node name="SSAOOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=476734055]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -640,35 +613,14 @@ popup/item_3/id = 3
 popup/item_4/text = "High (Slow)"
 popup/item_4/id = 4
 
-[node name="SSReflectionsLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=1735168825]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 14
-text = "Screen-Space Reflections:"
-
-[node name="SSReflectionsOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=1042578968]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 16
-selected = 0
-item_count = 4
-popup/item_0/text = "Disabled (Fastest)"
-popup/item_0/id = 0
-popup/item_1/text = "Low (Average)"
-popup/item_1/id = 1
-popup/item_2/text = "Medium (Slow)"
-popup/item_2/id = 2
-popup/item_3/text = "High (Slower)"
-popup/item_3/id = 3
-
-[node name="SSILLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=318015990]
+[node name="SSILLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=318015990]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Screen-Space Lighting:"
+horizontal_alignment = 2
 
-[node name="SSILOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=638266395]
+[node name="SSILOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=638266395]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -686,13 +638,14 @@ popup/item_3/id = 3
 popup/item_4/text = "High (Slower)"
 popup/item_4/id = 4
 
-[node name="VolumetricFogLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=959316992]
+[node name="VolumetricFogLabel" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=959316992]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Volumetric Fog:"
+horizontal_alignment = 2
 
-[node name="VolumetricFogOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment" unique_id=270773662]
+[node name="VolumetricFogOptionButton" type="OptionButton" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment" unique_id=270773662]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -706,13 +659,13 @@ popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
 popup/item_2/id = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1385001115]
+[node name="Label" type="Label" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1385001115]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
-text = "------"
+text = " "
 horizontal_alignment = 1
 
-[node name="HideShowButton" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer" unique_id=1331646225]
+[node name="HideShowButton" type="Button" parent="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1331646225]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -730,28 +683,20 @@ offset_right = -21.670013
 grow_horizontal = 2
 grow_vertical = 2
 
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/VeryLowPreset" to="." method="_on_very_low_preset_pressed"]
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/LowPreset" to="." method="_on_low_preset_pressed"]
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/MediumPreset" to="." method="_on_medium_preset_pressed"]
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/HighPreset" to="." method="_on_high_preset_pressed"]
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Presets/UltraPreset" to="." method="_on_ultra_preset_pressed"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer/UIScaleOptionButton" to="." method="_on_ui_scale_option_button_item_selected"]
-[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/QualitySlider" to="." method="_on_quality_slider_value_changed"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FilterOptionButton" to="." method="_on_filter_option_button_item_selected"]
-[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FSRSharpnessSlider" to="." method="_on_fsr_sharpness_slider_value_changed"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FullscreenOptionButton" to="." method="_on_fullscreen_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/VsyncOptionButton" to="." method="_on_vsync_option_button_item_selected"]
-[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/LimitFPSSlider" to="." method="_on_limit_fps_slider_value_changed"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/TAAOptionButton" to="." method="_on_taa_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/MSAAOptionButton" to="." method="_on_msaa_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FXAAOptionButton" to="." method="_on_fxaa_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4/ShadowSizeOptionButton" to="." method="_on_shadow_size_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4/ShadowFilterOptionButton" to="." method="_on_shadow_filter_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4/MeshLODOptionButton" to="." method="_on_mesh_lod_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SDFGIOptionButton" to="." method="_on_sdfgi_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/GlowOptionButton" to="." method="_on_glow_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SSAOOptionButton" to="." method="_on_ssao_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SSReflectionsOptionButton" to="." method="_on_ss_reflections_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/SSILOptionButton" to="." method="_on_ssil_option_button_item_selected"]
-[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/Environment/VolumetricFogOptionButton" to="." method="_on_volumetric_fog_option_button_item_selected"]
-[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/VBoxContainer/HideShowButton" to="." method="_on_hide_show_button_pressed"]
+[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/QualitySlider" to="." method="_on_quality_slider_value_changed"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/FilterOptionButton" to="." method="_on_filter_option_button_item_selected"]
+[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/FSRSharpnessSlider" to="." method="_on_fsr_sharpness_slider_value_changed"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/FullscreenOptionButton" to="." method="_on_fullscreen_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/VsyncOptionButton" to="." method="_on_vsync_option_button_item_selected"]
+[connection signal="value_changed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/LimitFPSSlider" to="." method="_on_limit_fps_slider_value_changed"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/TAAOptionButton" to="." method="_on_taa_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/MSAAOptionButton" to="." method="_on_msaa_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer2/FXAAOptionButton" to="." method="_on_fxaa_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4/ShadowSizeOptionButton" to="." method="_on_shadow_size_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4/ShadowFilterOptionButton" to="." method="_on_shadow_filter_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/GridContainer4/MeshLODOptionButton" to="." method="_on_mesh_lod_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment/GlowOptionButton" to="." method="_on_glow_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment/SSAOOptionButton" to="." method="_on_ssao_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment/SSILOptionButton" to="." method="_on_ssil_option_button_item_selected"]
+[connection signal="item_selected" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/Environment/VolumetricFogOptionButton" to="." method="_on_volumetric_fog_option_button_item_selected"]
+[connection signal="pressed" from="PanelContainer/Control/SettingsMenu/ScrollContainer/MarginContainer/VBoxContainer/HideShowButton" to="." method="_on_hide_show_button_pressed"]

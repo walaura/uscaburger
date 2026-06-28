@@ -32,26 +32,7 @@ func settle_loss(score_handler: Scene_Tower_ScoreHandler) -> void:
 	tx.push_back(CurrentRunState_ScoreLineItemResource.new("Nothing Burger", 0))
 	var bom_line := _mk_deduction_line("Cost of materials", score, _get_bom_perc())
 	tx.push_back(bom_line)
-	var insurance_line := bom_line.duplicate() as CurrentRunState_ScoreLineItemResource
-	match _insurance_used:
-		-3:
-			insurance_line.value = int(insurance_line.value / -1.)
-			insurance_line.explanation = "Insurance (No claims Bonus)"
-		-2:
-			insurance_line.value = int(insurance_line.value / -2.)
-			insurance_line.explanation = "Insurance (Silver plan)"
-		-1:
-			insurance_line.value = int(insurance_line.value / -4.)
-			insurance_line.explanation = "Insurance (Loan shark)"
-		0:
-			insurance_line.value = int(-299)
-			insurance_line.explanation = "Time spent on angry phone call from loan shark"
-		_:
-			var perc := int(_insurance_used * 5)
-			insurance_line.value = int(insurance_line.value / 100. * perc)
-			insurance_line.explanation = "%d%%" % (perc) + " Protection money (Loan shark)"
-
-	tx.push_back(insurance_line)
+	tx.push_back(_mk_insurance_line(bom_line.value))
 
 	var sub: int = tx.reduce(
 		func(acc: int, cur: CurrentRunState_ScoreLineItemResource) -> int: return cur.value + acc,
@@ -105,6 +86,31 @@ func settle(score_handler: Scene_Tower_ScoreHandler) -> void:
 
 	_push(tot1)
 	last_settled_score = tx
+
+
+func _mk_insurance_line(bom_value: int) -> CurrentRunState_ScoreLineItemResource:
+	match _insurance_used:
+		-3:
+			return CurrentRunState_ScoreLineItemResource.new(
+				"Insurance (No claims Bonus)", int(bom_value / -1.)
+			)
+		-2:
+			return CurrentRunState_ScoreLineItemResource.new(
+				"Insurance (Silver plan)", int(bom_value / -2.)
+			)
+		-1:
+			return CurrentRunState_ScoreLineItemResource.new(
+				"Insurance (Loan shark)", int(bom_value / -4.)
+			)
+		0:
+			return CurrentRunState_ScoreLineItemResource.new(
+				"Time spent on angry phone call w/ loan shark", -299
+			)
+		_:
+			var perc := int(_insurance_used * 5)
+			return CurrentRunState_ScoreLineItemResource.new(
+				"%d%%" % (perc) + " Protection money (Loan shark)", int(bom_value / 100. * perc)
+			)
 
 
 func _get_staff_salaries_perc() -> float:

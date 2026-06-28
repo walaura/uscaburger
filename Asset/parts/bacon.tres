@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dq4bm1md8jrbg"]
+
+[ext_resource type="Texture2D" uid="uid://dap5cfh685e2s" path="res://asset/parts/bacon_bacon Base Color.png" id="1_u5fw1"]
+
+[resource]
+resource_name = "bacon"
+cull_mode = 2
+albedo_texture = ExtResource("1_u5fw1")
+roughness = 0.5
+rim_enabled = true
+clearcoat = 0.65
+clearcoat_roughness = 1.0
+subsurf_scatter_strength = 0.5
+backlight = Color(1, 1, 1, 1)
+texture_filter = 2
+metadata/_gltf_primary_texture_coord = 0

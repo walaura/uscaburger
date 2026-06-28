@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://blpikycahaqwd"]
+
+[ext_resource type="Script" uid="uid://dqco7u4swaafo" path="res://ui/ketchup/ketchup_button.gd" id="1_1mjlu"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="1_b0ojb"]
+[ext_resource type="Shader" uid="uid://b4l35aywvo7qp" path="res://ui/ketchup/ketchup_button.tres" id="2_1mjlu"]
+[ext_resource type="Texture2D" uid="uid://cvm51je6gcaf1" path="res://asset/ui/splooch.png" id="4_a5ged"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b0ojb"]
+resource_local_to_scene = true
+shader = ExtResource("2_1mjlu")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/HoverScroll = 0.0
+shader_parameter/FadeIn = 1.0
+shader_parameter/Splooch = ExtResource("4_a5ged")
+shader_parameter/Opacity = 0.8
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a5ged"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b0ojb"]
+width = 128
+height = 4
+noise = SubResource("FastNoiseLite_a5ged")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+resource_local_to_scene = true
+shader = ExtResource("2_1mjlu")
+shader_parameter/ColorParameter = Color(1, 0.2, 0.078431375, 1)
+shader_parameter/HoverScroll = 0.0
+shader_parameter/Sheen = SubResource("NoiseTexture2D_b0ojb")
+shader_parameter/FadeIn = 0.0
+shader_parameter/Splooch = ExtResource("4_a5ged")
+shader_parameter/Opacity = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e86f3"]
+resource_local_to_scene = true
+shader = ExtResource("2_1mjlu")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/HoverScroll = 0.0
+shader_parameter/FadeIn = 0.0
+shader_parameter/Splooch = ExtResource("4_a5ged")
+shader_parameter/Opacity = 0.5
+
+[node name="KetchupButton" type="Button" unique_id=1854096938]
+offset_right = 29.0
+offset_bottom = 21.0
+offset_transform_enabled = true
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_b0ojb")
+theme_type_variation = &"ButtonFake"
+text = "XXXxx"
+script = ExtResource("1_1mjlu")
+
+[node name="Sub" type="Control" parent="." unique_id=516200307]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.6
+offset_bottom = -0.6000004
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="Rest" type="ColorRect" parent="Sub" unique_id=1338335815]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 0.34509805)
+material = SubResource("ShaderMaterial_b0ojb")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="Hover" type="ColorRect" parent="Sub" unique_id=1016296001]
+unique_name_in_owner = true
+z_index = 1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.2, 1.2)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+
+[node name="HoverShadow" type="ColorRect" parent="Sub/Hover" unique_id=2126541411]
+unique_name_in_owner = true
+z_index = -1
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_e86f3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+offset_transform_enabled = true
+offset_transform_position = Vector2(2, 2)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1930711275]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -82.0
+offset_right = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CenterContainer" unique_id=1381591938]
+unique_name_in_owner = true
+z_index = 2
+layout_mode = 2
+offset_transform_enabled = true
+theme = ExtResource("1_b0ojb")
+theme_type_variation = &"ButtonLabel"
+text = "XXXxx"
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

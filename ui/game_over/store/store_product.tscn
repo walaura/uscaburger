@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://scene/board/store_product_badge.tscn" id="3_ahob7"]
 [ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_b28u2"]
 [ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_7um22"]
-[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/score_overlay/ticket.tres" id="6_b28u2"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="6_b28u2"]
 [ext_resource type="Texture2D" uid="uid://lmqqoaj8oqst" path="res://asset/ui/badge-placeholder.png" id="6_th61n"]
 [ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="6_wi4i5"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="7_7um22"]

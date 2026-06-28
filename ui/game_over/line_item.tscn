@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://o4d30tkgffys"]
 
-[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/score_overlay/ticket.tres" id="1_ut0ay"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="1_ut0ay"]
 [ext_resource type="Script" uid="uid://dr45sy7wmtwr7" path="res://ui/game_over/line_item.gd" id="1_xr84f"]
 
 [node name="LineItem" type="HBoxContainer" unique_id=1969047378]

@@ -10,13 +10,11 @@
 [ext_resource type="Script" uid="uid://0lkb0u3bgdh7" path="res://node/droppable.gd" id="8_mmtwn"]
 [ext_resource type="PackedScene" uid="uid://covsdjneqr6gi" path="res://asset/topz_cheese_2.tscn" id="9_dkd73"]
 [ext_resource type="PackedScene" uid="uid://dbs6fccnmelsl" path="res://asset/parts/onion.glb" id="10_6mjts"]
+[ext_resource type="PackedScene" uid="uid://de1jhf1wewwsh" path="res://asset/parts/bacon.glb" id="10_oblpx"]
 [ext_resource type="PackedScene" uid="uid://yg8glqqyo8p5" path="res://asset/parts/ketchup.glb" id="11_i617x"]
 [ext_resource type="Texture2D" uid="uid://qfn8p1gk6or4" path="res://asset/parts/ketchup_ketchup Base Color.png" id="12_hyjl0"]
 [ext_resource type="Texture2D" uid="uid://kmxc4r4igfb1" path="res://asset/parts/ketchup_ketchup Roughness.png" id="13_amx0b"]
 [ext_resource type="PackedScene" uid="uid://5kyrudmrvdx3" path="res://asset/parts/patty-chick.glb" id="14_amx0b"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_s808u"]
-size = Vector3(2, 0.23034668, 2)
 
 [sub_resource type="Shader" id="Shader_hyjl0"]
 code = "// NOTE: Shader automatically converted from Godot Engine 4.7.stable's StandardMaterial3D.
@@ -259,12 +257,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
 price = 69
 receipt_name = "Cheese"
 
-[node name="Topz-cheese" parent="Topz-cheese" index="0" unique_id=1470495458]
-physics_material_override = ExtResource("5_hyjl0")
-
-[node name="CollisionShape3D" parent="Topz-cheese/Topz-cheese" index="1" unique_id=268869614]
-shape = SubResource("BoxShape3D_s808u")
-
 [node name="Topz-onion" parent="." unique_id=138490966 instance=ExtResource("10_6mjts")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.060294, 0.112529494, 2.8373752)
 price = 59
@@ -306,9 +298,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9507475, 0, 2.7017317)
 price = 299
 receipt_name = "Chicken"
 
+[node name="Topz-bacon" parent="." unique_id=2078421794 instance=ExtResource("10_oblpx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0788941, 0, 5.5801525)
+
 [editable path="Patty-meat"]
 [editable path="Topz-lettuce"]
-[editable path="Topz-cheese"]
 [editable path="Topz-onion"]
 [editable path="Topz-ketchup"]
 [editable path="Topz-mustard"]

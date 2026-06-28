@@ -1,6 +1,12 @@
 [gd_scene format=3 uid="uid://06yyfm0l0nyb"]
 
 [ext_resource type="Script" uid="uid://b4qak71l0e06o" path="res://scene/board/run.gd" id="1_mmtx2"]
+[ext_resource type="PackedScene" uid="uid://itncaaqookam" path="res://scene_parts/transition/transition-base.tscn" id="2_t7o3d"]
 
 [node name="Run" type="Node3D" unique_id=1709738547]
 script = ExtResource("1_mmtx2")
+
+[node name="TransitionBase" parent="." unique_id=1094825013 instance=ExtResource("2_t7o3d")]
+length = 0.3
+hold = 0.1
+color = Color(0.8666667, 0.7411765, 0.44313726, 1)

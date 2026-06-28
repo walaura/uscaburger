@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_ox7kp"]
 [ext_resource type="Script" uid="uid://ccjxaub2wvah4" path="res://ui/score_overlay/big_number.gd" id="4_ceu1u"]
 [ext_resource type="Texture2D" uid="uid://bc7jc0ar5x58d" path="res://asset/ui/icon-time.png" id="4_wt3f8"]
-[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/score_overlay/ticket.tres" id="5_gj74g"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="5_gj74g"]
 [ext_resource type="Texture2D" uid="uid://2v35i7x5qkve" path="res://asset/ui/icon-distance.png" id="5_yonsj"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="6_tfmnm"]
 [ext_resource type="Texture2D" uid="uid://7q5r1tqi8gw6" path="res://asset/badge/ui-score-multi.png" id="8_74sqc"]
@@ -274,6 +274,7 @@ offset_right = -61.0
 offset_bottom = 42.850006
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.36078432)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3

@@ -2,6 +2,7 @@ class_name Scene_Run
 extends Node3D
 
 const GAME_OVER_SCENE_PATH := "uid://ufb8u4b13l1g"
+const GAME_OVER_REAL_SCENE_PATH := "uid://cp3q0cbp4pcx"
 const TOWER_SCENE: PackedScene = preload("uid://dj3d6kyexgqic")
 
 static var SCREEN_TS_TIME := .5
@@ -53,12 +54,7 @@ func _instance_tower() -> void:
 	add_child(_tower_scn)
 	_tower_scn.position = Vector3(0, 0, 4)
 	var tween := create_tween()
-	(
-		tween
-		. tween_property(_tower_scn, "position", Vector3(0, 0, 0), SCREEN_TS_TIME)
-		. set_trans(Tween.TRANS_SINE)
-		. set_ease(Tween.EASE_IN_OUT)
-	)
+	tween.tween_property(_tower_scn, "position", Vector3(0, 0, 0), SCREEN_TS_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 
 func _play_again() -> void:
@@ -94,10 +90,19 @@ func on_game_over(did_finish: bool, tower_score_handler: Scene_Tower_ScoreHandle
 		on_game_over(did_finish, tower_score_handler)
 		return
 
+	if ResourceLoader.load_threaded_get_status(GAME_OVER_REAL_SCENE_PATH) != ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
+		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCENE_PATH)
+
+	var prev_score_was_under_zero := CurrentRunState.score_handler.current_session_score < 0.0
 	if did_finish:
 		CurrentRunState.score_handler.settle(tower_score_handler)
 	else:
 		CurrentRunState.score_handler.settle_loss(tower_score_handler)
+
+	if prev_score_was_under_zero && CurrentRunState.score_handler.current_session_score < 0.0:
+		_on_real_game_over()
+		return
+
 	var game_over_screen: UI_GameOver = scene_resource.instantiate()
 	game_over_screen.did_finish = did_finish
 	game_over_screen.on_next_round.connect(
@@ -106,6 +111,17 @@ func on_game_over(did_finish: bool, tower_score_handler: Scene_Tower_ScoreHandle
 			remove_child(game_over_screen)
 	)
 	add_child(game_over_screen)
+
+
+func _on_real_game_over() -> void:
+	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_REAL_SCENE_PATH)
+	if scene_resource == null:
+		printerr("failed to preload game over")
+		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCENE_PATH)
+		_on_real_game_over()
+		return
+
+	($TransitionBase as Parts_TransitionBase).swap_to(scene_resource)
 
 
 func on_new_spawn(part: Droppable) -> void:

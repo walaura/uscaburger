@@ -9,6 +9,8 @@
 [ext_resource type="Shader" uid="uid://cyei14tc4qxgt" path="res://ui/ticket_shader.tres" id="5_lgxpc"]
 [ext_resource type="PackedScene" uid="uid://doviwsigeqd41" path="res://ui/game_over/scores_tkt.tscn" id="8_rcx4q"]
 [ext_resource type="Shader" uid="uid://bm2ribdrubxn7" path="res://ui/fade.tres" id="8_tb368"]
+[ext_resource type="Texture2D" uid="uid://blji53bo07mt6" path="res://asset/receipt-hb.png" id="9_cnsmc"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="10_cnsmc"]
 [ext_resource type="Texture2D" uid="uid://fdg7igchhgrr" path="res://asset/receipt-uppies.png" id="10_rcx4q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j1fe5"]
@@ -52,14 +54,108 @@ _data = {
 &"scroll": SubResource("Animation_xjda6")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgxpc"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cnsmc"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(1, 1, 1, 1)
 shader_parameter/AspectRatio = 0.5975
 shader_parameter/Crumple = ExtResource("4_k8651")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcx4q"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v1fhu"]
+resource_local_to_scene = true
+shader = ExtResource("5_lgxpc")
+shader_parameter/ColorParameter = Color(1, 0.23000002, 0.23000002, 1)
+shader_parameter/AspectRatio = 0.5975
+shader_parameter/Crumple = ExtResource("4_k8651")
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_exxln"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_ksit6"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_h5kff"]
+constant = 0.8
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_v1fhu"]
+parameter_name = "FadeIntensity"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_mmccg"]
+parameter_name = "Image"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_6a5lu"]
+parameter_name = "fade"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_xi1dr"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_rkco3"]
+default_input_values = [0, 0.0, 1, 0.5]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ev5vh"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_mdph8"]
+default_input_values = [1, 0.8, 2, 0.9, 3, 0.17, 4, 1.0]
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_4ya5j"]
+size = Vector2(620, 340)
+expression = "vec2 uv = UV; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(UV.x * aspect_ratio, UV.y);"
+
+[sub_resource type="VisualShader" id="VisualShader_v7lsb"]
+resource_local_to_scene = true
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(2220, 100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_mmccg")
+nodes/fragment/3/position = Vector2(280, 120)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_6a5lu")
+nodes/fragment/4/position = Vector2(180, 460)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_xi1dr")
+nodes/fragment/5/position = Vector2(720, 40)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_rkco3")
+nodes/fragment/6/position = Vector2(1340, 520)
+nodes/fragment/7/node = SubResource("VisualShaderNodeTexture_ev5vh")
+nodes/fragment/7/position = Vector2(780, 400)
+nodes/fragment/8/node = SubResource("VisualShaderNodeRemap_mdph8")
+nodes/fragment/8/position = Vector2(1080, 480)
+nodes/fragment/9/node = SubResource("VisualShaderNodeExpression_4ya5j")
+nodes/fragment/9/position = Vector2(-140, 780)
+nodes/fragment/9/size = Vector2(620, 340)
+nodes/fragment/9/input_ports = ""
+nodes/fragment/9/output_ports = "0,3,output0;"
+nodes/fragment/9/expression = "vec2 uv = UV; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(UV.x * aspect_ratio, UV.y);"
+nodes/fragment/10/node = SubResource("VisualShaderNodeColorOp_exxln")
+nodes/fragment/10/position = Vector2(1640, 360)
+nodes/fragment/11/node = SubResource("VisualShaderNodeColorOp_ksit6")
+nodes/fragment/11/position = Vector2(1920, 320)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatConstant_h5kff")
+nodes/fragment/12/position = Vector2(1660, 620)
+nodes/fragment/13/node = SubResource("VisualShaderNodeFloatParameter_v1fhu")
+nodes/fragment/13/position = Vector2(1204, 813)
+nodes/fragment/connections = PackedInt32Array(3, 0, 5, 2, 4, 0, 7, 2, 7, 0, 8, 0, 8, 0, 6, 0, 9, 0, 7, 0, 5, 0, 0, 0, 5, 4, 10, 0, 6, 0, 10, 1, 10, 0, 11, 0, 11, 0, 0, 1, 12, 0, 11, 1, 13, 0, 6, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lrtri"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_v7lsb")
+shader_parameter/Image = ExtResource("9_cnsmc")
+shader_parameter/fade = ExtResource("4_k8651")
+shader_parameter/FadeIntensity = 0.93
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xtpiw"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(0.99999994, 0.87990296, 0.68754417, 1)
@@ -91,6 +187,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
@@ -130,7 +228,7 @@ theme_override_constants/separation = -20
 [node name="ScoreTkt" parent="UIContainer" unique_id=1248793771 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 2
-material = SubResource("ShaderMaterial_lgxpc")
+material = SubResource("ShaderMaterial_cnsmc")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true
@@ -143,10 +241,61 @@ theme_override_constants/margin_bottom = 180
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="BankTkt" parent="UIContainer" unique_id=1489253654 instance=ExtResource("4_akjlf")]
+unique_name_in_owner = true
+z_index = 2
+material = SubResource("ShaderMaterial_v1fhu")
+layout_mode = 2
+size_flags_vertical = 8
+offset_transform_enabled = true
+offset_transform_pivot_ratio = Vector2(0.5, 1)
+
+[node name="MarginContainer" parent="UIContainer/BankTkt" index="0" unique_id=1310417389]
+theme_override_constants/margin_bottom = 180
+
+[node name="ScoresTkt" type="VBoxContainer" parent="UIContainer/BankTkt/MarginContainer" index="0" unique_id=229417136]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt" unique_id=1935258940]
+material = SubResource("ShaderMaterial_lrtri")
+custom_minimum_size = Vector2(0, 120.74)
+layout_mode = 2
+
+[node name="LineItem" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt" unique_id=1354966470 instance_placeholder="res://ui/game_over/line_item.tscn"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt" unique_id=554268420]
+layout_mode = 2
+theme_override_constants/margin_left = 21
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt/MarginContainer" unique_id=228870421]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt/MarginContainer/VBoxContainer" unique_id=2083152773]
+custom_minimum_size = Vector2(0.18, 0)
+layout_mode = 2
+theme = ExtResource("10_cnsmc")
+theme_type_variation = &"WhiteLabel"
+text = "Attn:
+
+Your account is in debt. This is okay! We understand life circumstances happen.
+
+If it remains in debt after your next burger that is NOT okay however and we will be forced to foreclose your establishment.
+
+Good luck on your next burger!"
+autowrap_mode = 2
+
+[node name="BankTktButton" type="Button" parent="UIContainer/BankTkt/MarginContainer/ScoresTkt/MarginContainer/VBoxContainer" unique_id=1707631565]
+unique_name_in_owner = true
+layout_mode = 2
+text = "kk"
+
 [node name="UpgradesTkt" parent="UIContainer" unique_id=1079486513 instance=ExtResource("4_akjlf")]
 unique_name_in_owner = true
 z_index = 1
-material = SubResource("ShaderMaterial_rcx4q")
+material = SubResource("ShaderMaterial_xtpiw")
 layout_mode = 2
 size_flags_vertical = 8
 offset_transform_enabled = true
@@ -173,4 +322,5 @@ size_flags_horizontal = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_rcx4q")
 
 [editable path="UIContainer/ScoreTkt"]
+[editable path="UIContainer/BankTkt"]
 [editable path="UIContainer/UpgradesTkt"]

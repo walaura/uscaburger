@@ -17,14 +17,16 @@ func _ready() -> void:
 	if get_tree().current_scene == self:
 		CurrentRunState.inventory_handler.hold_item("ketchup.tres")
 		var handler := Scene_Tower_ScoreHandler.new()
-		handler._push_line("XX", 21000)
+		handler._push_line("XX", -21000)
 		CurrentRunState.score_handler.settle(handler)
 	if Helper.is_debug:
 		speed_mult = .4
 
+	var show_bank_ultimatum := CurrentRunState.score_handler.current_session_score < 0.
+
 	if !did_finish:
 		var mask_tween := create_tween()
-		var end_value := .9 if CurrentRunState.score_handler.current_session_score < 0 else .4
+		var end_value := .9 if show_bank_ultimatum else .5
 		mask_tween.tween_property(%Mask as ColorRect, "modulate:a", end_value, .5)
 
 	(%NiceOneBg as CanvasItem).material.set("shader_parameter/isGood", did_finish)
@@ -34,6 +36,8 @@ func _ready() -> void:
 	store_scene = STORE_SCENE.instantiate()
 	get_node("%StorePlaceholder").add_child(store_scene)
 	store_scene.on_purchase.connect(_on_purchased_item)
+
+	(%BankTkt as Container).visible = show_bank_ultimatum
 
 	_play_intro()
 	_DBG_set_up()
@@ -45,14 +49,14 @@ func _on_next_round() -> void:
 	tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CIRC)
 	tween.tween_property(%UIContainer as Control, "offset_transform_scale", Vector2.ZERO, .5)
 	(
-		tween
-		. parallel()
-		. tween_property(
-			%UIContainer as Control,
-			"offset_transform_position:y",
-			-300.,
-			.5,
-		)
+			tween
+			.parallel()
+			.tween_property(
+				%UIContainer as Control,
+				"offset_transform_position:y",
+				-300.,
+				.5,
+			)
 	)
 	tween.finished.connect(
 		func() -> void:
@@ -87,37 +91,42 @@ func _play_intro() -> void:
 	scoretkt_container.offset_transform_rotation = -.015
 	upgradestkt_container.offset_transform_rotation = .035
 	_print_tkt(scoretkt_container).call()
-	var print_upgrades := _print_tkt(upgradestkt_container)
+
+	var print_next := _print_tkt(upgradestkt_container)
+	if (%BankTkt as Container).visible == true:
+		var print_upgrades := print_next
+		print_next = _print_tkt(%BankTkt as Container)
+		(%BankTktButton as Button).pressed.connect(func() -> void: print_upgrades.call())
 
 	var tween := (
-		(%ScoresTkt as UI_GameOver_ScoresTkt)
-		. play_intro(
-			CurrentRunState.score_handler.last_settled_score,
-		)
+			(%ScoresTkt as UI_GameOver_ScoresTkt)
+			.play_intro(
+				CurrentRunState.score_handler.last_settled_score,
+			)
 	)
 
 	tween.finished.connect(
 		func() -> void:
-			print_upgrades.call()
+			print_next.call()
 			var ttween := create_tween()
 			(
-				ttween
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_rotation",
-					-.035,
-					.5 * speed_mult,
-				)
+					ttween
+					.tween_property(
+						scoretkt_container,
+						"offset_transform_rotation",
+						-.035,
+						.5 * speed_mult,
+					)
 			)
 			(
-				ttween
-				. parallel()
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_position:x",
-					0,
-					.5 * speed_mult,
-				)
+					ttween
+					.parallel()
+					.tween_property(
+						scoretkt_container,
+						"offset_transform_position:x",
+						0,
+						.5 * speed_mult,
+					)
 			)
 	)
 
@@ -159,7 +168,7 @@ func _DBG_set_up() -> void:
 			btn3.text = "Reroll w/ One million dollars"
 			btn3.pressed.connect(
 				func() -> void:
-					CurrentRunState.score_handler.push(1000000)
+					CurrentRunState.score_handler._push(1000000)
 					_DBG_on_reroll_pressed()
 			)
 			container.add_child(btn3),
@@ -169,4 +178,4 @@ func _DBG_set_up() -> void:
 
 func _DBG_on_reroll_pressed() -> void:
 	store_scene.on_reroll()
-	pass  # Replace with function body.
+	pass # Replace with function body.

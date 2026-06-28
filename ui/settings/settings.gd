@@ -32,12 +32,7 @@ func _ready() -> void:
 
 	tween.tween_property($PanelContainer as Control, "offset_transform_scale", Vector2.ONE, .5)
 	tween.parallel().tween_property($PanelContainer as Control, "modulate:a", 1, .1)
-	(
-		tween
-		. parallel()
-		. tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75)
-		. from(1000)
-	)
+	tween.parallel().tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75).from(1000)
 	(
 		tween
 		. parallel()
@@ -108,12 +103,6 @@ func _connect_ui() -> void:
 			SavedData.Options.MESH_LOD,
 		)
 	)
-	(%UIScaleOptionButton as OptionButton).selected = (
-		SavedData
-		. get_gfx_setting(
-			SavedData.Options.UI_SCALE,
-		)
-	)
 
 	(%FullscreenOptionButton as OptionButton).selected = (
 		SavedData
@@ -143,12 +132,6 @@ func _connect_ui() -> void:
 	)
 	(%LimitFPSSlider as Slider).value = SavedData.get_gfx_setting(SavedData.Options.FPS_CAP)
 
-	(%SSReflectionsOptionButton as OptionButton).selected = (
-		SavedData
-		. get_gfx_setting(
-			SavedData.Options.ENV_SS_REFLECTIONS,
-		)
-	)
 	(%SSAOOptionButton as OptionButton).selected = (
 		SavedData
 		. get_gfx_setting(
@@ -161,12 +144,7 @@ func _connect_ui() -> void:
 			SavedData.Options.ENV_SSIL,
 		)
 	)
-	(%SDFGIOptionButton as OptionButton).selected = (
-		SavedData
-		. get_gfx_setting(
-			SavedData.Options.ENV_SDFGI,
-		)
-	)
+
 	(%GlowOptionButton as OptionButton).selected = (
 		SavedData
 		. get_gfx_setting(
@@ -185,10 +163,7 @@ func _process(delta: float) -> void:
 	counter += delta
 	# Hide FPS label until it's initially updated by the engine (this can take up to 1 second).
 	fps_label.visible = counter >= 1.0
-	fps_label.text = (
-		"%d FPS (%.2f mspf)"
-		% [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
-	)
+	fps_label.text = ("%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()])
 	# Color FPS counter depending on framerate.
 	# The Gradient resource is stored as metadata within the FPSLabel node (accessible in the inspector).
 	var grad: Gradient = fps_label.get_meta("gradient")
@@ -203,8 +178,7 @@ func update_resolution_label() -> void:
 	@warning_ignore("unsafe_property_access")
 	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
 	resolution_label.text = (
-		"3D viewport resolution: %d × %d (%d%%)"
-		% [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
+		"3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
 	)
 
 
@@ -284,24 +258,16 @@ func _on_volumetric_fog_option_button_item_selected(index: int) -> void:
 	SavedData.apply_gfx_setting(SavedData.Options.ENV_FOG, index)
 
 
-func _on_very_low_preset_pressed() -> void:
+func _on_0_preset_pressed() -> void:
 	SavedData.apply_gfx_preset(0)
 
 
-func _on_low_preset_pressed() -> void:
+func _on_1_preset_pressed() -> void:
 	SavedData.apply_gfx_preset(1)
 
 
-func _on_medium_preset_pressed() -> void:
+func _on_2_preset_pressed() -> void:
 	SavedData.apply_gfx_preset(2)
-
-
-func _on_high_preset_pressed() -> void:
-	SavedData.apply_gfx_preset(3)
-
-
-func _on_ultra_preset_pressed() -> void:
-	SavedData.apply_gfx_preset(4)
 
 
 func _on_hide_show_button_pressed() -> void:

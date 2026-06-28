@@ -19,10 +19,6 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 corner_detail = 20
 
-[sub_resource type="Theme" id="Theme_2fet8"]
-default_font = ExtResource("4_75vpt")
-default_font_size = 18
-
 [node name="ButtonPromptsTextBox" type="PanelContainer" unique_id=900385817]
 anchors_preset = 2
 anchor_top = 1.0
@@ -67,8 +63,9 @@ size_flags_vertical = 4
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer" unique_id=386262553]
 unique_name_in_owner = true
 layout_mode = 2
-theme = SubResource("Theme_2fet8")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_fonts/font = ExtResource("4_75vpt")
 text = "Lol test hi hi"
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

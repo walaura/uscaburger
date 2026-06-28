@@ -1,12 +1,13 @@
 extends Node
 
-
 func with_container(
-	cat: StringName, setup_callback: Callable, maybe_exit_tree: Signal = Signal()
+		cat: StringName,
+		setup_callback: Callable,
+		maybe_exit_tree: Signal = Signal(),
 ) -> void:
-	var maybe_container := %Tools.get_node("CtT" + cat) as FoldableContainer
+	var maybe_container := %Tools.get_node_or_null("CtT" + cat) as FoldableContainer
 	var maybe_guts := (
-		(maybe_container.get_child(0) as VBoxContainer) if maybe_container != null else null
+			(maybe_container.get_child(0) as VBoxContainer) if maybe_container != null else null
 	)
 
 	if maybe_guts:

@@ -6,6 +6,7 @@ extends Node3D
 	$"Topz-cheese",
 	$"Topz-tomato",
 	$"Topz-lettuce",
+	$"Topz-bacon",
 ]
 
 @onready var REG_PATTY := $"Patty-meat"

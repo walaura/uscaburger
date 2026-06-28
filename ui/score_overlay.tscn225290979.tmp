@@ -1,0 +1,363 @@
+[gd_scene format=3 uid="uid://ct8q810o3cigk"]
+
+[ext_resource type="Script" uid="uid://cgy1xi5wyxtj8" path="res://ui/score_overlay.gd" id="1_fafp4"]
+[ext_resource type="Shader" uid="uid://b0lds446ytdn3" path="res://ui/score_overlay/score_overlay_trim.gdshader" id="2_4e27g"]
+[ext_resource type="Script" uid="uid://baggt65jfxuym" path="res://ui/score_overlay/ticker_item.gd" id="2_4n6jb"]
+[ext_resource type="Texture2D" uid="uid://crg131hv1wneq" path="res://asset/price-arr.png" id="2_83dqk"]
+[ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_ox7kp"]
+[ext_resource type="Script" uid="uid://ccjxaub2wvah4" path="res://ui/score_overlay/big_number.gd" id="4_ceu1u"]
+[ext_resource type="Texture2D" uid="uid://bc7jc0ar5x58d" path="res://asset/ui/icon-time.png" id="4_wt3f8"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="5_gj74g"]
+[ext_resource type="Texture2D" uid="uid://2v35i7x5qkve" path="res://asset/ui/icon-distance.png" id="5_yonsj"]
+[ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="6_tfmnm"]
+[ext_resource type="Texture2D" uid="uid://7q5r1tqi8gw6" path="res://asset/badge/ui-score-multi.png" id="8_74sqc"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4e27g"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_yonsj"]
+expanded_output_ports = [0]
+texture = ExtResource("2_83dqk")
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_74sqc"]
+size = Vector2(250, 150)
+expression = "vec3 rgb_to_hsv(vec3 c) {
+	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+	float d = q.x - min(q.w, q.y);
+	float e = 1e-10;
+	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv_to_rgb(vec3 c) {
+	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_jege7"]
+size = Vector2(500, 380)
+expression = "vec3 hsv = rgb_to_hsv(input0);
+output0 = hsv_to_rgb(hsv+ input1) ;"
+
+[sub_resource type="VisualShaderNodeVec3Parameter" id="VisualShaderNodeVec3Parameter_euwwg"]
+parameter_name = "HSV"
+
+[sub_resource type="VisualShader" id="VisualShader_yonsj"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1260, 500)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_yonsj")
+nodes/fragment/2/position = Vector2(100, 160)
+nodes/fragment/3/node = SubResource("VisualShaderNodeGlobalExpression_74sqc")
+nodes/fragment/3/position = Vector2(-420, -140)
+nodes/fragment/3/size = Vector2(250, 150)
+nodes/fragment/3/input_ports = ""
+nodes/fragment/3/output_ports = ""
+nodes/fragment/3/expression = "vec3 rgb_to_hsv(vec3 c) {
+	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+	float d = q.x - min(q.w, q.y);
+	float e = 1e-10;
+	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv_to_rgb(vec3 c) {
+	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+"
+nodes/fragment/4/node = SubResource("VisualShaderNodeExpression_jege7")
+nodes/fragment/4/position = Vector2(700, 20)
+nodes/fragment/4/size = Vector2(500, 380)
+nodes/fragment/4/input_ports = "0,4,input0;1,4,input1;"
+nodes/fragment/4/output_ports = "0,4,output0;"
+nodes/fragment/4/expression = "vec3 hsv = rgb_to_hsv(input0);
+output0 = hsv_to_rgb(hsv+ input1) ;"
+nodes/fragment/5/node = SubResource("VisualShaderNodeVec3Parameter_euwwg")
+nodes/fragment/5/position = Vector2(200, 20)
+nodes/fragment/connections = PackedInt32Array(2, 4, 0, 1, 2, 0, 4, 0, 4, 0, 0, 0, 5, 0, 4, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wt3f8"]
+shader = SubResource("VisualShader_yonsj")
+shader_parameter/HSV = Vector3(0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyjl0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(15.960641, 15.960641, 15.960641, 0.8)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_yonsj"]
+parameter_name = "Texture2DParameter"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_74sqc"]
+source = 5
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_jege7"]
+parameter_name = "ColorParameter"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_euwwg"]
+function = 31
+
+[sub_resource type="VisualShader" id="VisualShader_abu4r"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(580, 140)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_yonsj")
+nodes/fragment/2/position = Vector2(-320, 120)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_74sqc")
+nodes/fragment/3/position = Vector2(60, 340)
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorParameter_jege7")
+nodes/fragment/4/position = Vector2(-100, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatFunc_euwwg")
+nodes/fragment/5/position = Vector2(300, 260)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 4, 0, 0, 0, 3, 0, 5, 0, 5, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_abu4r")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/Texture2DParameter = ExtResource("4_wt3f8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_74sqc"]
+resource_local_to_scene = true
+shader = SubResource("VisualShader_abu4r")
+shader_parameter/ColorParameter = Color(0, 0, 0, 1)
+shader_parameter/Texture2DParameter = ExtResource("5_yonsj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4e27g"]
+shader = ExtResource("2_4e27g")
+
+[node name="ScoreOverlay" type="Control" unique_id=1677377286]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = -668.605
+offset_bottom = -306.7425
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fafp4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1356684726]
+clip_children = 1
+layout_mode = 0
+offset_left = 49.697502
+offset_top = -151.7425
+offset_right = 419.6975
+offset_bottom = 178.0
+texture = SubResource("ViewportTexture_4e27g")
+expand_mode = 1
+
+[node name="Receipt" type="VBoxContainer" parent="TextureRect" unique_id=483562382]
+unique_name_in_owner = true
+custom_maximum_size = Vector2(286, -1)
+layout_mode = 0
+offset_left = 33.0
+offset_right = 319.0
+offset_bottom = 327.0
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="TextureRect/Receipt" unique_id=1062544171]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 2
+text = "walalalalla im a test thingy to test shits working properly ignore meee"
+
+[node name="Control" type="Control" parent="TextureRect/Receipt" unique_id=1617717363]
+custom_minimum_size = Vector2(0.33, 351.28)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="BigNumberBG" type="Panel" parent="." unique_id=196598524]
+material = SubResource("ShaderMaterial_wt3f8")
+custom_minimum_size = Vector2(0, 56.43)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -37.700012
+offset_right = 69.30249
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset_ratio = Vector2(0.115, 0.5)
+theme_override_styles/panel = SubResource("StyleBoxFlat_hyjl0")
+
+[node name="ExtraUI" type="HBoxContainer" parent="BigNumberBG" unique_id=1139985584]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -162.69751
+offset_top = 79.442505
+offset_right = -2.6975098
+offset_bottom = 103.442505
+grow_horizontal = 0
+alignment = 2
+
+[node name="Time" type="PanelContainer" parent="BigNumberBG/ExtraUI" unique_id=1590339297]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BigNumberBG/ExtraUI/Time" unique_id=235967525]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="BigNumberBG/ExtraUI/Time/HBoxContainer" unique_id=766967225]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "(t) 3s"
+
+[node name="ColorRect" type="ColorRect" parent="BigNumberBG/ExtraUI/Time/HBoxContainer" unique_id=1036002141]
+material = SubResource("ShaderMaterial_dn3wt")
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0, 0, 1)
+
+[node name="TiSwqayme2" type="PanelContainer" parent="BigNumberBG/ExtraUI" unique_id=457162874]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BigNumberBG/ExtraUI/TiSwqayme2" unique_id=419172585]
+layout_mode = 2
+
+[node name="SwayLabel" type="Label" parent="BigNumberBG/ExtraUI/TiSwqayme2/HBoxContainer" unique_id=505723418]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "(s)"
+
+[node name="ColorRect" type="ColorRect" parent="BigNumberBG/ExtraUI/TiSwqayme2/HBoxContainer" unique_id=1747595538]
+material = SubResource("ShaderMaterial_74sqc")
+custom_minimum_size = Vector2(24, 24)
+custom_maximum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0, 0, 1)
+
+[node name="BigNumber" type="Label" parent="BigNumberBG" unique_id=2034699334]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 44.69751
+offset_top = -52.149994
+offset_right = -61.0
+offset_bottom = 42.850006
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.36078432)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_ox7kp")
+theme_override_font_sizes/font_size = 60
+text = "$ 5556"
+script = ExtResource("4_ceu1u")
+
+[node name="Multi" type="TextureRect" parent="BigNumberBG/BigNumber" unique_id=915696876]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 275.3025
+offset_top = -9.616882
+offset_right = 333.3025
+offset_bottom = 51.101868
+offset_transform_enabled = true
+offset_transform_rotation = -0.24085544
+texture = ExtResource("8_74sqc")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="BigNumberBG/BigNumber/Multi" unique_id=395286825]
+custom_minimum_size = Vector2(45.71, 29.08)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.0
+offset_top = -11.8125
+offset_right = 11.0
+offset_bottom = 11.8125
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "2x"
+horizontal_alignment = 1
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=183490989]
+transparent_bg = true
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport" unique_id=2063717093]
+material = SubResource("ShaderMaterial_4e27g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.22745098, 1, 1, 1)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=2090560442]
+position = Vector2(-430.3025, -238.7425)
+script = ExtResource("6_tfmnm")
+
+[node name="TickerItem" type="HBoxContainer" parent="Node2D" unique_id=264498960]
+unique_name_in_owner = true
+offset_left = 722.0
+offset_top = 661.0
+offset_right = 925.0
+offset_bottom = 714.0
+pivot_offset_ratio = Vector2(0, 1)
+script = ExtResource("2_4n6jb")
+
+[node name="Label" type="Label" parent="Node2D/TickerItem" unique_id=1584213493]
+custom_minimum_size = Vector2(1.88, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 12.01
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "$ 5556dfghfg
+gfhfgh"
+autowrap_mode = 1
+
+[node name="Label2" type="Label" parent="Node2D/TickerItem" unique_id=594222236]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 8
+theme = ExtResource("5_gj74g")
+theme_type_variation = &"FloatingLabel"
+text = "$ 5556"
