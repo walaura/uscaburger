@@ -1,5 +1,5 @@
 @tool
-class_name PlayerDataResource
+class_name RsPlayerData
 extends Resource
 
 @export var needs_tutorial := true

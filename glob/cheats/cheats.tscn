@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dudo36yqls8ux" path="res://glob/cheats/cheats.gd" id="1_jmmtx"]
 
 [sub_resource type="GDScript" id="GDScript_jmmtx"]
-resource_name = "UI_DevStoreDebug"
+resource_name = "UiDevStoreDebug"
 script/source = "extends FoldableContainer
 
 var config := ConfigFile.new()
@@ -15,12 +15,12 @@ func _process(_delta: float) -> void:
 	if _processed_once:
 		return;
 	_processed_once = true;
-	var datums := CurrentRunState_Inventory.get_all_items()
+	var datums := CurrentRun_Inventory.get_all_items()
 	for datum in datums:
 		var btn := Button.new()
 		btn.text = datum
 		btn.pressed.connect(func() -> void:
-			CurrentRunState.inventory_handler.hold_item(datum)
+			CurrentRun.inventory.hold_item(datum)
 		)
 		($VBoxContainer as Container).add_child(btn)
 		
@@ -33,11 +33,11 @@ func _process(_delta: float) -> void:
 		var maybe_stored_d: Dictionary[String, int] = bytes_to_var(maybe_stored as PackedByteArray)
 		for key: String in maybe_stored_d.keys():
 			for i in range(maybe_stored_d[key]):
-				CurrentRunState.inventory_handler.hold_item(key)
+				CurrentRun.inventory.hold_item(key)
 
 
 func _on_save_button_pressed() -> void:
-	config.set_value(\"debug\", \"x\", var_to_bytes(CurrentRunState.inventory_handler._held_items))
+	config.set_value(\"debug\", \"x\", var_to_bytes(CurrentRun.inventory._held_items))
 	config.save(\"user://debug.cfg\")
 
 
@@ -51,7 +51,7 @@ script/source = "extends FoldableContainer
 
 
 func _process(_delta: float) -> void:
-	($VBoxContainer/Label as Label).text = JSON.stringify(CurrentRunState.inventory_handler._held_items, \"  \")
+	($VBoxContainer/Label as Label).text = JSON.stringify(CurrentRun.inventory._held_items, \"  \")
 "
 
 [node name="Cheats" type="CanvasLayer" unique_id=420487617]

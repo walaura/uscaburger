@@ -1,5 +1,5 @@
 @tool
-class_name UI_GameOver_LineItem
+class_name UiGameOver_LineItem
 extends HBoxContainer
 
 enum Style { TOT, LINE, EMPTY, CENTER, HONKING }

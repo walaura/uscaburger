@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://dvshuid7hgfma"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://dvshuid7hgfma"]
 
 [ext_resource type="Texture2D" uid="uid://dm43uucxv4v7g" path="res://asset/badge/badge-chicken.png" id="1_fgvc6"]
 [ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_abwvx"]

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://dmowr732iju50"]
+
+[ext_resource type="PackedScene" uid="uid://siu7oj5ovauc" path="res://asset/Topz-cheese.glb" id="1_5qxgn"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_ftiig"]
+
+[resource]
+script = ExtResource("2_ftiig")
+price = 69
+name = "Cheese"
+model = ExtResource("1_5qxgn")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://dbq50lcg6vfr7"]
+
+[ext_resource type="PackedScene" uid="uid://dpbopw7xoksux" path="res://asset/parts/mustard.tscn" id="1_tecv3"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_to48f"]
+
+[resource]
+script = ExtResource("2_to48f")
+price = 199
+name = "Mustard"
+model = ExtResource("1_tecv3")
+is_sauce = true
+is_upgrade = true

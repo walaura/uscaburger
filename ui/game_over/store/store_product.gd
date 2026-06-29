@@ -1,14 +1,14 @@
-class_name UI_GameOver_StoreProduct
+class_name UiGameOver_StoreProduct
 extends Node
 
 const BADGE_SLOP := -2.
 
 @onready var hover_tween: Tween
 
-@export var product: UnlockableResource:
+@export var product: RsUnlockable:
 	set(val):
 		product = val
-		_is_affordable = CurrentRunState_Inventory.is_affordable(product)
+		_is_affordable = CurrentRun_Inventory.is_affordable(product)
 		if is_node_ready():
 			_draw_ui()
 
@@ -42,7 +42,7 @@ func _draw_ui() -> void:
 	var price_node := get_node("%Price") as Label
 	price_node.text = Helper.format_currency(product.price)
 
-	var badge_node := get_node("%Badge") as UI_GameOver_StoreProductBadge
+	var badge_node := get_node("%Badge") as UiGameOver_StoreProductBadge
 	var rng := RandomNumberGenerator.new()
 	badge_node.position = Vector2(
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
@@ -87,7 +87,7 @@ func hover(is_out: bool) -> void:
 		hover_tween.kill()
 	hover_tween = create_tween()
 
-	var badge_node := get_node("%Badge") as UI_GameOver_StoreProductBadge
+	var badge_node := get_node("%Badge") as UiGameOver_StoreProductBadge
 	var wrapper := get_node("%HBoxContainer") as Container
 	wrapper.pivot_offset_ratio = Vector2.ONE / 2
 

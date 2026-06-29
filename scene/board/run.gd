@@ -1,55 +1,54 @@
-class_name Scene_Run
+class_name ScRun
 extends Node3D
 
-const GAME_OVER_SCENE_PATH := "uid://ufb8u4b13l1g"
-const GAME_OVER_REAL_SCENE_PATH := "uid://cp3q0cbp4pcx"
+const GAME_OVER_SCPATH := "uid://ufb8u4b13l1g"
+const GAME_OVER_REAL_SCPATH := "uid://cp3q0cbp4pcx"
 const TOWER_SCENE: PackedScene = preload("uid://dj3d6kyexgqic")
 
 static var SCREEN_TS_TIME := .5
 
-var _tower_scn: Scene_Tower
-var _maybe_force_next_mode: Scene_Tower.Mode
+var _tower_scn: ScTower
+var _maybe_force_next_mode: ScTower.Mode
 
 
 func _ready() -> void:
-	CurrentRunState.start_new_run()
+	CurrentRun.start_new_run()
 	Camera.set_mode_gameplay()
 	_instance_tower()
 	_DBG_set_up()
 
-	CurrentRunState.inventory_handler.item_got_held.connect(
+	CurrentRun.inventory.item_got_held.connect(
 		func(item: String) -> void:
 			match item:
 				"alt_chicken.tres":
-					_maybe_force_next_mode = Scene_Tower.Mode.Chicken
+					_maybe_force_next_mode = ScTower.Mode.Chicken
 				"alt_vegan.tres":
-					_maybe_force_next_mode = Scene_Tower.Mode.Vegan
+					_maybe_force_next_mode = ScTower.Mode.Vegan
 	)
 
 
-func _get_next_tower_mode() -> Scene_Tower.Mode:
+func _get_next_tower_mode() -> ScTower.Mode:
 	if _maybe_force_next_mode > 0:
 		var rt := _maybe_force_next_mode
 		@warning_ignore("int_as_enum_without_cast", "int_as_enum_without_match")
 		_maybe_force_next_mode = -1
 		return rt
 
-	if CurrentRunState.inventory_handler.is_holding_item("alt_chicken.tres"):
+	if CurrentRun.inventory.is_holding_item("alt_chicken.tres"):
 		if randi_range(1, 10) == 10:
-			return Scene_Tower.Mode.Chicken
-	if CurrentRunState.inventory_handler.is_holding_item("alt_vegan.tres"):
+			return ScTower.Mode.Chicken
+	if CurrentRun.inventory.is_holding_item("alt_vegan.tres"):
 		if randi_range(1, 10) == 10:
-			return Scene_Tower.Mode.Vegan
+			return ScTower.Mode.Vegan
 
-	return Scene_Tower.Mode.Normal
+	return ScTower.Mode.Normal
 
 
 func _instance_tower() -> void:
-	ResourceLoader.load_threaded_request(GAME_OVER_SCENE_PATH)
+	ResourceLoader.load_threaded_request(GAME_OVER_SCPATH)
 	_tower_scn = TOWER_SCENE.instantiate()
 	_tower_scn.setup(_get_next_tower_mode())
 	_tower_scn.on_game_over.connect(on_game_over)
-	_tower_scn.on_new_spawn.connect(on_new_spawn)
 
 	add_child(_tower_scn)
 	_tower_scn.position = Vector3(0, 0, 4)
@@ -77,33 +76,33 @@ func _play_again() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Zoom-out"):
-		Camera.set_mode_zoom_out(_tower_scn.get_scene_aabb())
+		Camera.set_mode_zoom_out(_tower_scn.get_SCaabb())
 	if event.is_action_released("Zoom-out"):
 		Camera.set_mode_gameplay()
 
 
-func on_game_over(did_finish: bool, tower_score_handler: Scene_Tower_ScoreHandler) -> void:
-	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_SCENE_PATH)
-	if scene_resource == null:
+func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
+	var SCresource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_SCPATH)
+	if SCresource == null:
 		printerr("failed to preload game over")
-		ResourceLoader.load_threaded_request(GAME_OVER_SCENE_PATH)
-		on_game_over(did_finish, tower_score_handler)
+		ResourceLoader.load_threaded_request(GAME_OVER_SCPATH)
+		on_game_over(did_finish, tower_score)
 		return
 
-	if ResourceLoader.load_threaded_get_status(GAME_OVER_REAL_SCENE_PATH) != ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
-		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCENE_PATH)
+	if ResourceLoader.load_threaded_get_status(GAME_OVER_REAL_SCPATH) != ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
+		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCPATH)
 
-	var prev_score_was_under_zero := CurrentRunState.score_handler.current_session_score < 0.0
+	var prev_score_was_under_zero := CurrentRun.score.current_session_score < 0.0
 	if did_finish:
-		CurrentRunState.score_handler.settle(tower_score_handler)
+		CurrentRun.score.settle(tower_score)
 	else:
-		CurrentRunState.score_handler.settle_loss(tower_score_handler)
+		CurrentRun.score.settle_loss(tower_score)
 
-	if prev_score_was_under_zero && CurrentRunState.score_handler.current_session_score < 0.0:
+	if prev_score_was_under_zero && CurrentRun.score.current_session_score < 0.0:
 		_on_real_game_over()
 		return
 
-	var game_over_screen: UI_GameOver = scene_resource.instantiate()
+	var game_over_screen: UiGameOver = SCresource.instantiate()
 	game_over_screen.did_finish = did_finish
 	game_over_screen.on_next_round.connect(
 		func() -> void:
@@ -114,18 +113,14 @@ func on_game_over(did_finish: bool, tower_score_handler: Scene_Tower_ScoreHandle
 
 
 func _on_real_game_over() -> void:
-	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_REAL_SCENE_PATH)
-	if scene_resource == null:
+	var SCresource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_REAL_SCPATH)
+	if SCresource == null:
 		printerr("failed to preload game over")
-		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCENE_PATH)
+		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCPATH)
 		_on_real_game_over()
 		return
 
-	($TransitionBase as Parts_TransitionBase).swap_to(scene_resource)
-
-
-func on_new_spawn(part: Droppable) -> void:
-	Camera.GAMEPLAY_target = part.get_child(0)
+	($TransitionBase as Parts_TransitionBase).swap_to(SCresource)
 
 
 func _DBG_set_up() -> void:
@@ -134,9 +129,9 @@ func _DBG_set_up() -> void:
 	Cheats.with_container(
 		"run",
 		func(container: Container) -> void:
-			for key: Scene_Tower.Mode in Scene_Tower.Mode.values():
+			for key: ScTower.Mode in ScTower.Mode.values():
 				var b := Button.new()
-				b.text = "Next: " + Scene_Tower.Mode.find_key(key)
+				b.text = "Next: " + ScTower.Mode.find_key(key)
 				b.pressed.connect(func() -> void: _maybe_force_next_mode = key)
 				container.add_child(b)
 	)

@@ -1,5 +1,5 @@
-class_name CurrentRunState_ScoreLineItemBrResource
-extends CurrentRunState_ScoreLineItemResource
+class_name CurrentRun_ScoreLineItemBrResource
+extends CurrentRun_ScoreLineItemResource
 
 
 func _init() -> void:

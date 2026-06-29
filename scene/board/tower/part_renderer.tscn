@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dxa4dvghxwbi1"]
+
+[ext_resource type="Script" uid="uid://btd3twuao3f5u" path="res://scene/board/tower/part_renderer.gd" id="1_kcndx"]
+
+[node name="PartRenderer" type="Node3D" unique_id=1756369056]
+script = ExtResource("1_kcndx")

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bo8dvum7butq3"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bo8dvum7butq3"]
 
 [ext_resource type="Texture2D" uid="uid://dog246hx5ms7h" path="res://asset/badge/badge-plant.png" id="1_22sp6"]
 [ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_4ea1y"]

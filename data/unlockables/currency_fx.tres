@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bbnkgh7x18csd"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bbnkgh7x18csd"]
 
 [ext_resource type="Texture2D" uid="uid://4ph4qamp2bj2" path="res://asset/badge/badge-curr-usd.png" id="1_33efm"]
 [ext_resource type="Texture2D" uid="uid://bk8l0msvy05uh" path="res://asset/badge/badge-curr-eu.png" id="2_2bm5j"]

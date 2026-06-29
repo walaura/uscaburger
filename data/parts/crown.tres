@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://bvbdorjg1ompd"]
+
+[ext_resource type="PackedScene" uid="uid://cx5j5lrpq662w" path="res://asset/Bun-crown.glb" id="1_4cokm"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_a8184"]
+
+[resource]
+script = ExtResource("2_a8184")
+price = 599
+name = "Crown"
+is_crown = true
+model = ExtResource("1_4cokm")

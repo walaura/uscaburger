@@ -1,4 +1,4 @@
-class_name UI_ScoreOverlayBigNumber
+class_name UiScoreOverlayBigNumber
 extends Label
 
 var score := 0

@@ -1,43 +1,44 @@
 [gd_scene format=3 uid="uid://cgew2s42rw436"]
 
 [ext_resource type="PackedScene" uid="uid://cpeihasc5dpvl" path="res://scene/board.tscn" id="1_bp0px"]
-[ext_resource type="PackedScene" uid="uid://dn80kasyurhbx" path="res://data/parts/parts.tscn" id="2_5u11y"]
+[ext_resource type="PackedScene" uid="uid://6dysrcuwjbng" path="res://asset/parts/egg.glb" id="2_bp0px"]
+[ext_resource type="PackedScene" uid="uid://c5hbia0fniax2" path="res://asset/parts/pickle.glb" id="3_5u11y"]
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_bp0px"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u3ux8"]
 expanded_output_ports = [0]
 source = 5
 
-[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_5u11y"]
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_1ifl7"]
 parameter_name = "Texture2DParameter"
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_u3ux8"]
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_hngkw"]
 constant = Color(0.8274265, 0, 0.07823897, 1)
 
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_1ifl7"]
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_pb23w"]
 constant = 1.0
 
-[sub_resource type="VisualShader" id="VisualShader_hngkw"]
+[sub_resource type="VisualShader" id="VisualShader_abanw"]
 resource_local_to_scene = true
 nodes/vertex/0/position = Vector2(820, 200)
 nodes/fragment/0/position = Vector2(400, 160)
-nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_bp0px")
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_u3ux8")
 nodes/fragment/2/position = Vector2(-31.436096, 649.98694)
-nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_5u11y")
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_1ifl7")
 nodes/fragment/3/position = Vector2(-391.4361, 489.98697)
-nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_u3ux8")
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_hngkw")
 nodes/fragment/4/position = Vector2(40, 340)
-nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_1ifl7")
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_pb23w")
 nodes/fragment/5/position = Vector2(480, 260)
 nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1, 5, 0, 0, 2, 5, 0, 0, 13, 2, 0, 0, 5)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_pb23w"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_r7uh7"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_abanw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sov46"]
 resource_local_to_scene = true
 render_priority = 0
-shader = SubResource("VisualShader_hngkw")
-shader_parameter/Texture2DParameter = SubResource("ViewportTexture_pb23w")
+shader = SubResource("VisualShader_abanw")
+shader_parameter/Texture2DParameter = SubResource("ViewportTexture_r7uh7")
 
 [node name="Test" type="Node3D" unique_id=849344779]
 
@@ -57,21 +58,16 @@ directional_shadow_split_3 = 0.15
 directional_shadow_fade_start = 0.291
 
 [node name="MeshInstance3D2" parent="Board" index="7" unique_id=944642751]
-surface_material_override/0 = SubResource("ShaderMaterial_abanw")
+surface_material_override/0 = SubResource("ShaderMaterial_sov46")
 
-[node name="Parts" parent="." unique_id=1021000598 instance=ExtResource("2_5u11y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.666132, 1.0280002, -4.6113906)
+[node name="Topz-egg" parent="." unique_id=2091841506 instance=ExtResource("2_bp0px")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.066803, 0.8940862, -0.7808862)
+
+[node name="Topz-pickle" parent="." unique_id=958503375 instance=ExtResource("3_5u11y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.209502, 1.7447886, 0)
 
 [editable path="Board"]
 [editable path="Board/Countertop"]
 [editable path="Board/Ct-Glass"]
 [editable path="Board/bg"]
 [editable path="Board/bg/Collection 2"]
-[editable path="Parts"]
-[editable path="Parts/Patty-meat"]
-[editable path="Parts/Topz-lettuce"]
-[editable path="Parts/Topz-cheese"]
-[editable path="Parts/Topz-onion"]
-[editable path="Parts/Topz-ketchup"]
-[editable path="Parts/Topz-mustard"]
-[editable path="Parts/Topz-mustard2"]

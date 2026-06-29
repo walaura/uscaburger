@@ -1,4 +1,4 @@
-class_name CurrentRunState_ScoreLineItemResource
+class_name CurrentRun_ScoreLineItemResource
 extends Resource
 
 @export var value: int = 0

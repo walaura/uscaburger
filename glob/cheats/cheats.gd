@@ -1,9 +1,11 @@
 extends Node
 
+const FAKE_SIGNAL = Signal()
+
 func with_container(
 		cat: StringName,
 		setup_callback: Callable,
-		maybe_exit_tree: Signal = Signal(),
+		maybe_exit_tree: Signal = FAKE_SIGNAL,
 ) -> void:
 	var maybe_container := %Tools.get_node_or_null("CtT" + cat) as FoldableContainer
 	var maybe_guts := (
@@ -25,5 +27,6 @@ func with_container(
 		%Tools.add_child(maybe_container)
 
 	setup_callback.call_deferred(maybe_guts)
-
-	maybe_exit_tree.connect(func() -> void: %Tools.remove_child(maybe_container))
+	
+	if maybe_exit_tree != FAKE_SIGNAL:
+		maybe_exit_tree.connect(func() -> void: %Tools.remove_child(maybe_container))

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bstxf4vgswshb"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bstxf4vgswshb"]
 
 [ext_resource type="Texture2D" uid="uid://80rph11ocady" path="res://asset/badge/badge-taxes.png" id="1_6oo4p"]
 [ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_6oo4p"]

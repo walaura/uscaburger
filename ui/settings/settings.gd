@@ -1,4 +1,4 @@
-class_name UI_Settings
+class_name UiSettings
 extends Control
 
 # Window project settings:
@@ -19,7 +19,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	($ButtonPrompts as UI_ButtonPrompts).push("ui_cancel")
+	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_IN)
@@ -183,7 +183,7 @@ func update_resolution_label() -> void:
 
 
 func _on_ui_scale_option_button_item_selected(index: int) -> void:
-	SavedData.apply_gfx_setting(SavedData.Options.UI_SCALE, index)
+	SavedData.apply_gfx_setting(SavedData.Options.UiSCALE, index)
 
 
 func _on_quality_slider_value_changed(value: float) -> void:

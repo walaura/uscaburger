@@ -1,5 +1,5 @@
 @tool
-class_name UnlockableResource
+class_name RsUnlockable
 extends Resource
 
 @export_multiline var name: String

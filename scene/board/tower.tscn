@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dkbq44dqln6rv" path="res://scene/board/tower.gd" id="1_4etjd"]
 [ext_resource type="PackedScene" uid="uid://bejpf2118t4b7" path="res://asset/Paper-plate.glb" id="2_1iyt8"]
+[ext_resource type="PackedScene" uid="uid://dxa4dvghxwbi1" path="res://scene/board/tower/part_renderer.tscn" id="4_4etjd"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="4_vjnpv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_psm7c"]
@@ -27,5 +28,7 @@ unique_name_in_owner = true
 
 [node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("4_vjnpv")]
 unique_name_in_owner = true
+
+[node name="PartRenderer" parent="." unique_id=1444662023 instance=ExtResource("4_4etjd")]
 
 [editable path="PaperPlate"]

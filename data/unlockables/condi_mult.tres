@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://bki81ed1aa15c"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bki81ed1aa15c"]
 
 [ext_resource type="Texture2D" uid="uid://c8qqac46ndkue" path="res://asset/badge/badge-condi-mult.png" id="1_6xaeq"]
 [ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_4dfsw"]

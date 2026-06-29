@@ -1,4 +1,4 @@
-class_name UI_ButtonPrompts
+class_name UiButtonPrompts
 extends Control
 
 
@@ -12,14 +12,11 @@ func _process(_delta: float) -> void:
 	pass
 
 
-func push(action: String) -> UI_ButtonPromptsTextBox:
+func push(action: String) -> UiButtonPromptsTextBox:
 	if %VBoxContainer.get_child_count():
-		var last: UI_ButtonPromptsTextBox = %VBoxContainer.get_child(-1)
+		var last: UiButtonPromptsTextBox = %VBoxContainer.get_child(-1)
 		last.dehighlight()
-	var childv := (
-		preload("res://ui/button_prompts/button_prompts_text_box.tscn").instantiate()
-		as UI_ButtonPromptsTextBox
-	)
+	var childv := preload("res://ui/button_prompts/button_prompts_text_box.tscn").instantiate() as UiButtonPromptsTextBox
 	childv.action = action
 	childv.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	%VBoxContainer.add_child(childv)

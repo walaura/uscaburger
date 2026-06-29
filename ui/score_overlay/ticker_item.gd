@@ -1,6 +1,6 @@
 extends HBoxContainer
 
-class_name UI_ScoreOverlayTickerItem
+class_name UiScoreOverlayTickerItem
 
 
 func push(title: String, price: int) -> void:

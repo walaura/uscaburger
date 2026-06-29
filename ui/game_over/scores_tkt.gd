@@ -1,10 +1,10 @@
-class_name UI_GameOver_ScoresTkt
+class_name UiGameOver_ScoresTkt
 extends VBoxContainer
 
 var _tween: Tween
 
 
-func play_intro(ticker: Array[CurrentRunState_ScoreLineItemResource]) -> Tween:
+func play_intro(ticker: Array[CurrentRun_ScoreLineItemResource]) -> Tween:
 	_tween = create_tween()
 	print(ticker)
 	for line in ticker:
@@ -13,28 +13,26 @@ func play_intro(ticker: Array[CurrentRunState_ScoreLineItemResource]) -> Tween:
 
 
 func _input(event: InputEvent) -> void:
-	if _tween != null && event.is_action("UI_Skip"):
+	if _tween != null && event.is_action("UiSkip"):
 		_tween.set_speed_scale(10.0)
 
 
 func push_ticket_line(
-		line: CurrentRunState_ScoreLineItemResource,
+	line: CurrentRun_ScoreLineItemResource,
 ) -> Tween:
-	var tkt_line: UI_GameOver_LineItem = (
-			($LineItem as InstancePlaceholder).create_instance().duplicate()
-	)
+	var tkt_line: UiGameOver_LineItem = ($LineItem as InstancePlaceholder).create_instance().duplicate()
 
 	if not _tween.is_valid():
 		_tween = create_tween()
 
-	if line is CurrentRunState_ScoreLineItemNullResource:
+	if line is CurrentRun_ScoreLineItemNullResource:
 		return _tween
 
 	tkt_line.visible = true
 
-	if line is CurrentRunState_ScoreLineItemDividerResource:
+	if line is CurrentRun_ScoreLineItemDividerResource:
 		tkt_line.style = tkt_line.Style.LINE
-	elif line is CurrentRunState_ScoreLineItemBrResource:
+	elif line is CurrentRun_ScoreLineItemBrResource:
 		tkt_line.style = tkt_line.Style.EMPTY
 	else:
 		tkt_line.deets = line.explanation
@@ -48,15 +46,15 @@ func push_ticket_line(
 	add_child(tkt_line)
 
 	(
-			_tween
-			.tween_property(tkt_line, "scale", Vector2.ONE, .15 * Helper.anim_speed)
-			.from(
-				Vector2.ONE * 1.1,
-			)
+		_tween
+		. tween_property(tkt_line, "scale", Vector2.ONE, .15 * Helper.anim_speed)
+		. from(
+			Vector2.ONE * 1.1,
+		)
 	)
 
 	_tween.parallel().tween_property(tkt_line, "modulate:a", 1, 0.2 * Helper.anim_speed)
-	if line is not CurrentRunState_ScoreLineItemDividerResource:
+	if line is not CurrentRun_ScoreLineItemDividerResource:
 		_tween.parallel().tween_callback(func() -> void: tkt_line.set_score(line.value))
 		_tween.tween_property(tkt_line, "modulate:a", 1, .5 * Helper.anim_speed)
 

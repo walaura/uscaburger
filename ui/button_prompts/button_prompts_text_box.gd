@@ -1,4 +1,4 @@
-class_name UI_ButtonPromptsTextBox
+class_name UiButtonPromptsTextBox
 extends PanelContainer
 
 const HIGHLIGHT_ANIM = .25
@@ -27,12 +27,7 @@ func highlight_til_pressed() -> void:
 func highlight() -> void:
 	var highlight_node := get_node("%PanelContainer") as CanvasItem
 	var tween := create_tween()
-	(
-			tween
-			.tween_property(self, "scale", Vector2.ONE * 4, HIGHLIGHT_ANIM)
-			.set_trans(Tween.TRANS_SINE)
-			.set_ease(Tween.EASE_IN_OUT)
-	)
+	tween.tween_property(self, "scale", Vector2.ONE * 4, HIGHLIGHT_ANIM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.parallel().tween_property(highlight_node, "modulate:a", 1, HIGHLIGHT_ANIM)
 	tween.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_IN_OUT)
 
@@ -40,12 +35,7 @@ func highlight() -> void:
 func dehighlight() -> void:
 	var highlight_node := get_node("%PanelContainer") as CanvasItem
 	var tween := create_tween()
-	(
-			tween
-			.tween_property(self, "scale", Vector2(1, 1), HIGHLIGHT_ANIM)
-			.set_trans(Tween.TRANS_SINE)
-			.set_ease(Tween.EASE_IN_OUT)
-	)
+	tween.tween_property(self, "scale", Vector2(1, 1), HIGHLIGHT_ANIM).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.parallel().tween_property(highlight_node, "modulate:a", 0., HIGHLIGHT_ANIM)
 	tween.set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_IN_OUT)
 

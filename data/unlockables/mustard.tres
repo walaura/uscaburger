@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="UnlockableResource" format=3 uid="uid://dg43yf6cynyh8"]
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://dg43yf6cynyh8"]
 
 [ext_resource type="Texture2D" uid="uid://cto03pxfed62k" path="res://asset/badge/badge-mustard.png" id="1_gp0mu"]
 [ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_gp0mu"]

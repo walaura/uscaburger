@@ -1,5 +1,5 @@
 @tool
-class_name UI_ketchup_Button
+class_name Uiketchup_Button
 extends Button
 
 var _rota_tween: Tween

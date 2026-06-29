@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://cx7j3fiy6kevj"]
+
+[ext_resource type="PackedScene" uid="uid://6dysrcuwjbng" path="res://asset/parts/egg.glb" id="1_wfjsw"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_ynh8o"]
+
+[resource]
+script = ExtResource("2_ynh8o")
+price = 499
+name = "Egg"
+model = ExtResource("1_wfjsw")

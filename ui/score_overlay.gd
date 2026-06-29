@@ -1,4 +1,4 @@
-class_name UI_ScoreOverlay
+class_name UiScoreOverlay
 extends Control
 
 var time := 0.:
@@ -10,10 +10,10 @@ var sway := 0.:
 		sway = val
 		update_time_sway()
 
-var _mode: Scene_Tower.Mode
+var _mode: ScTower.Mode
 
 
-func setup(mode: Scene_Tower.Mode) -> void:
+func setup(mode: ScTower.Mode) -> void:
 	_mode = mode
 
 
@@ -24,26 +24,24 @@ func update_time_sway() -> void:
 
 func push(line_item: String, value: int) -> void:
 	push_ticker_line(line_item, value)
-	(%BigNumber as UI_ScoreOverlayBigNumber).add_to_score(value)
+	(%BigNumber as UiScoreOverlayBigNumber).add_to_score(value)
 
 
 func push_ticker_line(line_item: String, value: int) -> void:
 	(%BigNumber.get_parent() as CanvasItem).show()
-	var label := %TickerItem.duplicate() as UI_ScoreOverlayTickerItem
+	var label := %TickerItem.duplicate() as UiScoreOverlayTickerItem
 	%Receipt.add_child(label)
 	label.push(line_item, value)
 
 
-func get_big_number() -> UI_ScoreOverlayBigNumber:
+func get_big_number() -> UiScoreOverlayBigNumber:
 	return %BigNumber
 
 
 func _ready() -> void:
 	_change_viz()
 	_set_mode()
-	CurrentRunState.inventory_handler.item_got_held.connect(
-		func(_name: String) -> void: _change_viz()
-	)
+	CurrentRun.inventory.item_got_held.connect(func(_name: String) -> void: _change_viz())
 
 	(%BigNumber.get_parent() as CanvasItem).hide()
 	%Receipt.remove_child(%Receipt.get_child(0))
@@ -51,15 +49,15 @@ func _ready() -> void:
 
 func _change_viz() -> void:
 	visible = (
-		CurrentRunState
-		. inventory_handler
+		CurrentRun
+		. inventory
 		. is_holding_item(
 			"ui1.tres",
 		)
 	)
 	(%ExtraUI as Control).visible = (
-		CurrentRunState
-		. inventory_handler
+		CurrentRun
+		. inventory
 		. is_holding_item(
 			"ui2.tres",
 		)
@@ -68,15 +66,15 @@ func _change_viz() -> void:
 
 func _set_mode() -> void:
 	match _mode:
-		Scene_Tower.Mode.Vegan:
+		ScTower.Mode.Vegan:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.236, .3, -.3))
-			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 2.
-		Scene_Tower.Mode.Chicken:
+			(%BigNumber as UiScoreOverlayBigNumber).multi = 2.
+		ScTower.Mode.Chicken:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.076, 0., 0.))
-			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 1.
+			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
 		_:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(0, 0, 0))
-			(%BigNumber as UI_ScoreOverlayBigNumber).multi = 1.
+			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
 
 	pass
 

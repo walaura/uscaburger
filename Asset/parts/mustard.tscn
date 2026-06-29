@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://dpbopw7xoksux"]
+
+[ext_resource type="PackedScene" uid="uid://yg8glqqyo8p5" path="res://asset/parts/ketchup.glb" id="1_7q3mx"]
+[ext_resource type="Texture2D" uid="uid://qfn8p1gk6or4" path="res://asset/parts/ketchup_ketchup Base Color.png" id="2_b8yw4"]
+[ext_resource type="Texture2D" uid="uid://kmxc4r4igfb1" path="res://asset/parts/ketchup_ketchup Roughness.png" id="3_vlnu0"]
+
+[sub_resource type="Shader" id="Shader_hyjl0"]
+resource_local_to_scene = true
+code = "// NOTE: Shader automatically converted from Godot Engine 4.7.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_nearest_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_g, filter_nearest_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform float clearcoat : hint_range(0.0, 1.0, 0.01);
+uniform float clearcoat_roughness : hint_range(0.0, 1.0, 0.01);
+uniform sampler2D texture_clearcoat : hint_default_white, filter_nearest_mipmap, repeat_enable;
+
+uniform float subsurface_scattering_strength : hint_range(0.0, 1.0, 0.01);
+uniform sampler2D texture_subsurface_scattering : hint_default_white, filter_nearest_mipmap, repeat_enable;
+
+uniform vec4 transmittance_color : source_color;
+uniform float transmittance_depth : hint_range(0.001, 8.0, 0.001);
+uniform sampler2D texture_subsurface_transmittance : hint_default_white, filter_nearest_mipmap, repeat_enable;
+uniform float transmittance_boost : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform float hue_shift;
+
+
+vec3 rgb_to_hsv(vec3 c) {
+	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+	float d = q.x - min(q.w, q.y);
+	float e = 1e-10;
+	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv_to_rgb(vec3 c) {
+	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	vec3 hsv = rgb_to_hsv(albedo_tex.rgb);
+	ALBEDO = hsv_to_rgb(hsv + vec3(hue_shift,0,0));
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(0.0, 1.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Clearcoat: Enabled
+	vec2 clearcoat_tex = texture(texture_clearcoat, base_uv).xy;
+	CLEARCOAT = clearcoat * clearcoat_tex.x;
+	CLEARCOAT_ROUGHNESS = clearcoat_roughness * clearcoat_tex.y;
+
+	// Subsurface Scattering: Enabled
+	float sss_tex = texture(texture_subsurface_scattering, base_uv).r;
+	SSS_STRENGTH = subsurface_scattering_strength * sss_tex;
+
+	// Subsurface Scattering Transmittance: Enabled
+	vec4 trans_color_tex = texture(texture_subsurface_transmittance, base_uv);
+	SSS_TRANSMITTANCE_COLOR = transmittance_color * trans_color_tex;
+	SSS_TRANSMITTANCE_DEPTH = transmittance_depth;
+	SSS_TRANSMITTANCE_BOOST = transmittance_boost;
+}
+"
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qgbeg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1du4d"]
+resource_local_to_scene = true
+resource_name = "ketchup"
+render_priority = 0
+shader = SubResource("Shader_hyjl0")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_b8yw4")
+shader_parameter/albedo_texture_size = Vector2i(128, 128)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/texture_metallic = ExtResource("3_vlnu0")
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 1, 0)
+shader_parameter/texture_roughness = ExtResource("3_vlnu0")
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 0.78
+shader_parameter/clearcoat = 0.08
+shader_parameter/clearcoat_roughness = 0.95
+shader_parameter/subsurface_scattering_strength = 1.0
+shader_parameter/texture_subsurface_scattering = SubResource("CanvasTexture_qgbeg")
+shader_parameter/transmittance_color = Color(1, 1, 1, 1)
+shader_parameter/transmittance_depth = 2.819
+shader_parameter/transmittance_boost = 0.3
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/hue_shift = 0.13
+
+[node name="Topz-ketchup" unique_id=154371298 instance=ExtResource("1_7q3mx")]
+
+[node name="Cube" parent="Cube" parent_id_path=PackedInt32Array(379626872) index="0" unique_id=399316493]
+surface_material_override/0 = SubResource("ShaderMaterial_1du4d")

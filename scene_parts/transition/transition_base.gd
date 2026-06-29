@@ -51,5 +51,5 @@ func swap_to(new: PackedScene) -> void:
 	to_dark().finished.connect(
 		func() -> void:
 			await get_tree().process_frame
-			get_tree().change_scene_to_node.call_deferred(new_scene)
+			get_tree().change_SCto_node.call_deferred(new_scene)
 	)

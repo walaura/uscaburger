@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://c8vs2ub1pfb5v"]
+
+[ext_resource type="PackedScene" uid="uid://dbs6fccnmelsl" path="res://asset/parts/onion.glb" id="1_tmt14"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_67ehy"]
+
+[resource]
+script = ExtResource("2_67ehy")
+price = 59
+name = "Onion"
+model = ExtResource("1_tmt14")

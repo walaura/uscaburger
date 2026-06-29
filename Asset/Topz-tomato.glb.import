@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/Topz-tomato.glb-7ff79e6e1ed6c47345d288b3891e7
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/root_script=Resource("uid://0lkb0u3bgdh7", "res://node/droppable.gd")
+nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://64cotj8jx5oa"]
+
+[ext_resource type="PackedScene" uid="uid://dy02m4tl5hv6y" path="res://asset/Patty-meat.glb" id="1_51anb"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_xyved"]
+
+[resource]
+script = ExtResource("2_xyved")
+price = 299
+name = "Beef patty"
+model = ExtResource("1_51anb")
+is_patty = true

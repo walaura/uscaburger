@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://ndxsohh4fu0b"]
+
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="1_ke7sw"]
+[ext_resource type="PackedScene" uid="uid://d3g1bwh7f5w1v" path="res://asset/Bun-heel.glb" id="1_s0ffv"]
+
+[resource]
+script = ExtResource("1_ke7sw")
+price = 299
+name = "Heel"
+is_heel = true
+model = ExtResource("1_s0ffv")

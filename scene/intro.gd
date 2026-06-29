@@ -1,28 +1,28 @@
 extends Control
 
-@export_file("*.tscn") var main_scene_path: String
-@export_file("*.tscn") var settings_scene_path: String
+@export_file("*.tscn") var main_SCpath: String
+@export_file("*.tscn") var settings_SCpath: String
 var did_load := false
 
-@onready var _settings_screen: UI_Settings
+@onready var _settings_screen: UiSettings
 @onready var _camera_anim := $Node/AnimationPlayer as AnimationPlayer
 
 
 func _ready() -> void:
 	($SignAnimation as AnimationPlayer).play("new_animation")
 
-	ResourceLoader.load_threaded_request(main_scene_path)
-	ResourceLoader.load_threaded_request(settings_scene_path)
+	ResourceLoader.load_threaded_request(main_SCpath)
+	ResourceLoader.load_threaded_request(settings_SCpath)
 
 
 func _on_button_seets_pressed() -> void:
-	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(settings_scene_path)
-	if scene_resource == null:
-		ResourceLoader.load_threaded_request(settings_scene_path)
+	var SCresource: PackedScene = ResourceLoader.load_threaded_get(settings_SCpath)
+	if SCresource == null:
+		ResourceLoader.load_threaded_request(settings_SCpath)
 		_on_button_seets_pressed()
 		return
 
-	_settings_screen = scene_resource.instantiate()
+	_settings_screen = SCresource.instantiate()
 
 	_camera_anim.play("camera_to_settings", -1, 1)
 	($Node/MainMenuWrap as Control).hide()
@@ -44,30 +44,30 @@ func _on_close_settings() -> void:
 
 
 func _on_button_play_pressed() -> void:
-	var scene_resource: PackedScene = ResourceLoader.load_threaded_get(main_scene_path)
-	if scene_resource == null:
-		ResourceLoader.load_threaded_request(main_scene_path)
+	var SCresource: PackedScene = ResourceLoader.load_threaded_get(main_SCpath)
+	if SCresource == null:
+		ResourceLoader.load_threaded_request(main_SCpath)
 		_on_button_play_pressed()
 		return
 
 	var tween := create_tween()
 	(
-			tween
-			.tween_property(
-				$"Node/AnimationPlayer/Camera3D",
-				"rotation:x",
-				.02,
-				.2,
-			)
+		tween
+		. tween_property(
+			$"Node/AnimationPlayer/Camera3D",
+			"rotation:x",
+			.02,
+			.2,
+		)
 	)
 	(
-			tween
-			.tween_property(
-				$"Node/AnimationPlayer/Camera3D",
-				"rotation:x",
-				-1.,
-				($TransitionBase as Parts_TransitionBase).length * 2,
-			)
+		tween
+		. tween_property(
+			$"Node/AnimationPlayer/Camera3D",
+			"rotation:x",
+			-1.,
+			($TransitionBase as Parts_TransitionBase).length * 2,
+		)
 	)
 
-	($TransitionBase as Parts_TransitionBase).swap_to(scene_resource)
+	($TransitionBase as Parts_TransitionBase).swap_to(SCresource)

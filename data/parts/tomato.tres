@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://dhtkp7tubhrqu"]
+
+[ext_resource type="PackedScene" uid="uid://sq2e0xka4y57" path="res://asset/Topz-tomato.glb" id="1_twf37"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_h8m5x"]
+
+[resource]
+script = ExtResource("2_h8m5x")
+price = 129
+name = "Tomato"
+model = ExtResource("1_twf37")

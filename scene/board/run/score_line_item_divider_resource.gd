@@ -1,5 +1,5 @@
-class_name CurrentRunState_ScoreLineItemDividerResource
-extends CurrentRunState_ScoreLineItemResource
+class_name CurrentRun_ScoreLineItemDividerResource
+extends CurrentRun_ScoreLineItemResource
 
 
 func _init() -> void:

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://bd536qqg70i62"]
+
+[ext_resource type="PackedScene" uid="uid://b4tn17fkip32b" path="res://asset/Topz-lettuce.glb" id="1_dxy2r"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_pixbd"]
+
+[resource]
+script = ExtResource("2_pixbd")
+price = 39
+name = "Lettuce"
+model = ExtResource("1_dxy2r")

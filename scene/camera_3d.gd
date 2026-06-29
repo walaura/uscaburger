@@ -28,31 +28,27 @@ func get_camera_position_for_aabb(aabb: AABB) -> Vector3:
 func _physics_process(delta: float) -> void:
 	match Camera.mode:
 		Camera.Mode.ZOOM_OUT:
-			transform.origin = transform.origin.lerp(
-				get_camera_position_for_aabb(Camera.ZOOM_OUT_AABB), lerp_speed * delta
-			)
+			transform.origin = transform.origin.lerp(get_camera_position_for_aabb(Camera.ZOOM_OUT_AABB), lerp_speed * delta)
 
 		Camera.Mode.GAMEPLAY:
 			if !Camera.GAMEPLAY_target:
 				return
 
 			var target_fov := og_fov
-			if (
-				Camera.GAMEPLAY_dramatic_timer_zoom != 1.0
-				&& Camera.GAMEPLAY_dramatic_timer_zoom != 0.0
-			):
-				target_fov = target_fov - 30 + (30 * Camera.GAMEPLAY_dramatic_timer_zoom)
+			if Camera.GAMEPLAY_dramatic_timer_zoom > .1 && Camera.GAMEPLAY_dramatic_timer_zoom < .9:
+				print(Camera.GAMEPLAY_dramatic_timer_zoom)
+				target_fov = target_fov - 6 + (6 * Camera.GAMEPLAY_dramatic_timer_zoom)
 
-			fov = move_toward(fov, target_fov, delta * lerp_speed)
+			if fov > target_fov:
+				fov = target_fov
+			else:
+				fov = move_toward(fov, target_fov, delta * 12)
 
 			# Calculate the final desired transform
 			var target_transform := transform.looking_at(
-				Vector3(0.2, 1, 1) * (Camera.GAMEPLAY_target.global_position - Vector3(-4, 1, 0)),
-				Vector3.UP
+				Vector3(0.2, 1, 1) * (Camera.GAMEPLAY_target.global_position - Vector3(-4, 1, 0)), Vector3.UP
 			)
 
 			# Smoothly interpolate (Slerp) the camera's current rotation to the new rotation
 			basis = basis.slerp(target_transform.basis, lerp_speed * delta)
-			transform.origin = transform.origin.lerp(
-				Vector3(1, Camera.GAMEPLAY_target.global_position.y + 2, 8), lerp_speed * delta
-			)
+			transform.origin = transform.origin.lerp(Vector3(1, Camera.GAMEPLAY_target.global_position.y + 2, 8), lerp_speed * delta)

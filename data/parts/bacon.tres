@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://duq2d80w20api"]
+
+[ext_resource type="PackedScene" uid="uid://de1jhf1wewwsh" path="res://asset/parts/bacon.glb" id="1_cu5m2"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_momkw"]
+
+[resource]
+script = ExtResource("2_momkw")
+price = 149
+name = "Bacon"
+model = ExtResource("1_cu5m2")

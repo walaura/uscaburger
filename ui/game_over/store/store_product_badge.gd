@@ -1,4 +1,4 @@
-class_name UI_GameOver_StoreProductBadge
+class_name UiGameOver_StoreProductBadge
 extends Control
 
 @export var icon: Texture2D:
@@ -37,13 +37,8 @@ func animate() -> void:
 
 	var tween := create_tween()
 	tween.tween_property(badge_node.material, "shader_parameter/Edge", 0.0, .4)
-	(
-		tween
-		. parallel()
-		. tween_property(badge_node, "scale", Vector2.ONE, .25)
-		. from(Vector2.ONE * 1.2)
-		. set_trans(Tween.TRANS_SINE)
-		. set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(badge_node, "scale", Vector2.ONE, .25).from(Vector2.ONE * 1.2).set_trans(Tween.TRANS_SINE).set_ease(
+		Tween.EASE_OUT
 	)
 
 

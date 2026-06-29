@@ -1,15 +1,15 @@
 @tool
-class_name DifficultyNumbersResourceViz
+class_name RsDifficultyNumbersViz
 extends EditorScript
 
 @export_tool_button("Hello", "Callable") var hello_action := _run
 
 
 func _run() -> void:
-	print("DifficultyNumbersResource Visualization")
+	print("RsDifficultyNumbers Visualization")
 	print("================================================")
 
-	var viz_resource := DifficultyNumbersResource.new()
+	var viz_resource := RsDifficultyNumbers.new()
 
 	# Print initial values
 	print("Initial state:")
@@ -25,10 +25,7 @@ func _run() -> void:
 
 	# Print initial state
 	print(
-		(
-			"%5d | %16.6f | %13.6f"
-			% [0, viz_resource.wave_speed_timer_speed, viz_resource.wave_max_offset]
-		),
+		"%5d | %16.6f | %13.6f" % [0, viz_resource.wave_speed_timer_speed, viz_resource.wave_max_offset],
 	)
 
 	for i in range(1, 101):
@@ -36,8 +33,5 @@ func _run() -> void:
 
 		if i <= 10 or i % 10 == 0:  # Print first 10 and every 10th
 			print(
-				(
-					"%5d | %16.6f | %13.6f"
-					% [i, viz_resource.wave_speed_timer_speed, viz_resource.wave_max_offset]
-				),
+				"%5d | %16.6f | %13.6f" % [i, viz_resource.wave_speed_timer_speed, viz_resource.wave_max_offset],
 			)
