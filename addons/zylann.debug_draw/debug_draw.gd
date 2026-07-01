@@ -1,4 +1,3 @@
-
 ## @brief Single-file autoload for debug drawing and printing.
 ## Draw and print on screen from anywhere in a single line of code.
 ## Find it quickly by naming it "DDD".
@@ -26,18 +25,18 @@ var _frame_counter := 0
 
 # 2D
 
-var _canvas_item : CanvasItem = null
+var _canvas_item: CanvasItem = null
 var _texts := {}
 
 # 3D
 
 var _boxes := []
 var _box_pool := []
-var _box_mesh : Mesh = null
+var _box_mesh: Mesh = null
 var _line_material_pool := []
 
 var _lines := []
-var _line_immediate_mesh : ImmediateMesh
+var _line_immediate_mesh: ImmediateMesh
 
 var _mesh_instances := []
 var _mesh_instance_pool := []
@@ -77,10 +76,7 @@ func draw_box(position: Vector3, size: Vector3, color: Color = Color.WHITE, ling
 	mi.material_override = mat
 	mi.position = position
 	mi.scale = size
-	_boxes.append({
-		"node": mi,
-		"frame": _frame_counter + LINES_LINGER_FRAMES + linger_frames
-	})
+	_boxes.append({"node": mi, "frame": _frame_counter + LINES_LINGER_FRAMES + linger_frames})
 
 
 ## @brief Draws the unshaded outline of a 3D transformed cube.
@@ -92,10 +88,7 @@ func draw_transformed_cube(trans: Transform3D, color: Color = Color.WHITE):
 	mat.albedo_color = color
 	mi.material_override = mat
 	mi.transform = Transform3D(trans.basis, trans.origin)
-	_boxes.append({
-		"node": mi,
-		"frame": _frame_counter + LINES_LINGER_FRAMES
-	})
+	_boxes.append({"node": mi, "frame": _frame_counter + LINES_LINGER_FRAMES})
 
 
 ## @brief Draws the basis of the given transform using 3 lines
@@ -103,9 +96,9 @@ func draw_transformed_cube(trans: Transform3D, color: Color = Color.WHITE):
 ## @param transform_
 ## @param scale_: extra scale applied on top of the transform
 func draw_axes(transform_: Transform3D, scale_ = 1.0):
-	draw_ray_3d(transform_.origin, transform_.basis.x, scale_, Color(1,0,0))
-	draw_ray_3d(transform_.origin, transform_.basis.y, scale_, Color(0,1,0))
-	draw_ray_3d(transform_.origin, transform_.basis.z, scale_, Color(0,0,1))
+	draw_ray_3d(transform_.origin, transform_.basis.x, scale_, Color(1, 0, 0))
+	draw_ray_3d(transform_.origin, transform_.basis.y, scale_, Color(0, 1, 0))
+	draw_ray_3d(transform_.origin, transform_.basis.z, scale_, Color(0, 0, 1))
 
 
 ## @brief Draws a mesh at the specified transform.
@@ -118,12 +111,11 @@ func draw_mesh(mesh: Mesh, transform_: Transform3D, color := Color.WHITE):
 	# TODO How do I get the primitive type used by the mesh?
 	# Why can Mesh have virtual methods to implement that,
 	# but no callable method to actually GET that?
-	var mat : Material
+	var mat: Material
 	var uses_lines = false
 	if mesh is ArrayMesh:
-		var pt : int = mesh.surface_get_primitive_type(0)
-		if pt == Mesh.PRIMITIVE_LINES or pt == Mesh.PRIMITIVE_LINE_STRIP or \
-		pt == Mesh.PRIMITIVE_POINTS:
+		var pt: int = mesh.surface_get_primitive_type(0)
+		if pt == Mesh.PRIMITIVE_LINES or pt == Mesh.PRIMITIVE_LINE_STRIP or pt == Mesh.PRIMITIVE_POINTS:
 			mat = _get_line_material()
 			uses_lines = true
 		else:
@@ -134,11 +126,7 @@ func draw_mesh(mesh: Mesh, transform_: Transform3D, color := Color.WHITE):
 	mi.material_override = mat
 	mi.transform = transform_
 	mi.mesh = mesh
-	_mesh_instances.append({
-		"node": mi,
-		"uses_lines": uses_lines,
-		"frame": _frame_counter + LINES_LINGER_FRAMES
-	})
+	_mesh_instances.append({"node": mi, "uses_lines": uses_lines, "frame": _frame_counter + LINES_LINGER_FRAMES})
 
 
 ## @brief Draws the unshaded outline of a 3D box.
@@ -152,10 +140,7 @@ func draw_box_aabb(aabb: AABB, color = Color.WHITE, linger_frames = 0):
 	mi.material_override = mat
 	mi.position = aabb.get_center()
 	mi.scale = aabb.size
-	_boxes.append({
-		"node": mi,
-		"frame": _frame_counter + LINES_LINGER_FRAMES + linger_frames
-	})
+	_boxes.append({"node": mi, "frame": _frame_counter + LINES_LINGER_FRAMES + linger_frames})
 
 
 ## @brief Draws an unshaded 3D line.
@@ -163,10 +148,17 @@ func draw_box_aabb(aabb: AABB, color = Color.WHITE, linger_frames = 0):
 ## @param b: end position in world units
 ## @param color
 func draw_line_3d(a: Vector3, b: Vector3, color: Color):
-	_lines.append([
-		a, b, color,
-		_frame_counter + LINES_LINGER_FRAMES,
-	])
+	(
+		_lines
+		. append(
+			[
+				a,
+				b,
+				color,
+				_frame_counter + LINES_LINGER_FRAMES,
+			]
+		)
+	)
 
 
 ## @brief Draws an unshaded 3D line defined as a ray.
@@ -174,7 +166,7 @@ func draw_line_3d(a: Vector3, b: Vector3, color: Color):
 ## @param direction
 ## @param length: length of the line in world units
 ## @param color
-func draw_ray_3d(origin: Vector3, direction: Vector3, length: float, color : Color):
+func draw_ray_3d(origin: Vector3, direction: Vector3, length: float, color: Color):
 	draw_line_3d(origin, origin + direction * length, color)
 
 
@@ -183,15 +175,12 @@ func draw_ray_3d(origin: Vector3, direction: Vector3, length: float, color : Col
 ## Multiple calls with the same `key` will override previous text.
 ## @param key: identifier of the line
 ## @param text: text to show next to the key
-func set_text(key: String, value=""):
-	_texts[key] = {
-		"text": value if typeof(value) == TYPE_STRING else str(value),
-		"frame": _frame_counter + TEXT_LINGER_FRAMES
-	}
+func set_text(key: String, value = ""):
+	_texts[key] = {"text": value if typeof(value) == TYPE_STRING else str(value), "frame": _frame_counter + TEXT_LINGER_FRAMES}
 
 
 func _get_box() -> MeshInstance3D:
-	var mi : MeshInstance3D
+	var mi: MeshInstance3D
 	if len(_box_pool) == 0:
 		mi = MeshInstance3D.new()
 		if _box_mesh == null:
@@ -210,7 +199,7 @@ func _recycle_box(mi: MeshInstance3D):
 
 
 func _get_line_material() -> StandardMaterial3D:
-	var mat : StandardMaterial3D
+	var mat: StandardMaterial3D
 	if len(_line_material_pool) == 0:
 		mat = StandardMaterial3D.new()
 		mat.flags_unshaded = true
@@ -226,7 +215,7 @@ func _recycle_line_material(mat: StandardMaterial3D):
 
 
 func _get_mesh_instance() -> MeshInstance3D:
-	var mi : MeshInstance3D
+	var mi: MeshInstance3D
 	if len(_mesh_instance_pool) == 0:
 		mi = MeshInstance3D.new()
 		add_child(mi)
@@ -242,7 +231,7 @@ func _recycle_mesh_instance(mi: MeshInstance3D):
 
 
 func _get_mesh_material() -> StandardMaterial3D:
-	var mat : StandardMaterial3D
+	var mat: StandardMaterial3D
 	if len(_mesh_material_pool) == 0:
 		mat = StandardMaterial3D.new()
 	else:
@@ -257,7 +246,7 @@ func _recycle_mesh_material(mat: StandardMaterial3D):
 
 func _process(_unused_delta: float):
 	_frame_counter += 1
-	
+
 	_process_boxes()
 	_process_lines()
 	_process_canvas()
@@ -315,18 +304,18 @@ func _process_lines():
 		return
 
 	im.surface_begin(Mesh.PRIMITIVE_LINES)
-	
+
 	for line in _lines:
-		var p1 : Vector3 = line[0]
-		var p2 : Vector3 = line[1]
-		var color : Color = line[2]
-		
+		var p1: Vector3 = line[0]
+		var p2: Vector3 = line[1]
+		var color: Color = line[2]
+
 		im.surface_set_color(color)
 		im.surface_add_vertex(p1)
 		im.surface_add_vertex(p2)
-	
+
 	im.surface_end()
-	
+
 	# Delayed removal
 	var i := 0
 	while i < len(_lines):
@@ -357,7 +346,7 @@ func _process_canvas():
 
 func _on_CanvasItem_draw():
 	var ci := _canvas_item
-	
+
 	var font := DebugDrawFont
 
 	var ascent := Vector2(0, font.get_ascent())
@@ -372,44 +361,29 @@ func _on_CanvasItem_draw():
 		var text := str(key, ": ", t.text)
 		var ss := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, TEXT_SIZE)
 		ci.draw_rect(Rect2(pos, Vector2(ss.x + xpad * 2, line_height)), TEXT_BG_COLOR)
-		ci.draw_string(font, pos + font_offset, text, HORIZONTAL_ALIGNMENT_LEFT, -1, TEXT_SIZE,
-			TEXT_COLOR)
+		ci.draw_string(font, pos + font_offset, text, HORIZONTAL_ALIGNMENT_LEFT, -1, TEXT_SIZE, TEXT_COLOR)
 		pos.y += line_height
 
 
 static func _create_wirecube_mesh(color := Color.WHITE) -> ArrayMesh:
 	var n = -0.5
 	var p = 0.5
-	var positions := PackedVector3Array([
-		Vector3(n, n, n),
-		Vector3(p, n, n),
-		Vector3(p, n, p),
-		Vector3(n, n, p),
-		Vector3(n, p, n),
-		Vector3(p, p, n),
-		Vector3(p, p, p),
-		Vector3(n, p, p)
-	])
-	var colors := PackedColorArray([
-		color, color, color, color,
-		color, color, color, color,
-	])
-	var indices := PackedInt32Array([
-		0, 1,
-		1, 2,
-		2, 3,
-		3, 0,
-
-		4, 5,
-		5, 6,
-		6, 7,
-		7, 4,
-
-		0, 4,
-		1, 5,
-		2, 6,
-		3, 7
-	])
+	var positions := PackedVector3Array(
+		[Vector3(n, n, n), Vector3(p, n, n), Vector3(p, n, p), Vector3(n, n, p), Vector3(n, p, n), Vector3(p, p, n), Vector3(p, p, p), Vector3(n, p, p)]
+	)
+	var colors := PackedColorArray(
+		[
+			color,
+			color,
+			color,
+			color,
+			color,
+			color,
+			color,
+			color,
+		]
+	)
+	var indices := PackedInt32Array([0, 1, 1, 2, 2, 3, 3, 0, 4, 5, 5, 6, 6, 7, 7, 4, 0, 4, 1, 5, 2, 6, 3, 7])
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = positions

@@ -8,6 +8,7 @@ script = ExtResource("2_4dfsw")
 name = "Repeat multiplier"
 icon = ExtResource("1_6xaeq")
 desc = "Reward Loyalty! [boing]{0}%[/boing] bonus for repeating a part"
+fx_short_desc = "+[boing]{0}%[/boing] bonus on repeat parts"
 price = 199
 requires = Array[StringName]([&"ui1.tres"])
 is_incremental = true

@@ -8,6 +8,7 @@ script = ExtResource("2_j8dkq")
 name = "Glue"
 icon = ExtResource("1_72q06")
 desc = "Food safe! Makes parts [boing]{0}%[/boing] less likely to slide off"
+fx_short_desc = "+[boing]{0}%[/boing] part stickyness"
 price = 1099
 is_incremental = true
 incremental_mult = 1.25

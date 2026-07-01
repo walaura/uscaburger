@@ -36,7 +36,6 @@ func _physics_process(delta: float) -> void:
 
 			var target_fov := og_fov
 			if Camera.GAMEPLAY_dramatic_timer_zoom > .1 && Camera.GAMEPLAY_dramatic_timer_zoom < .9:
-				print(Camera.GAMEPLAY_dramatic_timer_zoom)
 				target_fov = target_fov - 6 + (6 * Camera.GAMEPLAY_dramatic_timer_zoom)
 
 			if fov > target_fov:
@@ -45,9 +44,7 @@ func _physics_process(delta: float) -> void:
 				fov = move_toward(fov, target_fov, delta * 12)
 
 			# Calculate the final desired transform
-			var target_transform := transform.looking_at(
-				Vector3(0.2, 1, 1) * (Camera.GAMEPLAY_target.global_position - Vector3(-4, 1, 0)), Vector3.UP
-			)
+			var target_transform := transform.looking_at(Vector3(0.2, 1, 1) * (Camera.GAMEPLAY_target.global_position - Vector3(-4, 1, 0)), Vector3.UP)
 
 			# Smoothly interpolate (Slerp) the camera's current rotation to the new rotation
 			basis = basis.slerp(target_transform.basis, lerp_speed * delta)

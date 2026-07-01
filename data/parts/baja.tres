@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://02uaqy10slt5" path="res://asset/parts/topz_baja.tscn" id="1_i4jf0"]
 [ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_bb43w"]
+[ext_resource type="Resource" uid="uid://cq0cnuyf63lnl" path="res://data/unlockables/blue_sauce.tres" id="2_ws5qj"]
 
 [resource]
 script = ExtResource("2_bb43w")
@@ -9,4 +10,4 @@ price = 199
 name = "Baja Blast"
 model = ExtResource("1_i4jf0")
 is_sauce = true
-is_upgrade = true
+requires_upgrade = ExtResource("2_ws5qj")

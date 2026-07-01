@@ -3,12 +3,11 @@ extends Control
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
-@export var table_header_scene : PackedScene
+@export var table_header_scene: PackedScene
 
-@onready var editor_view : Control = $"../../../.."
-@onready var hide_columns_button : MenuButton = $"../../MenuStrip/VisibleCols"
-@onready var grid : GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
-
+@onready var editor_view: Control = $"../../../.."
+@onready var hide_columns_button: MenuButton = $"../../MenuStrip/VisibleCols"
+@onready var grid: GridContainer = $"../../../MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
 
 var hidden_columns := {}:
 	get:
@@ -30,7 +29,7 @@ var columns := []:
 			remove_child(x)
 			x.queue_free()
 
-		var new_node : Control
+		var new_node: Control
 		for x in v:
 			new_node = table_header_scene.instantiate()
 			new_node.manager = self
@@ -40,14 +39,8 @@ var columns := []:
 
 
 func _ready():
-	hide_columns_button\
-		.get_popup()\
-		.id_pressed\
-		.connect(_on_visible_cols_id_pressed)
-	$"../../../MarginContainer/FooterContentSplit/Panel/Scroll"\
-		.get_h_scroll_bar()\
-		.value_changed\
-		.connect(_on_h_scroll_changed)
+	hide_columns_button.get_popup().id_pressed.connect(_on_visible_cols_id_pressed)
+	$"../../../MarginContainer/FooterContentSplit/Panel/Scroll".get_h_scroll_bar().value_changed.connect(_on_h_scroll_changed)
 
 
 func update():
@@ -55,18 +48,18 @@ func update():
 	_update_column_sizes()
 
 
-func hide_column(column_index : int):
+func hide_column(column_index: int):
 	set_column_property(column_index, &"visibility", 0)
 	editor_view.save_data()
 	update()
 
 
-func set_column_property(column_index : int, property_key : StringName, property_value):
+func set_column_property(column_index: int, property_key: StringName, property_value):
 	var dict := column_properties
 	if !dict.has(editor_view.current_path):
 		dict[editor_view.current_path] = {}
 
-	dict = dict[editor_view.current_path]	
+	dict = dict[editor_view.current_path]
 	if !dict.has(columns[column_index]):
 		dict[columns[column_index]] = {}
 
@@ -74,12 +67,12 @@ func set_column_property(column_index : int, property_key : StringName, property
 	dict[property_key] = property_value
 
 
-func get_column_property(column_index : int, property_key : StringName, property_default = null):
+func get_column_property(column_index: int, property_key: StringName, property_default = null):
 	var dict := column_properties
 	if !dict.has(editor_view.current_path):
 		return property_default
 
-	dict = dict[editor_view.current_path]	
+	dict = dict[editor_view.current_path]
 	if !dict.has(columns[column_index]):
 		return property_default
 
@@ -87,25 +80,26 @@ func get_column_property(column_index : int, property_key : StringName, property
 	return dict.get(property_key, property_default)
 
 
-func select_column(column_index : int):
+func select_column(column_index: int):
 	editor_view.select_column(column_index)
 
 
 func _update_column_sizes():
 	if grid.get_child_count() == 0:
 		return
-		
+
 	await get_tree().process_frame
 	var column_headers := get_children()
 
-	if grid.get_child_count() < column_headers.size(): return
+	if grid.get_child_count() < column_headers.size():
+		return
 	if column_headers.size() != columns.size():
 		editor_view.refresh()
 		return
-	
-	var clip_text : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
+
+	var clip_text: bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "clip_headers")
 	var min_width := 0
-	var cell : Control
+	var cell: Control
 
 	for i in column_headers.size():
 		var header = column_headers[i]
@@ -138,20 +132,20 @@ func _update_column_sizes():
 
 
 func _update_hidden_columns():
-	var current_path : String = editor_view.current_path
-	var rows_shown : int = editor_view.last_row - editor_view.first_row
+	var current_path: String = editor_view.current_path
+	var rows_shown: int = editor_view.last_row - editor_view.first_row
 
 	if !column_properties.has(current_path):
 		column_properties[current_path] = {
-			"resource_local_to_scene" : { &"visibility" : 0 },
-			"resource_name" : { &"visibility" : 0 },
-			"metadata/_custom_type_script" : { &"visibility" : 0 },
+			"resource_local_to_scene": {&"visibility": 0},
+			"resource_name": {&"visibility": 0},
+			"metadata/_custom_type_script": {&"visibility": 0},
 		}
 		editor_view.save_data()
 
 	var visible_column_count := 0
 	for i in columns.size():
-		var column_visible : bool = get_column_property(i, &"visibility", 1) != 0
+		var column_visible: bool = get_column_property(i, &"visibility", 1) != 0
 		get_child(i).visible = column_visible
 		for j in rows_shown:
 			grid.get_child(j * columns.size() + i).visible = column_visible
@@ -175,7 +169,7 @@ func _on_visible_cols_about_to_popup():
 		popup.set_item_checked(i, get_column_property(i, &"visibility", 1) != 0)
 
 
-func _on_visible_cols_id_pressed(id : int):
+func _on_visible_cols_id_pressed(id: int):
 	var popup := hide_columns_button.get_popup()
 	if popup.is_item_checked(id):
 		popup.set_item_checked(id, false)

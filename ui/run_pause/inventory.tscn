@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://chhl5j2jjq5r2"]
+
+[ext_resource type="Script" uid="uid://lgwywxf23n34" path="res://ui/run_pause/inventory.gd" id="1_25f8v"]
+[ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="1_qc5bt"]
+[ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="3_n6t8q"]
+[ext_resource type="PackedScene" uid="uid://b24fqfu18kw74" path="res://ui/run_pause/inventory_held.tscn" id="3_xnm51"]
+[ext_resource type="Shader" uid="uid://cpa2d6rle4vro" path="res://ui/run_pause/inventory.tres" id="4_q7sdp"]
+[ext_resource type="Texture2D" uid="uid://bt8wkc2207qpq" path="res://asset/ui/checker.png" id="5_cnto3"]
+[ext_resource type="Texture2D" uid="uid://caa4rmagv6cc6" path="res://asset/ui/wave-mask.png" id="5_q7sdp"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cnto3"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vx7sa"]
+resource_local_to_scene = true
+texture = SubResource("ViewportTexture_cnto3")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_74sqc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+shader = ExtResource("4_q7sdp")
+shader_parameter/ColorParameter = Color(0.10677333, 0.11, 0.0616, 1)
+shader_parameter/Bg_Scroll = 0.977
+shader_parameter/FloatParameter = 30.0
+shader_parameter/Texture2DParameter = ExtResource("5_cnto3")
+shader_parameter/Alpha_upper = 1.0
+shader_parameter/AlphaLower = 0.5
+shader_parameter/MaskSlop = 0.0
+shader_parameter/MaskImg = ExtResource("5_q7sdp")
+
+[node name="Inventory" type="Control" unique_id=1935432515]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_25f8v")
+
+[node name="PaperWindow" parent="." unique_id=828285155 instance=ExtResource("1_qc5bt")]
+layout_mode = 1
+
+[node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
+theme_override_styles/panel = SubResource("StyleBoxTexture_vx7sa")
+
+[node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
+custom_minimum_size = Vector2(1332.33, 929.49)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control" unique_id=1292534106 instance=ExtResource("3_xnm51")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = -411.32996
+animate_on_ready = false
+
+[node name="SidePanel" type="Control" parent="PaperWindow/PanelContainer/Control" unique_id=1905181288]
+unique_name_in_owner = true
+visibility_layer = 3
+material = SubResource("CanvasItemMaterial_74sqc")
+anchors_preset = 0
+offset_left = 941.0
+offset_top = -50.0
+offset_right = 1371.0
+offset_bottom = 1157.0
+offset_transform_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="PaperWindow/PanelContainer/Control/SidePanel" unique_id=398918178]
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("3_n6t8q")]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="InventoryItemDetails" parent="." unique_id=1584569430 instance_placeholder="res://ui/run_pause/inventory_item_details.tscn"]
+layout_mode = 1
+offset_left = 1686.0
+offset_top = 156.0
+offset_right = 196.0
+offset_bottom = 156.0
+
+[node name="InventoryStatsFx" parent="." unique_id=507983470 instance_placeholder="res://ui/run_pause/inventory_stats_fx.tscn"]
+layout_mode = 1
+offset_left = 1731.0
+offset_top = 245.0
+offset_right = 241.0
+offset_bottom = 245.0
+
+[editable path="PaperWindow"]

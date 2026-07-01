@@ -1,15 +1,16 @@
 [gd_scene format=3 uid="uid://bfgumwp7kxacp"]
 
-[ext_resource type="Texture2D" uid="uid://f02hg5ge4mbd" path="res://asset/badge/badge-underlay.png" id="1_j8nsq"]
-[ext_resource type="Script" uid="uid://ck7lllgsn2fwm" path="res://ui/game_over/store/store_product_badge.gd" id="1_peei2"]
-[ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="2_peei2"]
-[ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="3_d2uup"]
-[ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="4_v56vs"]
-[ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="5_xf8cr"]
+[ext_resource type="Script" uid="uid://ck7lllgsn2fwm" path="res://ui/ketchup/badge/badge.gd" id="1_5dwo5"]
+[ext_resource type="Texture2D" uid="uid://f02hg5ge4mbd" path="res://asset/badge/badge-underlay.png" id="2_0tt4n"]
+[ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_dm5yh"]
+[ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_ymath"]
+[ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="5_53ow7"]
+[ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="6_331y6"]
+[ext_resource type="Texture2D" uid="uid://bi4pxkeml1yk1" path="res://asset/badge/badge-tier-chip.png" id="7_0tt4n"]
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_ahob7"]
 expanded_output_ports = [0]
-texture = ExtResource("1_j8nsq")
+texture = ExtResource("2_0tt4n")
 
 [sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_4qaso"]
 output_port_for_preview = 0
@@ -23,7 +24,7 @@ output = mix(base, r_output, opacity);"
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7jxe3"]
 expanded_output_ports = [0]
-texture = ExtResource("2_peei2")
+texture = ExtResource("3_dm5yh")
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_anrbw"]
 output_port_for_preview = 0
@@ -83,11 +84,11 @@ float rand(float n){
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u843p"]
 expanded_output_ports = [0]
 source = 5
-texture = ExtResource("3_d2uup")
+texture = ExtResource("4_ymath")
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_4qaso"]
 expanded_output_ports = [0]
-texture = ExtResource("4_v56vs")
+texture = ExtResource("5_53ow7")
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_4a1iv"]
 output_port_for_preview = 0
@@ -160,7 +161,7 @@ output_port_for_preview = 0
 source = 5
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8xoy4"]
-texture = ExtResource("2_peei2")
+texture = ExtResource("3_dm5yh")
 
 [sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_hw0qg"]
 size = Vector2(464, 340.00003)
@@ -187,12 +188,20 @@ expression = "output = rotate(rotation * PI, uv);"
 [sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_peei2"]
 parameter_name = "RotaForGloss"
 
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_lxoki"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_4is6d"]
+parameter_name = "Alpha"
+default_value_enabled = true
+default_value = 1.0
+
 [sub_resource type="VisualShader" id="VisualShader_hw0qg"]
 resource_local_to_scene = true
 mode = 1
 flags/light_only = false
 nodes/vertex/0/position = Vector2(620, 120)
-nodes/fragment/0/position = Vector2(5440, 2180)
+nodes/fragment/0/position = Vector2(6060, 2280)
 nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_u843p")
 nodes/fragment/3/position = Vector2(820, 2400)
 nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_8xoy4")
@@ -280,7 +289,7 @@ nodes/fragment/43/input_ports = "0,3,uv;1,0,rotation;"
 nodes/fragment/43/output_ports = "0,3,output;"
 nodes/fragment/43/expression = "output = rotate((rotation - 1.) * PI, UV);"
 nodes/fragment/44/node = SubResource("VisualShaderNodeMix_u843p")
-nodes/fragment/44/position = Vector2(4600, 2140)
+nodes/fragment/44/position = Vector2(4380, 2100)
 nodes/fragment/45/node = SubResource("VisualShaderNodeClamp_wi4i5")
 nodes/fragment/45/position = Vector2(1860, 3460)
 nodes/fragment/46/node = SubResource("VisualShaderNodeFloatOp_ahob7")
@@ -326,7 +335,11 @@ nodes/fragment/62/output_ports = "0,3,output;"
 nodes/fragment/62/expression = "output = rotate(rotation * PI, uv);"
 nodes/fragment/63/node = SubResource("VisualShaderNodeFloatParameter_peei2")
 nodes/fragment/63/position = Vector2(-66.6961, 479.89243)
-nodes/fragment/connections = PackedInt32Array(5, 0, 3, 2, 3, 4, 13, 2, 12, 0, 13, 0, 3, 0, 13, 1, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 16, 1, 18, 0, 14, 2, 19, 0, 20, 0, 20, 0, 3, 0, 21, 0, 20, 1, 28, 0, 25, 1, 32, 1, 33, 1, 32, 0, 36, 0, 36, 0, 33, 0, 40, 0, 36, 1, 33, 0, 30, 0, 31, 0, 43, 0, 43, 0, 32, 0, 28, 0, 43, 1, 3, 4, 42, 0, 25, 0, 42, 1, 42, 0, 0, 1, 30, 0, 44, 1, 30, 4, 44, 2, 26, 0, 45, 0, 45, 0, 46, 0, 46, 0, 40, 0, 46, 0, 25, 0, 50, 0, 49, 2, 52, 0, 49, 0, 49, 0, 14, 1, 53, 0, 55, 0, 50, 0, 55, 2, 52, 0, 53, 0, 14, 0, 57, 0, 57, 0, 44, 0, 44, 0, 0, 0, 56, 0, 58, 0, 58, 0, 57, 1, 55, 0, 58, 1, 59, 0, 57, 2, 60, 0, 52, 2, 61, 0, 60, 0, 51, 0, 62, 0, 62, 0, 52, 0, 63, 0, 62, 1)
+nodes/fragment/64/node = SubResource("VisualShaderNodeFloatOp_lxoki")
+nodes/fragment/64/position = Vector2(5180, 2500)
+nodes/fragment/65/node = SubResource("VisualShaderNodeFloatParameter_4is6d")
+nodes/fragment/65/position = Vector2(5067.423, 2917.338)
+nodes/fragment/connections = PackedInt32Array(5, 0, 3, 2, 3, 4, 13, 2, 12, 0, 13, 0, 3, 0, 13, 1, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 16, 1, 18, 0, 14, 2, 19, 0, 20, 0, 20, 0, 3, 0, 21, 0, 20, 1, 28, 0, 25, 1, 32, 1, 33, 1, 32, 0, 36, 0, 36, 0, 33, 0, 40, 0, 36, 1, 33, 0, 30, 0, 31, 0, 43, 0, 43, 0, 32, 0, 28, 0, 43, 1, 3, 4, 42, 0, 25, 0, 42, 1, 30, 0, 44, 1, 30, 4, 44, 2, 26, 0, 45, 0, 45, 0, 46, 0, 46, 0, 40, 0, 46, 0, 25, 0, 50, 0, 49, 2, 52, 0, 49, 0, 49, 0, 14, 1, 53, 0, 55, 0, 50, 0, 55, 2, 52, 0, 53, 0, 14, 0, 57, 0, 57, 0, 44, 0, 56, 0, 58, 0, 58, 0, 57, 1, 55, 0, 58, 1, 59, 0, 57, 2, 60, 0, 52, 2, 61, 0, 60, 0, 51, 0, 62, 0, 62, 0, 52, 0, 63, 0, 62, 1, 42, 0, 64, 0, 64, 0, 0, 1, 65, 0, 64, 1, 44, 0, 0, 0)
 
 [sub_resource type="Gradient" id="Gradient_7jxe3"]
 colors = PackedColorArray(0, 0, 0, 1, 0.8776157, 0.8776158, 0.8776157, 1)
@@ -345,26 +358,78 @@ color_ramp = SubResource("Gradient_7jxe3")
 resource_local_to_scene = true
 shader = SubResource("VisualShader_hw0qg")
 shader_parameter/Rota = -1.945
-shader_parameter/Badge = ExtResource("5_xf8cr")
+shader_parameter/Badge = ExtResource("6_331y6")
 shader_parameter/RotaForGloss = 0.0
 shader_parameter/Gloss = 7.386
 shader_parameter/Noise = SubResource("NoiseTexture2D_8xoy4")
 shader_parameter/RotaForEdge = 0.255
 shader_parameter/Edge = 0.4250000201875
+shader_parameter/Alpha = 1.0
 
-[node name="Control" type="AspectRatioContainer" unique_id=552038682]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dn3wt"]
+
+[node name="Control" type="Control" unique_id=1894801696]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1408.0
-offset_bottom = -568.0
+offset_right = -1626.0
+offset_bottom = -730.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_peei2")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("1_5dwo5")
+animates = false
 
-[node name="Badge" type="ColorRect" parent="." unique_id=1053742462]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="." unique_id=1193073825]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Badge" type="ColorRect" parent="AspectRatioContainer" unique_id=1053742462]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_tf1xl")
-custom_minimum_size = Vector2(36.03, 49.35)
 layout_mode = 2
+size_flags_stretch_ratio = 20.0
+mouse_filter = 2
 color = Color(1, 0.18, 0.18, 1)
+
+[node name="TierWrapper" type="TextureRect" parent="." unique_id=1481195486]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -64.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("7_0tt4n")
+
+[node name="CenterContainer" type="CenterContainer" parent="TierWrapper" unique_id=1718396475]
+material = SubResource("CanvasItemMaterial_dn3wt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TierLabel" type="Label" parent="TierWrapper/CenterContainer" unique_id=1646897665]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"WhiteLabel"
+text = "2"

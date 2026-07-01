@@ -23,8 +23,10 @@ layout_mode = 2
 
 [node name="LineItem5" parent="." unique_id=1969047378 instance=ExtResource("4_wgk84")]
 layout_mode = 2
+is_white = false
 style = 1
 
 [node name="LineItem" parent="." unique_id=1354966470 instance_placeholder="res://ui/game_over/line_item.tscn"]
 visible = false
 layout_mode = 2
+is_white = false

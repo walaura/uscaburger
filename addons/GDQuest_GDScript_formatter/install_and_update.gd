@@ -33,10 +33,10 @@ func install_or_update_formatter() -> void:
 
 
 func _on_request_completed(
-		_http_result: int,
-		response_code: int,
-		_http_headers: PackedStringArray,
-		body: PackedByteArray,
+	_http_result: int,
+	response_code: int,
+	_http_headers: PackedStringArray,
+	body: PackedByteArray,
 ) -> void:
 	if response_code != 200:
 		var error_message := "HTTP request failed. Response code: " + str(response_code)
@@ -110,11 +110,14 @@ func _process_response_download_file(body: PackedByteArray) -> void:
 		return
 
 	print(
-		"\n".join(
-			[
-				"GDScript formatter installed successfully!",
-				"Binary location: " + binary_path,
-			],
+		(
+			"\n"
+			. join(
+				[
+					"GDScript formatter installed successfully!",
+					"Binary location: " + binary_path,
+				],
+			)
 		),
 	)
 	installation_completed.emit(binary_path)

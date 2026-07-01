@@ -8,6 +8,7 @@ script = ExtResource("2_ecwdh")
 name = "To the moon!"
 icon = ExtResource("1_rpl28")
 desc = "Higher! After 1 unit, [boing]${0}%[/boing] of your height is applied as a bonus on the part"
+fx_short_desc = "+[boing]{0}%[/boing] height bonus / unit"
 price = 89
 requires = Array[StringName]([&"condi_mult.tres"])
 is_incremental = true

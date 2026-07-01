@@ -1,6 +1,5 @@
-extends Node
-
 class_name CurrentRun_Score
+extends RefCounted
 
 var current_session_score := 0
 var last_settled_score: Array[CurrentRun_ScoreLineItemResource] = []
@@ -25,8 +24,8 @@ func purchase(price: int) -> Array[CurrentRun_ScoreLineItemResource]:
 	return tx
 
 
-func settle_loss(score: ScTower_State) -> void:
-	var score := score.current_session_score
+func settle_loss(state: ScTower_State) -> void:
+	var score := state.current_session_score
 	var tx: Array[CurrentRun_ScoreLineItemResource] = []
 
 	tx.push_back(CurrentRun_ScoreLineItemResource.new("Nothing Burger", 0))
@@ -47,14 +46,14 @@ func settle_loss(score: ScTower_State) -> void:
 	_insurance_used += 1
 
 
-func settle(score: ScTower_State) -> void:
-	var score := score.current_session_score
+func settle(state: ScTower_State) -> void:
+	var score := state.current_session_score
 	var tx: Array[CurrentRun_ScoreLineItemResource] = []
 
 	tx.push_back(CurrentRun_ScoreLineItemResource.new("Gross revenue", score))
 
 	# vegan?
-	if score._mode == ScTower.Mode.Vegan:
+	if state._mode == ScTower.Mode.Vegan:
 		tx.push_back(CurrentRun_ScoreLineItemResource.new("2x Markup", score))
 
 	tx.push_back(_mk_deduction_line("Cost of materials", score, _get_bom_perc()))

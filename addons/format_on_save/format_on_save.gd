@@ -22,9 +22,7 @@ func on_resource_saved(resource: Resource):
 	if resource is Script:
 		var script: Script = resource
 		var current_script = get_editor_interface().get_script_editor().get_current_script()
-		var text_edit: CodeEdit = (
-			get_editor_interface().get_script_editor().get_current_editor().get_base_editor()
-		)
+		var text_edit: CodeEdit = get_editor_interface().get_script_editor().get_current_editor().get_base_editor()
 
 		# Prevents other unsaved scripts from overwriting the active one
 		if current_script == script:

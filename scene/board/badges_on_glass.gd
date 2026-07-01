@@ -1,12 +1,12 @@
 extends Control
 
-@export_file("*.tscn") var badge_SCpath: String
 const BADGE_SIZE := 180
 const PADDING := 40
 
 const SLOP = 30
 
 var _len := 0
+var _loader := Loader.new()
 
 
 func _position(index: int) -> Vector2:
@@ -34,13 +34,18 @@ func _init() -> void:
 	CurrentRun.on_run_start.connect(func() -> void: CurrentRun.inventory.item_got_held.connect(_on_item_added))
 
 
+func _ready() -> void:
+	_loader.queue_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path())
+
+
 func _on_item_added(item_name: String) -> void:
-	var instance: UiGameOver_StoreProductBadge = ($VisibleOnDev/Control as InstancePlaceholder).create_instance().duplicate()
+	var instance: UiKetchupBadge = _loader.get_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path()).instantiate()
 
 	var data := CurrentRun.inventory.get_item(item_name)
 	if data != null:
 		instance.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 		instance.icon = data.icon
+		instance.animates = true
 		instance.edge = randf_range(0, .6)
 		instance.custom_minimum_size = Vector2.ONE * BADGE_SIZE
 		instance.custom_maximum_size = Vector2.ONE * BADGE_SIZE

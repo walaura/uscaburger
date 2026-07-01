@@ -9,7 +9,7 @@ func _run() -> void:
 	print("RsDifficultyNumbers Visualization")
 	print("================================================")
 
-	var viz_resource := RsDifficultyNumbers.new()
+	var viz_resource := RsDifficultyNumbers.new(ScTower.Mode.Normal)
 
 	# Print initial values
 	print("Initial state:")

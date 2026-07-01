@@ -9,7 +9,7 @@ shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
 
 uniform vec3 base_color : source_color = vec3(1.0);
-uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap, repeat_enable;
+uniform sampler2D texture_albedo : source_color, filter_nearest_mipmap;
 
 uniform bool flip = false;
 

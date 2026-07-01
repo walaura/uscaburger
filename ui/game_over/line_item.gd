@@ -4,6 +4,10 @@ extends HBoxContainer
 
 enum Style { TOT, LINE, EMPTY, CENTER, HONKING }
 
+@export var is_white := false:
+	set(val):
+		is_white = val
+		_draw_ui()
 @export var anim_length := 1.
 @export var style := Style.TOT:
 	set(val):
@@ -45,6 +49,9 @@ func _draw_ui() -> void:
 	if style == Style.HONKING:
 		(%Price as Label).add_theme_color_override("font_color", Helper.COLOR_RED)
 		(%Deets as Label).add_theme_color_override("font_color", Helper.COLOR_RED)
+	elif is_white:
+		(%Price as Label).add_theme_color_override("font_color", Color.WHITE)
+		(%Deets as Label).add_theme_color_override("font_color", Color.WHITE)
 	else:
 		(%Price as Label).remove_theme_color_override("font_color")
 		(%Deets as Label).remove_theme_color_override("font_color")

@@ -13,6 +13,8 @@ const ASSET_BTN_KEEB_F = preload("res://asset/ui/btn-keeb-f.png")
 const ASSET_BTN_KEEB_R = preload("res://asset/ui/btn-keeb-r.png")
 const ASSET_BTN_KEEB_SPACE = preload("res://asset/ui/btn-keeb-space.png")
 const ASSET_BTN_KEEB_TAB = preload("res://asset/ui/btn-keeb-tab.png")
+const ASSET_BTN_KEEB_ESC = preload("res://asset/ui/btn-keeb-esc.png")
+const ASSET_BTN_KEEB_ARROW = preload("res://asset/ui/btn-keeb-arrow.png")
 
 @export var action: String:
 	set(value):
@@ -21,6 +23,7 @@ const ASSET_BTN_KEEB_TAB = preload("res://asset/ui/btn-keeb-tab.png")
 
 
 func get_joypad_asset(index: int) -> Texture2D:
+	print(index)
 	match index:
 		0:
 			return ASSET_BTN_CIRCLE_A
@@ -40,6 +43,8 @@ func get_joypad_asset(index: int) -> Texture2D:
 
 func get_key_asset(index: int) -> Texture2D:
 	match index:
+		0:
+			return ASSET_BTN_KEEB_ESC
 		32:
 			return ASSET_BTN_KEEB_SPACE
 		82:
@@ -48,6 +53,8 @@ func get_key_asset(index: int) -> Texture2D:
 			return ASSET_BTN_KEEB_F
 		4194306:
 			return ASSET_BTN_KEEB_TAB
+		4194321:
+			return ASSET_BTN_KEEB_ARROW
 		_:
 			return ASSET_BTN_MYSTERY
 
@@ -75,7 +82,7 @@ func _set_action() -> void:
 
 func is_wider(asset: Texture2D) -> bool:
 	match asset:
-		ASSET_BTN_BUMPER_L, ASSET_BTN_BUMPER_R, ASSET_BTN_KEEB_F, ASSET_BTN_KEEB_R, ASSET_BTN_KEEB_SPACE, ASSET_BTN_KEEB_TAB:
+		ASSET_BTN_BUMPER_L, ASSET_BTN_BUMPER_R, ASSET_BTN_KEEB_F, ASSET_BTN_KEEB_R, ASSET_BTN_KEEB_SPACE, ASSET_BTN_KEEB_TAB, ASSET_BTN_KEEB_ARROW, ASSET_BTN_KEEB_ESC:
 			return true
 		_:
 			return false

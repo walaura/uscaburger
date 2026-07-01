@@ -1,0 +1,147 @@
+[gd_resource type="VisualShader" format=3 uid="uid://cpa2d6rle4vro"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_fhwb3"]
+parameter_name = "Alpha_upper"
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_fhwb3"]
+default_input_values = [0, 0.0, 1, 0.0, 2, 0.725]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_rliid"]
+parameter_name = "AlphaLower"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_fhwb3"]
+parameter_name = "MaskImg"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_rliid"]
+source = 5
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_qvqkq"]
+size = Vector2(740, 360)
+expression = "vec2 deriv = fwidthFine(UV);
+float ratio = deriv.x / deriv.y;
+
+output0 = vec2(UV.x, (UV.y+input0)*ratio * 3.);"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_fhwb3"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_rliid"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_qvqkq"]
+parameter_name = "MaskSlop"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_ijg3l"]
+parameter_name = "Bg_Scroll"
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_fhwb3"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_fhwb3"]
+size = Vector2(1120, 160)
+expression = "uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_rliid"]
+size = Vector2(740, 300)
+expression = "output0 = textureLod(screen_texture, SCREEN_UV, 0.0);"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_rliid"]
+parameter_name = "Texture2DParameter"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_qvqkq"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_ijg3l"]
+size = Vector2(740, 360)
+expression = "vec2 deriv = fwidthFine(UV);
+float ratio = deriv.x / deriv.y;
+
+output0 = vec2(scroll + UV.x, scroll + (UV.y*ratio));"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_cq3lk"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 0)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_agwan"]
+parameter_name = "FloatParameter"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_rliid"]
+parameter_name = "ColorParameter"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_qvqkq"]
+default_input_values = [0, 0.0, 1, 0.58]
+
+[resource]
+mode = 1
+modes/blend = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(3160, 220)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_fhwb3")
+nodes/fragment/2/position = Vector2(193, 187)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_rliid")
+nodes/fragment/3/position = Vector2(-460, 460)
+nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_qvqkq")
+nodes/fragment/4/position = Vector2(380, 360)
+nodes/fragment/5/node = SubResource("VisualShaderNodeExpression_ijg3l")
+nodes/fragment/5/position = Vector2(-1360, 100)
+nodes/fragment/5/size = Vector2(740, 360)
+nodes/fragment/5/input_ports = "0,0,scroll;"
+nodes/fragment/5/output_ports = "0,3,output0;"
+nodes/fragment/5/expression = "vec2 deriv = fwidthFine(UV);
+float ratio = deriv.x / deriv.y;
+
+output0 = vec2(scroll + UV.x, scroll + (UV.y*ratio));"
+nodes/fragment/6/node = SubResource("VisualShaderNodeVectorOp_cq3lk")
+nodes/fragment/6/position = Vector2(120, 320)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_agwan")
+nodes/fragment/7/position = Vector2(-240, 80)
+nodes/fragment/8/node = SubResource("VisualShaderNodeColorParameter_rliid")
+nodes/fragment/8/position = Vector2(480, -40)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_qvqkq")
+nodes/fragment/9/position = Vector2(860, 400)
+nodes/fragment/10/node = SubResource("VisualShaderNodeFloatParameter_fhwb3")
+nodes/fragment/10/position = Vector2(440, 660)
+nodes/fragment/11/node = SubResource("VisualShaderNodeMix_fhwb3")
+nodes/fragment/11/position = Vector2(1140, 400)
+nodes/fragment/12/node = SubResource("VisualShaderNodeFloatParameter_rliid")
+nodes/fragment/12/position = Vector2(1000, 643)
+nodes/fragment/13/node = SubResource("VisualShaderNodeTexture2DParameter_fhwb3")
+nodes/fragment/13/position = Vector2(1440, 660)
+nodes/fragment/14/node = SubResource("VisualShaderNodeTexture_rliid")
+nodes/fragment/14/position = Vector2(2320, 740)
+nodes/fragment/15/node = SubResource("VisualShaderNodeExpression_qvqkq")
+nodes/fragment/15/position = Vector2(1380, 1020)
+nodes/fragment/15/size = Vector2(740, 360)
+nodes/fragment/15/input_ports = "0,0,input0;"
+nodes/fragment/15/output_ports = "0,3,output0;"
+nodes/fragment/15/expression = "vec2 deriv = fwidthFine(UV);
+float ratio = deriv.x / deriv.y;
+
+output0 = vec2(UV.x, (UV.y+input0)*ratio * 3.);"
+nodes/fragment/16/node = SubResource("VisualShaderNodeFloatFunc_fhwb3")
+nodes/fragment/16/position = Vector2(2620, 680)
+nodes/fragment/17/node = SubResource("VisualShaderNodeFloatOp_rliid")
+nodes/fragment/17/position = Vector2(2480, 340)
+nodes/fragment/18/node = SubResource("VisualShaderNodeFloatParameter_qvqkq")
+nodes/fragment/18/position = Vector2(800, 1120)
+nodes/fragment/19/node = SubResource("VisualShaderNodeFloatParameter_ijg3l")
+nodes/fragment/19/position = Vector2(-1720, 180)
+nodes/fragment/20/node = SubResource("VisualShaderNodeGlobalExpression_fhwb3")
+nodes/fragment/20/position = Vector2(2928.6345, -493.5293)
+nodes/fragment/20/size = Vector2(1120, 160)
+nodes/fragment/20/input_ports = ""
+nodes/fragment/20/output_ports = ""
+nodes/fragment/20/expression = "uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+"
+nodes/fragment/21/node = SubResource("VisualShaderNodeExpression_rliid")
+nodes/fragment/21/position = Vector2(2068.6345, -273.5293)
+nodes/fragment/21/size = Vector2(740, 300)
+nodes/fragment/21/input_ports = ""
+nodes/fragment/21/output_ports = "0,5,output0;"
+nodes/fragment/21/expression = "output0 = textureLod(screen_texture, SCREEN_UV, 0.0);"
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 2, 5, 0, 6, 0, 6, 0, 4, 0, 7, 0, 6, 1, 4, 4, 9, 0, 10, 0, 9, 1, 9, 0, 11, 0, 12, 0, 11, 2, 13, 0, 14, 2, 15, 0, 14, 0, 14, 0, 16, 0, 11, 0, 17, 0, 16, 0, 17, 1, 18, 0, 15, 0, 19, 0, 5, 0, 17, 0, 0, 1, 8, 0, 0, 0)

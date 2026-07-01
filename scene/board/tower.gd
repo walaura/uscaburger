@@ -27,7 +27,7 @@ func setup(nw_mode: Mode) -> void:
 	self.mode = nw_mode
 
 
-func get_SCaabb() -> AABB:
+func get_aabb() -> AABB:
 	var total_aabb: AABB
 	var first_box := true
 
@@ -83,7 +83,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	var aabb_rect := Helper.get_screen_rect(get_SCaabb())
+	var aabb_rect := Helper.get_screen_rect(get_aabb())
 	_score_overlay.rotation = -0.025
 	_score_overlay.position = (
 		_score_overlay

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bai8dvmohf2ip"]
+
+[ext_resource type="Texture2D" uid="uid://gukavwauj2a" path="res://asset/badge/badge-unl-bacon.png" id="1_ygh02"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_6bih6"]
+
+[resource]
+script = ExtResource("2_6bih6")
+name = "Bacon"
+icon = ExtResource("1_ygh02")
+desc = "Tasty! [boing]x1.125[/boing] of your burgers value"
+price = 129
+requires = Array[StringName]([&"ui1.tres"])

@@ -2,15 +2,14 @@ extends Node
 
 const FAKE_SIGNAL = Signal()
 
+
 func with_container(
-		cat: StringName,
-		setup_callback: Callable,
-		maybe_exit_tree: Signal = FAKE_SIGNAL,
+	cat: StringName,
+	setup_callback: Callable,
+	maybe_exit_tree: Signal = FAKE_SIGNAL,
 ) -> void:
 	var maybe_container := %Tools.get_node_or_null("CtT" + cat) as FoldableContainer
-	var maybe_guts := (
-			(maybe_container.get_child(0) as VBoxContainer) if maybe_container != null else null
-	)
+	var maybe_guts := (maybe_container.get_child(0) as VBoxContainer) if maybe_container != null else null
 
 	if maybe_guts:
 		for n in maybe_guts.get_children():
@@ -27,6 +26,6 @@ func with_container(
 		%Tools.add_child(maybe_container)
 
 	setup_callback.call_deferred(maybe_guts)
-	
+
 	if maybe_exit_tree != FAKE_SIGNAL:
 		maybe_exit_tree.connect(func() -> void: %Tools.remove_child(maybe_container))

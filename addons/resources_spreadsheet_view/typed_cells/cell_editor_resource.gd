@@ -29,9 +29,7 @@ func set_value(node: Control, value):
 		return
 
 	node.editor_description = value.resource_path
-	label_node.text = _resource_to_string(
-		value, ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0)
-	)
+	label_node.text = _resource_to_string(value, ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_cell_label_mode", 0))
 
 	if value is Texture:
 		preview_node.visible = true
@@ -41,7 +39,7 @@ func set_value(node: Control, value):
 		preview_node.visible = false
 		previewer.queue_resource_preview(value.resource_path, self, &"_on_preview_loaded", node)
 
-	preview_node.custom_minimum_size = Vector2.ONE * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_preview_size")
+	preview_node.custom_minimum_size = (Vector2.ONE * ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "resource_preview_size"))
 
 
 func set_color(node: Control, color: Color):

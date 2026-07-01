@@ -3,12 +3,12 @@ extends ColorRect
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
-@onready var editor_view : Control = $"../../../../../.."
-@onready var grid_scroll : ScrollContainer = $"../../Scroll"
-@onready var grid : GridContainer = $"../../Scroll/MarginContainer/TableGrid"
+@onready var editor_view: Control = $"../../../../../.."
+@onready var grid_scroll: ScrollContainer = $"../../Scroll"
+@onready var grid: GridContainer = $"../../Scroll/MarginContainer/TableGrid"
 
-var children : Array[Control] = []
-var children_copy_cells : Array[Control] = []
+var children: Array[Control] = []
+var children_copy_cells: Array[Control] = []
 
 
 func _ready() -> void:
@@ -37,7 +37,7 @@ func _on_grid_updated() -> void:
 			first_visible_column = i
 			break
 
-	var total_column_count : int = editor_view.columns.size()
+	var total_column_count: int = editor_view.columns.size()
 	children.resize(grid.get_child_count() / total_column_count)
 	children_copy_cells.resize(children.size())
 	for i in children.size():
@@ -53,7 +53,7 @@ func _on_grid_updated() -> void:
 	_on_scroll_updated(0.0)
 
 
-func _on_scroll_updated(_new_value : float):
+func _on_scroll_updated(_new_value: float):
 	position = Vector2(0.0, -grid_scroll.scroll_vertical)
 	for i in children.size():
 		children[i].size = children_copy_cells[i].size

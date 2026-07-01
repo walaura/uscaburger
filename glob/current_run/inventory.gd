@@ -1,7 +1,7 @@
 class_name CurrentRun_Inventory
-extends Node
+extends RefCounted
 
-var _held_items: Dictionary[String, int] = {}
+var _held_items: Dictionary[String, int] = {"bom.tres": 9}
 
 signal item_got_held(item: String)
 
@@ -20,6 +20,16 @@ func is_holding_item(item: StringName) -> bool:
 
 func get_held_item_tier(item: String) -> int:
 	return _held_items.get(item, 0)
+
+
+func get_all_held_items_as_uniques() -> Array[RsUnlockable]:
+	# list all held items but when they got tiers, show 1 item per tier instead of collapsing them
+	var uniques: Array[RsUnlockable] = []
+	for key in _held_items:
+		var count := _held_items[key]
+		for i in range(count):
+			uniques.append(get_item_at_tier(key, i + 1))
+	return uniques
 
 
 func get_item_at_tier(key: String, tier: int) -> RsUnlockable:
@@ -44,6 +54,7 @@ func get_item_at_tier(key: String, tier: int) -> RsUnlockable:
 	if value_str.ends_with(".0"):
 		value_str = "%.0f" % inc_res.incremental_value
 	inc_res.desc = inc_res.desc.format([value_str])
+	inc_res.fx_short_desc = inc_res.fx_short_desc.format([value_str])
 
 	if inc_res.incremental_extra_names.size() > tier:
 		inc_res.name = inc_res.incremental_extra_names[tier]

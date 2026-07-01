@@ -8,10 +8,6 @@ var player_data := RsPlayerData.new()
 signal on_run_start
 
 
-func _init() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
-
-
 func _ready() -> void:
 	on_run_start.emit()
 

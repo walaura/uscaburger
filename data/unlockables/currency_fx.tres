@@ -10,6 +10,7 @@ script = ExtResource("2_llru5")
 name = "Tea 'n' crumpets"
 icon = ExtResource("3_vcn7h")
 desc = "Swaps measurement units. +[boing]{0}%[/boing] FX fees."
+fx_short_desc = "+[boing]{0}%[/boing] FX Fees (this is bad btw)"
 requires = Array[StringName]([&"ui1.tres", &"ui2.tres"])
 is_incremental = true
 incremental_mult = 1.5

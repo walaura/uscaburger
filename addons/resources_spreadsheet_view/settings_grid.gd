@@ -9,7 +9,7 @@ func _ready():
 	ProjectSettings.set_setting(PREFIX + "color_arrays", null)
 
 	for x in get_children():
-		var setting : String = PREFIX + x.name.to_snake_case()
+		var setting: String = PREFIX + x.name.to_snake_case()
 		if x is CheckBox:
 			x.toggled.connect(_set_setting.bind(setting))
 			if !ProjectSettings.has_setting(setting):
@@ -35,5 +35,5 @@ func _ready():
 				x.value = ProjectSettings.get_setting(setting)
 
 
-func _set_setting(new_value, setting : String):
+func _set_setting(new_value, setting: String):
 	ProjectSettings.set_setting(setting, new_value)

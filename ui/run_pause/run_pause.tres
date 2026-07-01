@@ -1,0 +1,16 @@
+[gd_resource type="VisualShader" format=3 uid="uid://8dmkjt20v10"]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ecgih"]
+constant = Color(0.70794106, 0.38844153, 0.5554933, 1)
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ecgih"]
+constant = 0.8
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_ecgih")
+nodes/fragment/2/position = Vector2(-60, 0)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatConstant_ecgih")
+nodes/fragment/3/position = Vector2(75.35005, 233.53001)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 0, 1)

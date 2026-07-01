@@ -10,4 +10,5 @@ extends Resource
 @export var is_crown := false
 @export var is_sauce := false
 @export var is_patty := false
-@export var is_upgrade := false
+@export var is_meat := false
+@export var requires_upgrade: RsUnlockable

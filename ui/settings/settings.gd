@@ -20,30 +20,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
-
-	var tween := create_tween()
-	tween.set_ease(Tween.EASE_IN)
 	find_next_valid_focus().grab_focus.call_deferred()
-
-	($SubViewport/ColorRect as ColorRect).material.set("shader_parameter/Scale", 1.9)
-	($PanelContainer as Control).set("offset_transform_scale", Vector2.ZERO)
-	($PanelContainer as Control).modulate.a = 0
-	($PanelContainer as Control).offset_transform_position.y = 500000
-
-	tween.tween_property($PanelContainer as Control, "offset_transform_scale", Vector2.ONE, .5)
-	tween.parallel().tween_property($PanelContainer as Control, "modulate:a", 1, .1)
-	tween.parallel().tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75).from(1000)
-	(
-		tween
-		. parallel()
-		. tween_property(
-			($SubViewport/ColorRect as ColorRect).material,
-			"shader_parameter/Scale",
-			1,
-			.33,
-		)
-		. set_delay(.5)
-	)
 
 	get_viewport().size_changed.connect(update_resolution_label)
 	update_resolution_label()
@@ -177,13 +154,11 @@ func update_resolution_label() -> void:
 
 	@warning_ignore("unsafe_property_access")
 	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
-	resolution_label.text = (
-		"3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
-	)
+	resolution_label.text = ("3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)])
 
 
 func _on_ui_scale_option_button_item_selected(index: int) -> void:
-	SavedData.apply_gfx_setting(SavedData.Options.UiSCALE, index)
+	SavedData.apply_gfx_setting(SavedData.Options.UI_SCALE, index)
 
 
 func _on_quality_slider_value_changed(value: float) -> void:
@@ -271,4 +246,4 @@ func _on_2_preset_pressed() -> void:
 
 
 func _on_hide_show_button_pressed() -> void:
-	on_close.emit()
+	($PaperWindow as UiKetchupPaperWindow).animate_out().finished.connect(func() -> void: on_close.emit())

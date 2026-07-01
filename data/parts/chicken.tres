@@ -9,4 +9,5 @@ price = 299
 name = "Chicken patty"
 model = ExtResource("1_wynot")
 is_patty = true
+is_meat = true
 is_upgrade = true

@@ -8,6 +8,4 @@ script = ExtResource("2_dx0cl")
 name = "Ketchup"
 icon = ExtResource("1_dx0cl")
 desc = "Tomatoy! Unlocks [boing]ketchup[/boing]. Never slides & creates a flat floor"
-price = 1099
-incremental_extra_icons = null
-incremental_modulo_at = null
+price = 1299

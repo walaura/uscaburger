@@ -2,6 +2,7 @@ extends Node2D
 
 class_name VisibleOnDev
 
+
 func _init() -> void:
 	_set_ui()
 	Helper.is_debug_changed.connect(_set_ui)

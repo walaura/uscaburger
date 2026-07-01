@@ -2,18 +2,18 @@ class_name UiGameOver_ScoresTkt
 extends VBoxContainer
 
 var _tween: Tween
+@export var is_white := false
 
 
 func play_intro(ticker: Array[CurrentRun_ScoreLineItemResource]) -> Tween:
 	_tween = create_tween()
-	print(ticker)
 	for line in ticker:
 		_tween = push_ticket_line(line)
 	return _tween
 
 
 func _input(event: InputEvent) -> void:
-	if _tween != null && event.is_action("UiSkip"):
+	if _tween != null && event.is_action("UI_Skip"):
 		_tween.set_speed_scale(10.0)
 
 
@@ -28,6 +28,7 @@ func push_ticket_line(
 	if line is CurrentRun_ScoreLineItemNullResource:
 		return _tween
 
+	tkt_line.is_white = is_white
 	tkt_line.visible = true
 
 	if line is CurrentRun_ScoreLineItemDividerResource:

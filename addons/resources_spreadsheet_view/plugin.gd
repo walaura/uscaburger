@@ -1,12 +1,12 @@
 @tool
 extends EditorPlugin
 
-var editor_view : Control
-var undo_redo : EditorUndoRedoManager
+var editor_view: Control
+var undo_redo: EditorUndoRedoManager
 
 
 func _enter_tree() -> void:
-	editor_view = load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate()
+	editor_view = (load(get_script().resource_path.get_base_dir() + "/editor_view.tscn").instantiate())
 	editor_view.editor_interface = get_editor_interface()
 	if editor_view.editor_interface == null:
 		# 4.2: now a singleton

@@ -90,10 +90,7 @@ func _enter_tree() -> void:
 			if is_instance_valid(menu):
 				menu.update_menu(true)
 	)
-	installer.installation_failed.connect(
-		func _on_installation_failed(error_message: String) -> void:
-			push_error("Formatter installation failed: ", error_message)
-	)
+	installer.installation_failed.connect(func _on_installation_failed(error_message: String) -> void: push_error("Formatter installation failed: ", error_message))
 
 	add_format_command()
 	add_lint_command()
@@ -272,17 +269,23 @@ func _on_resource_saved(saved_resource: Resource) -> void:
 func add_format_command() -> void:
 	if not has_command(get_editor_setting(SETTING_FORMATTER_PATH)):
 		push_error(
-			'GDScript Formatter: The command "%s" can\'t be found in your environment.\n' % get_editor_setting(SETTING_FORMATTER_PATH) +
-			'\tIf you have not installed the formatter, use the install/update command from the command palette.\n' +
-			'\tIf you have installed the formatter, change "formatter_path" to a valid command in the "GDScript Formatter" section in Editor Settings.',
+			(
+				('GDScript Formatter: The command "%s" can\'t be found in your environment.\n' % get_editor_setting(SETTING_FORMATTER_PATH))
+				+ "\tIf you have not installed the formatter, use the install/update command from the command palette.\n"
+				+ '\tIf you have installed the formatter, change "formatter_path" to a valid command in the "GDScript Formatter" section in Editor Settings.'
+			),
 		)
 		return
 	var shortcut := get_editor_setting(SETTING_SHORTCUT) as Shortcut
-	EditorInterface.get_command_palette().add_command(
-		COMMAND_PALETTE_FORMAT_SCRIPT,
-		COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_FORMAT_SCRIPT,
-		format_current_script,
-		shortcut.get_as_text() if is_instance_valid(shortcut) else "None",
+	(
+		EditorInterface
+		. get_command_palette()
+		. add_command(
+			COMMAND_PALETTE_FORMAT_SCRIPT,
+			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_FORMAT_SCRIPT,
+			format_current_script,
+			shortcut.get_as_text() if is_instance_valid(shortcut) else "None",
+		)
 	)
 
 
@@ -294,24 +297,36 @@ func add_lint_command() -> void:
 	if not has_command(get_editor_setting(SETTING_FORMATTER_PATH)):
 		return
 
-	EditorInterface.get_command_palette().add_command(
-		COMMAND_PALETTE_LINT_SCRIPT,
-		COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_LINT_SCRIPT,
-		lint_current_script,
+	(
+		EditorInterface
+		. get_command_palette()
+		. add_command(
+			COMMAND_PALETTE_LINT_SCRIPT,
+			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_LINT_SCRIPT,
+			lint_current_script,
+		)
 	)
 
 
 func remove_lint_command() -> void:
-	EditorInterface.get_command_palette().remove_command(
-		COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_LINT_SCRIPT,
+	(
+		EditorInterface
+		. get_command_palette()
+		. remove_command(
+			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_LINT_SCRIPT,
+		)
 	)
 
 
 func add_install_update_command() -> void:
-	EditorInterface.get_command_palette().add_command(
-		COMMAND_PALETTE_INSTALL_UPDATE,
-		COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_INSTALL_UPDATE,
-		installer.install_or_update_formatter,
+	(
+		EditorInterface
+		. get_command_palette()
+		. add_command(
+			COMMAND_PALETTE_INSTALL_UPDATE,
+			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_INSTALL_UPDATE,
+			installer.install_or_update_formatter,
+		)
 	)
 
 
@@ -321,10 +336,14 @@ func remove_install_update_command() -> void:
 
 func add_uninstall_command() -> void:
 	if is_formatter_installed_locally():
-		EditorInterface.get_command_palette().add_command(
-			COMMAND_PALETTE_UNINSTALL,
-			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_UNINSTALL,
-			uninstall_formatter,
+		(
+			EditorInterface
+			. get_command_palette()
+			. add_command(
+				COMMAND_PALETTE_UNINSTALL,
+				COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_UNINSTALL,
+				uninstall_formatter,
+			)
 		)
 
 
@@ -333,10 +352,14 @@ func remove_uninstall_command() -> void:
 
 
 func add_report_issue_command() -> void:
-	EditorInterface.get_command_palette().add_command(
-		COMMAND_PALETTE_REPORT_ISSUE,
-		COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_REPORT_ISSUE,
-		report_issue,
+	(
+		EditorInterface
+		. get_command_palette()
+		. add_command(
+			COMMAND_PALETTE_REPORT_ISSUE,
+			COMMAND_PALETTE_CATEGORY + COMMAND_PALETTE_REPORT_ISSUE,
+			report_issue,
+		)
 	)
 
 
@@ -426,9 +449,9 @@ func has_command(command: String) -> bool:
 ## Reloads the code editor with new text while preserving editor state.
 ## This includes cursor position, scroll position, breakpoints, bookmarks, and folds.
 func reload_code_edit(
-		code_edit: CodeEdit,
-		new_text: String,
-		tag_saved := false,
+	code_edit: CodeEdit,
+	new_text: String,
+	tag_saved := false,
 ) -> void:
 	var editor_state := CodeEditState.new(code_edit)
 	code_edit.text = new_text
@@ -513,10 +536,13 @@ func format_code(script: GDScript, force_reorder := false) -> String:
 	formatter_arguments.push_back(path_temporary_file)
 
 	var output: Array = []
-	var exit_code := OS.execute(
-		get_editor_setting(SETTING_FORMATTER_PATH),
-		formatter_arguments,
-		output,
+	var exit_code := (
+		OS
+		. execute(
+			get_editor_setting(SETTING_FORMATTER_PATH),
+			formatter_arguments,
+			output,
+		)
 	)
 
 	var formatted_content := ""
@@ -530,10 +556,9 @@ func format_code(script: GDScript, force_reorder := false) -> String:
 	else:
 		push_error("Format GDScript failed: " + script_path)
 		push_error(
-			"\tExit code: " + str(exit_code) + " Output: " +
-			(output[0].strip_edges() if output.size() > 0 else "No output"),
+			"\tExit code: " + str(exit_code) + " Output: " + (output[0].strip_edges() if output.size() > 0 else "No output"),
 		)
-		push_error('\tIf your script does not have any syntax errors, this might be a formatter bug.')
+		push_error("\tIf your script does not have any syntax errors, this might be a formatter bug.")
 
 	if FileAccess.file_exists(path_temporary_file):
 		DirAccess.remove_absolute(path_temporary_file)
@@ -559,7 +584,7 @@ func lint_code(script: GDScript) -> Array:
 
 	var exit_code := OS.execute(get_editor_setting(SETTING_FORMATTER_PATH), formatter_arguments, output)
 	if exit_code == OK:
-		return [] # No issues found
+		return []  # No issues found
 
 	if exit_code == 1:
 		# Parse lint output - the output is a single string with multiple lines
@@ -593,7 +618,7 @@ func parse_lint_issue(line: String) -> Dictionary:
 			"severity": result.get_string(4),
 			"message": result.get_string(5).strip_edges(),
 		}
-	return { }
+	return {}
 
 
 ## Applies lint highlighting to the code editor
@@ -632,15 +657,18 @@ func print_lint_summary(issues: Array, script_path: String) -> void:
 	print_rich("[b]Found [i]%s[/i] issue(s)\n[/b]" % issues.size())
 
 	for issue in issues:
-		var line_display = str(issue.line + 1) # Convert back to 1-based for display
+		var line_display = str(issue.line + 1)  # Convert back to 1-based for display
 		var severity_label = issue.severity.to_upper()
 		print_rich(
-			"[color=%s]%s[/color] on line [color=cyan]%s[/color] ([i]%s[/i])" % [
-				"red" if severity_label == "ERROR" else "yellow",
-				severity_label,
-				line_display,
-				issue.rule,
-			],
+			(
+				"[color=%s]%s[/color] on line [color=cyan]%s[/color] ([i]%s[/i])"
+				% [
+					"red" if severity_label == "ERROR" else "yellow",
+					severity_label,
+					line_display,
+					issue.rule,
+				]
+			),
 		)
 		print_rich("[i]%s[/i]\n" % [issue.message])
 
@@ -668,11 +696,10 @@ class CodeEditState:
 	var caret_column: int
 	var horizontal_scroll: int
 	var vertical_scroll: int
-	var breakpoints: Dictionary[int, String] = { }
-	var bookmarks: Dictionary[int, String] = { }
-	var folds: Dictionary[int, String] = { }
+	var breakpoints: Dictionary[int, String] = {}
+	var bookmarks: Dictionary[int, String] = {}
+	var folds: Dictionary[int, String] = {}
 	var code_edit: CodeEdit
-
 
 	func _init(code_edit: CodeEdit) -> void:
 		self.code_edit = code_edit
@@ -688,7 +715,6 @@ class CodeEditState:
 		for line in code_edit.get_folded_lines():
 			folds[line] = code_edit.get_line(line)
 
-
 	func restore_to_editor(code_edit: CodeEdit) -> void:
 		var new_line_count := code_edit.get_line_count()
 
@@ -702,15 +728,14 @@ class CodeEditState:
 		code_edit.scroll_horizontal = horizontal_scroll
 		code_edit.scroll_vertical = vertical_scroll
 
-
 	## Restores line-based features (breakpoints, bookmarks, folds) by finding the best matching lines
 	## in the new text based on similarity to the original line text.
 	##
 	## Big thanks to https://github.com/Daylily-Zeleen/GDScript-Formatter for this approach.
 	func _restore_line_features(
-			stored_features: Dictionary,
-			set_line_func: Callable,
-			new_line_count: int,
+		stored_features: Dictionary,
+		set_line_func: Callable,
+		new_line_count: int,
 	) -> void:
 		var stored_lines := PackedInt64Array(stored_features.keys())
 		for line_index in range(stored_lines.size()):

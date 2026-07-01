@@ -1,9 +1,9 @@
 @tool
 extends Control
 
-@export var prop_list_item_scene : PackedScene
-@export var formats_export : Array[Script]
-@export var formats_import : Array[Script]
+@export var prop_list_item_scene: PackedScene
+@export var formats_export: Array[Script]
+@export var formats_import: Array[Script]
 
 @onready var editor_view := $"../../.."
 @onready var filename_options := $"Import/Margins/Scroll/Box/Grid/UseAsFilename"
@@ -16,7 +16,7 @@ extends Control
 var format_extension := ".csv"
 var entries := []
 
-var import_data : ResourceTablesImport
+var import_data: ResourceTablesImport
 
 
 func _ready():
@@ -24,11 +24,11 @@ func _ready():
 	show()
 	if get_parent().get("size"):
 		get_parent().size = Vector2(600, 400)
-	
+
 	file_dialog_use_script.file_selected.connect(_on_file_dialog_file_selected)
 
 
-func _on_file_selected(path : String):
+func _on_file_selected(path: String):
 	if !FileAccess.file_exists(path):
 		if path.get_extension() != "":
 			# Path is a file path: replace extension
@@ -71,11 +71,11 @@ func _on_file_selected(path : String):
 	size = get_parent().size
 
 
-func _on_files_selected(paths : PackedStringArray):
+func _on_files_selected(paths: PackedStringArray):
 	_on_file_selected(paths[0])
 
 
-func _import_settings_from_settings_file(settings_file : ResourceTablesImport, textfile_path : String):
+func _import_settings_from_settings_file(settings_file: ResourceTablesImport, textfile_path: String):
 	import_data = settings_file
 
 	filename_options.clear()
@@ -94,7 +94,7 @@ func _import_settings_from_settings_file(settings_file : ResourceTablesImport, t
 			break
 
 
-func _create_new_settings_file(textfile_path : String):
+func _create_new_settings_file(textfile_path: String):
 	import_data = ResourceTablesImport.new()
 	import_data.initialize(textfile_path)
 
@@ -105,11 +105,10 @@ func _create_new_settings_file(textfile_path : String):
 			import_data.prop_names = new_importer.get_properties(entries, import_data)
 			break
 
-	classname_field.text = import_data.edited_path.get_file().get_basename()\
-		.capitalize().replace(" ", "")
+	classname_field.text = import_data.edited_path.get_file().get_basename().capitalize().replace(" ", "")
 	import_data.script_classname = classname_field.text
 	if script_path_field.text:
-		var existing_resource : Resource = load(script_path_field.text).new()
+		var existing_resource: Resource = load(script_path_field.text).new()
 		import_data.prop_types = ResourceTablesImport.get_resource_property_types(existing_resource, import_data.prop_names)
 
 	else:
@@ -122,7 +121,8 @@ func _create_new_settings_file(textfile_path : String):
 
 func _create_prop_editors():
 	for x in prop_list.get_children():
-		if !x is GridContainer: x.free()
+		if !x is GridContainer:
+			x.free()
 
 	await get_tree().process_frame
 	for i in import_data.prop_names.size():
@@ -153,11 +153,11 @@ func _on_import_to_tres_pressed():
 	DirAccess.open("res://").make_dir_recursive(import_data.edited_path.get_basename())
 
 	import_data.prop_used_as_filename = import_data.prop_names[filename_options.selected]
-	var new_res : Resource
+	var new_res: Resource
 	for i in entries.size():
 		if import_data.remove_first_row and i == 0:
 			continue
-		
+
 		new_res = import_data.strings_to_resource(entries[i], editor_view.current_path)
 		ResourceSaver.save(new_res)
 
@@ -176,8 +176,8 @@ func _on_import_edit_pressed():
 	await get_tree().process_frame
 	editor_view.display_folder(import_data.resource_path)
 	editor_view.node_columns.hidden_columns[editor_view.current_path] = {
-		"resource_path" : true,
-		"resource_local_to_scene" : true,
+		"resource_path": true,
+		"resource_local_to_scene": true,
 	}
 	editor_view.save_data()
 	await get_tree().process_frame
@@ -186,7 +186,7 @@ func _on_import_edit_pressed():
 
 
 func _on_export_csv_pressed():
-	var exported_cols : Array = editor_view.columns.duplicate()
+	var exported_cols: Array = editor_view.columns.duplicate()
 	exported_cols.erase(&"resource_local_to_scene")
 	for x in editor_view.node_columns.hidden_columns[editor_view.current_path].keys():
 		exported_cols.erase(x)
@@ -196,35 +196,32 @@ func _on_export_csv_pressed():
 	editor_view.refresh()
 	close()
 
+
 # Input controls
-func _on_classname_field_text_changed(new_text : String):
+func _on_classname_field_text_changed(new_text: String):
 	import_data.script_classname = new_text.replace(" ", "")
 
 
-func _on_remove_first_row_toggled(button_pressed : bool):
+func _on_remove_first_row_toggled(button_pressed: bool):
 	import_data.remove_first_row = button_pressed
 #	$"Export/Box2/Button".button_pressed = true
 	$"Export/Box3/CheckBox".button_pressed = button_pressed
 
 
-func _on_list_item_type_selected(type : int, index : int):
+func _on_list_item_type_selected(type: int, index: int):
 	import_data.prop_types[index] = type
-	
 
-func _on_list_item_name_changed(name : String, index : int):
+
+func _on_list_item_name_changed(name: String, index: int):
 	import_data.prop_names[index] = name.replace(" ", "")
 
 
-func _on_export_delimiter_pressed(del : String):
+func _on_export_delimiter_pressed(del: String):
 	import_data.delimeter = del + import_data.delimeter.substr(1)
 
 
-func _on_export_space_toggled(button_pressed : bool):
-	import_data.delimeter = (
-		import_data.delimeter[0]
-		if !button_pressed else
-		import_data.delimeter + " "
-	)
+func _on_export_space_toggled(button_pressed: bool):
+	import_data.delimeter = (import_data.delimeter[0] if !button_pressed else import_data.delimeter + " ")
 
 
 func _on_enum_format_changed(case, delimiter, bool_yes, bool_no):

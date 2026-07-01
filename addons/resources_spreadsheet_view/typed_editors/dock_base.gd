@@ -6,8 +6,8 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 
 @export var path_property_name := NodePath("Header/Label")
 
-var sheet : Control
-var selection : Array
+var sheet: Control
+var selection: Array
 
 var _resize_target_height := 0.0
 var _resize_pressed := false
@@ -25,20 +25,22 @@ func _ready():
 	$"Header".mouse_filter = MOUSE_FILTER_STOP
 	$"Header".mouse_default_cursor_shape = CURSOR_VSIZE
 
+
 ## Override to define when to show the dock and, if it can edit the value, how to handle it.
-func try_edit_value(value, type : int, property_hint : String) -> bool:
+func try_edit_value(value, type: int, property_hint: String) -> bool:
 	return true
 
+
 ## Override to define behaviour when stretching the header to change size.
-func resize_drag(to_height : float):
+func resize_drag(to_height: float):
 	return
 
 
-func resize_set_hidden(state : bool):
+func resize_set_hidden(state: bool):
 	get_child(1).visible = !state
 
 
-func _on_header_gui_input(event : InputEvent):
+func _on_header_gui_input(event: InputEvent):
 	if event is InputEventMouseMotion and _resize_pressed:
 		_resize_target_height -= event.relative.y
 		custom_minimum_size.y = clamp(_resize_target_height, 0.0, get_viewport().size.y * 0.75)

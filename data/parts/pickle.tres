@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://bjo5lw18u6kq3"]
 
 [ext_resource type="PackedScene" uid="uid://c5hbia0fniax2" path="res://asset/parts/pickle.glb" id="1_a8vac"]
+[ext_resource type="Resource" uid="uid://bdcc81knrli60" path="res://data/unlockables/ing_pickle.tres" id="2_1ugmg"]
 [ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_bltxh"]
 
 [resource]
@@ -8,3 +9,4 @@ script = ExtResource("2_bltxh")
 price = 29
 name = "Pickle"
 model = ExtResource("1_a8vac")
+requires_upgrade = ExtResource("2_1ugmg")

@@ -5,6 +5,8 @@ extends Resource
 @export_multiline var name: String
 @export var icon: CompressedTexture2D
 @export_multiline var desc: String
+## Shows in the run totals as the multplier
+@export_multiline var fx_short_desc: String
 @export var price: int
 
 ## wont show up without these

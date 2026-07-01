@@ -7,6 +7,6 @@
 script = ExtResource("2_hosfv")
 name = "Baja Blast sauce"
 icon = ExtResource("1_y8fwl")
-desc = "I can recolor this to whatever i want! Unlocks [boing]blue sauce[/boing]. Never slides & creates a flat floor"
-price = 2099
+desc = "I can recolor this to whatever i want! Unlocks [boing]Baja blast[/boing]. Never slides & creates a flat floor"
+price = 2999
 requires = Array[StringName]([&"ketchup.tres", &"mustard.tres"])

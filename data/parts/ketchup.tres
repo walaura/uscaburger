@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://hvvuodmrxqi4"]
 
 [ext_resource type="PackedScene" uid="uid://yg8glqqyo8p5" path="res://asset/parts/ketchup.glb" id="1_2ikoq"]
+[ext_resource type="Resource" uid="uid://gsi6o2v5w3y4" path="res://data/unlockables/ketchup.tres" id="2_eah01"]
 [ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_mu0eu"]
 
 [resource]
@@ -10,3 +11,4 @@ name = "Ketchup"
 model = ExtResource("1_2ikoq")
 is_sauce = true
 is_upgrade = true
+requires_upgrade = ExtResource("2_eah01")

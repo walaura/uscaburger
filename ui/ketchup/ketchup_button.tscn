@@ -42,6 +42,7 @@ shader_parameter/Splooch = ExtResource("4_a5ged")
 shader_parameter/Opacity = 0.5
 
 [node name="KetchupButton" type="Button" unique_id=1854096938]
+z_as_relative = false
 offset_right = 29.0
 offset_bottom = 21.0
 offset_transform_enabled = true
@@ -79,8 +80,6 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 
 [node name="Hover" type="ColorRect" parent="Sub" unique_id=1016296001]
 unique_name_in_owner = true
-z_index = 1
-y_sort_enabled = true
 material = SubResource("ShaderMaterial_dn3wt")
 layout_mode = 1
 anchors_preset = 15
@@ -94,8 +93,7 @@ offset_transform_enabled = true
 
 [node name="HoverShadow" type="ColorRect" parent="Sub/Hover" unique_id=2126541411]
 unique_name_in_owner = true
-z_index = -1
-y_sort_enabled = true
+z_index = -2
 material = SubResource("ShaderMaterial_e86f3")
 layout_mode = 1
 anchors_preset = 15
@@ -119,7 +117,6 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="CenterContainer" unique_id=1381591938]
 unique_name_in_owner = true
-z_index = 2
 layout_mode = 2
 offset_transform_enabled = true
 theme = ExtResource("1_b0ojb")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dew04wo6bpeia" path="res://ui/game_over/store/store_product.gd" id="1_5y7ok"]
 [ext_resource type="Texture2D" uid="uid://f02hg5ge4mbd" path="res://asset/badge/badge-underlay.png" id="2_anrbw"]
-[ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://scene/board/store_product_badge.tscn" id="3_ahob7"]
+[ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://ui/ketchup/badge/badge.tscn" id="3_ahob7"]
 [ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_b28u2"]
 [ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_7um22"]
 [ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="6_b28u2"]
@@ -10,69 +10,70 @@
 [ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="6_wi4i5"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="7_7um22"]
 [ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="7_wi4i5"]
+[ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="10_u843p"]
 [ext_resource type="Texture2D" uid="uid://curgcbk783n8u" path="res://asset/ui/badge-purch-before.png" id="11_4qaso"]
 [ext_resource type="Texture2D" uid="uid://d0rrlxpjcqnyt" path="res://asset/ui/maybs-later.png" id="12_4a1iv"]
 [ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="13_7jxe3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b28u2"]
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_4qaso"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u843p"]
 expanded_output_ports = [0]
 texture = ExtResource("2_anrbw")
 
-[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_4a1iv"]
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_8xoy4"]
 output_port_for_preview = 0
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
 op_type = 5
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_7jxe3"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_hw0qg"]
 size = Vector2(464, 340.00003)
 expression = "vec4 r_output = base / (1. - blend);
 output = mix(base, r_output, opacity);"
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u843p"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_tf1xl"]
 expanded_output_ports = [0]
 texture = ExtResource("3_b28u2")
 
-[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_8xoy4"]
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_w44jb"]
 output_port_for_preview = 0
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 2)]
 op_type = 2
 operator = 1
 
-[sub_resource type="VisualShaderNodeVec4Constant" id="VisualShaderNodeVec4Constant_hw0qg"]
+[sub_resource type="VisualShaderNodeVec4Constant" id="VisualShaderNodeVec4Constant_sp1le"]
 constant = Quaternion(0, 0, 0, 6)
 
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_tf1xl"]
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_w0wnd"]
 constant = -0.01
 
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_w44jb"]
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_w2ucf"]
 output_port_for_preview = 0
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_sp1le"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_ogg7s"]
 size = Vector2(620, 380)
 expression = "output = rotate(rotation * PI, uv);"
 
-[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_w0wnd"]
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_r326q"]
 parameter_name = "Rota"
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_w2ucf"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_v2ag7"]
 size = Vector2(720, 440)
 expression = "vec2 rotated = rotate(rota * PI, UV);
 
 output = rotated.x > edge ? 1. : 0.;"
 
-[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_ogg7s"]
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_0kavc"]
 parameter_name = "Edge"
 hint = 1
 
-[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_r326q"]
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_qkr7u"]
 parameter_name = "RotaForEdge"
 default_value_enabled = true
 default_value = 0.746
 
-[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_v2ag7"]
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_7jy3f"]
 size = Vector2(780, 440)
 expression = "vec2 rotate(float rotation, vec2 uv) {
 	vec2 pivot = vec2(.5,.5);
@@ -89,152 +90,152 @@ float rand(float n){
 	return fract(sin(n) * 43758.5453123);
 }"
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_0kavc"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_j6gaf"]
 expanded_output_ports = [0]
 source = 5
 texture = ExtResource("4_7um22")
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_qkr7u"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u3ov0"]
 expanded_output_ports = [0]
 texture = ExtResource("6_wi4i5")
 
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7jy3f"]
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_nx880"]
 output_port_for_preview = 0
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_j6gaf"]
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_posr8"]
 default_input_values = [0, Vector2(0, 0)]
 op_type = 0
 
-[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_u3ov0"]
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_o5pvq"]
 output_port_for_preview = 0
 default_input_values = [0, 1.0, 1, 0.0, 2, 0.0]
 op_type = 0
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_nx880"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_knnsk"]
 default_input_values = [0, 0.0, 1, -0.71]
 
-[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_posr8"]
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_qrl3l"]
 default_input_values = [1, 0.0, 2, 1.0, 3, -1.0, 4, 1.0]
 
-[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_o5pvq"]
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_3ncmq"]
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_knnsk"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_k1epg"]
 operator = 2
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_qrl3l"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_4h5x2"]
 size = Vector2(620, 380)
 expression = "output = rotate((rotation - 1.) * PI, UV);"
 
-[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_3ncmq"]
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_1hdeo"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
 op_type = 3
 
-[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_k1epg"]
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_arblx"]
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_4h5x2"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_rgl7y"]
 default_input_values = [0, 0.0, 1, 2.0]
 operator = 3
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_1hdeo"]
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_gsunc"]
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_arblx"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_bbwjv"]
 output_port_for_preview = 0
 source = 5
 
-[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_rgl7y"]
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_d25et"]
 parameter_name = "Badge"
 texture_filter = 4
 
-[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_gsunc"]
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_dxyep"]
 parameter_name = "Noise"
 texture_repeat = 1
-
-[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_bbwjv"]
-input_name = "uv"
-
-[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_d25et"]
-default_input_values = [0, Vector2(0, 0), 1, Vector2(0.1, 1), 2, Vector2(3.945, 0)]
-op_type = 1
-
-[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_dxyep"]
-default_input_values = [0, Vector2(0, 0), 1, Vector2(1, 1), 2, Vector2(0.945, 0)]
-op_type = 1
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_40v85"]
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_kf3c6"]
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_kf3c6"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0.1, 1), 2, Vector2(3.945, 0)]
+op_type = 1
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_m5otw"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(1, 1), 2, Vector2(0.945, 0)]
+op_type = 1
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_hcjlo"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_vod83"]
 output_port_for_preview = 0
 source = 5
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_m5otw"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_4jk0l"]
 texture = ExtResource("3_b28u2")
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_hcjlo"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_b4bgt"]
 size = Vector2(464, 340.00003)
 expression = "vec4 r_output = base / (1. - blend);
 output = mix(base, r_output, opacity);"
 
-[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_vod83"]
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_ssea8"]
 operator = 2
 
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_4jk0l"]
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_rw2ft"]
 constant = 0.06
 
-[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_b4bgt"]
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_esdtq"]
 default_input_values = [0, 0.274, 1, 0.0, 2, 0.0]
 op_type = 0
 
-[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_ssea8"]
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_cp3ap"]
 parameter_name = "Gloss"
 
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_rw2ft"]
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_uysgv"]
 size = Vector2(620, 380)
 expression = "output = rotate(rotation * PI, uv);"
 
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_esdtq"]
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_ucaw5"]
 default_input_values = [0, 0.0, 1, 0.355]
 
-[sub_resource type="VisualShader" id="VisualShader_cp3ap"]
+[sub_resource type="VisualShader" id="VisualShader_yeq4i"]
 resource_local_to_scene = true
 mode = 1
 flags/light_only = false
 nodes/fragment/0/position = Vector2(5440, 2180)
-nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_0kavc")
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_j6gaf")
 nodes/fragment/3/position = Vector2(820, 2400)
-nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_rgl7y")
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture2DParameter_d25et")
 nodes/fragment/5/position = Vector2(-840, 1980)
-nodes/fragment/12/node = SubResource("VisualShaderNodeTexture_4qaso")
+nodes/fragment/12/node = SubResource("VisualShaderNodeTexture_u843p")
 nodes/fragment/12/position = Vector2(980, 1700)
-nodes/fragment/13/node = SubResource("VisualShaderNodeMix_4a1iv")
+nodes/fragment/13/node = SubResource("VisualShaderNodeMix_8xoy4")
 nodes/fragment/13/position = Vector2(1880, 1860)
-nodes/fragment/14/node = SubResource("VisualShaderNodeExpression_7jxe3")
+nodes/fragment/14/node = SubResource("VisualShaderNodeExpression_hw0qg")
 nodes/fragment/14/position = Vector2(3080, 1440)
 nodes/fragment/14/size = Vector2(464, 340.00003)
 nodes/fragment/14/input_ports = "0,5,base;1,5,blend;2,0,opacity;"
 nodes/fragment/14/output_ports = "0,5,output;"
 nodes/fragment/14/expression = "vec4 r_output = base / (1. - blend);
 output = mix(base, r_output, opacity);"
-nodes/fragment/15/node = SubResource("VisualShaderNodeTexture_u843p")
+nodes/fragment/15/node = SubResource("VisualShaderNodeTexture_tf1xl")
 nodes/fragment/15/position = Vector2(-1080, 1140)
-nodes/fragment/16/node = SubResource("VisualShaderNodeVectorOp_8xoy4")
+nodes/fragment/16/node = SubResource("VisualShaderNodeVectorOp_w44jb")
 nodes/fragment/16/position = Vector2(-340, 1480)
-nodes/fragment/17/node = SubResource("VisualShaderNodeVec4Constant_hw0qg")
+nodes/fragment/17/node = SubResource("VisualShaderNodeVec4Constant_sp1le")
 nodes/fragment/17/position = Vector2(-1080, 1680)
-nodes/fragment/18/node = SubResource("VisualShaderNodeFloatConstant_tf1xl")
+nodes/fragment/18/node = SubResource("VisualShaderNodeFloatConstant_w0wnd")
 nodes/fragment/18/position = Vector2(2720, 1760)
-nodes/fragment/19/node = SubResource("VisualShaderNodeInput_w44jb")
+nodes/fragment/19/node = SubResource("VisualShaderNodeInput_w2ucf")
 nodes/fragment/19/position = Vector2(-840, 2340)
-nodes/fragment/20/node = SubResource("VisualShaderNodeExpression_sp1le")
+nodes/fragment/20/node = SubResource("VisualShaderNodeExpression_ogg7s")
 nodes/fragment/20/position = Vector2(-400, 2540)
 nodes/fragment/20/size = Vector2(620, 380)
 nodes/fragment/20/input_ports = "0,3,uv;1,0,rotation;"
 nodes/fragment/20/output_ports = "0,3,output;"
 nodes/fragment/20/expression = "output = rotate(rotation * PI, uv);"
-nodes/fragment/21/node = SubResource("VisualShaderNodeFloatParameter_w0wnd")
+nodes/fragment/21/node = SubResource("VisualShaderNodeFloatParameter_r326q")
 nodes/fragment/21/position = Vector2(-680, 2680)
-nodes/fragment/25/node = SubResource("VisualShaderNodeExpression_w2ucf")
+nodes/fragment/25/node = SubResource("VisualShaderNodeExpression_v2ag7")
 nodes/fragment/25/position = Vector2(3220, 2880)
 nodes/fragment/25/size = Vector2(720, 440)
 nodes/fragment/25/input_ports = "0,0,edge;1,0,rota;"
@@ -242,11 +243,11 @@ nodes/fragment/25/output_ports = "0,0,output;"
 nodes/fragment/25/expression = "vec2 rotated = rotate(rota * PI, UV);
 
 output = rotated.x > edge ? 1. : 0.;"
-nodes/fragment/26/node = SubResource("VisualShaderNodeFloatParameter_ogg7s")
+nodes/fragment/26/node = SubResource("VisualShaderNodeFloatParameter_0kavc")
 nodes/fragment/26/position = Vector2(1560, 3360)
-nodes/fragment/28/node = SubResource("VisualShaderNodeFloatParameter_r326q")
+nodes/fragment/28/node = SubResource("VisualShaderNodeFloatParameter_qkr7u")
 nodes/fragment/28/position = Vector2(2440, 2780)
-nodes/fragment/29/node = SubResource("VisualShaderNodeGlobalExpression_v2ag7")
+nodes/fragment/29/node = SubResource("VisualShaderNodeGlobalExpression_7jy3f")
 nodes/fragment/29/position = Vector2(-620, 3040)
 nodes/fragment/29/size = Vector2(780, 440)
 nodes/fragment/29/input_ports = ""
@@ -265,74 +266,74 @@ nodes/fragment/29/expression = "vec2 rotate(float rotation, vec2 uv) {
 float rand(float n){
 	return fract(sin(n) * 43758.5453123);
 }"
-nodes/fragment/30/node = SubResource("VisualShaderNodeTexture_qkr7u")
+nodes/fragment/30/node = SubResource("VisualShaderNodeTexture_u3ov0")
 nodes/fragment/30/position = Vector2(4120, 3120)
-nodes/fragment/31/node = SubResource("VisualShaderNodeInput_7jy3f")
+nodes/fragment/31/node = SubResource("VisualShaderNodeInput_nx880")
 nodes/fragment/31/position = Vector2(1840, 3780)
-nodes/fragment/32/node = SubResource("VisualShaderNodeVectorDecompose_j6gaf")
+nodes/fragment/32/node = SubResource("VisualShaderNodeVectorDecompose_posr8")
 nodes/fragment/32/position = Vector2(3180, 3480)
-nodes/fragment/33/node = SubResource("VisualShaderNodeVectorCompose_u3ov0")
+nodes/fragment/33/node = SubResource("VisualShaderNodeVectorCompose_o5pvq")
 nodes/fragment/33/position = Vector2(3860, 3580)
-nodes/fragment/36/node = SubResource("VisualShaderNodeFloatOp_nx880")
+nodes/fragment/36/node = SubResource("VisualShaderNodeFloatOp_knnsk")
 nodes/fragment/36/position = Vector2(3420, 3740)
-nodes/fragment/40/node = SubResource("VisualShaderNodeRemap_posr8")
+nodes/fragment/40/node = SubResource("VisualShaderNodeRemap_qrl3l")
 nodes/fragment/40/position = Vector2(3160, 3800)
-nodes/fragment/41/node = SubResource("VisualShaderNodeMix_o5pvq")
+nodes/fragment/41/node = SubResource("VisualShaderNodeMix_3ncmq")
 nodes/fragment/41/position = Vector2(5080, 3440)
-nodes/fragment/42/node = SubResource("VisualShaderNodeFloatOp_knnsk")
+nodes/fragment/42/node = SubResource("VisualShaderNodeFloatOp_k1epg")
 nodes/fragment/42/position = Vector2(4820, 2600)
-nodes/fragment/43/node = SubResource("VisualShaderNodeExpression_qrl3l")
+nodes/fragment/43/node = SubResource("VisualShaderNodeExpression_4h5x2")
 nodes/fragment/43/position = Vector2(2320, 3880)
 nodes/fragment/43/size = Vector2(620, 380)
 nodes/fragment/43/input_ports = "0,3,uv;1,0,rotation;"
 nodes/fragment/43/output_ports = "0,3,output;"
 nodes/fragment/43/expression = "output = rotate((rotation - 1.) * PI, UV);"
-nodes/fragment/44/node = SubResource("VisualShaderNodeMix_3ncmq")
+nodes/fragment/44/node = SubResource("VisualShaderNodeMix_1hdeo")
 nodes/fragment/44/position = Vector2(4600, 2140)
-nodes/fragment/45/node = SubResource("VisualShaderNodeClamp_k1epg")
+nodes/fragment/45/node = SubResource("VisualShaderNodeClamp_arblx")
 nodes/fragment/45/position = Vector2(1860, 3460)
-nodes/fragment/46/node = SubResource("VisualShaderNodeFloatOp_4h5x2")
+nodes/fragment/46/node = SubResource("VisualShaderNodeFloatOp_rgl7y")
 nodes/fragment/46/position = Vector2(2120, 3460)
-nodes/fragment/48/node = SubResource("VisualShaderNodeColorConstant_1hdeo")
+nodes/fragment/48/node = SubResource("VisualShaderNodeColorConstant_gsunc")
 nodes/fragment/48/position = Vector2(2340, 1780)
-nodes/fragment/49/node = SubResource("VisualShaderNodeTexture_arblx")
+nodes/fragment/49/node = SubResource("VisualShaderNodeTexture_bbwjv")
 nodes/fragment/49/position = Vector2(1940, 720)
-nodes/fragment/50/node = SubResource("VisualShaderNodeTexture2DParameter_gsunc")
+nodes/fragment/50/node = SubResource("VisualShaderNodeTexture2DParameter_dxyep")
 nodes/fragment/50/position = Vector2(1060, 860)
-nodes/fragment/51/node = SubResource("VisualShaderNodeInput_bbwjv")
+nodes/fragment/51/node = SubResource("VisualShaderNodeInput_40v85")
 nodes/fragment/51/position = Vector2(-120, 180)
-nodes/fragment/52/node = SubResource("VisualShaderNodeMultiplyAdd_d25et")
+nodes/fragment/52/node = SubResource("VisualShaderNodeMultiplyAdd_kf3c6")
 nodes/fragment/52/position = Vector2(1240, 460)
-nodes/fragment/53/node = SubResource("VisualShaderNodeMultiplyAdd_dxyep")
+nodes/fragment/53/node = SubResource("VisualShaderNodeMultiplyAdd_m5otw")
 nodes/fragment/53/position = Vector2(1900, 200)
-nodes/fragment/54/node = SubResource("VisualShaderNodeInput_40v85")
+nodes/fragment/54/node = SubResource("VisualShaderNodeInput_hcjlo")
 nodes/fragment/54/position = Vector2(1300, 200)
-nodes/fragment/55/node = SubResource("VisualShaderNodeTexture_kf3c6")
+nodes/fragment/55/node = SubResource("VisualShaderNodeTexture_vod83")
 nodes/fragment/55/position = Vector2(2660, 680)
-nodes/fragment/56/node = SubResource("VisualShaderNodeTexture_m5otw")
+nodes/fragment/56/node = SubResource("VisualShaderNodeTexture_4jk0l")
 nodes/fragment/56/position = Vector2(2700, 140)
-nodes/fragment/57/node = SubResource("VisualShaderNodeExpression_hcjlo")
+nodes/fragment/57/node = SubResource("VisualShaderNodeExpression_b4bgt")
 nodes/fragment/57/position = Vector2(4180, 1180)
 nodes/fragment/57/size = Vector2(464, 340.00003)
 nodes/fragment/57/input_ports = "0,5,base;1,5,blend;2,0,opacity;"
 nodes/fragment/57/output_ports = "0,5,output;"
 nodes/fragment/57/expression = "vec4 r_output = base / (1. - blend);
 output = mix(base, r_output, opacity);"
-nodes/fragment/58/node = SubResource("VisualShaderNodeColorOp_vod83")
+nodes/fragment/58/node = SubResource("VisualShaderNodeColorOp_ssea8")
 nodes/fragment/58/position = Vector2(3180, 520)
-nodes/fragment/59/node = SubResource("VisualShaderNodeFloatConstant_4jk0l")
+nodes/fragment/59/node = SubResource("VisualShaderNodeFloatConstant_rw2ft")
 nodes/fragment/59/position = Vector2(3540, 1140)
-nodes/fragment/60/node = SubResource("VisualShaderNodeVectorCompose_b4bgt")
+nodes/fragment/60/node = SubResource("VisualShaderNodeVectorCompose_esdtq")
 nodes/fragment/60/position = Vector2(1000, 620)
-nodes/fragment/61/node = SubResource("VisualShaderNodeFloatParameter_ssea8")
+nodes/fragment/61/node = SubResource("VisualShaderNodeFloatParameter_cp3ap")
 nodes/fragment/61/position = Vector2(700, 600)
-nodes/fragment/62/node = SubResource("VisualShaderNodeExpression_rw2ft")
+nodes/fragment/62/node = SubResource("VisualShaderNodeExpression_uysgv")
 nodes/fragment/62/position = Vector2(460, 160)
 nodes/fragment/62/size = Vector2(620, 380)
 nodes/fragment/62/input_ports = "0,3,uv;1,0,rotation;"
 nodes/fragment/62/output_ports = "0,3,output;"
 nodes/fragment/62/expression = "output = rotate(rotation * PI, uv);"
-nodes/fragment/63/node = SubResource("VisualShaderNodeFloatOp_esdtq")
+nodes/fragment/63/node = SubResource("VisualShaderNodeFloatOp_ucaw5")
 nodes/fragment/63/position = Vector2(220, 480)
 nodes/fragment/connections = PackedInt32Array(5, 0, 3, 2, 3, 4, 13, 2, 12, 0, 13, 0, 3, 0, 13, 1, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 16, 1, 18, 0, 14, 2, 19, 0, 20, 0, 20, 0, 3, 0, 21, 0, 20, 1, 28, 0, 25, 1, 32, 1, 33, 1, 32, 0, 36, 0, 36, 0, 33, 0, 40, 0, 36, 1, 33, 0, 30, 0, 31, 0, 43, 0, 43, 0, 32, 0, 28, 0, 43, 1, 3, 4, 42, 0, 25, 0, 42, 1, 42, 0, 0, 1, 30, 0, 44, 1, 30, 4, 44, 2, 26, 0, 45, 0, 45, 0, 46, 0, 46, 0, 40, 0, 46, 0, 25, 0, 50, 0, 49, 2, 52, 0, 49, 0, 49, 0, 14, 1, 53, 0, 55, 0, 50, 0, 55, 2, 52, 0, 53, 0, 14, 0, 57, 0, 57, 0, 44, 0, 44, 0, 0, 0, 56, 0, 58, 0, 58, 0, 57, 1, 55, 0, 58, 1, 59, 0, 57, 2, 60, 0, 52, 2, 61, 0, 60, 0, 51, 0, 62, 0, 62, 0, 52, 0, 28, 0, 63, 0, 63, 0, 62, 1)
 
@@ -349,9 +350,9 @@ height = 1
 noise = SubResource("FastNoiseLite_u843p")
 color_ramp = SubResource("Gradient_7jxe3")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uysgv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvcg4"]
 resource_local_to_scene = true
-shader = SubResource("VisualShader_cp3ap")
+shader = SubResource("VisualShader_yeq4i")
 shader_parameter/Rota = -1.945
 shader_parameter/Badge = ExtResource("7_wi4i5")
 shader_parameter/RotaForEdge = 0.335
@@ -359,16 +360,8 @@ shader_parameter/Gloss = 5.036
 shader_parameter/Noise = SubResource("NoiseTexture2D_8xoy4")
 shader_parameter/Edge = 0.4550000216125
 
-[sub_resource type="GDScript" id="GDScript_anrbw"]
-script/source = "var bbcode := \"boing\"
-
-func _process_custom_fx(char_fx: CharFXTransform) -> bool:
-	char_fx.color = Color(0,255,0)
-	return true
-"
-
 [sub_resource type="RichTextEffect" id="RichTextEffect_anrbw"]
-script = SubResource("GDScript_anrbw")
+script = ExtResource("10_u843p")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b28u2"]
 content_margin_left = 2.0
@@ -462,11 +455,11 @@ expand_mode = 1
 
 [node name="Badge" parent="HBoxContainer/Control" unique_id=1053742462 instance=ExtResource("3_ahob7")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_uysgv")
-propagate_maximum_size = false
+material = SubResource("ShaderMaterial_uvcg4")
 layout_mode = 1
 offset_right = 0.0
 offset_bottom = 0.0
+animates = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=236078435]
 layout_mode = 2
@@ -526,6 +519,8 @@ stretch_mode = 5
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=564740991]
 visible = false
+modulate = Color(1, 1, 1, 0.13333334)
+self_modulate = Color(1, 1, 1, 0.14509805)
 material = SubResource("ShaderMaterial_abu4r")
 layout_mode = 2
 offset_transform_enabled = true

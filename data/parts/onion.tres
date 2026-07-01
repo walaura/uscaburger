@@ -2,9 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://dbs6fccnmelsl" path="res://asset/parts/onion.glb" id="1_tmt14"]
 [ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_67ehy"]
+[ext_resource type="Resource" uid="uid://ceuiqw4o5cn4h" path="res://data/unlockables/ing_onion.tres" id="2_esxx1"]
 
 [resource]
 script = ExtResource("2_67ehy")
 price = 59
 name = "Onion"
 model = ExtResource("1_tmt14")
+requires_upgrade = ExtResource("2_esxx1")

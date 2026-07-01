@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://qfn8p1gk6or4" path="res://asset/parts/ketchup_ketchup Base Color.png" id="2_s70et"]
 [ext_resource type="Texture2D" uid="uid://kmxc4r4igfb1" path="res://asset/parts/ketchup_ketchup Roughness.png" id="3_slbya"]
 
-[sub_resource type="Shader" id="Shader_k5e5x"]
+[sub_resource type="Shader" id="Shader_s70et"]
 resource_local_to_scene = true
 code = "// NOTE: Shader automatically converted from Godot Engine 4.7.stable's StandardMaterial3D.
 
@@ -97,11 +97,11 @@ void fragment() {
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_qgbeg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xprto"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_slbya"]
 resource_local_to_scene = true
 resource_name = "ketchup"
 render_priority = 0
-shader = SubResource("Shader_k5e5x")
+shader = SubResource("Shader_s70et")
 shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/texture_albedo = ExtResource("2_s70et")
 shader_parameter/albedo_texture_size = Vector2i(128, 128)
@@ -127,5 +127,8 @@ shader_parameter/hue_shift = 0.41
 
 [node name="Topz-ketchup" unique_id=154371298 instance=ExtResource("1_326fx")]
 
-[node name="Cube" parent="Cube" parent_id_path=PackedInt32Array(379626872) index="0" unique_id=399316493]
-surface_material_override/0 = SubResource("ShaderMaterial_xprto")
+[node name="Cube" parent="Cube" parent_id_path=PackedInt32Array(2033153029) index="0" unique_id=2074406024]
+surface_material_override/0 = SubResource("ShaderMaterial_slbya")
+
+[node name="_splat" parent="Cube" parent_id_path=PackedInt32Array(2033153029) index="2" unique_id=1143150331]
+visible = true

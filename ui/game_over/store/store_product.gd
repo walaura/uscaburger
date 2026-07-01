@@ -42,18 +42,18 @@ func _draw_ui() -> void:
 	var price_node := get_node("%Price") as Label
 	price_node.text = Helper.format_currency(product.price)
 
-	var badge_node := get_node("%Badge") as UiGameOver_StoreProductBadge
+	var badge_node := get_node("%Badge") as UiKetchupBadge
 	var rng := RandomNumberGenerator.new()
 	badge_node.position = Vector2(
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 	)
 	badge_node.icon = product.icon
-	badge_node.animate()
+	badge_node.animate_in()
 
 	($ColorRect as Control).offset_transform_rotation = randf_range(-.2, .2)
 	if _is_affordable == false:
-		($"HBoxContainer/VBoxContainer" as Control).modulate.a = .5
+		($"HBoxContainer/VBoxContainer" as Control).modulate.a = .25
 		($ColorRect as Control).visible = true
 	else:
 		($"HBoxContainer/VBoxContainer" as Control).modulate.a = 1
@@ -87,7 +87,7 @@ func hover(is_out: bool) -> void:
 		hover_tween.kill()
 	hover_tween = create_tween()
 
-	var badge_node := get_node("%Badge") as UiGameOver_StoreProductBadge
+	var badge_node := get_node("%Badge") as UiKetchupBadge
 	var wrapper := get_node("%HBoxContainer") as Container
 	wrapper.pivot_offset_ratio = Vector2.ONE / 2
 

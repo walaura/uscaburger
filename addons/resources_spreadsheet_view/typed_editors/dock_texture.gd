@@ -1,21 +1,21 @@
 @tool
 extends ResourceTablesDockEditor
 
-var _stored_value : Texture2D
+var _stored_value: Texture2D
 
 
 func try_edit_value(value, type, _property_hint) -> bool:
 	if type != TYPE_OBJECT or !value is Texture:
 		return false
-	
+
 	_stored_value = value
 	$"HBoxContainer/TextureRect".texture = value
 	return true
 
 
 func _on_Button_pressed():
-	var h_count : int = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text.to_int()
-	var v_count : int = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text.to_int()
+	var h_count: int = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit".text.to_int()
+	var v_count: int = $"HBoxContainer/VBoxContainer/HBoxContainer/LineEdit2".text.to_int()
 	# No, Scene Unique Names can not be used in-editor (last time i checked)
 
 	var folder_name := _stored_value.resource_path.get_basename()
@@ -36,4 +36,3 @@ func _on_Button_pressed():
 	tile_array.resize(sheet.get_edited_cells_values().size())
 	sheet.set_edited_cells_values(tile_array)
 	sheet.editor_plugin.get_editor_interface().get_resource_filesystem().scan()
-		

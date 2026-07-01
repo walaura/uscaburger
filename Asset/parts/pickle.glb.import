@@ -49,7 +49,8 @@ _subresources={
 },
 "nodes": {
 "PATH:Cylinder_003": {
-"generate/physics": true
+"generate/physics": true,
+"physics/body_type": 1
 },
 "PATH:_collider_009": {
 "physics/body_type": 1

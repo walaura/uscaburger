@@ -25,10 +25,10 @@ func iterate_wrapup(node: Node) -> Node:
 
 func iterate(node: Node) -> Node:
 	for child in node.get_children():
-		if child.name.begins_with('_collider'):
+		if child.name.begins_with("_collider"):
 			maybe_collider = child
 			node.remove_child(child)
-		if child.name.begins_with('_splat'):
+		if child.name.begins_with("_splat"):
 			(child as Node3D).visible = false
 			maybe_splat = child
 			node.remove_child(child)

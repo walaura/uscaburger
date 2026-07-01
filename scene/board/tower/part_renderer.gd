@@ -134,10 +134,15 @@ func _on_body_entered(body: Node3D) -> void:
 		was_stacked.emit(true, part)
 		return
 
+	# crown slows down time
+	if part.name == ScTower_Parts.get_item("crown").name:
+		Engine.time_scale = .5
+
 	if body != floor_collider:
 		return
 
 	_change_state(State.DONE)
+
 	# Heels can touch the floor duh
 	if part.is_heel:
 		was_stacked.emit(true, part)
@@ -220,7 +225,15 @@ func _change_state(new_state: State) -> void:
 	match state:
 		State.DONE:
 			self._rb.freeze = 1
+			Engine.time_scale = 1.
 			_drop_timer.stop()
+
+
+func _get_drop_timeout() -> float:
+	if part.name == ScTower_Parts.get_item("crown").name:
+		return difficulty_numbers.drop_timeout / 2
+	else:
+		return difficulty_numbers.drop_timeout
 
 
 func _process(delta: float) -> void:
@@ -239,13 +252,13 @@ func _process(delta: float) -> void:
 			self._rb.freeze = false
 
 			if _drop_timer.is_stopped() && !_is_falling():
-				_drop_timer.start(difficulty_numbers.drop_timeout)
+				_drop_timer.start(_get_drop_timeout())
 
 			if !_drop_timer.is_stopped() && _is_falling():
-				_drop_timer.start(difficulty_numbers.drop_timeout)
+				_drop_timer.start(_get_drop_timeout())
 
 			if _did_touch_anything:
-				Camera.GAMEPLAY_dramatic_timer_zoom = _drop_timer.time_left / difficulty_numbers.drop_timeout
+				Camera.GAMEPLAY_dramatic_timer_zoom = _drop_timer.time_left / _get_drop_timeout()
 
 	# dramatic zoom
 	if _drop_timer.is_stopped():

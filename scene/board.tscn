@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://scene/camera_3d.gd" id="2_ar3ho"]
 [ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="4_jqgjh"]
 [ext_resource type="PackedScene" uid="uid://dwbxrbap8s51s" path="res://asset/Ct-Glass.glb" id="5_vf5bc"]
-[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://SCparts/bg.tscn" id="5_wr7qi"]
+[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://scene_parts/bg.tscn" id="5_wr7qi"]
 [ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/board/badges_on_glass.tscn" id="8_tbg0t"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_vf5bc"]

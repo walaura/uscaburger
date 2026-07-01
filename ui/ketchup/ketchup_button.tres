@@ -81,6 +81,11 @@ expression = "const float TEX_RATIO = .1627;"
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_b3xe6"]
 parameter_name = "Splooch"
 
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_b3xe6"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_xf7mc"]
+parameter_name = "AlphaUppers"
+
 [sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_uepy5"]
 default_input_values = [1, Vector2(0.5, 0.5), 2, Vector2(-0.23, 0.5)]
 function = 1
@@ -102,7 +107,7 @@ default_input_values = [1, 0.0, 2, 1.0, 3, 0.195, 4, -1.0]
 resource_local_to_scene = true
 mode = 1
 flags/light_only = false
-nodes/fragment/0/position = Vector2(3940, 700)
+nodes/fragment/0/position = Vector2(4120, 700)
 nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_yhvkt")
 nodes/fragment/2/position = Vector2(660, 100)
 nodes/fragment/3/node = SubResource("VisualShaderNodeInput_dw1w7")
@@ -128,7 +133,7 @@ nodes/fragment/13/position = Vector2(2820, -900)
 nodes/fragment/14/node = SubResource("VisualShaderNodeMix_g787d")
 nodes/fragment/14/position = Vector2(2700, 980)
 nodes/fragment/15/node = SubResource("VisualShaderNodeFloatParameter_b3xe6")
-nodes/fragment/15/position = Vector2(2580, 1500)
+nodes/fragment/15/position = Vector2(2340, 1180)
 nodes/fragment/16/node = SubResource("VisualShaderNodeClamp_xf7mc")
 nodes/fragment/16/position = Vector2(-320, 760)
 nodes/fragment/17/node = SubResource("VisualShaderNodeTexture2DParameter_g787d")
@@ -174,4 +179,8 @@ nodes/fragment/31/output_ports = ""
 nodes/fragment/31/expression = "const float TEX_RATIO = .1627;"
 nodes/fragment/32/node = SubResource("VisualShaderNodeTexture2DParameter_b3xe6")
 nodes/fragment/32/position = Vector2(40, 1500)
-nodes/fragment/connections = PackedInt32Array(3, 0, 5, 0, 5, 0, 2, 0, 6, 0, 5, 2, 7, 0, 9, 0, 9, 0, 6, 0, 10, 0, 11, 0, 12, 0, 11, 1, 8, 0, 14, 0, 14, 0, 0, 1, 15, 0, 14, 2, 7, 0, 16, 0, 16, 0, 12, 0, 17, 0, 18, 2, 13, 0, 19, 0, 20, 0, 21, 0, 21, 0, 18, 0, 22, 0, 21, 1, 23, 0, 22, 0, 18, 0, 24, 0, 24, 0, 19, 1, 2, 4, 8, 2, 11, 0, 25, 0, 32, 0, 25, 1, 25, 0, 8, 0, 19, 0, 0, 0)
+nodes/fragment/33/node = SubResource("VisualShaderNodeMix_b3xe6")
+nodes/fragment/33/position = Vector2(3300, 920)
+nodes/fragment/34/node = SubResource("VisualShaderNodeFloatParameter_xf7mc")
+nodes/fragment/34/position = Vector2(2960, 1220)
+nodes/fragment/connections = PackedInt32Array(3, 0, 5, 0, 5, 0, 2, 0, 6, 0, 5, 2, 7, 0, 9, 0, 9, 0, 6, 0, 10, 0, 11, 0, 12, 0, 11, 1, 8, 0, 14, 0, 15, 0, 14, 2, 7, 0, 16, 0, 16, 0, 12, 0, 17, 0, 18, 2, 13, 0, 19, 0, 20, 0, 21, 0, 21, 0, 18, 0, 22, 0, 21, 1, 23, 0, 22, 0, 18, 0, 24, 0, 24, 0, 19, 1, 2, 4, 8, 2, 11, 0, 25, 0, 32, 0, 25, 1, 25, 0, 8, 0, 19, 0, 0, 0, 14, 0, 33, 0, 33, 0, 0, 1, 34, 0, 33, 2)

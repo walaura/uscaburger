@@ -12,7 +12,6 @@ func _ready() -> void:
 
 	(%TryAgainButton as Button).modulate.a = .0
 	(%TryAgainButton as Button).disabled = true
-	print(CurrentRun.score.last_settled_score)
 	var tween := (
 		(%ScoresTkt as UiGameOver_ScoresTkt)
 		. play_intro(
@@ -31,4 +30,4 @@ func _ready() -> void:
 func _on_try_again_button_pressed() -> void:
 	get_tree().paused = false
 	await get_tree().process_frame
-	get_tree().change_SCto_packed(preload("uid://e1vyixvrx7xi"))
+	get_tree().change_scene_to_packed(preload("uid://e1vyixvrx7xi"))

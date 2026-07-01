@@ -1,39 +1,39 @@
 @tool
 extends Control
 
-signal grid_updated()
+signal grid_updated
 
 const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_view/settings_grid.gd")
 
-@onready var node_folder_path : LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
-@onready var node_recent_paths : OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
-@onready var node_table_root : GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
-@onready var node_columns : HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
-@onready var node_page_manager : Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
-@onready var node_class_filter : Control = $"HeaderContentSplit/VBoxContainer/Search/Search/Class"
+@onready var node_folder_path: LineEdit = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer/Path"
+@onready var node_recent_paths: OptionButton = $"HeaderContentSplit/VBoxContainer/HBoxContainer/HBoxContainer2/RecentPaths"
+@onready var node_table_root: GridContainer = $"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Scroll/MarginContainer/TableGrid"
+@onready var node_columns: HBoxContainer = $"HeaderContentSplit/VBoxContainer/Columns/Columns"
+@onready var node_page_manager: Control = $"HeaderContentSplit/VBoxContainer/HBoxContainer3/Pages"
+@onready var node_class_filter: Control = $"HeaderContentSplit/VBoxContainer/Search/Search/Class"
 
-@onready var _on_cell_gui_input : Callable = $"InputHandler"._on_cell_gui_input
+@onready var _on_cell_gui_input: Callable = $"InputHandler"._on_cell_gui_input
 @onready var _selection := $"SelectionManager"
 
-var editor_interface : Object
-var editor_plugin : EditorPlugin
+var editor_interface: Object
+var editor_plugin: EditorPlugin
 
 var current_path := ""
-var save_data_path : String = get_script().resource_path.get_base_dir() + "/saved_state.json"
+var save_data_path: String = get_script().resource_path.get_base_dir() + "/saved_state.json"
 var sorting_by := &""
 var sorting_reverse := false
 
-var columns : Array[StringName] = []
-var column_types : Array[int] = []
-var column_hints : Array[int] = []
-var column_hint_strings : Array[PackedStringArray] = []
+var columns: Array[StringName] = []
+var column_types: Array[int] = []
+var column_hints: Array[int] = []
+var column_hint_strings: Array[PackedStringArray] = []
 var rows := []
 var remembered_paths := {}
 var remembered_paths_total_count := 0
 var table_functions_dict := {}
 
-var search_cond : Callable
-var io : RefCounted
+var search_cond: Callable
+var io: RefCounted
 
 var first_row := 0
 var last_row := 0
@@ -54,32 +54,37 @@ func _ready():
 				x.load_saved_functions(table_functions_dict)
 
 		# Legacy compat: old hidden column format
-		var legacy_hidden_columns : Dictionary = as_var.get(&"hidden_columns", {})
+		var legacy_hidden_columns: Dictionary = as_var.get(&"hidden_columns", {})
 		for k in legacy_hidden_columns:
 			for k2 in legacy_hidden_columns[k]:
 				node_columns.column_properties[k] = node_columns.column_properties.get(k, {})
-				node_columns.column_properties[k][k2] = { &"visibility" : 0 }
+				node_columns.column_properties[k][k2] = {&"visibility": 0}
 
 	if node_recent_paths.recent_paths.size() >= 1:
 		display_folder(node_recent_paths.recent_paths[-1], &"resource_name", false, true)
 
 
 func save_data():
-	if (
-		node_recent_paths.recent_paths.is_empty()
-		and node_columns.column_properties.is_empty()
-		and table_functions_dict.is_empty()
-	):
+	if node_recent_paths.recent_paths.is_empty() and node_columns.column_properties.is_empty() and table_functions_dict.is_empty():
 		return
 
 	var file := FileAccess.open(save_data_path, FileAccess.WRITE)
-	file.store_string(JSON.stringify(
-		{
-			&"recent_paths" : node_recent_paths.recent_paths,
-			&"column_properties" : node_columns.column_properties,
-			&"table_functions" : table_functions_dict,
-		}
-	, "  "))
+	(
+		file
+		. store_string(
+			(
+				JSON
+				. stringify(
+					{
+						&"recent_paths": node_recent_paths.recent_paths,
+						&"column_properties": node_columns.column_properties,
+						&"table_functions": table_functions_dict,
+					},
+					"  "
+				)
+			)
+		)
+	)
 
 
 func _on_filesystem_changed():
@@ -103,13 +108,14 @@ func _on_filesystem_changed():
 				break
 
 
-func _get_file_count_recursive(path : String) -> int:
-	var editor_fs : EditorFileSystem = editor_interface.get_resource_filesystem()
+func _get_file_count_recursive(path: String) -> int:
+	var editor_fs: EditorFileSystem = editor_interface.get_resource_filesystem()
 	var path_dir := editor_fs.get_filesystem_path(path)
-	if !path_dir: return 0
+	if !path_dir:
+		return 0
 
 	var file_total_count := 0
-	var folder_stack : Array[EditorFileSystemDirectory] = [path_dir]
+	var folder_stack: Array[EditorFileSystemDirectory] = [path_dir]
 	while folder_stack.size() > 0:
 		path_dir = folder_stack.pop_back()
 		file_total_count += path_dir.get_file_count()
@@ -119,7 +125,7 @@ func _get_file_count_recursive(path : String) -> int:
 	return file_total_count
 
 
-func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse : bool = false, force_rebuild : bool = false, is_echo : bool = false):
+func display_folder(folderpath: String, sort_by: StringName = "", sort_reverse: bool = false, force_rebuild: bool = false, is_echo: bool = false):
 	if folderpath == "":
 		# You wouldn't just wanna edit ALL resources in the project, that's a long time to load!
 		return
@@ -148,7 +154,7 @@ func display_folder(folderpath : String, sort_by : StringName = "", sort_reverse
 	$"HeaderContentSplit/MarginContainer/FooterContentSplit/Panel/Label".text = "No rows visible?\nThis might happen when sorting by a property that isn't here anymore.\nTry clicking a column header to sort again!\n\nIt's also possible that your Filter expression is filtering them out."
 
 
-func display_resources(resource_array : Array):
+func display_resources(resource_array: Array):
 	if sorting_by == "":
 		sorting_by = &"resource_path"
 
@@ -165,7 +171,7 @@ func display_resources(resource_array : Array):
 	grid_updated.emit()
 
 
-func refresh(force_rebuild : bool = true):
+func refresh(force_rebuild: bool = true):
 	if current_path == "":
 		display_resources(rows)
 
@@ -173,7 +179,7 @@ func refresh(force_rebuild : bool = true):
 		display_folder(current_path, sorting_by, sorting_reverse, force_rebuild)
 
 
-func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse : bool):
+func _load_resources_from_path(path: String, sort_by: StringName, sort_reverse: bool):
 	if path.ends_with("/"):
 		io = ResourceTablesEditFormatTres.new()
 
@@ -185,13 +191,13 @@ func _load_resources_from_path(path : String, sort_by : StringName, sort_reverse
 
 		else:
 			io = ResourceTablesEditFormatTres.new()
-	
+
 	io.editor_view = self
 	remembered_paths.clear()
 	rows = io.import_from_path(path, insert_row_sorted, sort_by, sort_reverse)
 
 
-func _update_visible_rows(force_rebuild : bool = true):
+func _update_visible_rows(force_rebuild: bool = true):
 	node_page_manager.update_page_count(rows)
 	if columns.size() == 0:
 		return
@@ -202,17 +208,17 @@ func _update_visible_rows(force_rebuild : bool = true):
 
 		node_columns.columns = columns
 
-	var cells_left_to_free : int = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
+	var cells_left_to_free: int = node_table_root.get_child_count() - (last_row - first_row) * columns.size()
 	while cells_left_to_free > 0:
 		node_table_root.get_child(0).free()
 		cells_left_to_free -= 1
-	
-	var color_rows : bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
+
+	var color_rows: bool = ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "color_rows")
 	for i in last_row - first_row:
 		_update_row(first_row + i, color_rows)
 
 
-func fill_property_data(res : Resource):
+func fill_property_data(res: Resource):
 	columns.clear()
 	column_types.clear()
 	column_hints.clear()
@@ -231,7 +237,7 @@ func fill_property_data(res : Resource):
 	_selection.initialize_editors(column_values, column_types, column_hints)
 
 
-func fill_property_data_many(resources : Array):
+func fill_property_data_many(resources: Array):
 	node_class_filter.fill(resources)
 
 	columns.clear()
@@ -242,7 +248,8 @@ func fill_property_data_many(resources : Array):
 	var i := -1
 	var found_props := {}
 	for x in resources:
-		if x == null: continue
+		if x == null:
+			continue
 		i += 1
 		if not search_cond.is_null() and not search_cond.call(x, i):
 			continue
@@ -267,17 +274,12 @@ func fill_property_data_many(resources : Array):
 	_selection.initialize_editors(column_values, column_types, column_hints)
 
 
-func can_display_property(property_info : Dictionary):
-	var prop_type : int = property_info[&"type"]
-	return (
-		prop_type != TYPE_CALLABLE
-		and prop_type != TYPE_SIGNAL
-		and property_info[&"usage"] & PROPERTY_USAGE_EDITOR != 0
-		and property_info[&"name"] != "script"
-	)
+func can_display_property(property_info: Dictionary):
+	var prop_type: int = property_info[&"type"]
+	return prop_type != TYPE_CALLABLE and prop_type != TYPE_SIGNAL and property_info[&"usage"] & PROPERTY_USAGE_EDITOR != 0 and property_info[&"name"] != "script"
 
 
-func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName, sort_reverse : bool):
+func insert_row_sorted(res: Resource, loaded_rows: Array, sort_by: StringName, sort_reverse: bool):
 	if not search_cond.is_null() and not search_cond.call(res, loaded_rows.size()):
 		return
 
@@ -289,13 +291,14 @@ func insert_row_sorted(res : Resource, loaded_rows : Array, sort_by : StringName
 		if sort_reverse == compare_values(sort_value, loaded_rows[i][sort_by]):
 			loaded_rows.insert(i, res)
 			return
-	
+
 	remembered_paths[res.resource_path] = res
 	loaded_rows.append(res)
 
 
 func compare_values(a, b) -> bool:
-	if a == null or b == null: return b == null
+	if a == null or b == null:
+		return b == null
 	if a is float or a is int:
 		return a > b
 
@@ -308,29 +311,26 @@ func compare_values(a, b) -> bool:
 	return str(a).filenocasecmp_to(str(b)) > 0
 
 
-func column_can_solo_open(column_index : int) -> bool:
-	return (
-		column_types[column_index] == TYPE_OBJECT
-		or (column_types[column_index] == TYPE_ARRAY and column_hint_strings[column_index][0].begins_with("24"))
-	)
+func column_can_solo_open(column_index: int) -> bool:
+	return column_types[column_index] == TYPE_OBJECT or (column_types[column_index] == TYPE_ARRAY and column_hint_strings[column_index][0].begins_with("24"))
 
 
-func column_solo_open(column_index : int):
+func column_solo_open(column_index: int):
 	display_folder(current_path.trim_suffix("/") + "::" + columns[column_index])
 
 
-func _set_sorting(sort_by : StringName):
-	var sort_reverse : bool = !(sorting_by != sort_by or sorting_reverse)
+func _set_sorting(sort_by: StringName):
+	var sort_reverse: bool = !(sorting_by != sort_by or sorting_reverse)
 	sorting_reverse = sort_reverse
 	sorting_by = sort_by
 	refresh()
 
 
-func _update_row(row_index : int, color_rows : bool = true):
-	var current_node : Control
+func _update_row(row_index: int, color_rows: bool = true):
+	var current_node: Control
 	var next_color := Color.WHITE
-	var column_editors : Array = _selection.column_editors
-	var shortened_path : String = rows[row_index].resource_path.substr(current_path.length()).trim_suffix(".tres").trim_suffix(".res")
+	var column_editors: Array = _selection.column_editors
+	var shortened_path: String = rows[row_index].resource_path.substr(current_path.length()).trim_suffix(".tres").trim_suffix(".res")
 	for i in columns.size():
 		if node_table_root.get_child_count() <= (row_index - first_row) * columns.size() + i:
 			current_node = column_editors[i].create_cell(self)
@@ -339,11 +339,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 
 		else:
 			current_node = node_table_root.get_child((row_index - first_row) * columns.size() + i)
-			current_node.tooltip_text = (
-				columns[i].capitalize()
-				+ "\n---\n"
-				+ "Of " + shortened_path
-			)
+			current_node.tooltip_text = (columns[i].capitalize() + "\n---\n" + "Of " + shortened_path)
 
 		if columns[i] in rows[row_index]:
 			current_node.mouse_filter = MOUSE_FILTER_STOP
@@ -358,7 +354,7 @@ func _update_row(row_index : int, color_rows : bool = true):
 		if columns[i] == &"resource_path":
 			column_editors[i].set_value(current_node, shortened_path)
 
-		else:			
+		else:
 			var cell_value = io.get_value(rows[row_index], columns[i])
 			if cell_value != null or column_types[i] == TYPE_OBJECT:
 				column_editors[i].set_value(current_node, cell_value)
@@ -372,14 +368,14 @@ func get_selected_column() -> int:
 	return _selection.get_cell_column(_selection.edited_cells[0])
 
 
-func select_column(column_index : int):
+func select_column(column_index: int):
 	_selection.deselect_all_cells()
 	_selection.select_cell(Vector2i(column_index, 0))
 	_selection.select_cells_to(Vector2i(column_index, rows.size() - 1))
 
 
-func set_edited_cells_values_text(new_cell_values : Array):
-	var column_editor : Object = _selection.column_editors[get_selected_column()]
+func set_edited_cells_values_text(new_cell_values: Array):
+	var column_editor: Object = _selection.column_editors[get_selected_column()]
 
 	# Duplicated here since if using text editing, edited_cells_text needs to modified
 	# but here, it would be converted from a String breaking editing
@@ -389,52 +385,36 @@ func set_edited_cells_values_text(new_cell_values : Array):
 
 	set_edited_cells_values(new_cell_values_converted)
 	for i in new_cell_values.size():
-		var i_pos : Vector2i = _selection.edited_cells[i]
-		var update_cell : Control = _selection.get_cell_node_from_position(i_pos)
+		var i_pos: Vector2i = _selection.edited_cells[i]
+		var update_cell: Control = _selection.get_cell_node_from_position(i_pos)
 		if update_cell == null:
 			continue
 
 		column_editor.set_value(update_cell, new_cell_values[i])
 
 
-func set_edited_cells_values(new_cell_values : Array):
-	var edited_rows : Array = _selection.get_edited_rows()
-	var column : int = _selection.get_cell_column(_selection.edited_cells[0])
+func set_edited_cells_values(new_cell_values: Array):
+	var edited_rows: Array = _selection.get_edited_rows()
+	var column: int = _selection.get_cell_column(_selection.edited_cells[0])
 	var edited_cells_resources := _get_row_resources(edited_rows)
 
 	editor_plugin.undo_redo.create_action("Set Cell Values")
-	editor_plugin.undo_redo.add_undo_method(
-		self,
-		&"_update_resources",
-		edited_cells_resources.duplicate(),
-		edited_rows.duplicate(),
-		column,
-		get_edited_cells_values()
-	)
-	editor_plugin.undo_redo.add_undo_method(
-		_selection,
-		&"_update_selected_cells_text"
-	)
-	editor_plugin.undo_redo.add_do_method(
-		self,
-		&"_update_resources",
-		edited_cells_resources.duplicate(),
-		edited_rows.duplicate(),
-		column,
-		new_cell_values.duplicate()
-	)
+	editor_plugin.undo_redo.add_undo_method(self, &"_update_resources", edited_cells_resources.duplicate(), edited_rows.duplicate(), column, get_edited_cells_values())
+	editor_plugin.undo_redo.add_undo_method(_selection, &"_update_selected_cells_text")
+	editor_plugin.undo_redo.add_do_method(self, &"_update_resources", edited_cells_resources.duplicate(), edited_rows.duplicate(), column, new_cell_values.duplicate())
 	editor_plugin.undo_redo.commit_action(true)
 	_selection._update_selected_cells_text()
 
 
 func rename_row(row, new_name):
-	if !has_row_names(): return
-		
+	if !has_row_names():
+		return
+
 	io.rename_row(row, new_name)
 	refresh()
 
 
-func duplicate_selected_rows(new_name : String):
+func duplicate_selected_rows(new_name: String):
 	io.duplicate_rows(_get_row_resources(_selection.get_edited_rows()), new_name)
 	refresh()
 
@@ -454,38 +434,33 @@ func get_last_selected_row():
 
 
 func get_edited_cells_values() -> Array:
-	var cells : Array = _selection.edited_cells.duplicate()
-	var column_index : int = _selection.get_cell_column(cells[0])
+	var cells: Array = _selection.edited_cells.duplicate()
+	var column_index: int = _selection.get_cell_column(cells[0])
 	var result := []
 	result.resize(cells.size())
 	for i in cells.size():
 		result[i] = io.get_value(rows[_selection.get_cell_row(cells[i])], columns[column_index])
-	
+
 	return result
 
 
-func _update_resources(update_rows : Array, update_row_indices : Array[int], update_column : int, values : Array):
-	var column_editor : Object = _selection.column_editors[update_column]
+func _update_resources(update_rows: Array, update_row_indices: Array[int], update_column: int, values: Array):
+	var column_editor: Object = _selection.column_editors[update_column]
 	for i in update_rows.size():
 		var row := update_row_indices[i]
-		io.set_value(
-			update_rows[i],
-			columns[update_column],
-			values[i],
-			row
-		)
-		var update_cell : Control = _selection.get_cell_node_from_position(Vector2i(update_column, row))
+		io.set_value(update_rows[i], columns[update_column], values[i], row)
+		var update_cell: Control = _selection.get_cell_node_from_position(Vector2i(update_column, row))
 		if update_cell == null:
 			continue
 
 		column_editor.set_value(update_cell, values[i])
-		var row_script : Object = update_rows[i].get_script()
+		var row_script: Object = update_rows[i].get_script()
 		if row_script != null && row_script.is_tool():
 			for column_i in columns.size():
 				if column_i == update_column:
 					continue
 
-				var update_cell_c : Control = _selection.get_cell_node_from_position(Vector2i(column_i, row))
+				var update_cell_c: Control = _selection.get_cell_node_from_position(Vector2i(column_i, row))
 				if columns[column_i] != &"resource_path":
 					_selection.column_editors[column_i].set_value(update_cell_c, update_rows[i].get(columns[column_i]))
 
@@ -497,16 +472,13 @@ func _update_resources(update_rows : Array, update_row_indices : Array[int], upd
 				if j != 0 and column_types[j + update_column] == TYPE_COLOR:
 					break
 
-				_selection.column_editors[j + update_column].set_color(
-					_selection.get_cell_node_from_position(Vector2i(update_column + j, row)),
-					values[i]
-				)
+				_selection.column_editors[j + update_column].set_color(_selection.get_cell_node_from_position(Vector2i(update_column + j, row)), values[i])
 
 	node_columns._update_column_sizes()
 	io.save_entries(rows, update_row_indices)
 
 
-func _on_path_text_submitted(new_text : String = ""):
+func _on_path_text_submitted(new_text: String = ""):
 	if new_text != "":
 		current_path = new_text
 		display_folder(new_text, "", false, true)
@@ -515,7 +487,7 @@ func _on_path_text_submitted(new_text : String = ""):
 		refresh()
 
 
-func _on_FileDialog_dir_selected(dir : String):
+func _on_FileDialog_dir_selected(dir: String):
 	node_folder_path.text = dir
 	display_folder(dir)
 
@@ -530,8 +502,8 @@ func _get_row_resources(row_indices) -> Array:
 
 
 func _on_File_pressed():
-	node_folder_path.get_parent().get_parent().visible = !node_folder_path.get_parent().get_parent().visible
+	node_folder_path.get_parent().get_parent().visible = !(node_folder_path.get_parent().get_parent().visible)
 
 
 func _on_SearchProcess_pressed():
-	$"HeaderContentSplit/VBoxContainer/Search".visible = !$"HeaderContentSplit/VBoxContainer/Search".visible
+	$"HeaderContentSplit/VBoxContainer/Search".visible = !($"HeaderContentSplit/VBoxContainer/Search".visible)

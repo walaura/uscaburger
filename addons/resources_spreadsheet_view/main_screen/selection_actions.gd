@@ -14,18 +14,15 @@ const TablesPluginSettingsClass := preload("res://addons/resources_spreadsheet_v
 @onready var selection := $"../../SelectionManager"
 
 @onready var editbox_node := $"Control/ColorRect/Popup"
-@onready var editbox_label : Label = editbox_node.get_node("Panel/VBoxContainer/Label")
-@onready var editbox_input : LineEdit = editbox_node.get_node("Panel/VBoxContainer/LineEdit")
+@onready var editbox_label: Label = editbox_node.get_node("Panel/VBoxContainer/Label")
+@onready var editbox_input: LineEdit = editbox_node.get_node("Panel/VBoxContainer/LineEdit")
 
-var cell : Control
-var editbox_action : int
+var cell: Control
+var editbox_action: int
 
 
 func _ready():
-	editbox_input.get_node("../..").add_theme_stylebox_override(
-		"panel",
-		get_theme_stylebox(&"Content", &"EditorStyles")
-	)
+	editbox_input.get_node("../..").add_theme_stylebox_override("panel", get_theme_stylebox(&"Content", &"EditorStyles"))
 	editbox_input.text_submitted.connect(func(_new_text): _on_editbox_accepted())
 	close()
 
@@ -38,18 +35,15 @@ func _on_grid_cells_selected(cells):
 	open(cells, true, true)
 
 
-func open(cells : Array, pin_to_cell : bool = false, from_leftclick : bool = false):
+func open(cells: Array, pin_to_cell: bool = false, from_leftclick: bool = false):
 	if cells.size() == 0 or (from_leftclick and !ProjectSettings.get_setting(TablesPluginSettingsClass.PREFIX + "context_menu_on_leftclick")):
 		hide()
 		cell = null
 		return
-	
+
 	if pin_to_cell:
 		cell = selection.get_cell_node_from_position(cells[-1])
-		set_deferred(&"global_position", Vector2(
-			cell.global_position.x + cell.size.x,
-			cell.global_position.y
-		))
+		set_deferred(&"global_position", Vector2(cell.global_position.x + cell.size.x, cell.global_position.y))
 
 	else:
 		cell = null
@@ -67,7 +61,7 @@ func close():
 	pass
 
 
-func _input(event : InputEvent):
+func _input(event: InputEvent):
 	if !editor_view.is_visible_in_tree():
 		close()
 		return
@@ -80,16 +74,13 @@ func _input(event : InputEvent):
 		if event.is_pressed() and event.is_command_or_control_pressed():
 			global_position = get_global_mouse_position() + Vector2.ONE
 			if cell != null:
-				global_position = Vector2(
-					cell.global_position.x + cell.size.x,
-					cell.global_position.y
-				)
+				global_position = Vector2(cell.global_position.x + cell.size.x, cell.global_position.y)
 
 			# Dupe
 			if event.keycode == KEY_D:
 				_on_Duplicate_pressed()
 				return
-			
+
 			# Rename
 			if event.keycode == KEY_R:
 				_on_Rename_pressed()
@@ -140,8 +131,7 @@ func _show_editbox(action):
 
 			if selection.edited_cells.size() == 1:
 				editbox_label.text = "Input new row's name..."
-				editbox_input.text = editor_view.get_last_selected_row()\
-					.resource_path.get_file().get_basename()
+				editbox_input.text = (editor_view.get_last_selected_row().resource_path.get_file().get_basename())
 
 			else:
 				editbox_label.text = "Input suffix to append to names..."
@@ -149,14 +139,12 @@ func _show_editbox(action):
 
 		EDITBOX_RENAME:
 			editbox_label.text = "Input new name for row..."
-			editbox_input.text = editor_view.get_last_selected_row()\
-				.resource_path.get_file().get_basename()
+			editbox_input.text = (editor_view.get_last_selected_row().resource_path.get_file().get_basename())
 
 		EDITBOX_DELETE:
 			editbox_label.text = "Really delete selected rows? (Irreversible!!!)"
-			editbox_input.text = editor_view.get_last_selected_row()\
-				.resource_path.get_file().get_basename()
-	
+			editbox_input.text = (editor_view.get_last_selected_row().resource_path.get_file().get_basename())
+
 	show()
 	editbox_input.grab_focus()
 	editbox_input.caret_column = 999999999
@@ -165,11 +153,7 @@ func _show_editbox(action):
 	$"Control/ColorRect".show()
 	$"Control/ColorRect".top_level = true
 	$"Control/ColorRect".size = get_viewport_rect().size * 4.0
-	editbox_node.global_position = (
-		global_position
-		+ size * 0.5
-		- editbox_node.get_child(0).size * 0.5
-	)
+	editbox_node.global_position = (global_position + size * 0.5 - editbox_node.get_child(0).size * 0.5)
 
 
 func _on_editbox_closed():
@@ -178,7 +162,7 @@ func _on_editbox_closed():
 
 
 func _on_editbox_accepted():
-	match(editbox_action):
+	match editbox_action:
 		EDITBOX_DUPLICATE:
 			editor_view.duplicate_selected_rows(editbox_input.text)
 

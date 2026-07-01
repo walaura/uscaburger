@@ -140,3 +140,13 @@ func get_screen_rect(aabb: AABB) -> Rect2:
 		max_pos.y = max(max_pos.y, screen_pt.y)
 
 	return Rect2(min_pos, max_pos - min_pos)
+
+
+func maybe_load_preloaded_or_retry(path: String) -> PackedScene:
+	var resource: PackedScene = ResourceLoader.load_threaded_get(path)
+	if resource == null:
+		printerr("did not preload: " + path)
+		ResourceLoader.load_threaded_request(path)
+		return
+
+	return resource

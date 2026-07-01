@@ -10,6 +10,10 @@ var sauce_cooldown := 6
 
 var _mode := ScTower.Mode.Normal
 
+var EGG_KEY := ScTower_Parts.get_item("egg").name
+var BACON_KEY := ScTower_Parts.get_item("bacon").name
+var ONION_KEY := ScTower_Parts.get_item("onion").name
+
 
 func _init(nw_mode: ScTower.Mode = _mode) -> void:
 	_mode = nw_mode
@@ -22,13 +26,13 @@ func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
 	returnable.push_back(_push_line(key, price))
 
 	if !appearances.has(key):
-		appearances.set(key, -1)
+		appearances.set(key, 0)
 	appearances[key] += 1
 
 	## find mult (apppearances + .1x)
 	if CurrentRun.inventory.is_holding_item("condi_mult.tres"):
 		var condi_mult := CurrentRun.inventory.get_item("condi_mult.tres")
-		var mult := appearances[key]
+		var mult := appearances[key] - 1
 		if mult > 0:
 			var extra := (price / 100. * condi_mult.incremental_value) * mult
 			(
@@ -40,6 +44,26 @@ func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
 					),
 				)
 			)
+
+	## find onion mult (1.5x per onion already there)
+	if part.is_meat:
+		var onions_count: int = appearances.get(ONION_KEY, 0)
+		var mult := (price * 1.5 * onions_count) - price
+		if mult > 0.0:
+			returnable.push_back(_push_line("+ " + "%d" % onions_count + " " + ("onion" if onions_count == 1 else "onions"), int(mult)))
+
+	## bacon + eggs
+	if part.name == BACON_KEY:
+		var eggs_count: int = appearances.get(EGG_KEY, 0)
+		var mult := (price * 10 * (eggs_count)) - price
+		if mult > 0.0:
+			returnable.push_back(_push_line("+ " + "%d" % eggs_count + " " + ("egg" if eggs_count == 1 else "eggs"), int(mult)))
+
+	## bacon gives 1.125x the whole score
+	if part.name == BACON_KEY:
+		var mult := (current_session_score * 1.125) - current_session_score
+		if mult > 0.0:
+			returnable.push_back(_push_line("+ Tasty!", int(mult)))
 
 	## double?
 	if CurrentRun.inventory.is_holding_item("condi_mult_row.tres"):
