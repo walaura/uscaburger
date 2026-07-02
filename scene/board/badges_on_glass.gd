@@ -38,23 +38,21 @@ func _ready() -> void:
 	_loader.queue_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path())
 
 
-func _on_item_added(item_name: String) -> void:
+func _on_item_added(item: RsUnlockableWTier) -> void:
 	var instance: UiKetchupBadge = _loader.get_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path()).instantiate()
-
-	var data := CurrentRun.inventory.get_item(item_name)
-	if data != null:
-		instance.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-		instance.icon = data.icon
-		instance.animates = true
-		instance.edge = randf_range(0, .6)
-		instance.custom_minimum_size = Vector2.ONE * BADGE_SIZE
-		instance.custom_maximum_size = Vector2.ONE * BADGE_SIZE
-		instance.scale = Vector2.ONE * 1.1
-		self.add_child(instance)
-		instance.position = _position(_len)
-		_len += 1
+	instance.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	instance.icon = item.icon
+	instance.animates = true
+	instance.edge = randf_range(0, .6)
+	instance.custom_minimum_size = Vector2.ONE * BADGE_SIZE
+	instance.custom_maximum_size = Vector2.ONE * BADGE_SIZE
+	instance.scale = Vector2.ONE * 1.1
+	self.add_child(instance)
+	instance.position = _position(_len)
+	_len += 1
 
 
 func _on_button_pressed() -> void:
-	CurrentRun.inventory.hold_item("ketchup.tres")
+	CurrentRun.inventory.hold_item((load("res://data/unlockables/ketchup.tres") as RsUnlockable).apply_tier(1))
+	self.queue_free()
 	pass  # Replace with function body.

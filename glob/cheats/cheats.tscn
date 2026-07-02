@@ -20,7 +20,11 @@ func _process(_delta: float) -> void:
 		var btn := Button.new()
 		btn.text = datum
 		btn.pressed.connect(func() -> void:
-			CurrentRun.inventory.hold_item(datum)
+			CurrentRun.inventory.hold_item(
+				CurrentRun.inventory.get_item_at_purchasable_tier((
+					CurrentRun_Inventory._get_item_raw(datum) 
+				))
+			)
 		)
 		($VBoxContainer as Container).add_child(btn)
 		
@@ -32,8 +36,11 @@ func _process(_delta: float) -> void:
 		@warning_ignore(\"unsafe_cast\")
 		var maybe_stored_d: Dictionary[String, int] = bytes_to_var(maybe_stored as PackedByteArray)
 		for key: String in maybe_stored_d.keys():
-			for i in range(maybe_stored_d[key]):
-				CurrentRun.inventory.hold_item(key)
+			var item := CurrentRun_Inventory._get_item_raw(key)
+			if(item != null):
+				CurrentRun.inventory.hold_item(
+					item.apply_tier(maybe_stored_d[key])
+				)
 
 
 func _on_save_button_pressed() -> void:

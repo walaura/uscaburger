@@ -2,7 +2,7 @@
 class_name UiInventoryItemDetails
 extends Control
 
-@export var item: RsUnlockable:
+@export var item: RsUnlockableWTier:
 	set(value):
 		item = value
 		if not is_node_ready():
@@ -13,6 +13,6 @@ extends Control
 func _redraw_ui() -> void:
 	($VBoxContainer/Label as Label).text = item.name
 	($BadgeImg as UiKetchupBadge).icon = item.icon
-	($BadgeImg as UiKetchupBadge).tier = item._tier
+	($BadgeImg as UiKetchupBadge).tier = item.tier
 
 	($VBoxContainer/Powers as RichTextLabel).text = item.desc

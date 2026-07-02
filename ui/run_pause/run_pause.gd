@@ -58,6 +58,7 @@ func _on_seets_button_pressed() -> void:
 		func() -> void:
 			_on_close_subscreen()
 			remove_child(settings)
+			settings.queue_free()
 	)
 	add_child(settings)
 
@@ -69,6 +70,7 @@ func _on_inventory_button_pressed() -> void:
 		func() -> void:
 			_on_close_subscreen()
 			remove_child(inventory)
+			inventory.queue_free()
 	)
 	add_child(inventory)
 

@@ -1,7 +1,7 @@
 class_name UiInventoryHeld
 extends Control
 
-signal on_item_hovered(item: RsUnlockable)
+signal on_item_hovered(item: RsUnlockableWTier)
 signal on_fx_hovered
 
 @export var animate_on_ready := true
@@ -36,7 +36,7 @@ func _ready() -> void:
 		var icon := UiKetchupBadgeGridIcon.new()
 		icon.badge = badge
 		badge.icon = item.icon
-		badge.tier = item._tier
+		badge.tier = item.tier
 
 		icon.on_item_hovered.connect(func() -> void: on_item_hovered.emit(item))
 		_bottom.badges.append(icon)

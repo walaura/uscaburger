@@ -1,7 +1,7 @@
 class_name UiKetchupBadgeWStamp
 extends Control
 
-const BADGE_SLOP := -2.
+const BADGE_SLOP := 8.
 
 @export var is_sloppy := true
 @export var badge: Control
@@ -12,6 +12,7 @@ var _rota_tween: Tween
 func _draw() -> void:
 	badge.custom_maximum_size = size
 	badge.custom_minimum_size = size
+	badge.set_anchors_and_offsets_preset(LayoutPreset.PRESET_FULL_RECT)
 	badge.pivot_offset_ratio = Vector2.ONE / 2
 
 
@@ -28,7 +29,8 @@ func _ready() -> void:
 	badge.visible = true
 
 	var rng := RandomNumberGenerator.new()
-	badge.position = Vector2(
+	badge.offset_transform_enabled = true
+	badge.offset_transform_position = Vector2(
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 	)

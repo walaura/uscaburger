@@ -76,9 +76,12 @@ func _ready() -> void:
 
 	on_game_over.connect(
 		func(_is_success: bool, _sh: ScTower_State) -> void:
-			remove_child($ButtonPrompts)
+			if $ButtonPrompts != null:
+				remove_child($ButtonPrompts)
+				$ButtonPrompts.queue_free()
 			if _score_overlay != null && _score_overlay.get_parent() != null:
 				_score_overlay.get_parent().remove_child(_score_overlay)
+				_score_overlay.queue_free()
 	)
 
 

@@ -28,4 +28,8 @@ func with_container(
 	setup_callback.call_deferred(maybe_guts)
 
 	if maybe_exit_tree != FAKE_SIGNAL:
-		maybe_exit_tree.connect(func() -> void: %Tools.remove_child(maybe_container))
+		maybe_exit_tree.connect(
+			func() -> void:
+				%Tools.remove_child(maybe_container)
+				maybe_container.queue_free()
+		)

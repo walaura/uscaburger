@@ -50,7 +50,11 @@ func get_collider() -> CollisionShape3D:
 func destroy() -> void:
 	_change_state(State.DONE)
 	_collider.set.call_deferred("disabled", true)
-	_play_splooch_out_anim().finished.connect(func() -> void: self.get_parent().remove_child(self))
+	_play_splooch_out_anim().finished.connect(
+		func() -> void:
+			self.get_parent().remove_child(self)
+			self.queue_free()
+	)
 
 
 func _init() -> void:

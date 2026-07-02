@@ -19,8 +19,8 @@ func _ready() -> void:
 	_DBG_set_up()
 
 	CurrentRun.inventory.item_got_held.connect(
-		func(item: String) -> void:
-			match item:
+		func(item: RsUnlockableWTier) -> void:
+			match item.get_key():
 				"alt_chicken.tres":
 					_maybe_force_next_mode = ScTower.Mode.Chicken
 				"alt_vegan.tres":
@@ -62,7 +62,9 @@ func _play_again() -> void:
 	old_tower_scn.process_mode = Node.PROCESS_MODE_DISABLED
 	var tween := create_tween()
 	tween.tween_property(_tower_scn, "position", Vector3(10, 0, 0), SCREEN_TS_TIME).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT).finished.connect(
-		func() -> void: remove_child(old_tower_scn)
+		func() -> void:
+			remove_child(old_tower_scn)
+			old_tower_scn.queue_free()
 	)
 
 	var timer := Timer.new()
@@ -72,6 +74,7 @@ func _play_again() -> void:
 		func() -> void:
 			_instance_tower()
 			remove_child(timer)
+			timer.queue_free()
 	)
 
 
@@ -113,6 +116,7 @@ func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
 		func() -> void:
 			_play_again()
 			remove_child(game_over_screen)
+			game_over_screen.queue_free()
 	)
 	add_child(game_over_screen)
 

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bymqjrlu401ig"]
 
 [ext_resource type="Texture2D" uid="uid://b2v76mjovbdd2" path="res://asset/badge-condi-moon.png" id="1_rpl28"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_ecwdh"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable/unlockable_resource.gd" id="2_ecwdh"]
 
 [resource]
 script = ExtResource("2_ecwdh")

@@ -31,7 +31,7 @@ func _ready() -> void:
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 
 	_case.columns = 6
-	var all_held_items := CurrentRun.inventory.get_all_held_items_as_uniques()
+	var all_held_items := CurrentRun.inventory.get_all_possible_holdable_items_as_uniques()
 	_case.animate_on_ready = false
 	_case.badges = []
 	_case.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -42,7 +42,7 @@ func _ready() -> void:
 		var icon := UiKetchupBadgeGridIcon.new()
 		icon.badge = badge
 		badge.icon = item.icon
-		badge.tier = item._tier
+		badge.tier = item.tier
 
 		icon.on_item_hovered.connect(func() -> void: _on_item_hovered(item))
 		_case.badges.append(icon)
@@ -66,7 +66,7 @@ func _spawn_panel(contents: Control, color := Color("#00161c")) -> void:
 	clone.animate_in(contents, color)
 
 
-func _on_item_hovered(item: RsUnlockable) -> void:
+func _on_item_hovered(item: RsUnlockableBase) -> void:
 	var instance := _loader.get_resource(INVENTORY_ITEM_DETAILS_PATH).instantiate() as UiInventoryItemDetails
 	instance.item = item
 	_spawn_panel(instance, Color("#1b1c10"))

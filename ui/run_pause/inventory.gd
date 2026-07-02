@@ -23,7 +23,9 @@ func _ready() -> void:
 	_loader.queue_resource(INVENTORY_ITEM_DETAILS_PATH)
 	_loader.queue_resource(INVENTORY_STATS_FX_PATH)
 
-	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in())
+	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
+		func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in()
+	)
 	($ButtonPrompts as UiButtonPrompts).visible = true
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 	#TODO find_next_valid_focus().grab_focus.call_deferred()
@@ -48,7 +50,7 @@ func _spawn_panel(contents: Control, color := Color("#00161c")) -> void:
 	clone.animate_in(contents, color)
 
 
-func _on_item_hovered(item: RsUnlockable) -> void:
+func _on_item_hovered(item: RsUnlockableWTier) -> void:
 	var instance := _loader.get_resource(INVENTORY_ITEM_DETAILS_PATH).instantiate() as UiInventoryItemDetails
 	instance.item = item
 	_spawn_panel(instance, Color("#1b1c10"))

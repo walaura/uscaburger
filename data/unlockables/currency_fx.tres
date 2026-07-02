@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4ph4qamp2bj2" path="res://asset/badge/badge-curr-usd.png" id="1_33efm"]
 [ext_resource type="Texture2D" uid="uid://bk8l0msvy05uh" path="res://asset/badge/badge-curr-eu.png" id="2_2bm5j"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_llru5"]
+[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable/unlockable_resource.gd" id="2_llru5"]
 [ext_resource type="Texture2D" uid="uid://ux80hn3ana0b" path="res://asset/badge/badge-curr-gbp.png" id="3_vcn7h"]
 
 [resource]

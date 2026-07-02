@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bo8dvum7butq3"]
 
 [ext_resource type="Texture2D" uid="uid://dog246hx5ms7h" path="res://asset/badge/badge-plant.png" id="1_22sp6"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable_resource.gd" id="2_4ea1y"]
+[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/unlockable_resource.gd" id="2_4ea1y"]
 
 [resource]
 script = ExtResource("2_4ea1y")
+requires = Array[StringName]([&"alt_chicken.tres"])
 name = "Plant based"
 icon = ExtResource("1_22sp6")
 desc = "Cows love it! 1 in 6 orders may be [boing]Plant Based[/boing]. 2x markup on every part"
 price = 2099
-requires = Array[StringName]([&"alt_chicken.tres"])

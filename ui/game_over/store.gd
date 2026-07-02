@@ -9,7 +9,7 @@ var disabled := false:
 			await ready
 		_set_disabled()
 
-signal on_purchase(product: String, price: int)
+signal on_purchase(product: RsUnlockableWTier)
 
 
 func on_reroll() -> void:
@@ -21,15 +21,19 @@ func _ready() -> void:
 
 
 func _set_disabled() -> void:
-	focus_behavior_recursive = (Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED)
-	mouse_behavior_recursive = (Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED)
+	focus_behavior_recursive = (
+		Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
+	)
+	mouse_behavior_recursive = (
+		Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
+	)
 
 
 func _on_reroll() -> void:
 	var all_items := CurrentRun.inventory.get_purchasable_items()
-	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsUnlockable]
-	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsUnlockable]
-	var pick: Array[RsUnlockable] = []
+	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsUnlockableWTier]
+	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsUnlockableWTier]
+	var pick: Array[RsUnlockableWTier] = []
 
 	var affordables_count := 0
 	for index in range(0, 3):
@@ -59,9 +63,10 @@ func _on_reroll() -> void:
 
 	for child in %StoreRoot.get_children():
 		%StoreRoot.remove_child(child)
+		child.queue_free()
 	for unlockable_cp in pick:
 		var store_product_scn: UiGameOver_StoreProduct = STORE_PRODUCT_SCN.instantiate()
 		store_product_scn.product = unlockable_cp
-		store_product_scn.on_purchase_pressed.connect(func() -> void: on_purchase.emit(unlockable_cp.get_key(), unlockable_cp.price))
+		store_product_scn.on_purchase_pressed.connect(func() -> void: on_purchase.emit(unlockable_cp))
 
 		%StoreRoot.add_child(store_product_scn)
