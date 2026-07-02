@@ -62,7 +62,7 @@ func format_number(number: float) -> String:
 
 
 func get_units() -> int:
-	return CurrentRun.inventory.get_held_item_tier("currency_fx.tres") % 3
+	return CurrentRun.inventory._get_held_item_by_key_tier("currency_fx.tres") % 3
 
 
 func format_currency(number: float) -> String:

@@ -89,9 +89,9 @@ func _ready() -> void:
 	_rb.scale_object_local(_initial_scale)
 
 	var mat := PHYS_MATERIAL
-	if CurrentRun.inventory.is_holding_item("glue.tres"):
-		var condi_mult := CurrentRun.inventory.get_item("glue.tres")
-		mat.friction = condi_mult.incremental_value / 100
+	var maybe_glue := CurrentRun.inventory.get_held_item_by_key("glue.tres")
+	if maybe_glue != null:
+		mat.friction = maybe_glue.incremental_value / 100
 
 	_rb.continuous_cd = true
 	_rb.physics_material_override = mat
@@ -245,9 +245,9 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("Drop"):
 				_change_state(State.DROP)
 			if Input.is_action_pressed("Rotate-R"):
-				_rotate(-.1 * delta)
+				_rotate(-.4 * delta)
 			if Input.is_action_pressed("Rotate-L"):
-				_rotate(.1 * delta)
+				_rotate(.4 * delta)
 		State.DROP:
 			self._rb.freeze = false
 

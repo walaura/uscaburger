@@ -28,14 +28,6 @@ func _ready() -> void:
 	)
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if (event as InputEventKey).pressed and (event as InputEventKey).keycode == KEY_ESCAPE:
-			var pause_scene := PAUSE_SCENE.instantiate() as UiRunPause
-			pause_scene.was_unpause_requested.connect(func() -> void: remove_child.call_deferred(pause_scene))
-			add_child(pause_scene)
-
-
 func _get_next_tower_mode() -> ScTower.Mode:
 	if _maybe_force_next_mode > 0:
 		var rt := _maybe_force_next_mode
@@ -43,10 +35,10 @@ func _get_next_tower_mode() -> ScTower.Mode:
 		_maybe_force_next_mode = -1
 		return rt
 
-	if CurrentRun.inventory.is_holding_item("alt_chicken.tres"):
+	if CurrentRun.inventory.is_holding_key("alt_chicken.tres"):
 		if randi_range(1, 10) == 10:
 			return ScTower.Mode.Chicken
-	if CurrentRun.inventory.is_holding_item("alt_vegan.tres"):
+	if CurrentRun.inventory.is_holding_key("alt_vegan.tres"):
 		if randi_range(1, 10) == 10:
 			return ScTower.Mode.Vegan
 
@@ -88,6 +80,10 @@ func _input(event: InputEvent) -> void:
 		Camera.set_mode_zoom_out(_tower_scn.get_aabb())
 	if event.is_action_released("Zoom-out"):
 		Camera.set_mode_gameplay()
+	if event.is_action("ui_pause"):
+		var pause_scene := PAUSE_SCENE.instantiate() as UiRunPause
+		pause_scene.was_unpause_requested.connect(func() -> void: remove_child.call_deferred(pause_scene))
+		add_child(pause_scene)
 
 
 func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:

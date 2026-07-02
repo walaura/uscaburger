@@ -14,7 +14,5 @@ func _ready() -> void:
 		label.install_effect(RichTextFxBoing.new())
 		label.fit_content = true
 		label.text = item.fx_short_desc
-		print(label)
 		$VBoxContainer.add_child(label)
-	print(JSON.stringify(CurrentRun.inventory._held_items, " "))
 	pass  # Replace with function body.

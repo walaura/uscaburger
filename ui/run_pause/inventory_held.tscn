@@ -3,64 +3,32 @@
 [ext_resource type="Script" uid="uid://dxluyarsidlak" path="res://ui/run_pause/inventory_held.gd" id="1_i57w8"]
 [ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="2_d2k2i"]
 
-[node name="InventoryHeld" type="Control" unique_id=1292534106]
-layout_mode = 3
+[node name="InventoryHeld" type="VBoxContainer" unique_id=1532082109]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_i57w8")
 
-[node name="Badge" parent="." unique_id=1894801696 instance_placeholder="res://ui/ketchup/badge/badge.tscn"]
-unique_name_in_owner = true
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = -193.0
-offset_top = 43.0
-offset_right = -193.0
-offset_bottom = 43.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="BadgeWStamp" parent="." unique_id=482718556 instance_placeholder="res://ui/ketchup/badge/badge_w_stamp.tscn"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = -193.0
-offset_top = 43.0
-offset_right = -73.0
-offset_bottom = 163.0
-
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=956943408]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1765415686]
-layout_mode = 2
-text = "Active effects"
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer" unique_id=1181195497]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 0
-columns = 5
+alignment = 1
+
+[node name="Badge" parent="." unique_id=1894801696 instance_placeholder="res://ui/ketchup/badge/badge.tscn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BadgeWStamp" parent="." unique_id=482718556 instance_placeholder="res://ui/ketchup/badge/badge_w_stamp.tscn"]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="RunFxBtn" type="TextureRect" parent="." unique_id=6363987]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
-offset_left = -371.0
-offset_top = 224.0
-offset_right = -115.0
-offset_bottom = 480.0
+layout_mode = 2
 texture = ExtResource("2_d2k2i")
-
-[connection signal="mouse_entered" from="VBoxContainer/Button" to="." method="_on_button_stats_mouse_entered"]

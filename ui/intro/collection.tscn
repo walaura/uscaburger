@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://bnlgu4f2xcxdu"]
+
+[ext_resource type="Script" uid="uid://b2v0kbbeyer83" path="res://ui/intro/collection.gd" id="1_0ddja"]
+[ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="2_c8b32"]
+[ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_inu2w"]
+[ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="5_dyqj1"]
+[ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="5_f0l85"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0ddja"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f0l85"]
+resource_local_to_scene = true
+texture = SubResource("ViewportTexture_0ddja")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjv1i"]
+content_margin_left = 12.0
+content_margin_top = 44.0
+content_margin_right = 12.0
+content_margin_bottom = 44.0
+
+[node name="Collection" type="Control" unique_id=1935432515]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0ddja")
+
+[node name="PaperWindow" parent="." unique_id=828285155 instance=ExtResource("2_c8b32")]
+layout_mode = 1
+
+[node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
+theme_override_styles/panel = SubResource("StyleBoxTexture_f0l85")
+
+[node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1332, 1024)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PaperWindow/PanelContainer/Control" unique_id=1456053638]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 922.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gjv1i")
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PaperWindow/PanelContainer/Control/ScrollContainer" unique_id=956943408]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="PaperWindowPanel" parent="PaperWindow/PanelContainer/Control" unique_id=884692704 instance=ExtResource("4_inu2w")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -390.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 1207.0
+grow_horizontal = 0
+
+[node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("5_dyqj1")]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="InventoryItemDetails" parent="." unique_id=1584569430 instance_placeholder="res://ui/run_pause/inventory_item_details.tscn"]
+layout_mode = 1
+offset_left = 1686.0
+offset_top = 156.0
+offset_right = 196.0
+offset_bottom = 156.0
+
+[node name="InventoryHeld" type="VBoxContainer" parent="." unique_id=1292534106]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 0
+offset_left = 1720.0
+offset_top = 174.0
+offset_right = 2606.0
+offset_bottom = 302.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+
+[node name="Badge" parent="InventoryHeld" unique_id=1894801696 instance_placeholder="res://ui/ketchup/badge/badge.tscn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BadgeWStamp" parent="InventoryHeld" unique_id=482718556 instance_placeholder="res://ui/ketchup/badge/badge_w_stamp.tscn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="RunFxBtn" type="TextureRect" parent="InventoryHeld" unique_id=6363987]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+texture = ExtResource("5_f0l85")
+
+[editable path="PaperWindow"]

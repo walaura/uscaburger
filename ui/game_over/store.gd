@@ -2,6 +2,12 @@ class_name UiGameOver_Store
 extends Control
 
 @onready var STORE_PRODUCT_SCN := preload("res://ui/game_over/store/store_product.tscn")
+var disabled := false:
+	set(val):
+		disabled = val
+		if not is_node_ready():
+			await ready
+		_set_disabled()
 
 signal on_purchase(product: String, price: int)
 
@@ -14,11 +20,16 @@ func _ready() -> void:
 	_on_reroll()
 
 
+func _set_disabled() -> void:
+	focus_behavior_recursive = (Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED)
+	mouse_behavior_recursive = (Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED)
+
+
 func _on_reroll() -> void:
-	var all_keys := CurrentRun_Inventory.get_purchasable_items()
-	var all_affordables := all_keys.filter(CurrentRun_Inventory.is_item_affordable) as Array[String]
-	var all_rest := all_keys.filter(CurrentRun_Inventory.is_item_unaffordable) as Array[String]
-	var pick: Array[String] = []
+	var all_items := CurrentRun.inventory.get_purchasable_items()
+	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsUnlockable]
+	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsUnlockable]
+	var pick: Array[RsUnlockable] = []
 
 	var affordables_count := 0
 	for index in range(0, 3):
@@ -26,7 +37,7 @@ func _on_reroll() -> void:
 		if !all_affordables.is_empty() && affordables_count < 2:
 			# boost non incrementals on slot 0
 			if affordables_count == 0:
-				var maybe_non_seq := all_affordables.find_custom(CurrentRun_Inventory.is_item_nonincremental)
+				var maybe_non_seq := all_affordables.find_custom(CurrentRun.inventory.is_nonincremental)
 				if maybe_non_seq >= 0:
 					pick.push_back(all_affordables[maybe_non_seq])
 					all_affordables.remove_at(maybe_non_seq)
@@ -48,12 +59,9 @@ func _on_reroll() -> void:
 
 	for child in %StoreRoot.get_children():
 		%StoreRoot.remove_child(child)
-	for unlockable in pick:
-		var unlockable_cp := CurrentRun.inventory.get_next_item(unlockable)
-		if unlockable_cp == null:
-			unlockable_cp = load("res://data/unlockables/ketchup.tres")
+	for unlockable_cp in pick:
 		var store_product_scn: UiGameOver_StoreProduct = STORE_PRODUCT_SCN.instantiate()
 		store_product_scn.product = unlockable_cp
-		store_product_scn.on_purchase_pressed.connect(func() -> void: on_purchase.emit(unlockable, unlockable_cp.price))
+		store_product_scn.on_purchase_pressed.connect(func() -> void: on_purchase.emit(unlockable_cp.get_key(), unlockable_cp.price))
 
 		%StoreRoot.add_child(store_product_scn)

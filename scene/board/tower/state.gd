@@ -30,8 +30,8 @@ func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
 	appearances[key] += 1
 
 	## find mult (apppearances + .1x)
-	if CurrentRun.inventory.is_holding_item("condi_mult.tres"):
-		var condi_mult := CurrentRun.inventory.get_item("condi_mult.tres")
+	var condi_mult := CurrentRun.inventory.get_held_item_by_key("condi_mult.tres")
+	if condi_mult != null:
 		var mult := appearances[key] - 1
 		if mult > 0:
 			var extra := (price / 100. * condi_mult.incremental_value) * mult
@@ -66,22 +66,21 @@ func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
 			returnable.push_back(_push_line("+ Tasty!", int(mult)))
 
 	## double?
-	if CurrentRun.inventory.is_holding_item("condi_mult_row.tres"):
+	if CurrentRun.inventory.is_holding_key("condi_mult_row.tres"):
 		if previous_item == key:
 			returnable.push_back(_push_line("+ Two in a row!!", price * 3))
 
 	## find height mult
-	if CurrentRun.inventory.is_holding_item("condi_mult_moon.tres"):
-		var condi_mult := CurrentRun.inventory.get_item("condi_mult_moon.tres")
-
+	var condi_mult_moon := CurrentRun.inventory.get_held_item_by_key("condi_mult_moon.tres")
+	if condi_mult_moon != null:
 		var height := Helper.size_in_units(stack_height)
 		if height > 1.:
-			var extra := price * ((height - 1) / 100 * condi_mult.incremental_value)
+			var extra := price * ((height - 1) / 100 * condi_mult_moon.incremental_value)
 			(
 				returnable
 				. push_back(
 					_push_line(
-						"+ %s @ %s%%" % [Helper.format_size(stack_height), str(condi_mult.incremental_value)],
+						"+ %s @ %s%%" % [Helper.format_size(stack_height), str(condi_mult_moon.incremental_value)],
 						int(extra),
 					),
 				)

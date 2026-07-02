@@ -17,7 +17,7 @@ func _ready() -> void:
 	if get_tree().current_scene == self:
 		CurrentRun.inventory.hold_item("ketchup.tres")
 		var handler := ScTower_State.new()
-		handler._push_line("XX", -21000)
+		handler._push_line("XX", -69)
 		CurrentRun.score.settle(handler)
 	if Helper.is_debug:
 		speed_mult = .4
@@ -34,6 +34,7 @@ func _ready() -> void:
 	niceone_player.play("scroll")
 
 	store_scene = STORE_SCENE.instantiate()
+	store_scene.disabled = true
 	get_node("%StorePlaceholder").add_child(store_scene)
 	store_scene.on_purchase.connect(_on_purchased_item)
 
@@ -76,8 +77,7 @@ func _on_purchased_item(item: String, price: int) -> void:
 	if Helper.is_debug:
 		return
 
-	(%StorePlaceholder as Container).mouse_behavior_recursive = (Control.MOUSE_BEHAVIOR_DISABLED)
-	(%StorePlaceholder as Container).focus_behavior_recursive = (Control.FOCUS_BEHAVIOR_DISABLED)
+	store_scene.disabled = true
 
 	tween.tween_interval(.5)
 	tween.finished.connect(func() -> void: _on_next_round())
@@ -90,13 +90,23 @@ func _play_intro() -> void:
 	scoretkt_container.offset_transform_position.x = scoretkt_container.size.x / 2
 	scoretkt_container.offset_transform_rotation = -.015
 	upgradestkt_container.offset_transform_rotation = .035
-	_print_tkt(scoretkt_container).call()
+	_print_tkt(scoretkt_container, func() -> void: pass).call()
 
-	var print_next := _print_tkt(upgradestkt_container)
+	var print_next := _print_tkt(
+		upgradestkt_container,
+		func() -> void:
+			store_scene.disabled = false
+			InputHelper.force_focus.call_deferred(store_scene)
+	)
 	if (%BankTkt as Container).visible == true:
 		var print_upgrades := print_next
-		print_next = _print_tkt(%BankTkt as Container)
-		(%BankTktButton as Button).pressed.connect(func() -> void: print_upgrades.call())
+		print_next = _print_tkt(%BankTkt as Container, func() -> void: InputHelper.force_focus(store_scene))
+		(%BankTktButton as Button).pressed.connect(
+			func() -> void:
+				(%BankTktButton as Button).disabled = true
+				(%BankTktButton as Button).focus_mode = Control.FocusMode.FOCUS_NONE
+				print_upgrades.call()
+		)
 
 	var tween := (
 		(%ScoresTkt as UiGameOver_ScoresTkt)
@@ -109,29 +119,16 @@ func _play_intro() -> void:
 		func() -> void:
 			print_next.call()
 			var ttween := create_tween()
-			(
-				ttween
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_rotation",
-					-.035,
-					.5 * speed_mult,
-				)
-			)
-			(
-				ttween
-				. parallel()
-				. tween_property(
-					scoretkt_container,
-					"offset_transform_position:x",
-					0,
-					.5 * speed_mult,
-				)
-			)
+			ttween.tween_property(scoretkt_container, "offset_transform_rotation", -.035, .5 * speed_mult)
+			ttween.parallel().tween_property(scoretkt_container, "offset_transform_position:x", 0, .5 * speed_mult)
 	)
 
 
-func _print_tkt(container: Container) -> Callable:
+func _unhandled_input(event: InputEvent) -> void:
+	InputHelper.force_grab_focus_on_input(event, self)
+
+
+func _print_tkt(container: Container, on_done: Callable) -> Callable:
 	container.offset_transform_position.y = container.size.y * 1.2
 
 	return func() -> void:
@@ -142,6 +139,7 @@ func _print_tkt(container: Container) -> Callable:
 		tween.tween_property(container, "offset_transform_position:y", 100, .5 * speed_mult)
 		tween.tween_property(container, "offset_transform_position:y", 70, .5 * speed_mult)
 		tween.tween_property(container, "offset_transform_position:y", 30, .5 * speed_mult)
+		tween.finished.connect(on_done)
 
 
 func _DBG_set_up() -> void:

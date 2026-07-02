@@ -18,9 +18,13 @@ func _input(event: InputEvent) -> void:
 		(%HideShowButton as Button).pressed.emit()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	InputHelper.force_grab_focus_on_input(event, self)
+
+
 func _ready() -> void:
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
-	find_next_valid_focus().grab_focus.call_deferred()
+	InputHelper.force_focus(self)
 
 	get_viewport().size_changed.connect(update_resolution_label)
 	update_resolution_label()

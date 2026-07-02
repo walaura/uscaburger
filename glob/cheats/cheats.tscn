@@ -15,7 +15,7 @@ func _process(_delta: float) -> void:
 	if _processed_once:
 		return;
 	_processed_once = true;
-	var datums := CurrentRun_Inventory.get_all_items()
+	var datums := CurrentRun_Inventory._get_all_items()
 	for datum in datums:
 		var btn := Button.new()
 		btn.text = datum

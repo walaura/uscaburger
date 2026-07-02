@@ -3,7 +3,7 @@ extends Control
 
 signal on_close
 
-var _live_panels: Array[Control]
+var _live_panels: Array[UiKetchupPaperWindowPanel]
 var _loader := Loader.new()
 
 @onready var INVENTORY_ITEM_DETAILS_PATH := ($InventoryItemDetails as InstancePlaceholder).get_instance_path()
@@ -23,14 +23,10 @@ func _ready() -> void:
 	_loader.queue_resource(INVENTORY_ITEM_DETAILS_PATH)
 	_loader.queue_resource(INVENTORY_STATS_FX_PATH)
 
-	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
-		func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in()
-	)
-
-	(%SidePanel as Control).hide()
+	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in())
 	($ButtonPrompts as UiButtonPrompts).visible = true
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
-	find_next_valid_focus().grab_focus.call_deferred()
+	#TODO find_next_valid_focus().grab_focus.call_deferred()
 
 	(%InventoryHeld as UiInventoryHeld).on_item_hovered.connect(_on_item_hovered)
 	(%InventoryHeld as UiInventoryHeld).on_fx_hovered.connect(_on_fx_hovered)
@@ -38,42 +34,18 @@ func _ready() -> void:
 
 func _clear_live_panels() -> void:
 	for panel in _live_panels:
-		var out_tween := create_tween()
-		out_tween.tween_property(panel, "offset_transform_position:x", 400., .4)
-		out_tween.finished.connect(
-			func() -> void:
-				if not panel.is_queued_for_deletion():
-					panel.queue_free()
-		)
+		panel.animate_out()
 	_live_panels.clear()
 
 
 func _spawn_panel(contents: Control, color := Color("#00161c")) -> void:
-	var clone: Control = %SidePanel.duplicate()
-	clone.visible = true
-	var bg := clone.get_child(0) as ColorRect
 	_clear_live_panels()
+	var clone: UiKetchupPaperWindowPanel = %PaperWindowPanel.duplicate()
+	clone.visible = true
+	_live_panels.append(clone)
 
-	bg.material.set("shader_parameter/ColorParameter", color)
-
-	contents.set_anchors_and_offsets_preset(LayoutPreset.PRESET_FULL_RECT)
-	contents.offset_left = 8.
-	contents.offset_right = 0
-	clone.add_child(contents)
-	%SidePanel.get_parent().add_child(clone)
-
-	var tween := create_tween()
-	tween.set_ease(Tween.EASE_OUT)
-	tween.set_trans(Tween.TRANS_CUBIC)
-	tween.parallel().tween_property(clone, "offset_transform_position:x", 0., .4).from(400.)
-
-	var bg_tween := create_tween()
-	bg_tween.set_loops()
-	bg_tween.set_parallel()
-	bg_tween.tween_property(bg.material, "shader_parameter/MaskSlop", -1, 50.).from(0.)
-	bg_tween.tween_property(bg.material, "shader_parameter/Bg_Scroll", 1, 80.).from(0.)
-
-	_live_panels.push_back(clone)
+	%Control.add_child(clone)
+	clone.animate_in(contents, color)
 
 
 func _on_item_hovered(item: RsUnlockable) -> void:

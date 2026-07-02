@@ -4,16 +4,14 @@ extends Control
 @export var icon: Texture2D:
 	set(val):
 		icon = val
-		if is_node_ready():
-			_draw_ui()
-
+		if !is_node_ready():
+			await ready
+		_draw_ui()
 @export var edge: float:
 	set(val):
 		edge = val
 		(get_node("%Badge") as ColorRect).material.set("shader_parameter/Edge", edge)
-
 @export var animates := true
-
 @export var tier: int = 0
 
 
@@ -43,42 +41,25 @@ func _draw_ui() -> void:
 func _ready_animation() -> void:
 	var badge_node := get_node("%Badge") as ColorRect
 	var rng := RandomNumberGenerator.new()
+	print(badge_node.material, badge_node.material.get("shader_parameter/Alpha"))
+
 	badge_node.material.set("shader_parameter/Edge", rng.randf_range(.2, 1))
 	badge_node.material.set("shader_parameter/Alpha", 0)
 	badge_node.pivot_offset_ratio = Vector2.ONE / 2
+	print(badge_node.material, badge_node.material.get("shader_parameter/Alpha"))
 
 
 func animate_in() -> void:
 	var badge_node := get_node("%Badge") as ColorRect
-
 	var tween := create_tween()
 	tween.tween_property(badge_node.material, "shader_parameter/Edge", 0.0, .6)
 	tween.parallel().tween_property(badge_node.material, "shader_parameter/Alpha", 1, .1)
-	tween.parallel().tween_property(badge_node, "scale", Vector2.ONE, 1).from(Vector2.ONE * 1.2).set_trans(Tween.TRANS_SINE).set_ease(
-		Tween.EASE_OUT
-	)
+	tween.parallel().tween_property(badge_node, "scale", Vector2.ONE, 1).from(Vector2.ONE * 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func _process(_delta: float) -> void:
-	if not animates:
-		return
-
 	var badge_node := get_node("%Badge") as ColorRect
 
 	if badge_node != null:
-		(
-			badge_node
-			. material
-			. set(
-				"shader_parameter/Gloss",
-				get_viewport().get_mouse_position().x / get_viewport().get_visible_rect().size.x,
-			)
-		)
-		(
-			badge_node
-			. material
-			. set(
-				"shader_parameter/RotaForGloss",
-				get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y,
-			)
-		)
+		badge_node.material.set("shader_parameter/Gloss", get_viewport().get_mouse_position().x / get_viewport().get_visible_rect().size.x)
+		badge_node.material.set("shader_parameter/RotaForGloss", get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y)

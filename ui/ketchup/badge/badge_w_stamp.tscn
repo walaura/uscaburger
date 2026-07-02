@@ -386,6 +386,7 @@ offset_transform_enabled = true
 offset_transform_scale = Vector2(0.075, 0.075)
 
 [node name="TextureRect" type="TextureRect" parent="HoverRect" unique_id=275134859]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 offset_transform_enabled = true
 texture = ExtResource("3_1hnfy")

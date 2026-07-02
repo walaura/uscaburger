@@ -8,7 +8,7 @@ const BADGE_SLOP := -2.
 @export var product: RsUnlockable:
 	set(val):
 		product = val
-		_is_affordable = CurrentRun_Inventory.is_affordable(product)
+		_is_affordable = CurrentRun.inventory.is_affordable(product)
 		if is_node_ready():
 			_draw_ui()
 
@@ -19,6 +19,7 @@ var _did_purchase := false:
 			on_purchase_pressed.emit()
 
 var _is_affordable := false
+var disabled := false
 
 signal on_purchase_pressed
 
@@ -41,7 +42,6 @@ func _draw_ui() -> void:
 
 	var price_node := get_node("%Price") as Label
 	price_node.text = Helper.format_currency(product.price)
-
 	var badge_node := get_node("%Badge") as UiKetchupBadge
 	var rng := RandomNumberGenerator.new()
 	badge_node.position = Vector2(
@@ -61,7 +61,8 @@ func _draw_ui() -> void:
 
 func _process(_delta: float) -> void:
 	var buy_node := get_node("%Buy") as Button
-	buy_node.disabled = !_is_affordable or _did_purchase
+	buy_node.disabled = disabled or !_is_affordable or _did_purchase
+	buy_node.focus_mode = Control.FOCUS_NONE if buy_node.disabled else Control.FOCUS_ALL
 
 	if _did_purchase:
 		var check_node := get_node("%TextureRect") as TextureRect
@@ -72,35 +73,42 @@ func _on_buy_pressed() -> void:
 	_did_purchase = true
 
 
-func _on_buy_mouse_entered() -> void:
-	if not _is_affordable:
-		return
-	hover(false)
-
-
-func _on_buy_mouse_exited() -> void:
-	hover(true)
-
-
 func hover(is_out: bool) -> void:
 	if hover_tween != null:
 		hover_tween.kill()
 	hover_tween = create_tween()
 
-	var badge_node := get_node("%Badge") as UiKetchupBadge
 	var wrapper := get_node("%HBoxContainer") as Container
 	wrapper.pivot_offset_ratio = Vector2.ONE / 2
 
 	if is_out:
+		(%BadgeWStamp as UiKetchupBadgeWStamp)._on_mouse_exited()
 		hover_tween.tween_property(wrapper, "rotation", 0, .25)
-		hover_tween.parallel().tween_property(badge_node, "edge", 0, .25)
 		hover_tween.parallel().tween_property(wrapper, "scale", Vector2.ONE, .25)
 
 	else:
+		(%BadgeWStamp as UiKetchupBadgeWStamp)._on_mouse_entered()
 		hover_tween = hover_tween.set_loops()
 		var start_x := -.05
 		var end_x := .05
-		hover_tween.tween_property(badge_node, "edge", .5, .25)
 		hover_tween.parallel().tween_property(wrapper, "scale", Vector2.ONE * 1.05, .1)
 		hover_tween.parallel().tween_property(wrapper, "rotation", end_x, 1)
 		hover_tween.tween_property(wrapper, "rotation", start_x, 1).from(end_x)
+
+
+func _on_buy_mouse_entered() -> void:
+	(%Buy as Button).grab_focus()
+
+
+func _on_buy_mouse_exited() -> void:
+	(%Buy as Button).release_focus()
+
+
+func _on_buy_focus_entered() -> void:
+	if not _is_affordable:
+		return
+	hover(false)
+
+
+func _on_buy_focus_exited() -> void:
+	hover(true)

@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://chhl5j2jjq5r2"]
+
+[ext_resource type="Script" uid="uid://lgwywxf23n34" path="res://ui/run_pause/inventory.gd" id="1_25f8v"]
+[ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="1_qc5bt"]
+[ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="3_n6t8q"]
+[ext_resource type="PackedScene" uid="uid://b24fqfu18kw74" path="res://ui/run_pause/inventory_held.tscn" id="3_xnm51"]
+[ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_gjv1i"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gjv1i"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7sdp"]
+resource_local_to_scene = true
+texture = SubResource("ViewportTexture_gjv1i")
+
+[node name="Inventory" type="Control" unique_id=1935432515]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_25f8v")
+
+[node name="PaperWindow" parent="." unique_id=828285155 instance=ExtResource("1_qc5bt")]
+layout_mode = 1
+
+[node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
+theme_override_styles/panel = SubResource("StyleBoxTexture_q7sdp")
+
+[node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1332.33, 929.49)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PaperWindow/PanelContainer/Control" unique_id=1456053638]
+custom_minimum_size = Vector2(889.395, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 16.0
+grow_vertical = 2
+follow_focus = true
+draw_focus_border = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PaperWindow/PanelContainer/Control/ScrollContainer" unique_id=1429735577]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control/ScrollContainer/MarginContainer" unique_id=1292534106 instance=ExtResource("3_xnm51")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 1)
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 0
+animate_on_ready = false
+
+[node name="PaperWindowPanel" parent="PaperWindow/PanelContainer/Control" unique_id=884692704 instance=ExtResource("4_gjv1i")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -390.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 1207.0
+grow_horizontal = 0
+
+[node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("3_n6t8q")]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_right = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+
+[node name="InventoryItemDetails" parent="." unique_id=1584569430 instance_placeholder="res://ui/run_pause/inventory_item_details.tscn"]
+layout_mode = 1
+offset_left = 1686.0
+offset_top = 156.0
+offset_right = 196.0
+offset_bottom = 156.0
+
+[node name="InventoryStatsFx" parent="." unique_id=507983470 instance_placeholder="res://ui/run_pause/inventory_stats_fx.tscn"]
+layout_mode = 1
+offset_left = 1731.0
+offset_top = 245.0
+offset_right = 241.0
+offset_bottom = 245.0
+
+[editable path="PaperWindow"]

@@ -23,7 +23,6 @@ const ASSET_BTN_KEEB_ARROW = preload("res://asset/ui/btn-keeb-arrow.png")
 
 
 func get_joypad_asset(index: int) -> Texture2D:
-	print(index)
 	match index:
 		0:
 			return ASSET_BTN_CIRCLE_A

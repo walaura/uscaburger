@@ -6,16 +6,83 @@
 [ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_b28u2"]
 [ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_7um22"]
 [ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="6_b28u2"]
-[ext_resource type="Texture2D" uid="uid://lmqqoaj8oqst" path="res://asset/ui/badge-placeholder.png" id="6_th61n"]
 [ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="6_wi4i5"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="7_7um22"]
 [ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="7_wi4i5"]
+[ext_resource type="PackedScene" uid="uid://d0q5130h1d0sy" path="res://ui/ketchup/badge/badge_w_stamp.tscn" id="8_u843p"]
 [ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="10_u843p"]
 [ext_resource type="Texture2D" uid="uid://curgcbk783n8u" path="res://asset/ui/badge-purch-before.png" id="11_4qaso"]
 [ext_resource type="Texture2D" uid="uid://d0rrlxpjcqnyt" path="res://asset/ui/maybs-later.png" id="12_4a1iv"]
 [ext_resource type="Texture2D" uid="uid://cr1dwkrrt1iko" path="res://asset/ui/receipt-crump.jpeg" id="13_7jxe3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b28u2"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_anrbw"]
+script = ExtResource("10_u843p")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b28u2"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_4qaso"]
+size = Vector2(620, 340)
+expression = "vec2 uv = UV - .5; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(uv.x, uv.y/aspect_ratio) + .5;"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7jxe3"]
+texture = ExtResource("12_4a1iv")
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_u843p"]
+function = 31
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8xoy4"]
+texture = ExtResource("13_7jxe3")
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_hw0qg"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_tf1xl"]
+default_input_values = [1, 0.7, 2, 0.785, 3, 0.135, 4, 0.64]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_w44jb"]
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShader" id="VisualShader_jwfol"]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1280, 280)
+nodes/fragment/2/node = SubResource("VisualShaderNodeExpression_4qaso")
+nodes/fragment/2/position = Vector2(-860, 220)
+nodes/fragment/2/size = Vector2(620, 340)
+nodes/fragment/2/input_ports = ""
+nodes/fragment/2/output_ports = "0,3,output0;"
+nodes/fragment/2/expression = "vec2 uv = UV - .5; 
+vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
+float aspect_ratio = deriv.y / deriv.x;
+
+output0 = vec2(uv.x, uv.y/aspect_ratio) + .5;"
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_7jxe3")
+nodes/fragment/3/position = Vector2(-100, 220)
+nodes/fragment/4/node = SubResource("VisualShaderNodeFloatFunc_u843p")
+nodes/fragment/4/position = Vector2(300, 300)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_8xoy4")
+nodes/fragment/5/position = Vector2(-60, 580)
+nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_hw0qg")
+nodes/fragment/6/position = Vector2(820, 320)
+nodes/fragment/7/node = SubResource("VisualShaderNodeRemap_tf1xl")
+nodes/fragment/7/position = Vector2(340, 540)
+nodes/fragment/8/node = SubResource("VisualShaderNodeColorConstant_w44jb")
+nodes/fragment/8/position = Vector2(726.7326, 223.48802)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 4, 0, 2, 0, 5, 0, 4, 0, 6, 0, 5, 0, 7, 0, 7, 0, 6, 1, 6, 0, 0, 1, 8, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_abu4r"]
+shader = SubResource("VisualShader_jwfol")
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_u843p"]
 expanded_output_ports = [0]
@@ -360,73 +427,6 @@ shader_parameter/Gloss = 5.036
 shader_parameter/Noise = SubResource("NoiseTexture2D_8xoy4")
 shader_parameter/Edge = 0.4550000216125
 
-[sub_resource type="RichTextEffect" id="RichTextEffect_anrbw"]
-script = ExtResource("10_u843p")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b28u2"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0, 0, 0, 1)
-
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_4qaso"]
-size = Vector2(620, 340)
-expression = "vec2 uv = UV - .5; 
-vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
-float aspect_ratio = deriv.y / deriv.x;
-
-output0 = vec2(uv.x, uv.y/aspect_ratio) + .5;"
-
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7jxe3"]
-texture = ExtResource("12_4a1iv")
-
-[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_u843p"]
-function = 31
-
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_8xoy4"]
-texture = ExtResource("13_7jxe3")
-
-[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_hw0qg"]
-operator = 2
-
-[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_tf1xl"]
-default_input_values = [1, 0.7, 2, 0.785, 3, 0.135, 4, 0.64]
-
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_w44jb"]
-constant = Color(1, 0, 0, 1)
-
-[sub_resource type="VisualShader" id="VisualShader_jwfol"]
-mode = 1
-flags/light_only = false
-nodes/fragment/0/position = Vector2(1280, 280)
-nodes/fragment/2/node = SubResource("VisualShaderNodeExpression_4qaso")
-nodes/fragment/2/position = Vector2(-860, 220)
-nodes/fragment/2/size = Vector2(620, 340)
-nodes/fragment/2/input_ports = ""
-nodes/fragment/2/output_ports = "0,3,output0;"
-nodes/fragment/2/expression = "vec2 uv = UV - .5; 
-vec2 deriv = fwidthFine(uv); // not available with compatibility renderer 
-float aspect_ratio = deriv.y / deriv.x;
-
-output0 = vec2(uv.x, uv.y/aspect_ratio) + .5;"
-nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_7jxe3")
-nodes/fragment/3/position = Vector2(-100, 220)
-nodes/fragment/4/node = SubResource("VisualShaderNodeFloatFunc_u843p")
-nodes/fragment/4/position = Vector2(300, 300)
-nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_8xoy4")
-nodes/fragment/5/position = Vector2(-60, 580)
-nodes/fragment/6/node = SubResource("VisualShaderNodeFloatOp_hw0qg")
-nodes/fragment/6/position = Vector2(820, 320)
-nodes/fragment/7/node = SubResource("VisualShaderNodeRemap_tf1xl")
-nodes/fragment/7/position = Vector2(340, 540)
-nodes/fragment/8/node = SubResource("VisualShaderNodeColorConstant_w44jb")
-nodes/fragment/8/position = Vector2(726.7326, 223.48802)
-nodes/fragment/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 4, 0, 2, 0, 5, 0, 4, 0, 6, 0, 5, 0, 7, 0, 7, 0, 6, 1, 6, 0, 0, 1, 8, 0, 0, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_abu4r"]
-shader = SubResource("VisualShader_jwfol")
-
 [node name="PanelContainer" type="PanelContainer" unique_id=1234322840]
 offset_right = 389.0
 offset_bottom = 232.0
@@ -443,23 +443,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Control" unique_id=1224263850]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_th61n")
-expand_mode = 1
-
-[node name="Badge" parent="HBoxContainer/Control" unique_id=1053742462 instance=ExtResource("3_ahob7")]
+[node name="BadgeWStamp" parent="HBoxContainer/Control" unique_id=482718556 node_paths=PackedStringArray("badge") instance=ExtResource("8_u843p")]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_uvcg4")
-layout_mode = 1
-offset_right = 0.0
-offset_bottom = 0.0
-animates = true
+layout_mode = 0
+offset_right = 120.0
+offset_bottom = 120.0
+badge = NodePath("../../../Badge")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=236078435]
 layout_mode = 2
@@ -531,6 +520,15 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "buy?"
 
+[node name="Badge" parent="." unique_id=1053742462 instance=ExtResource("3_ahob7")]
+unique_name_in_owner = true
+visible = false
+material = SubResource("ShaderMaterial_uvcg4")
+layout_mode = 2
+animates = true
+
+[connection signal="focus_entered" from="Buy" to="." method="_on_buy_focus_entered"]
+[connection signal="focus_exited" from="Buy" to="." method="_on_buy_focus_exited"]
 [connection signal="mouse_entered" from="Buy" to="." method="_on_buy_mouse_entered"]
 [connection signal="mouse_exited" from="Buy" to="." method="_on_buy_mouse_exited"]
 [connection signal="pressed" from="Buy" to="." method="_on_buy_pressed"]

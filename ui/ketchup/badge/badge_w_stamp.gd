@@ -9,18 +9,22 @@ var _hover_tween: Tween
 var _rota_tween: Tween
 
 
+func _draw() -> void:
+	badge.custom_maximum_size = size
+	badge.custom_minimum_size = size
+	badge.pivot_offset_ratio = Vector2.ONE / 2
+
+
 func _ready() -> void:
 	if !badge:
 		return
 	var placeholder := $Badge
-	badge.position = Vector2.ZERO
-	badge.pivot_offset_ratio = Vector2.ONE / 2
-	if(badge.get_parent()):
-		badge.reparent(self)
-	placeholder.replace_by(badge)
+	if badge.get_parent():
+		badge.get_parent().remove_child.call_deferred(badge)
+	placeholder.replace_by.call_deferred(badge)
 	placeholder.queue_free()
-	
-	badge.set_anchors_and_offsets_preset(LayoutPreset.PRESET_FULL_RECT)
+
+	badge.position = Vector2.ZERO
 	badge.visible = true
 
 	var rng := RandomNumberGenerator.new()
@@ -45,6 +49,7 @@ func _setup_tweens() -> void:
 func _on_mouse_entered() -> void:
 	_setup_tweens()
 	_hover_tween.tween_property($HoverRect as Control, "offset_transform_scale", Vector2.ONE * 1.1, .2)
+	_hover_tween.parallel().tween_property($HoverRect/TextureRect as Control, "modulate:a", 1, .1)
 	_hover_tween.parallel().tween_property($HoverRect as Control, "offset_transform_rotation", 0, .2)
 	_hover_tween.parallel().tween_property(badge, "scale", Vector2.ONE * 1.1, .25)
 	if badge is UiKetchupBadge:
@@ -60,5 +65,6 @@ func _on_mouse_exited() -> void:
 	_hover_tween.tween_property($HoverRect as Control, "offset_transform_scale", Vector2.ONE * .1, 1.)
 	_hover_tween.parallel().tween_property($HoverRect as Control, "offset_transform_rotation", -2., 1.)
 	_hover_tween.parallel().tween_property(badge, "scale", Vector2.ONE, .25)
+	_hover_tween.tween_property($HoverRect/TextureRect as Control, "modulate:a", 0, .2)
 	if badge is UiKetchupBadge:
 		_hover_tween.parallel().tween_property(badge, "edge", 0, .25)

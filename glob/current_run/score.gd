@@ -104,32 +104,32 @@ func _mk_insurance_line(bom_value: int) -> CurrentRun_ScoreLineItemResource:
 
 func _get_staff_salaries_perc() -> float:
 	var staff_salaries := STAFF_BASE
-	if CurrentRun.inventory.is_holding_item("labor.tres"):
-		var discount := CurrentRun.inventory.get_item("labor.tres")
-		staff_salaries = STAFF_BASE - (staff_salaries / 100 * discount.incremental_value)
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("labor.tres")
+	if maybe_discount != null:
+		staff_salaries = STAFF_BASE - (staff_salaries / 100 * maybe_discount.incremental_value)
 	return staff_salaries
 
 
 func _get_bom_perc() -> float:
 	var bom := BOM_BASE
-	if CurrentRun.inventory.is_holding_item("bom.tres"):
-		var discount := CurrentRun.inventory.get_item("bom.tres")
-		bom = BOM_BASE - (bom / 100 * discount.incremental_value)
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("bom.tres")
+	if maybe_discount != null:
+		bom = BOM_BASE - (bom / 100 * maybe_discount.incremental_value)
 	return bom
 
 
 func _get_sales_tax_perc() -> float:
 	var sales_tax := SALES_TAX_BASE
-	if CurrentRun.inventory.is_holding_item("salestax.tres"):
-		var discount := CurrentRun.inventory.get_item("salestax.tres")
-		sales_tax = SALES_TAX_BASE - (sales_tax / 100 * discount.incremental_value)
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("salestax.tres")
+	if maybe_discount != null:
+		sales_tax = SALES_TAX_BASE - (sales_tax / 100 * maybe_discount.incremental_value)
 	return sales_tax
 
 
 func _get_currency_fx_perc() -> float:
-	if CurrentRun.inventory.is_holding_item("currency_fx.tres"):
-		var fx_fees_res := CurrentRun.inventory.get_item("currency_fx.tres")
-		return fx_fees_res.incremental_value / 100
+	var maybe_fxf := CurrentRun.inventory.get_held_item_by_key("salestax.tres")
+	if maybe_fxf != null:
+		return maybe_fxf.incremental_value / 100
 	return 0.
 
 

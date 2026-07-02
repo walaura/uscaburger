@@ -7,7 +7,7 @@ var UPGRADE_PARTS: Array[RsPart]
 
 
 func _init() -> void:
-	var all_part_names := get_all_items()
+	var all_part_names := ResourceLoader.list_directory("res://data/parts")
 	for part_name in all_part_names:
 		var part := get_item_raw(part_name)
 		if part != null:
@@ -29,7 +29,7 @@ func get_all_parts(tower_state: ScTower_State) -> Array[RsPart]:
 		all_parts.push_back(get_item("meat"))
 
 	for part in UPGRADE_PARTS:
-		if CurrentRun.inventory.is_holding_item(part.requires_upgrade.resource_path.get_file()):
+		if CurrentRun.inventory.is_holding_item(part.requires_upgrade):
 			all_parts.push_back(part)
 
 	all_parts = all_parts.filter(
@@ -39,7 +39,6 @@ func get_all_parts(tower_state: ScTower_State) -> Array[RsPart]:
 
 			return true
 	)
-	print(all_parts)
 	return all_parts
 
 
@@ -77,7 +76,3 @@ static func get_item_raw(file_name: String) -> RsPart:
 
 static func get_item(item_name: String) -> RsPart:
 	return get_item_raw(item_name + ".tres")
-
-
-static func get_all_items() -> PackedStringArray:
-	return ResourceLoader.list_directory("res://data/parts")

@@ -9,11 +9,15 @@ var _settings_screen: UiSettings
 @onready var _camera_anim := $Node/AnimationPlayer as AnimationPlayer
 
 
-
 func _ready() -> void:
 	($SignAnimation as AnimationPlayer).play("new_animation")
 	_loader.queue_resource(main_SCpath)
 	_loader.queue_resource(settings_SCpath)
+	InputHelper.force_focus(self)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	InputHelper.force_grab_focus_on_input(event, self)
 
 
 func _on_button_seets_pressed() -> void:
@@ -33,7 +37,7 @@ func _on_close_settings() -> void:
 		func(_n: StringName) -> void:
 			if _camera_anim.current_animation_position == 0.0:
 				($Node/MainMenuWrap as Control).show()
-				($Node/MainMenuWrap as Control).find_next_valid_focus().grab_focus.call_deferred()
+				InputHelper.force_focus($Node/MainMenuWrap as Control)
 	)
 	remove_child(_settings_screen)
 

@@ -4,29 +4,20 @@
 [ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="1_qc5bt"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="3_n6t8q"]
 [ext_resource type="PackedScene" uid="uid://b24fqfu18kw74" path="res://ui/run_pause/inventory_held.tscn" id="3_xnm51"]
-[ext_resource type="Shader" uid="uid://cpa2d6rle4vro" path="res://ui/run_pause/inventory.tres" id="4_q7sdp"]
-[ext_resource type="Texture2D" uid="uid://bt8wkc2207qpq" path="res://asset/ui/checker.png" id="5_cnto3"]
-[ext_resource type="Texture2D" uid="uid://caa4rmagv6cc6" path="res://asset/ui/wave-mask.png" id="5_q7sdp"]
+[ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_gjv1i"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_cnto3"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gjv1i"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vx7sa"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7sdp"]
 resource_local_to_scene = true
-texture = SubResource("ViewportTexture_cnto3")
+texture = SubResource("ViewportTexture_gjv1i")
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_74sqc"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
-shader = ExtResource("4_q7sdp")
-shader_parameter/ColorParameter = Color(0.10677333, 0.11, 0.0616, 1)
-shader_parameter/Bg_Scroll = 0.977
-shader_parameter/FloatParameter = 30.0
-shader_parameter/Texture2DParameter = ExtResource("5_cnto3")
-shader_parameter/Alpha_upper = 1.0
-shader_parameter/AlphaLower = 0.5
-shader_parameter/MaskSlop = 0.0
-shader_parameter/MaskImg = ExtResource("5_q7sdp")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjv1i"]
+content_margin_left = 12.0
+content_margin_top = 44.0
+content_margin_right = 12.0
+content_margin_bottom = 44.0
 
 [node name="Inventory" type="Control" unique_id=1935432515]
 layout_mode = 3
@@ -41,39 +32,44 @@ script = ExtResource("1_25f8v")
 layout_mode = 1
 
 [node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
-theme_override_styles/panel = SubResource("StyleBoxTexture_vx7sa")
+theme_override_styles/panel = SubResource("StyleBoxTexture_q7sdp")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
-custom_minimum_size = Vector2(1332.33, 929.49)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1332, 1024)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control" unique_id=1292534106 instance=ExtResource("3_xnm51")]
-unique_name_in_owner = true
+[node name="ScrollContainer" type="ScrollContainer" parent="PaperWindow/PanelContainer/Control" unique_id=1456053638]
 layout_mode = 1
-offset_right = -411.32996
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_right = 922.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_gjv1i")
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control/ScrollContainer" unique_id=1292534106 instance=ExtResource("3_xnm51")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_vertical = 2
 animate_on_ready = false
 
-[node name="SidePanel" type="Control" parent="PaperWindow/PanelContainer/Control" unique_id=1905181288]
+[node name="PaperWindowPanel" parent="PaperWindow/PanelContainer/Control" unique_id=884692704 instance=ExtResource("4_gjv1i")]
 unique_name_in_owner = true
-visibility_layer = 3
-material = SubResource("CanvasItemMaterial_74sqc")
-anchors_preset = 0
-offset_left = 941.0
-offset_top = -50.0
-offset_right = 1371.0
-offset_bottom = 1157.0
-offset_transform_enabled = true
-
-[node name="ColorRect" type="ColorRect" parent="PaperWindow/PanelContainer/Control/SidePanel" unique_id=398918178]
-material = SubResource("ShaderMaterial_dn3wt")
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = -390.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 1207.0
+grow_horizontal = 0
 
 [node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("3_n6t8q")]
 visible = false

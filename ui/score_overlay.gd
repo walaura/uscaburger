@@ -48,20 +48,8 @@ func _ready() -> void:
 
 
 func _change_viz() -> void:
-	visible = (
-		CurrentRun
-		. inventory
-		. is_holding_item(
-			"ui1.tres",
-		)
-	)
-	(%ExtraUI as Control).visible = (
-		CurrentRun
-		. inventory
-		. is_holding_item(
-			"ui2.tres",
-		)
-	)
+	visible = (CurrentRun.inventory.is_holding_key("ui1.tres"))
+	(%ExtraUI as Control).visible = (CurrentRun.inventory.is_holding_key("ui2.tres"))
 
 
 func _set_mode() -> void:

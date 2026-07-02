@@ -232,6 +232,16 @@ func _DBG_list_parts() -> void:
 	)
 
 
+func _notification(what: int) -> void:
+	var prompts := get_node_or_null("%ButtonPrompts") as Control
+	if prompts == null:
+		return
+	if what == Node.NOTIFICATION_PAUSED:
+		prompts.hide()
+	elif what == Node.NOTIFICATION_UNPAUSED:
+		prompts.show()
+
+
 func _DBG_on_win_pressed() -> void:
 	_score.push(parts_scn.get_random_part(_score), 1.)
 	_score.push(parts_scn.get_random_part(_score), 1.)
