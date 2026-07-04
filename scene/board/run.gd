@@ -11,6 +11,8 @@ static var SCREEN_TS_TIME := .5
 var _tower_scn: ScTower
 var _maybe_force_next_mode: ScTower.Mode
 
+var _loader := Loader.new()
+
 
 func _ready() -> void:
 	CurrentRun.start_new_run()
@@ -19,7 +21,7 @@ func _ready() -> void:
 	_DBG_set_up()
 
 	CurrentRun.inventory.item_got_held.connect(
-		func(item: RsUnlockableWTier) -> void:
+		func(item: RsItem) -> void:
 			match item.get_key():
 				"alt_chicken.tres":
 					_maybe_force_next_mode = ScTower.Mode.Chicken
@@ -46,7 +48,7 @@ func _get_next_tower_mode() -> ScTower.Mode:
 
 
 func _instance_tower() -> void:
-	ResourceLoader.load_threaded_request(GAME_OVER_SCPATH)
+	_loader.queue_resource(GAME_OVER_SCPATH)
 	_tower_scn = TOWER_SCENE.instantiate()
 	_tower_scn.setup(_get_next_tower_mode())
 	_tower_scn.on_game_over.connect(on_game_over)
@@ -90,18 +92,12 @@ func _input(event: InputEvent) -> void:
 
 
 func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
-	var SCresource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_SCPATH)
-	if SCresource == null:
-		printerr("failed to preload game over")
-		ResourceLoader.load_threaded_request(GAME_OVER_SCPATH)
-		on_game_over(did_finish, tower_score)
-		return
-
-	if ResourceLoader.load_threaded_get_status(GAME_OVER_REAL_SCPATH) != ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
-		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCPATH)
+	_loader.queue_resource(GAME_OVER_REAL_SCPATH)
+	var SCresource: PackedScene = _loader.get_resource(GAME_OVER_SCPATH)
 
 	var prev_score_was_under_zero := CurrentRun.score.current_session_score < 0.0
 	if did_finish:
+		CurrentRun.score.finalize_burger(tower_score.make_stats())
 		CurrentRun.score.settle(tower_score)
 	else:
 		CurrentRun.score.settle_loss(tower_score)
@@ -122,13 +118,7 @@ func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
 
 
 func _on_real_game_over() -> void:
-	var SCresource: PackedScene = ResourceLoader.load_threaded_get(GAME_OVER_REAL_SCPATH)
-	if SCresource == null:
-		printerr("failed to preload game over")
-		ResourceLoader.load_threaded_request(GAME_OVER_REAL_SCPATH)
-		_on_real_game_over()
-		return
-
+	var SCresource: PackedScene = _loader.get_resource(GAME_OVER_REAL_SCPATH)
 	($TransitionBase as Parts_TransitionBase).swap_to(SCresource)
 
 

@@ -30,7 +30,7 @@ func _ready() -> void:
 	($ButtonPrompts as UiButtonPrompts).visible = true
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 
-	_case.columns = 6
+	_case.columns = 5
 	var all_held_items := CurrentRun.inventory.get_all_possible_holdable_items_as_uniques()
 	_case.animate_on_ready = false
 	_case.badges = []
@@ -40,9 +40,9 @@ func _ready() -> void:
 	for item in all_held_items:
 		var badge := (load((%Badge as InstancePlaceholder).get_instance_path()) as PackedScene).instantiate() as UiKetchupBadge
 		var icon := UiKetchupBadgeGridIcon.new()
-		icon.badge = badge
 		badge.icon = item.icon
-		badge.tier = item.tier
+		badge.tier = item.get_tier_for_display()
+		icon.badge = badge
 
 		icon.on_item_hovered.connect(func() -> void: _on_item_hovered(item))
 		_case.badges.append(icon)
@@ -66,7 +66,7 @@ func _spawn_panel(contents: Control, color := Color("#00161c")) -> void:
 	clone.animate_in(contents, color)
 
 
-func _on_item_hovered(item: RsUnlockableBase) -> void:
+func _on_item_hovered(item: RsItem) -> void:
 	var instance := _loader.get_resource(INVENTORY_ITEM_DETAILS_PATH).instantiate() as UiInventoryItemDetails
 	instance.item = item
 	_spawn_panel(instance, Color("#1b1c10"))

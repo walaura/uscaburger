@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://iqkjy02m4ixv"]
+[gd_scene format=3 uid="uid://cive1dy8n4ktt"]
 
-[ext_resource type="Script" uid="uid://2u1p6tvirept" path="res://ui/run_pause/inventory_stats_fx.gd" id="1_mrghj"]
+[ext_resource type="Script" uid="uid://cgglqibd1g02e" path="res://ui/run_pause/inventory_stats_fx.gd" id="1_mrghj"]
 [ext_resource type="Texture2D" uid="uid://bhsii7r8gbpgl" path="res://asset/ui/sidebar-runfx.png" id="2_0r2v1"]
 
 [node name="InventoryStatsFx" type="Control" unique_id=507983470]
@@ -36,3 +36,21 @@ grow_horizontal = 2
 texture = ExtResource("2_0r2v1")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Early" type="Label" parent="." unique_id=1792608272]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_right = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You're early!
+
+Buy at least 1 upgrade that affects the run to see its effects here"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

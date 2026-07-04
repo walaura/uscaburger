@@ -41,7 +41,7 @@ func get_big_number() -> UiScoreOverlayBigNumber:
 func _ready() -> void:
 	_change_viz()
 	_set_mode()
-	CurrentRun.inventory.item_got_held.connect(func(_name: RsUnlockableWTier) -> void: _change_viz())
+	CurrentRun.inventory.item_got_held.connect(func(_name: RsItem) -> void: _change_viz())
 
 	(%BigNumber.get_parent() as CanvasItem).hide()
 	%Receipt.remove_child(%Receipt.get_child(0))

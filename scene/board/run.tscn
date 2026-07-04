@@ -9,4 +9,4 @@ script = ExtResource("1_mmtx2")
 [node name="TransitionBase" parent="." unique_id=1094825013 instance=ExtResource("2_t7o3d")]
 length = 0.3
 hold = 0.1
-color = Color(0.8666667, 0.7411765, 0.44313726, 1)
+color = Color(0., 0., 0., 1)

@@ -38,7 +38,7 @@ func _ready() -> void:
 	_loader.queue_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path())
 
 
-func _on_item_added(item: RsUnlockableWTier) -> void:
+func _on_item_added(item: RsItem) -> void:
 	var instance: UiKetchupBadge = _loader.get_resource(($VisibleOnDev/Control as InstancePlaceholder).get_instance_path()).instantiate()
 	instance.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	instance.icon = item.icon
@@ -53,6 +53,6 @@ func _on_item_added(item: RsUnlockableWTier) -> void:
 
 
 func _on_button_pressed() -> void:
-	CurrentRun.inventory.hold_item((load("res://data/unlockables/ketchup.tres") as RsUnlockable).apply_tier(1))
+	CurrentRun.inventory.hold_item((load("res://data/unlockables/ketchup.tres") as RsRawItem).apply_tier(1))
 	self.queue_free()
 	pass  # Replace with function body.

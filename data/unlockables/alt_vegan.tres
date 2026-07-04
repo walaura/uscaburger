@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bo8dvum7butq3"]
+[gd_resource type="Resource" script_class="RsRawItem" format=3 uid="uid://bo8dvum7butq3"]
 
 [ext_resource type="Texture2D" uid="uid://dog246hx5ms7h" path="res://asset/badge/badge-plant.png" id="1_22sp6"]
-[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/unlockable_resource.gd" id="2_4ea1y"]
+[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/raw_item.gd" id="2_4ea1y"]
 
 [resource]
 script = ExtResource("2_4ea1y")

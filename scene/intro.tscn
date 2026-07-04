@@ -630,6 +630,7 @@ grow_vertical = 2
 script = ExtResource("1_dlfbb")
 main_SCpath = "uid://cpeihasc5dpvl"
 settings_SCpath = "uid://ye05btta37gb"
+collection_SCpath = "uid://bnlgu4f2xcxdu"
 
 [node name="Node" type="Node" parent="." unique_id=64575288]
 
@@ -739,5 +740,6 @@ color = Color(0.8666667, 0.7411765, 0.44313726, 1)
 
 [connection signal="pressed" from="Node/MainMenuWrap/ButtonSeets2" to="." method="_on_button_play_pressed"]
 [connection signal="pressed" from="Node/MainMenuWrap/ButtonSeets" to="." method="_on_button_seets_pressed"]
+[connection signal="pressed" from="Node/MainMenuWrap/KetchupButton" to="." method="_on_button_coll_pressed"]
 
 [editable path="SignAnimation/sign"]

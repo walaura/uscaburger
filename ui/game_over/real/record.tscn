@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ch2a65yjnkfh"]
+
+[ext_resource type="Script" uid="uid://dx1ud5a1fwlvq" path="res://ui/game_over/real/record.gd" id="1_ih5no"]
+[ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="1_oad8w"]
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_dn3wt"]
+script = ExtResource("1_oad8w")
+metadata/_custom_type_script = "uid://cqihffqbkogb1"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.95, 0.76000005, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="Records" type="HBoxContainer" unique_id=2076291955]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ih5no")
+is_new_record = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1850974887]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+text = "Your business got repossesed after you made [boing]30[/boing] hamburgers"
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_dn3wt")]
+visible_characters_behavior = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=380323189]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
+
+[node name="Label" type="Label" parent="PanelContainer" unique_id=492793004]
+layout_mode = 2
+text = "NEW RECORD"

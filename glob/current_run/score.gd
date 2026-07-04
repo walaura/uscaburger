@@ -1,13 +1,22 @@
 class_name CurrentRun_Score
 extends RefCounted
 
+var burger_history: Array[RsBurgerStats] = []
+var total_money_earned := 0
 var current_session_score := 0
 var last_settled_score: Array[CurrentRun_ScoreLineItemResource] = []
+
 var _insurance_used := -3
 
 const BOM_BASE := .25
 const SALES_TAX_BASE := .20
 const STAFF_BASE := .30
+
+
+func finalize_burger(stats: RsBurgerStats) -> void:
+	burger_history.push_back(stats)
+	print(burger_history)
+	print(total_money_earned)
 
 
 func purchase(price: int) -> Array[CurrentRun_ScoreLineItemResource]:
@@ -144,6 +153,7 @@ func _print_total(total: int) -> Array[CurrentRun_ScoreLineItemResource]:
 
 
 func _push(score: int) -> void:
+	total_money_earned += maxi(score, 0)
 	current_session_score += score
 
 

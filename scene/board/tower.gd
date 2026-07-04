@@ -11,11 +11,8 @@ var parts_scn := ScTower_Parts.new()
 
 var mode := Mode.Normal
 
-var _stack_height := 0.0
-var _stack_length := 0
-
 var _active_renderer: ScTower_PartRenderer
-var _score: ScTower_State
+var _state := ScTower_State.new(mode)
 var _score_overlay: UiScoreOverlay
 
 @onready var _difficulty_numbers := RsDifficultyNumbers.new(mode)
@@ -64,7 +61,6 @@ func _ready() -> void:
 
 	_score_overlay = SCORE_OVERLAY_SCN.instantiate() as UiScoreOverlay
 	_score_overlay.setup(mode)
-	_score = ScTower_State.new(mode)
 	add_child(_score_overlay)
 
 	parts_scn.position.y = 9999999.
@@ -76,8 +72,7 @@ func _ready() -> void:
 
 	on_game_over.connect(
 		func(_is_success: bool, _sh: ScTower_State) -> void:
-			if $ButtonPrompts != null:
-				remove_child($ButtonPrompts)
+			if $ButtonPrompts != null && !$ButtonPrompts.is_queued_for_deletion():
 				$ButtonPrompts.queue_free()
 			if _score_overlay != null && _score_overlay.get_parent() != null:
 				_score_overlay.get_parent().remove_child(_score_overlay)
@@ -87,6 +82,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var aabb_rect := Helper.get_screen_rect(get_aabb())
+	if _score_overlay == null:
+		return
 	_score_overlay.rotation = -0.025
 	_score_overlay.position = (
 		_score_overlay
@@ -128,7 +125,7 @@ func swap_part(part: RsPart) -> void:
 
 
 func _on_spawn() -> void:
-	var part := parts_scn.get_random_part(_score) if _stack_length > 0 else parts_scn.get_heel()
+	var part := parts_scn.get_random_part(_state) if _state.stack_length > 0 else parts_scn.get_heel()
 	_spawn_part(part)
 	_render_prompts()
 	_DBG_list_parts()
@@ -136,29 +133,28 @@ func _on_spawn() -> void:
 
 func _on_stack(is_success: bool, part: RsPart) -> void:
 	if !is_success:
-		on_game_over.emit(false, _score)
-	elif part.is_crown:
-		on_game_over.emit(true, _score)
-	else:
-		_difficulty_numbers.on_successful_stack()
-		var ticker := _score.push(part, _stack_height)
+		on_game_over.emit(false, _state)
+		return
 
-		for line in ticker:
-			_score_overlay.push(line.title, line.value)
-			_score_overlay.get_big_number().set_score(_score.current_session_score)
-		_score_overlay.time = _difficulty_numbers.wave_speed_timer_speed
-		_score_overlay.sway = _difficulty_numbers.wave_max_offset
-		_stack_length += 1
-		if _active_renderer._rb.position.y > _stack_height:
-			_stack_height = _active_renderer._rb.position.y
-		_on_spawn()
+	var ticker := _state.push(part, _active_renderer._rb.position.y)
+	if part.is_crown:
+		on_game_over.emit(true, _state)
+		return
+
+	_difficulty_numbers.on_successful_stack()
+	for line in ticker:
+		_score_overlay.push(line.title, line.value)
+		_score_overlay.get_big_number().set_score(_state.current_session_score)
+	_score_overlay.time = _difficulty_numbers.wave_speed_timer_speed
+	_score_overlay.sway = _difficulty_numbers.wave_max_offset
+	_on_spawn()
 
 
 func _spawn_part(new_part: RsPart) -> void:
 	_active_renderer = ($PartRenderer).duplicate() as ScTower_PartRenderer
 	_active_renderer.was_stacked.connect(_on_stack)
 	_active_renderer.part = new_part
-	_active_renderer.height = _stack_height
+	_active_renderer.height = _state.stack_height
 	%Stack.add_child(_active_renderer)
 	Camera.GAMEPLAY_target = _active_renderer._rb
 
@@ -166,13 +162,13 @@ func _spawn_part(new_part: RsPart) -> void:
 func _render_prompts() -> void:
 	var prompts := %ButtonPrompts as UiButtonPrompts
 
-	if CurrentRun.player_data.needs_tutorial == false and _stack_length == 0:
+	if CurrentRun.player_data.needs_tutorial == false and _state.stack_length == 0:
 		prompts.push("Drop")
 		prompts.push("Rotate-R")
 		prompts.push("Zoom-out")
 		prompts.push("Finish")
 	elif CurrentRun.player_data.needs_tutorial == true:
-		match _stack_length:
+		match _state.stack_length:
 			0:
 				prompts.push_tutorial("Drop")
 			3:
@@ -225,7 +221,7 @@ func _DBG_list_parts() -> void:
 	Cheats.with_container(
 		"parts",
 		func(container: Container) -> void:
-			var available := parts_scn.get_all_parts(_score)
+			var available := parts_scn.get_all_parts(_state)
 			for part in parts_scn.ALL_PARTS:
 				var btn := Button.new()
 				btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -246,12 +242,12 @@ func _notification(what: int) -> void:
 
 
 func _DBG_on_win_pressed() -> void:
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	_score.push(parts_scn.get_random_part(_score), 1.)
-	on_game_over.emit(true, _score)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	_state.push(parts_scn.get_random_part(_state), 1.)
+	on_game_over.emit(true, _state)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dt556a81gotj5"]
+
+[ext_resource type="Script" uid="uid://c5fv2eqtnjdko" path="res://ui/game_over/real/records_list.gd" id="1_jo84h"]
+[ext_resource type="PackedScene" uid="uid://ch2a65yjnkfh" path="res://ui/game_over/real/record.tscn" id="2_kgko8"]
+
+[node name="RecordsList" type="VBoxContainer" unique_id=1733639486]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 28
+script = ExtResource("1_jo84h")
+
+[node name="Record" parent="." unique_id=2076291955 instance=ExtResource("2_kgko8")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2

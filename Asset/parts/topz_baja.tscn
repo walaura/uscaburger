@@ -125,6 +125,34 @@ shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/hue_shift = 0.41
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k5e5x"]
+resource_local_to_scene = true
+resource_name = "ketchup"
+render_priority = 0
+shader = SubResource("Shader_s70et")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_s70et")
+shader_parameter/albedo_texture_size = Vector2i(128, 128)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/texture_metallic = ExtResource("3_slbya")
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 1, 0)
+shader_parameter/texture_roughness = ExtResource("3_slbya")
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 0.78
+shader_parameter/clearcoat = 0.08
+shader_parameter/clearcoat_roughness = 0.95
+shader_parameter/subsurface_scattering_strength = 1.0
+shader_parameter/texture_subsurface_scattering = SubResource("CanvasTexture_qgbeg")
+shader_parameter/transmittance_color = Color(1, 1, 1, 1)
+shader_parameter/transmittance_depth = 2.819
+shader_parameter/transmittance_boost = 0.3
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/hue_shift = 0.41
+
 [node name="Topz-ketchup" unique_id=154371298 instance=ExtResource("1_326fx")]
 
 [node name="Cube" parent="Cube" parent_id_path=PackedInt32Array(2033153029) index="0" unique_id=2074406024]
@@ -132,3 +160,4 @@ surface_material_override/0 = SubResource("ShaderMaterial_slbya")
 
 [node name="_splat" parent="Cube" parent_id_path=PackedInt32Array(2033153029) index="2" unique_id=1143150331]
 visible = true
+surface_material_override/0 = SubResource("ShaderMaterial_k5e5x")

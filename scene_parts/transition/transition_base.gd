@@ -21,10 +21,12 @@ func set_color() -> void:
 func _ready() -> void:
 	set_color()
 	if autoplay:
-		from_dark()
+		var tween := await from_dark()
+		tween.finished.connect(func() -> void: queue_free())
 
 
 func to_dark() -> Tween:
+	visible = true
 	($ColorRect as ColorRect).modulate.a = 0.
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_IN)
@@ -46,6 +48,7 @@ func swap_to(new: PackedScene) -> void:
 	var new_scene := Node.new()
 	var clone: Parts_TransitionBase = self.duplicate()
 	clone.autoplay = true
+	clone.visible = true
 	new_scene.add_child(new.instantiate())
 	new_scene.add_child(clone)
 	to_dark().finished.connect(

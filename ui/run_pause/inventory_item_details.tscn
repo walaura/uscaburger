@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://fq2dnikn21g"]
 
 [ext_resource type="Script" uid="uid://ctsis72mq7an8" path="res://ui/run_pause/inventory_item_details.gd" id="1_enxxs"]
-[ext_resource type="Resource" uid="uid://ceuiqw4o5cn4h" path="res://data/unlockables/ing_onion.tres" id="2_2agyf"]
 [ext_resource type="Texture2D" uid="uid://i7dqpgq0r7wr" path="res://asset/ui/sidebar-about.png" id="3_j5cd1"]
 [ext_resource type="FontFile" uid="uid://7p3rhbxnuyhh" path="res://asset/SchibstedGrotesk-Bold.ttf" id="4_2agyf"]
 [ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://ui/ketchup/badge/badge.tscn" id="4_oeqgo"]
 [ext_resource type="Texture2D" uid="uid://bnw65ejmixcyb" path="res://asset/badge/badge-unl-onyon.png" id="5_j13h6"]
 [ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="6_3cj7c"]
+
+[sub_resource type="FontVariation" id="FontVariation_enxxs"]
+base_font = ExtResource("4_2agyf")
+spacing_top = -10
+spacing_bottom = -14
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_dn3wt"]
 script = ExtResource("6_3cj7c")
@@ -21,7 +25,6 @@ offset_right = -1490.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_enxxs")
-item = ExtResource("2_2agyf")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1997090031]
 layout_mode = 1
@@ -41,15 +44,16 @@ anchor_right = 1.0
 offset_left = 20.0
 offset_top = 611.0
 offset_right = -20.0
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer" unique_id=1741492939]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_2agyf")
+theme_override_fonts/font = SubResource("FontVariation_enxxs")
 theme_override_font_sizes/font_size = 45
-text = "Onions"
+text = "Onions and a longer word"
 horizontal_alignment = 1
-autowrap_mode = 1
+autowrap_mode = 2
 
 [node name="Powers" type="RichTextLabel" parent="VBoxContainer" unique_id=1372746124]
 layout_mode = 2

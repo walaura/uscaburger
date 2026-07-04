@@ -10,6 +10,8 @@ var _rota_tween: Tween
 
 
 func _draw() -> void:
+	if !badge:
+		return
 	badge.custom_maximum_size = size
 	badge.custom_minimum_size = size
 	badge.set_anchors_and_offsets_preset(LayoutPreset.PRESET_FULL_RECT)
@@ -18,11 +20,13 @@ func _draw() -> void:
 
 func _ready() -> void:
 	if !badge:
+		print("nonono")
 		return
+
 	var placeholder := $Badge
 	if badge.get_parent():
 		badge.get_parent().remove_child.call_deferred(badge)
-	placeholder.replace_by.call_deferred(badge)
+	add_child.call_deferred(badge)
 	placeholder.queue_free()
 
 	badge.position = Vector2.ZERO
@@ -67,6 +71,6 @@ func _on_mouse_exited() -> void:
 	_hover_tween.tween_property($HoverRect as Control, "offset_transform_scale", Vector2.ONE * .1, 1.)
 	_hover_tween.parallel().tween_property($HoverRect as Control, "offset_transform_rotation", -2., 1.)
 	_hover_tween.parallel().tween_property(badge, "scale", Vector2.ONE, .25)
-	_hover_tween.tween_property($HoverRect/TextureRect as Control, "modulate:a", 0, .2)
+	_hover_tween.parallel().tween_property($HoverRect/TextureRect as Control, "modulate:a", 0, .2)
 	if badge is UiKetchupBadge:
-		_hover_tween.parallel().tween_property(badge, "edge", 0, .25)
+		_hover_tween.parallel().tween_property(badge, "edge", 0., 1)

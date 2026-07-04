@@ -9,8 +9,8 @@ var _pop_tween: Tween
 
 func _ready() -> void:
 	_pop_tween = create_tween()
-	if animate_on_ready == false:
-		_pop_tween.pause()
+	#if animate_on_ready == false:
+	#_pop_tween.pause()
 
 	if get_child_count() == 0:
 		for badge in badges:

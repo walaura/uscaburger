@@ -9,7 +9,7 @@ var disabled := false:
 			await ready
 		_set_disabled()
 
-signal on_purchase(product: RsUnlockableWTier)
+signal on_purchase(product: RsItem)
 
 
 func on_reroll() -> void:
@@ -31,9 +31,9 @@ func _set_disabled() -> void:
 
 func _on_reroll() -> void:
 	var all_items := CurrentRun.inventory.get_purchasable_items()
-	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsUnlockableWTier]
-	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsUnlockableWTier]
-	var pick: Array[RsUnlockableWTier] = []
+	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsItem]
+	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsItem]
+	var pick: Array[RsItem] = []
 
 	var affordables_count := 0
 	for index in range(0, 3):

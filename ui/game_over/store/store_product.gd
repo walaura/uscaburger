@@ -5,7 +5,7 @@ const BADGE_SLOP := -2.
 
 @onready var hover_tween: Tween
 
-@export var product: RsUnlockableWTier:
+@export var product: RsItem:
 	set(val):
 		product = val
 		_is_affordable = CurrentRun.inventory.is_affordable(product)

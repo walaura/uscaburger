@@ -1,12 +1,11 @@
-[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://cffvwvbc6rleh"]
+[gd_resource type="Resource" script_class="RsRawItem" format=3 uid="uid://cxwhmt5vehb1a"]
 
 [ext_resource type="Texture2D" uid="uid://cod7iwewelook" path="res://asset/badge/badge-ui-data2.png" id="1_eokvn"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable/unlockable_resource.gd" id="2_thsjt"]
+[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/raw_item.gd" id="2_cyedy"]
 
 [resource]
-script = ExtResource("2_thsjt")
+script = ExtResource("2_cyedy")
+requires = Array[StringName]([&"ui1.tres"])
 name = "More HUD"
 icon = ExtResource("1_eokvn")
 desc = "Live display of [boing]sway[/boing] and [boing]drop time[/boing]"
-requires = Array[StringName]([&"ui1.tres"])
-metadata/_custom_type_script = "uid://cuu2a4r833k1g"

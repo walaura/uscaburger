@@ -3,15 +3,16 @@
 [ext_resource type="Script" uid="uid://lgwywxf23n34" path="res://ui/run_pause/inventory.gd" id="1_25f8v"]
 [ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="1_qc5bt"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="3_n6t8q"]
+[ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="3_q7sdp"]
 [ext_resource type="PackedScene" uid="uid://b24fqfu18kw74" path="res://ui/run_pause/inventory_held.tscn" id="3_xnm51"]
 [ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_gjv1i"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gjv1i"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_q7sdp"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q7sdp"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cnto3"]
 resource_local_to_scene = true
-texture = SubResource("ViewportTexture_gjv1i")
+texture = SubResource("ViewportTexture_q7sdp")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjv1i"]
 content_margin_left = 12.0
@@ -32,7 +33,7 @@ script = ExtResource("1_25f8v")
 layout_mode = 1
 
 [node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
-theme_override_styles/panel = SubResource("StyleBoxTexture_q7sdp")
+theme_override_styles/panel = SubResource("StyleBoxTexture_cnto3")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
 unique_name_in_owner = true
@@ -47,12 +48,18 @@ anchors_preset = -1
 anchor_bottom = 1.0
 offset_right = 922.0
 grow_vertical = 2
+theme = ExtResource("3_q7sdp")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_gjv1i")
 follow_focus = true
 horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
 
-[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control/ScrollContainer" unique_id=1292534106 instance=ExtResource("3_xnm51")]
+[node name="MarginContainer" type="MarginContainer" parent="PaperWindow/PanelContainer/Control/ScrollContainer" unique_id=1113622673]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_right = 24
+
+[node name="InventoryHeld" parent="PaperWindow/PanelContainer/Control/ScrollContainer/MarginContainer" unique_id=1292534106 instance=ExtResource("3_xnm51")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
@@ -86,13 +93,15 @@ offset_left = 1686.0
 offset_top = 156.0
 offset_right = 196.0
 offset_bottom = 156.0
-item = null
 
-[node name="InventoryStatsFx" parent="." unique_id=507983470 instance_placeholder="res://ui/run_pause/inventory_stats_fx.tscn"]
+[node name="InventoryStatsFx" parent="." unique_id=1695193464 instance_placeholder="res://ui/run_pause/inventory_stats_fx.tscn"]
 layout_mode = 1
-offset_left = 1731.0
-offset_top = 245.0
-offset_right = 241.0
-offset_bottom = 245.0
+offset_left = -270.0
+offset_top = 112.0
+offset_right = -1760.0
+offset_bottom = 112.0
+
+[node name="InventoryStatsPedia" parent="." unique_id=507983470 instance_placeholder="res://ui/run_pause/inventory/stats_pedia.tscn"]
+layout_mode = 1
 
 [editable path="PaperWindow"]

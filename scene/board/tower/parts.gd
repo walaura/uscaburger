@@ -12,6 +12,7 @@ func _init() -> void:
 		var part := get_item_raw(part_name)
 		if part != null:
 			ALL_PARTS.push_back(part)
+			print(part, part.requires_upgrade)
 			if part.requires_upgrade == null and not part.is_crown and not part.is_heel and not part.is_patty:
 				BASE_PARTS.push_back(part)
 			if part.requires_upgrade != null:

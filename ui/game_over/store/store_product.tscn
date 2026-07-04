@@ -446,8 +446,13 @@ size_flags_vertical = 4
 [node name="BadgeWStamp" parent="HBoxContainer/Control" unique_id=482718556 node_paths=PackedStringArray("badge") instance=ExtResource("8_u843p")]
 unique_name_in_owner = true
 layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_right = 120.0
 offset_bottom = 120.0
+grow_horizontal = 1
+grow_vertical = 1
 badge = NodePath("../../../Badge")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=236078435]

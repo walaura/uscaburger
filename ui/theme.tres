@@ -141,7 +141,7 @@ content_margin_right = 12.0
 content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_47c11"]
-bg_color = Color(1, 0.2, 0.078431375, 1)
+bg_color = Color(0, 0, 0, 0.25882354)
 corner_radius_top_left = 99
 corner_radius_top_right = 99
 corner_radius_bottom_right = 99

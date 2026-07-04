@@ -8,6 +8,9 @@ var previous_item := "no"
 var sauce_cooldown_mult := 0
 var sauce_cooldown := 6
 
+var stack_height := 0.0
+var stack_length := 0
+
 var _mode := ScTower.Mode.Normal
 
 var EGG_KEY := ScTower_Parts.get_item("egg").name
@@ -19,7 +22,15 @@ func _init(nw_mode: ScTower.Mode = _mode) -> void:
 	_mode = nw_mode
 
 
-func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
+func make_stats() -> RsBurgerStats:
+	var stats := RsBurgerStats.new()
+	stats.price = current_session_score
+	stats.height = stack_height
+	stats.length = stack_length
+	return stats
+
+
+func push(part: RsPart, new_height: float) -> Array[ScTower_State_Line]:
 	var key := part.name
 	var price := part.price
 	var returnable: Array[ScTower_State_Line] = []
@@ -88,6 +99,11 @@ func push(part: RsPart, stack_height: float) -> Array[ScTower_State_Line]:
 
 	##wrap up
 	previous_item = key
+
+	##update height and len
+	stack_length += 1
+	if new_height > stack_height:
+		stack_height = new_height
 
 	return returnable
 

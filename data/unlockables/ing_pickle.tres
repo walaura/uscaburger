@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bdcc81knrli60"]
+[gd_resource type="Resource" script_class="RsRawItem" format=3 uid="uid://bdcc81knrli60"]
 
 [ext_resource type="Texture2D" uid="uid://dw14x5sjfy4fh" path="res://asset/badge/badge-unl-pickle.png" id="1_m6nsf"]
-[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/unlockable_resource.gd" id="2_hi865"]
+[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/raw_item.gd" id="2_hi865"]
 
 [resource]
 script = ExtResource("2_hi865")

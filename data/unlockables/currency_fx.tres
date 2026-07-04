@@ -1,12 +1,12 @@
-[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://bbnkgh7x18csd"]
+[gd_resource type="Resource" script_class="RsRawItemIncrementalModulo" format=3 ]
+[ext_resource type="Script" path="res://node/data/unlockable/raw_item_incremental_modulo.gd" id="1_nuanb"]
 
 [ext_resource type="Texture2D" uid="uid://4ph4qamp2bj2" path="res://asset/badge/badge-curr-usd.png" id="1_33efm"]
 [ext_resource type="Texture2D" uid="uid://bk8l0msvy05uh" path="res://asset/badge/badge-curr-eu.png" id="2_2bm5j"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable/unlockable_resource.gd" id="2_llru5"]
 [ext_resource type="Texture2D" uid="uid://ux80hn3ana0b" path="res://asset/badge/badge-curr-gbp.png" id="3_vcn7h"]
 
 [resource]
-script = ExtResource("2_llru5")
+script = ExtResource("1_nuanb")
 name = "Tea 'n' crumpets"
 icon = ExtResource("3_vcn7h")
 desc = "Swaps measurement units. +[boing]{0}%[/boing] FX fees."

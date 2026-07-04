@@ -6,25 +6,21 @@ var _tween: Tween
 
 
 func play_intro(ticker: Array[CurrentRun_ScoreLineItemResource]) -> Tween:
-	_tween = create_tween()
+	_tween = TweenHelper.maybe_init(self, _tween)
 	for line in ticker:
 		_tween = push_ticket_line(line)
 	return _tween
 
 
 func _input(event: InputEvent) -> void:
-	if _tween != null && event.is_action("UI_Skip"):
-		_tween.set_speed_scale(10.0)
+	TweenHelper.wire_skip(_tween, event)
 
 
 func push_ticket_line(
 	line: CurrentRun_ScoreLineItemResource,
 ) -> Tween:
 	var tkt_line: UiGameOver_LineItem = ($LineItem as InstancePlaceholder).create_instance().duplicate()
-
-	if not _tween.is_valid():
-		_tween = create_tween()
-
+	_tween = TweenHelper.maybe_init(self, _tween)
 	if line is CurrentRun_ScoreLineItemNullResource:
 		return _tween
 

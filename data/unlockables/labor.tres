@@ -1,10 +1,10 @@
-[gd_resource type="Resource" script_class="RsUnlockable" format=3 uid="uid://clnt7prf8et6v"]
+[gd_resource type="Resource" script_class="RsRawItemIncremental" format=3 uid="uid://cgwf8guhoxo31"]
+[ext_resource type="Script" uid="uid://cu2c8ww44c1xu" path="res://node/data/unlockable/raw_item_incremental.gd" id="1_nuanb"]
 
 [ext_resource type="Texture2D" uid="uid://butthfw2xcju4" path="res://asset/badge/badge-staff.png" id="1_rjn04"]
-[ext_resource type="Script" uid="uid://cuu2a4r833k1g" path="res://node/data/unlockable/unlockable_resource.gd" id="2_1vm33"]
 
 [resource]
-script = ExtResource("2_1vm33")
+script = ExtResource("1_nuanb")
 name = "Hire your family"
 icon = ExtResource("1_rjn04")
 desc = "Questionable! Staffing costs drop by [boing]{0}%[/boing]"
