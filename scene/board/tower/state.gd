@@ -19,6 +19,7 @@ var ONION_KEY := ScTower_Parts.get_item("onion").name
 
 
 func _init(nw_mode: ScTower.Mode = _mode) -> void:
+	print(nw_mode)
 	_mode = nw_mode
 
 

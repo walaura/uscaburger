@@ -4,6 +4,8 @@ extends Node
 const BADGE_SLOP := -2.
 
 @onready var hover_tween: Tween
+@onready var _BADGE_PATH := (%Badge as InstancePlaceholder).get_instance_path()
+@onready var _BADGE_STAMP_PATH := (%BadgeWStamp as InstancePlaceholder).get_instance_path()
 
 @export var product: RsItem:
 	set(val):
@@ -19,18 +21,29 @@ var _did_purchase := false:
 			on_purchase_pressed.emit()
 
 var _is_affordable := false
+var _loader := Loader.new()
 var disabled := false
+
+var _stamp_node: UiKetchupBadgeWStamp
+var _badge_node: UiKetchupBadge
 
 signal on_purchase_pressed
 
 
-# Called when the node enters the scene tree for the first time.
+func _init() -> void:
+	_loader.queue_resource(_BADGE_PATH)
+	_loader.queue_resource(_BADGE_STAMP_PATH)
+
+
 func _ready() -> void:
 	if product != null:
 		_draw_ui()
 
 
 func _draw_ui() -> void:
+	var has_seen := SavedRecords.records.has_seen_badge(product)
+	SavedRecords.records.maybe_mark_badge_as_seen(product)
+	SavedRecords.save.call_deferred()
 	var name_node := get_node("%Name") as RichTextLabel
 	name_node.text = ""
 	name_node.push_bold()
@@ -42,14 +55,21 @@ func _draw_ui() -> void:
 
 	var price_node := get_node("%Price") as Label
 	price_node.text = Helper.format_currency(product.price)
-	var badge_node := get_node("%Badge") as UiKetchupBadge
+
+	_stamp_node = (_loader.get_resource(_BADGE_STAMP_PATH).instantiate())
+	_badge_node = (_loader.get_resource(_BADGE_PATH).instantiate())
 	var rng := RandomNumberGenerator.new()
-	badge_node.position = Vector2(
+	_badge_node.position = Vector2(
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),
 	)
-	badge_node.icon = product.icon
-	badge_node.animate_in()
+	_badge_node.icon = product.icon
+	_badge_node.tier = product.get_tier_for_display()
+	_badge_node.is_new = !has_seen
+	_badge_node.animate_in()
+
+	_stamp_node.badge = _badge_node
+	%BadgeWStamp.replace_by(_stamp_node)
 
 	($ColorRect as Control).offset_transform_rotation = randf_range(-.2, .2)
 	if _is_affordable == false:
@@ -82,12 +102,12 @@ func hover(is_out: bool) -> void:
 	wrapper.pivot_offset_ratio = Vector2.ONE / 2
 
 	if is_out:
-		(%BadgeWStamp as UiKetchupBadgeWStamp)._on_mouse_exited()
+		_stamp_node._on_mouse_exited()
 		hover_tween.tween_property(wrapper, "rotation", 0, .25)
 		hover_tween.parallel().tween_property(wrapper, "scale", Vector2.ONE, .25)
 
 	else:
-		(%BadgeWStamp as UiKetchupBadgeWStamp)._on_mouse_entered()
+		_stamp_node._on_mouse_entered()
 		hover_tween = hover_tween.set_loops()
 		var start_x := -.05
 		var end_x := .05

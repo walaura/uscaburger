@@ -2,14 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dew04wo6bpeia" path="res://ui/game_over/store/store_product.gd" id="1_5y7ok"]
 [ext_resource type="Texture2D" uid="uid://f02hg5ge4mbd" path="res://asset/badge/badge-underlay.png" id="2_anrbw"]
-[ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://ui/ketchup/badge/badge.tscn" id="3_ahob7"]
 [ext_resource type="Texture2D" uid="uid://c3u2lclgrjyxr" path="res://asset/badge/badge-overlay.png" id="3_b28u2"]
 [ext_resource type="Texture2D" uid="uid://bkmjeqk2hth2d" path="res://asset/roundrect.png" id="4_7um22"]
 [ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="6_b28u2"]
 [ext_resource type="Texture2D" uid="uid://m38aacf8xjf2" path="res://asset/badge/badge-back.png" id="6_wi4i5"]
 [ext_resource type="Script" uid="uid://bruyqau2rx8ma" path="res://node/DevNode2D.gd" id="7_7um22"]
 [ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="7_wi4i5"]
-[ext_resource type="PackedScene" uid="uid://d0q5130h1d0sy" path="res://ui/ketchup/badge/badge_w_stamp.tscn" id="8_u843p"]
 [ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="10_u843p"]
 [ext_resource type="Texture2D" uid="uid://curgcbk783n8u" path="res://asset/ui/badge-purch-before.png" id="11_4qaso"]
 [ext_resource type="Texture2D" uid="uid://d0rrlxpjcqnyt" path="res://asset/ui/maybs-later.png" id="12_4a1iv"]
@@ -443,7 +441,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="BadgeWStamp" parent="HBoxContainer/Control" unique_id=482718556 node_paths=PackedStringArray("badge") instance=ExtResource("8_u843p")]
+[node name="BadgeWStamp" parent="HBoxContainer/Control" unique_id=482718556 node_paths=PackedStringArray("badge") instance_placeholder="res://ui/ketchup/badge/badge_w_stamp.tscn"]
 unique_name_in_owner = true
 layout_mode = 0
 anchors_preset = 0
@@ -525,7 +523,7 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "buy?"
 
-[node name="Badge" parent="." unique_id=1053742462 instance=ExtResource("3_ahob7")]
+[node name="Badge" parent="." unique_id=1053742462 instance_placeholder="res://ui/ketchup/badge/badge.tscn"]
 unique_name_in_owner = true
 visible = false
 material = SubResource("ShaderMaterial_uvcg4")

@@ -9,6 +9,10 @@ func get_key() -> String:
 	return og.resource_path.get_file()
 
 
+func get_key_w_tier() -> String:
+	return og.resource_path.get_file() + "/" + str(tier)
+
+
 func get_tier_for_display() -> int:
 	if og is RsRawItemIncrementalModulo:
 		return 0

@@ -1,6 +1,0 @@
-class_name SavedRecordsResource
-extends SerializableResource
-
-var max_money: SavedRecordIntResource
-var max_parts: SavedRecordIntResource
-var max_height: SavedRecordFloatResource

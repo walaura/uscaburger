@@ -6,7 +6,7 @@ var _tween: Tween
 
 const INTROS: Array[String] = [
 	"As the sun sets you reflect on your day of hard work and dedication.",
-	"You've made it to the end of your shift, even if it was with a little coertion.",
+	"You've made it to the end of your shift.",
 	"This is really on you for thinking a restaurant that servers hamburgers stands any chance in 202X.",
 	"Have you considered switching to tacos? kebabs? Maybe boba? Froyo is due to come back at any point, get in early.",
 	"Did you know that _that_ popular hamburger restaurant actually assembles most of them upside down? Weird",
@@ -56,7 +56,7 @@ func _input(event: InputEvent) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_tween = TweenHelper.maybe_init(self, _tween, Tween.EASE_OUT)
-	var all_items := CurrentRun.score.burger_history
+	var all_items := CurrentRun.score.burger_history.filter(func(stats: Variant) -> bool: return stats is not RsFailedBurgerStats)
 	var records: Array[UiGameOverRealRecord] = []
 
 	if all_items.size() == 0:
@@ -74,35 +74,30 @@ func _ready() -> void:
 	@warning_ignore("unsafe_call_argument")
 	records.append(_make_record(COUNT.pick_random() % all_items.size(), false))
 
-	var expensivest: RsBurgerStats = all_items.reduce(
-		func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
-			if current.price > winner.price:
-				return current
-			return winner,
-		RsBurgerStats.new()
-	)
-	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record(EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price), true))
+	SavedRecords.records.maybe_update_tot(all_items.size())
 
-	var most_parts: RsBurgerStats = all_items.reduce(
-		func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
-			if current.length > winner.length:
-				return current
-			return winner,
-		RsBurgerStats.new()
-	)
+	var expensivest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.PRICE)
 	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), true))
+	records.append(
+		_make_record(
+			EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price),
+			SavedRecords.records.maybe_update_max_money(expensivest.price)
+		)
+	)
 
-	var tallest: RsBurgerStats = all_items.reduce(
-		func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
-			if current.height > winner.height:
-				return current
-			return winner,
-		RsBurgerStats.new()
-	)
+	var most_parts := CurrentRun.score.get_record_burger(RsBurgerStats.Record.LENGTH)
 	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record(HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height), true))
+	records.append(
+		_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), SavedRecords.records.maybe_update_max_parts(most_parts.length))
+	)
+
+	var tallest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.HEIGHT)
+	@warning_ignore("unsafe_call_argument")
+	records.append(
+		_make_record(
+			HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height), SavedRecords.records.maybe_update_max_height(tallest.height)
+		)
+	)
 
 	@warning_ignore("unsafe_call_argument")
 	records.append(_make_record("\n\n" + OUTROS.pick_random(), false))
@@ -113,6 +108,7 @@ func _ready() -> void:
 	if autoplay:
 		animate_in()
 
+	SavedRecords.save()
 	pass  # Replace with function body.
 
 

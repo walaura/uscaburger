@@ -6,8 +6,10 @@ signal on_close
 var _live_panels: Array[UiKetchupPaperWindowPanel]
 var _loader := Loader.new()
 var _case := UiKetchupBadgeGrid.new()
+var _top_case := UiKetchupBadgeGrid.new()
 
 @onready var INVENTORY_ITEM_DETAILS_PATH := ($InventoryItemDetails as InstancePlaceholder).get_instance_path()
+@onready var INVENTORY_PEDIA_PATH := ($CollectionPedia as InstancePlaceholder).get_instance_path()
 
 
 func _on_hide_show_button_pressed() -> void:
@@ -21,6 +23,7 @@ func _input(event: InputEvent) -> void:
 
 func _ready() -> void:
 	_loader.queue_resource(INVENTORY_ITEM_DETAILS_PATH)
+	_loader.queue_resource(INVENTORY_PEDIA_PATH)
 
 	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
 		func() -> void:
@@ -31,6 +34,14 @@ func _ready() -> void:
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 
 	_case.columns = 5
+	_top_case.columns = 5
+	_top_case.animate_on_ready = true
+
+	var pedia_icon := UiKetchupBadgeGridIcon.new()
+	pedia_icon.badge = $PediaBtn as Control
+	pedia_icon.on_item_hovered.connect(_on_pedia_hovered)
+	_top_case.badges = [pedia_icon]
+
 	var all_held_items := CurrentRun.inventory.get_all_possible_holdable_items_as_uniques()
 	_case.animate_on_ready = false
 	_case.badges = []
@@ -47,6 +58,7 @@ func _ready() -> void:
 		icon.on_item_hovered.connect(func() -> void: _on_item_hovered(item))
 		_case.badges.append(icon)
 
+	(%VBoxContainer).add_child(_top_case)
 	(%VBoxContainer).add_child(_case)
 
 
@@ -70,3 +82,8 @@ func _on_item_hovered(item: RsItem) -> void:
 	var instance := _loader.get_resource(INVENTORY_ITEM_DETAILS_PATH).instantiate() as UiInventoryItemDetails
 	instance.item = item
 	_spawn_panel(instance, Color("#1b1c10"))
+
+
+func _on_pedia_hovered() -> void:
+	var instance := _loader.get_resource(INVENTORY_PEDIA_PATH).instantiate() as Control
+	_spawn_panel(instance, Color("1c1010ff"))

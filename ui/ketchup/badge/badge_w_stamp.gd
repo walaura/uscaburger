@@ -20,7 +20,7 @@ func _draw() -> void:
 
 func _ready() -> void:
 	if !badge:
-		print("nonono")
+		printerr("nonono")
 		return
 
 	var placeholder := $Badge

@@ -2,6 +2,7 @@ class_name ScTower
 extends Node3D
 
 @export var floor_collider: StaticBody3D
+@export var mode := Mode.Normal
 
 static var SCORE_OVERLAY_SCN := preload("res://ui/score_overlay.tscn")
 
@@ -9,19 +10,38 @@ signal on_game_over(did_finish: bool, score: ScTower_State)
 
 var parts_scn := ScTower_Parts.new()
 
-var mode := Mode.Normal
-
 var _active_renderer: ScTower_PartRenderer
-var _state := ScTower_State.new(mode)
 var _score_overlay: UiScoreOverlay
 
+@onready var _state := ScTower_State.new(mode)
 @onready var _difficulty_numbers := RsDifficultyNumbers.new(mode)
 
 enum Mode { Normal, Vegan, Chicken }
 
 
-func setup(nw_mode: Mode) -> void:
-	self.mode = nw_mode
+func _ready() -> void:
+	($PartRenderer as ScTower_PartRenderer).setup(floor_collider, 10, _difficulty_numbers)
+	_on_spawn()
+
+	_score_overlay = SCORE_OVERLAY_SCN.instantiate() as UiScoreOverlay
+	_score_overlay.setup(mode)
+	add_child(_score_overlay)
+
+	parts_scn.position.y = 9999999.
+	parts_scn.visible = false
+	add_child(parts_scn)
+
+	_update_paper_color()
+	_DBG_set_up()
+
+	on_game_over.connect(
+		func(_is_success: bool, _sh: ScTower_State) -> void:
+			if $ButtonPrompts != null && !$ButtonPrompts.is_queued_for_deletion():
+				$ButtonPrompts.queue_free()
+			if _score_overlay != null && _score_overlay.get_parent() != null:
+				_score_overlay.get_parent().remove_child(_score_overlay)
+				_score_overlay.queue_free()
+	)
 
 
 func get_aabb() -> AABB:
@@ -53,31 +73,6 @@ func get_aabb() -> AABB:
 				total_aabb = total_aabb.merge(global_aabb)
 
 	return total_aabb
-
-
-func _ready() -> void:
-	($PartRenderer as ScTower_PartRenderer).setup(floor_collider, 10, _difficulty_numbers)
-	_on_spawn()
-
-	_score_overlay = SCORE_OVERLAY_SCN.instantiate() as UiScoreOverlay
-	_score_overlay.setup(mode)
-	add_child(_score_overlay)
-
-	parts_scn.position.y = 9999999.
-	parts_scn.visible = false
-	add_child(parts_scn)
-
-	_update_paper_color()
-	_DBG_set_up()
-
-	on_game_over.connect(
-		func(_is_success: bool, _sh: ScTower_State) -> void:
-			if $ButtonPrompts != null && !$ButtonPrompts.is_queued_for_deletion():
-				$ButtonPrompts.queue_free()
-			if _score_overlay != null && _score_overlay.get_parent() != null:
-				_score_overlay.get_parent().remove_child(_score_overlay)
-				_score_overlay.queue_free()
-	)
 
 
 func _physics_process(delta: float) -> void:

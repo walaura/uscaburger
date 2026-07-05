@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b24fqfu18kw74"]
 
 [ext_resource type="Script" uid="uid://dxluyarsidlak" path="res://ui/run_pause/inventory_held.gd" id="1_i57w8"]
+[ext_resource type="Texture2D" uid="uid://cr53xgd5mxcx5" path="res://asset/badge/badge-pedia.png" id="2_84mvr"]
 [ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="2_d2k2i"]
 
 [node name="InventoryHeld" type="VBoxContainer" unique_id=1532082109]
@@ -29,12 +30,15 @@ layout_mode = 2
 
 [node name="PediaBtn" type="TextureRect" parent="." unique_id=448705669]
 unique_name_in_owner = true
-visible = false
+texture_filter = 5
 layout_mode = 2
-texture = ExtResource("2_d2k2i")
+texture = ExtResource("2_84mvr")
 
 [node name="RunFxBtn" type="TextureRect" parent="." unique_id=6363987]
 unique_name_in_owner = true
 visible = false
+texture_filter = 6
 layout_mode = 2
 texture = ExtResource("2_d2k2i")
+expand_mode = 2
+stretch_mode = 4

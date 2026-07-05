@@ -9,7 +9,9 @@ const ITEM_Y_SCALE = 1
 
 var anim_speed := 1.
 
-const COLOR_RED := Color("ff3314")
+const COLOR_RED := Color("#ff3314")
+const COLOR_TEAL := Color("#1fa39b")
+const COLOR_YELL := Color("#f2c200")
 
 var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
 
@@ -63,6 +65,39 @@ func format_number(number: float) -> String:
 
 func get_units() -> int:
 	return CurrentRun.inventory._get_held_item_by_key_tier("currency_fx.tres") % 3
+
+
+func format_unix_date(number: float) -> String:
+	var dict := Time.get_datetime_dict_from_unix_time(int(number))
+	return get_month_from_index(dict["month"]) + " " + str(dict["day"]) + ", " + str(dict["year"])
+
+
+func get_month_from_index(index: Variant) -> String:
+	match index:
+		1:
+			return "January"
+		2:
+			return "February"
+		3:
+			return "March"
+		4:
+			return "April"
+		5:
+			return "May"
+		6:
+			return "June"
+		7:
+			return "July"
+		8:
+			return "August"
+		9:
+			return "September"
+		10:
+			return "October"
+		11:
+			return "November"
+		_:
+			return "December"
 
 
 func format_currency(number: float) -> String:

@@ -13,6 +13,7 @@ extends Control
 		(get_node("%Badge") as ColorRect).material.set("shader_parameter/Edge", edge)
 @export var animates := true
 @export var tier: int = 0
+@export var is_new: bool = false
 
 
 func _ready() -> void:
@@ -32,6 +33,9 @@ func _draw_ui() -> void:
 	if tier > 1:
 		(%TierWrapper as Control).show()
 		(%TierLabel as Label).text = str(tier)
+
+	if is_new:
+		(%NewWrapper as Control).show()
 
 	_ready_animation()
 	if animates:

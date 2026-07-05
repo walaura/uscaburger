@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://jfkyesv56445"]
+
+[ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="1_ckpqq"]
+[ext_resource type="Script" uid="uid://bwqphslvbql1i" path="res://ui/run_pause/inventory/stats_pedia_row.gd" id="1_tpujr"]
+[ext_resource type="Shader" uid="uid://b3hj188uekc2g" path="res://ui/run_pause/inventory/stats_pedia_row.tres" id="2_hjpe7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+shader = ExtResource("2_hjpe7")
+shader_parameter/ColorParameter = Color(0.95, 0.76000005, 0, 1)
+shader_parameter/ShadowAlpha = 0.0
+
+[node name="StatsPediaRow" type="HBoxContainer" unique_id=257535834]
+texture_filter = 4
+offset_right = 603.0
+offset_bottom = 78.0
+alignment = 1
+script = ExtResource("1_tpujr")
+price = 26
+height = 0.505
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1691192438]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Price" type="Label" parent="HBoxContainer" unique_id=2020609799]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("1_ckpqq")
+theme_override_font_sizes/font_size = 38
+text = "$99.99"
+
+[node name="Crown" type="ColorRect" parent="HBoxContainer" unique_id=1295334375]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dn3wt")
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(-4.11, -17.02)
+offset_transform_rotation = 0.27750736
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=252381496]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Size" type="Label" parent="VBoxContainer" unique_id=902783763]
+unique_name_in_owner = true
+layout_mode = 2
+text = "80in"
+horizontal_alignment = 2
+
+[node name="Length" type="Label" parent="VBoxContainer" unique_id=1713643838]
+unique_name_in_owner = true
+layout_mode = 2
+text = "12 parts"
+horizontal_alignment = 2

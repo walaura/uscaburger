@@ -4,8 +4,12 @@ extends Control
 var _tween: Tween
 var _tween2: Tween
 
+var _loader := Loader.new()
+@onready var _inventory_scn_path := (%Inventory as InstancePlaceholder).get_instance_path()
+
 
 func _ready_sc1() -> void:
+	_loader.queue_resource(_inventory_scn_path)
 	(%NextButton as Button).modulate.a = .0
 	(%NextButton as Button).disabled = true
 	(%NextButton as Button).focus_mode = Control.FOCUS_NONE
@@ -68,3 +72,26 @@ func _on_next_button_pressed() -> void:
 		.25
 	)
 	_tween.parallel().tween_property($CenterContainer/VBoxContainer2 as Control, "modulate:a", 1., .5).from(0.).set_delay(.25)
+
+
+func _on_open_subscreen() -> void:
+	($CenterContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED
+	($CenterContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED
+
+
+func _on_close_subscreen() -> void:
+	($CenterContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
+	($CenterContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
+	InputHelper.force_focus($CenterContainer as Control)
+
+
+func _on_stats_button_pressed() -> void:
+	var inventory: UiInventory = _loader.get_resource(_inventory_scn_path).instantiate()
+	_on_open_subscreen()
+	inventory.on_close.connect(
+		func() -> void:
+			_on_close_subscreen()
+			remove_child(inventory)
+			inventory.queue_free()
+	)
+	add_child(inventory)

@@ -5,13 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_inu2w"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="5_dyqj1"]
 [ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="5_f0l85"]
+[ext_resource type="Texture2D" uid="uid://cr53xgd5mxcx5" path="res://asset/badge/badge-pedia.png" id="7_hx7ry"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_0ddja"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_f0l85"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f0l85"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iimd8"]
 resource_local_to_scene = true
-texture = SubResource("ViewportTexture_0ddja")
+texture = SubResource("ViewportTexture_f0l85")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjv1i"]
 content_margin_left = 12.0
@@ -32,7 +33,7 @@ script = ExtResource("1_0ddja")
 layout_mode = 1
 
 [node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
-theme_override_styles/panel = SubResource("StyleBoxTexture_f0l85")
+theme_override_styles/panel = SubResource("StyleBoxTexture_iimd8")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
 unique_name_in_owner = true
@@ -76,6 +77,11 @@ offset_right = 40.0
 offset_bottom = 1207.0
 grow_horizontal = 0
 
+[node name="CollectionPedia" parent="." unique_id=507983470 instance_placeholder="res://ui/intro/collection/collection_pedia.tscn"]
+layout_mode = 1
+offset_left = -617.0
+offset_right = -2107.0
+
 [node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("5_dyqj1")]
 visible = false
 layout_mode = 1
@@ -116,5 +122,11 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 texture = ExtResource("5_f0l85")
+
+[node name="PediaBtn" type="TextureRect" parent="." unique_id=2130963703]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+texture = ExtResource("7_hx7ry")
 
 [editable path="PaperWindow"]

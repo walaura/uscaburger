@@ -50,7 +50,7 @@ func _get_next_tower_mode() -> ScTower.Mode:
 func _instance_tower() -> void:
 	_loader.queue_resource(GAME_OVER_SCPATH)
 	_tower_scn = TOWER_SCENE.instantiate()
-	_tower_scn.setup(_get_next_tower_mode())
+	_tower_scn.mode = _get_next_tower_mode()
 	_tower_scn.on_game_over.connect(on_game_over)
 
 	add_child(_tower_scn)
@@ -87,6 +87,12 @@ func _input(event: InputEvent) -> void:
 		Camera.set_mode_gameplay()
 	if event.is_action("ui_pause"):
 		var pause_scene := PAUSE_SCENE.instantiate() as UiRunPause
+		pause_scene.was_end_requested.connect(
+			func() -> void:
+				CurrentRun.score.finalize_burger(RsFailedBurgerStats.new())
+				CurrentRun.score.settle_loss(_tower_scn._state)
+				_on_real_game_over()
+		)
 		pause_scene.was_unpause_requested.connect(func() -> void: remove_child.call_deferred(pause_scene))
 		add_child(pause_scene)
 
@@ -100,6 +106,7 @@ func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
 		CurrentRun.score.finalize_burger(tower_score.make_stats())
 		CurrentRun.score.settle(tower_score)
 	else:
+		CurrentRun.score.finalize_burger(RsFailedBurgerStats.new())
 		CurrentRun.score.settle_loss(tower_score)
 
 	if prev_score_was_under_zero && CurrentRun.score.current_session_score < 0.0:

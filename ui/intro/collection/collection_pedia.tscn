@@ -1,0 +1,245 @@
+[gd_scene format=3 uid="uid://rbiu7sshs7kn"]
+
+[ext_resource type="Script" uid="uid://cjvq3bn7e4c1a" path="res://ui/intro/collection/collection_pedia.gd" id="1_cr76r"]
+[ext_resource type="Texture2D" uid="uid://scla8t3h8nxy" path="res://asset/ui/sidebar-pedia.png" id="2_mwmjp"]
+[ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_1xpx2"]
+[ext_resource type="Shader" uid="uid://dsfcxlx5oyda7" path="res://ui/intro/collection/collection_pedia.tres" id="4_mwmjp"]
+[ext_resource type="FontFile" uid="uid://7p3rhbxnuyhh" path="res://asset/SchibstedGrotesk-Bold.ttf" id="5_8edeb"]
+[ext_resource type="FontFile" uid="uid://22ievibxbtgr" path="res://asset/SchibstedGrotesk-Medium.ttf" id="6_arrjw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8edeb"]
+resource_local_to_scene = true
+shader = ExtResource("4_mwmjp")
+shader_parameter/ColorParameter = Color(0.53469545, 0.033217885, 0, 1)
+shader_parameter/FloatParameter = 0.455
+
+[sub_resource type="FontVariation" id="FontVariation_72evg"]
+base_font = ExtResource("3_1xpx2")
+spacing_top = -16
+
+[sub_resource type="FontVariation" id="FontVariation_abu4r"]
+base_font = ExtResource("5_8edeb")
+spacing_bottom = -17
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+resource_local_to_scene = true
+shader = ExtResource("4_mwmjp")
+shader_parameter/ColorParameter = Color(0.060799997, 0.32, 0.30272, 1)
+shader_parameter/FloatParameter = 0.455
+
+[node name="CollectionPedia" type="Control" unique_id=507983470]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1490.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cr76r")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1083292782]
+texture_filter = 4
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = -36.0
+offset_bottom = 320.0
+grow_horizontal = 2
+texture = ExtResource("2_mwmjp")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Early" type="Label" parent="." unique_id=351449693]
+visible = false
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_right = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You're early!
+
+Complete at least 1 hamburger to see your run stats"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Stats" type="Control" parent="." unique_id=166275871]
+texture_filter = 2
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Stats" unique_id=1360339667]
+material = SubResource("ShaderMaterial_8edeb")
+layout_mode = 0
+offset_left = 85.00001
+offset_top = 308.0
+offset_right = 293.0
+offset_bottom = 516.0
+scale = Vector2(0.9223943, 0.9223943)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats/ColorRect" unique_id=185395490]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Total" type="Label" parent="Stats/ColorRect/VBoxContainer" unique_id=859944423]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.2, 0.078431375, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.41960785)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = SubResource("FontVariation_72evg")
+theme_override_font_sizes/font_size = 48
+text = "20"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Stats/ColorRect/VBoxContainer" unique_id=587749798]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_abu4r")
+text = "Finished
+sandwiches"
+horizontal_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="Stats" unique_id=1748761984]
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 0
+offset_left = 158.0
+offset_top = 475.99997
+offset_right = 366.0
+offset_bottom = 684.0
+scale = Vector2(0.9223943, 0.9223943)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats/ColorRect2" unique_id=805472079]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Tallest" type="Label" parent="Stats/ColorRect2/VBoxContainer" unique_id=1021198500]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.41960785)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = SubResource("FontVariation_72evg")
+theme_override_font_sizes/font_size = 48
+text = "20.89 in"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Stats/ColorRect2/VBoxContainer" unique_id=1770101048]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_8edeb")
+text = "Tallest ever"
+horizontal_alignment = 1
+
+[node name="TallestDate" type="Label" parent="Stats/ColorRect2/VBoxContainer" unique_id=2044625015]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_arrjw")
+text = "May 20, 2026"
+horizontal_alignment = 1
+
+[node name="ColorRect3" type="ColorRect" parent="Stats" unique_id=778630458]
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 0
+offset_left = 80.0
+offset_top = 643.0
+offset_right = 288.0
+offset_bottom = 851.0
+scale = Vector2(0.9223943, 0.9223943)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats/ColorRect3" unique_id=548694048]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Expensivest" type="Label" parent="Stats/ColorRect3/VBoxContainer" unique_id=1447986868]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.41960785)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = SubResource("FontVariation_72evg")
+theme_override_font_sizes/font_size = 48
+text = "$199.75"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Stats/ColorRect3/VBoxContainer" unique_id=457238237]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_8edeb")
+text = "Most expensive"
+horizontal_alignment = 1
+
+[node name="ExpensivestDate" type="Label" parent="Stats/ColorRect3/VBoxContainer" unique_id=1851587730]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_arrjw")
+text = "May 20, 2026"
+horizontal_alignment = 1
+
+[node name="ColorRect4" type="ColorRect" parent="Stats" unique_id=483677540]
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 0
+offset_left = 152.00002
+offset_top = 815.00006
+offset_right = 360.0
+offset_bottom = 1023.0
+scale = Vector2(0.9223943, 0.9223943)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Stats/ColorRect4" unique_id=929823881]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MostParts" type="Label" parent="Stats/ColorRect4/VBoxContainer" unique_id=1147052042]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.41960785)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = SubResource("FontVariation_72evg")
+theme_override_font_sizes/font_size = 48
+text = "$199.75"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Stats/ColorRect4/VBoxContainer" unique_id=1191618485]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_8edeb")
+text = "Most expensive"
+horizontal_alignment = 1
+
+[node name="MostPartsDate" type="Label" parent="Stats/ColorRect4/VBoxContainer" unique_id=1952859391]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_arrjw")
+text = "May 20, 2026"
+horizontal_alignment = 1

@@ -433,3 +433,33 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"WhiteLabel"
 text = "2"
+
+[node name="NewWrapper" type="TextureRect" parent="." unique_id=664231262]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("7_0tt4n")
+
+[node name="CenterContainer" type="CenterContainer" parent="NewWrapper" unique_id=687257182]
+material = SubResource("CanvasItemMaterial_dn3wt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TierLabel" type="Label" parent="NewWrapper/CenterContainer" unique_id=1290203944]
+layout_mode = 2
+theme_type_variation = &"WhiteLabel"
+text = "NEW"

@@ -4,6 +4,7 @@ extends Control
 const ROTATE_BY = .1
 
 signal was_unpause_requested
+signal was_end_requested
 
 var _loader := Loader.new()
 @onready var _settings_scn_path := ($SettingsScn as InstancePlaceholder).get_instance_path()
@@ -76,4 +77,11 @@ func _on_inventory_button_pressed() -> void:
 
 
 func _on_quit_btn_pressed() -> void:
-	get_tree().quit()
+	var conf := $Confirm.duplicate() as PartsConfirm
+	conf.confirm(
+		func() -> void:
+			get_tree().paused = false
+			was_end_requested.emit(),
+		func() -> void: pass
+	)
+	add_child(conf)

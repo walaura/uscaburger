@@ -422,6 +422,91 @@ VScrollBar/styles/scroll = SubResource("StyleBoxFlat_2j8s8")
 WhiteLabel/base_type = &"Label"
 WhiteLabel/colors/font_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Theme" id="Theme_g205w"]
+resource_local_to_scene = true
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/icon_normal_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("6_tdmfy")
+Button/styles/focus = SubResource("StyleBoxFlat_7any1")
+Button/styles/hover = SubResource("StyleBoxFlat_3fgq6")
+Button/styles/normal = SubResource("StyleBoxFlat_y5ki2")
+Button/styles/pressed = SubResource("StyleBoxFlat_rtqkv")
+ButtonFake/base_type = &"Button"
+ButtonFake/colors/font_color = Color(0, 0, 0, 0)
+ButtonFake/colors/font_focus_color = Color(0, 0, 0, 0)
+ButtonFake/colors/font_hover_color = Color(0, 0, 0, 0)
+ButtonFake/colors/font_pressed_color = Color(0, 0, 0, 0)
+ButtonFake/font_sizes/font_size = 32
+ButtonFake/styles/disabled = SubResource("StyleBoxEmpty_y5ki2")
+ButtonFake/styles/disabled_mirrored = SubResource("StyleBoxEmpty_rtqkv")
+ButtonFake/styles/focus = SubResource("StyleBoxEmpty_47c11")
+ButtonFake/styles/hover = SubResource("StyleBoxEmpty_2j8s8")
+ButtonFake/styles/hover_mirrored = SubResource("StyleBoxEmpty_mo6nk")
+ButtonFake/styles/hover_pressed = SubResource("StyleBoxEmpty_qijjd")
+ButtonFake/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_de4b7")
+ButtonFake/styles/normal = SubResource("StyleBoxEmpty_7any1")
+ButtonFake/styles/normal_mirrored = SubResource("StyleBoxEmpty_yipae")
+ButtonFake/styles/pressed = SubResource("StyleBoxEmpty_qxik8")
+ButtonFake/styles/pressed_mirrored = SubResource("StyleBoxEmpty_iag4h")
+ButtonFakeSmall/base_type = &"ButtonFake"
+ButtonFakeSmall/font_sizes/font_size = 16
+ButtonFakeSmall/styles/disabled = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/disabled_mirrored = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/focus = SubResource("StyleBoxEmpty_3fgq6")
+ButtonFakeSmall/styles/hover = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/hover_mirrored = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/hover_pressed = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/normal = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/normal_mirrored = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/pressed = SubResource("StyleBoxEmpty_8uhoi")
+ButtonFakeSmall/styles/pressed_mirrored = SubResource("StyleBoxEmpty_8uhoi")
+ButtonLabel/base_type = &"Label"
+ButtonLabel/colors/font_color = Color(1, 1, 1, 1)
+ButtonLabel/colors/font_shadow_color = Color(0, 0, 0, 0.40784314)
+ButtonLabel/constants/shadow_offset_x = 1
+ButtonLabel/constants/shadow_offset_y = 1
+ButtonLabel/constants/shadow_outline_size = 2
+ButtonLabel/font_sizes/font_size = 32
+ButtonLabel/fonts/font = ExtResource("6_tdmfy")
+ButtonLabelSmall/base_type = &"ButtonLabel"
+ButtonLabelSmall/font_sizes/font_size = 16
+FlatButton/font_sizes/font_size = 16
+FloatingLabel/base_type = &"Label"
+FloatingLabel/colors/font_color = Color(0, 0, 0, 1)
+FloatingLabel/colors/font_shadow_color = Color(1, 1, 1, 0.16470589)
+FloatingLabel/constants/shadow_offset_x = 2
+FloatingLabel/constants/shadow_offset_y = 2
+FloatingLabel/constants/shadow_outline_size = 1
+HeaderLarge/colors/font_color = Color(1, 0, 0, 0)
+HeaderLarge/colors/font_outline_color = Color(1, 0.2, 0.078431375, 1)
+HeaderLarge/colors/font_shadow_color = Color(0.98, 0.8161767, 0.40180004, 0.22745098)
+HeaderLarge/constants/outline_size = 4
+HeaderLarge/constants/shadow_offset_x = 2
+HeaderLarge/constants/shadow_offset_y = 2
+HeaderLarge/font_sizes/font_size = 34
+HeaderLarge/fonts/font = ExtResource("7_s7her")
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/constants/shadow_offset_x = 2
+Label/constants/shadow_offset_y = 2
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 18
+Label/fonts/font = ExtResource("8_1xj3q")
+RichTextLabel/colors/default_color = Color(0, 0, 0, 1)
+RichTextLabel/font_sizes/bold_font_size = 18
+RichTextLabel/font_sizes/italics_font_size = 18
+RichTextLabel/font_sizes/normal_font_size = 18
+RichTextLabel/fonts/bold_font = ExtResource("9_fhaqj")
+RichTextLabel/fonts/italics_font = ExtResource("10_d6tsk")
+RichTextLabel/fonts/normal_font = ExtResource("8_1xj3q")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_47c11")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_mo6nk")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_qijjd")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_2j8s8")
+WhiteLabel/base_type = &"Label"
+WhiteLabel/colors/font_color = Color(1, 1, 1, 1)
+
 [node name="GameOverReal" type="Control" unique_id=333364085]
 process_mode = 2
 layout_mode = 3
@@ -472,7 +557,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = SubResource("Theme_si3h0")
-text = "Try again"
+text = "Next"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer" unique_id=668875593]
 visible = false
@@ -485,12 +570,23 @@ custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 autoplay = false
 
-[node name="TryAgainButton" parent="CenterContainer/VBoxContainer2" unique_id=1854096938 instance=ExtResource("5_u28h7")]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer2" unique_id=1230151920]
+layout_mode = 2
+
+[node name="TryAgainButton" parent="CenterContainer/VBoxContainer2/VBoxContainer" unique_id=1854096938 instance=ExtResource("5_u28h7")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = SubResource("Theme_cc6xx")
 text = "Try again"
+
+[node name="StatsButton" parent="CenterContainer/VBoxContainer2/VBoxContainer" unique_id=197146512 instance=ExtResource("5_u28h7")]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_g205w")
+theme_type_variation = &"ButtonFakeSmall"
+text = "See your run stats"
+is_small = true
 
 [node name="TransitionBase" parent="." unique_id=1094825013 instance=ExtResource("12_r8py5")]
 visible = false
@@ -499,7 +595,12 @@ length = 1.0
 hold = 0.1
 color = Color(0, 0, 0, 1)
 
+[node name="Inventory" parent="." unique_id=1935432515 instance_placeholder="res://ui/run_pause/inventory.tscn"]
+unique_name_in_owner = true
+layout_mode = 1
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/NextButton" to="." method="_on_next_button_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer2/TryAgainButton" to="." method="_on_try_again_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer2/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer2/VBoxContainer/StatsButton" to="." method="_on_stats_button_pressed"]
 
 [editable path="CenterContainer/VBoxContainer/ScoresTkt"]

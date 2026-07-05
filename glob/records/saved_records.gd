@@ -1,24 +1,29 @@
 extends Node
 
 var config := ConfigFile.new()
+var records := SavedRecordsResource.new()
+
 signal on_config_changed
 
 
 func _init() -> void:
-	var err := config.load("user://gfx.cfg")
+	var err := config.load("user://records.cfg")
 
 	if err != OK:
 		printerr("oopsies")
+		save()
 		return
 
+	var value: Variant = config.get_value("x", "x", SavedRecordsResource.new().serialize())
+	if value is Dictionary:
+		var _vl: Dictionary = value
+		records = SavedRecordsResource.deserialize(_vl)
+	else:
+		printerr("Serialization is fucked")
+		records = SavedRecordsResource.new()
 
-func _ready() -> void:
-	for key in config.get_section_keys("gfx"):
-		var value: Variant = config.get_value("gfx", key)
-		@warning_ignore("unsafe_call_argument")
-		#apply_gfx_setting(int(key), value)
 
-
-func _save() -> void:
-	config.save("user://gfx.cfg")
+func save() -> void:
+	config.set_value("x", "x", records.serialize())
+	config.save("user://records.cfg")
 	on_config_changed.emit()

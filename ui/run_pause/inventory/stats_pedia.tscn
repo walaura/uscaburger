@@ -1,8 +1,25 @@
 [gd_scene format=3 uid="uid://iqkjy02m4ixv"]
 
 [ext_resource type="Script" uid="uid://k8cqsjygk422" path="res://ui/run_pause/inventory/stats_pedia.gd" id="1_j4g5l"]
-[ext_resource type="Texture2D" uid="uid://scla8t3h8nxy" path="res://asset/ui/sidebar-pedia.png" id="2_8tm0b"]
-[ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_j4g5l"]
+[ext_resource type="Texture2D" uid="uid://w7flt4lvw2ht" path="res://asset/ui/sidebar-ledger.png" id="2_j4g5l"]
+[ext_resource type="PackedScene" uid="uid://jfkyesv56445" path="res://ui/run_pause/inventory/stats_pedia_row.tscn" id="4_rdrqw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j4g5l"]
+content_margin_top = 40.0
+content_margin_bottom = 40.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+corner_detail = 12
 
 [node name="InventoryPedia" type="Control" unique_id=507983470]
 layout_mode = 3
@@ -14,175 +31,79 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_j4g5l")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1083292782]
-texture_filter = 4
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=280760110]
+clip_contents = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-offset_top = -36.0
-offset_bottom = 320.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_right = -20.0
 grow_horizontal = 2
-texture = ExtResource("2_8tm0b")
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_j4g5l")
+vertical_scroll_mode = 2
+
+[node name="Control" type="VBoxContainer" parent="ScrollContainer" unique_id=150410269]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="ScrollContainer/Control" unique_id=1083292782]
+texture_filter = 4
+custom_minimum_size = Vector2(0, 356)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -75)
+texture = ExtResource("2_j4g5l")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Stats" type="Control" parent="." unique_id=1964283566]
-visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Control" type="Control" parent="Stats" unique_id=460869778]
-anchors_preset = 0
-offset_left = 42.0
-offset_top = 371.0
-offset_right = 393.40057
-offset_bottom = 466.13272
-rotation = -0.0715585
-pivot_offset_ratio = Vector2(0.5, 0.5)
+[node name="Count" type="Label" parent="ScrollContainer/Control" unique_id=708973814]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
 offset_transform_enabled = true
-
-[node name="Label" type="Label" parent="Stats/Control" unique_id=587749798]
-layout_mode = 0
-offset_left = 140.06389
-offset_top = 31.410765
-offset_right = 335.0639
-offset_bottom = 84.66077
-text = "Completed 
-this run"
+offset_transform_position = Vector2(0, -66.115)
+text = " "
 horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 2
 
-[node name="Total" type="Label" parent="Stats/Control" unique_id=859944423]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Control" unique_id=184034332]
+layout_mode = 2
+theme_override_constants/margin_top = -30
+theme_override_constants/margin_bottom = 200
+
+[node name="Stats" type="PanelContainer" parent="ScrollContainer/Control/MarginContainer" unique_id=913600244]
+unique_name_in_owner = true
+clip_contents = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
+
+[node name="Table" type="VBoxContainer" parent="ScrollContainer/Control/MarginContainer/Stats" unique_id=374874544]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Row" parent="." unique_id=257535834 instance=ExtResource("4_rdrqw")]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 16.353872
-offset_top = 3.8797038
-offset_right = 167.15819
-offset_bottom = 79.87971
-theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = ExtResource("3_j4g5l")
-theme_override_font_sizes/font_size = 48
-text = "20"
-horizontal_alignment = 1
-
-[node name="Control2" type="Control" parent="Stats" unique_id=119248893]
-anchors_preset = 0
-offset_left = 43.0
-offset_top = 694.99994
-offset_right = 394.40057
-offset_bottom = 790.1326
-rotation = -0.0715585
-pivot_offset_ratio = Vector2(0.5, 0.5)
-offset_transform_enabled = true
-
-[node name="Label" type="Label" parent="Stats/Control2" unique_id=228415540]
-layout_mode = 0
-offset_left = 140.27484
-offset_top = 42.45411
-offset_right = 335.27484
-offset_bottom = 66.45411
-text = "Expensivest"
-horizontal_alignment = 1
-
-[node name="Expensivest" type="Label" parent="Stats/Control2" unique_id=1059934451]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = -16.740742
-offset_top = 6.894165
-offset_right = 163.90865
-offset_bottom = 82.894165
-theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = ExtResource("3_j4g5l")
-theme_override_font_sizes/font_size = 48
-text = "$99.99"
-horizontal_alignment = 1
-
-[node name="Control4" type="Control" parent="Stats" unique_id=868456046]
-anchors_preset = 0
-offset_left = 28.000006
-offset_top = 825.0
-offset_right = 379.40057
-offset_bottom = 920.1327
-rotation = 0.06981317
-pivot_offset_ratio = Vector2(0.5, 0.5)
-offset_transform_enabled = true
-
-[node name="Label" type="Label" parent="Stats/Control4" unique_id=1930703065]
-layout_mode = 0
-offset_left = 9.757309
-offset_top = 35.546333
-offset_right = 204.75731
-offset_bottom = 59.546333
-text = "Most parts
-stacked"
-horizontal_alignment = 1
-
-[node name="MostParts" type="Label" parent="Stats/Control4" unique_id=2014557380]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 137.30597
-offset_top = 24.622368
-offset_right = 329.81918
-offset_bottom = 100.62237
-theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = ExtResource("3_j4g5l")
-theme_override_font_sizes/font_size = 48
-text = "14"
-horizontal_alignment = 1
-
-[node name="Control3" type="Control" parent="Stats" unique_id=1138529986]
-anchors_preset = 0
-offset_left = 38.999996
-offset_top = 542.0
-offset_right = 390.40057
-offset_bottom = 637.1327
-rotation = 0.06981317
-pivot_offset_ratio = Vector2(0.5, 0.5)
-offset_transform_enabled = true
-
-[node name="Label" type="Label" parent="Stats/Control3" unique_id=1484542308]
-layout_mode = 0
-offset_left = -25.29694
-offset_top = 35.992683
-offset_right = 169.70306
-offset_bottom = 59.992683
-text = "Tallest"
-horizontal_alignment = 1
-
-[node name="Tallest" type="Label" parent="Stats/Control3" unique_id=454948194]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 134.70403
-offset_top = 1.7481527
-offset_right = 327.21722
-offset_bottom = 77.74815
-theme_override_colors/font_color = Color(0.12156863, 0.6392157, 0.60784316, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = ExtResource("3_j4g5l")
-theme_override_font_sizes/font_size = 48
-text = "20 in"
-horizontal_alignment = 1
+offset_left = 508.0
+offset_top = 265.0
+offset_right = 855.0
+offset_bottom = 342.0
 
 [node name="Early" type="Label" parent="." unique_id=351449693]
+visible = false
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 40.0
-offset_right = -40.0
+offset_left = 60.0
+offset_right = -60.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "You're early!
@@ -191,3 +112,15 @@ Complete at least 1 hamburger to see your run stats"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="Fail" type="Label" parent="." unique_id=917171408]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 0
+offset_left = 578.2721
+offset_top = 396.4945
+offset_right = 618.2721
+offset_bottom = 420.4945
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1

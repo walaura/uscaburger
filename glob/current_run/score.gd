@@ -15,8 +15,36 @@ const STAFF_BASE := .30
 
 func finalize_burger(stats: RsBurgerStats) -> void:
 	burger_history.push_back(stats)
-	print(burger_history)
-	print(total_money_earned)
+
+
+func get_record_burger(record: RsBurgerStats.Record) -> RsBurgerStats:
+	if burger_history.size() == 0:
+		return null
+	match record:
+		RsBurgerStats.Record.PRICE:
+			return burger_history.reduce(
+				func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
+					if current.price > winner.price:
+						return current
+					return winner,
+				RsBurgerStats.new()
+			)
+		RsBurgerStats.Record.HEIGHT:
+			return burger_history.reduce(
+				func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
+					if current.height > winner.height:
+						return current
+					return winner,
+				RsBurgerStats.new()
+			)
+		_:
+			return burger_history.reduce(
+				func(winner: RsBurgerStats, current: RsBurgerStats) -> RsBurgerStats:
+					if current.length > winner.length:
+						return current
+					return winner,
+				RsBurgerStats.new()
+			)
 
 
 func purchase(price: int) -> Array[CurrentRun_ScoreLineItemResource]:
@@ -136,7 +164,7 @@ func _get_sales_tax_perc() -> float:
 
 
 func _get_currency_fx_perc() -> float:
-	var maybe_fxf := CurrentRun.inventory.get_held_item_by_key("salestax.tres")
+	var maybe_fxf := CurrentRun.inventory.get_held_item_by_key("currency_fx.tres")
 	if maybe_fxf != null:
 		return maybe_fxf.incremental_value / 100
 	return 0.
