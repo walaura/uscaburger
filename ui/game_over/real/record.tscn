@@ -2,21 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dx1ud5a1fwlvq" path="res://ui/game_over/real/record.gd" id="1_ih5no"]
 [ext_resource type="Script" uid="uid://cqihffqbkogb1" path="res://node/rich_text/boing.gd" id="1_oad8w"]
+[ext_resource type="PackedScene" uid="uid://dcgch2q22pq83" path="res://ui/ketchup/badge/mini_badge.tscn" id="3_tfu12"]
+[ext_resource type="Texture2D" uid="uid://buffjkaqd1wh0" path="res://asset/ui/label-new.png" id="4_dlluv"]
 
 [sub_resource type="RichTextEffect" id="RichTextEffect_dn3wt"]
 script = ExtResource("1_oad8w")
 metadata/_custom_type_script = "uid://cqihffqbkogb1"
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
-content_margin_left = 4.0
-content_margin_top = 2.0
-content_margin_right = 4.0
-content_margin_bottom = 2.0
-bg_color = Color(0.95, 0.76000005, 0, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
 
 [node name="Records" type="HBoxContainer" unique_id=2076291955]
 anchors_preset = 15
@@ -39,12 +30,26 @@ vertical_alignment = 1
 custom_effects = [SubResource("RichTextEffect_dn3wt")]
 visible_characters_behavior = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=380323189]
+[node name="Control" type="Control" parent="." unique_id=235095452]
+custom_minimum_size = Vector2(1, 1)
+custom_maximum_size = Vector2(1, 1)
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_dn3wt")
 
-[node name="Label" type="Label" parent="PanelContainer" unique_id=492793004]
-layout_mode = 2
-text = "NEW RECORD"
+[node name="NewBadge" parent="Control" unique_id=718093527 instance=ExtResource("3_tfu12")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 1
+offset_transform_enabled = true
+offset_transform_rotation = 0.31764993
+image = ExtResource("4_dlluv")
+opacity = 0.5

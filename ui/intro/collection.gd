@@ -10,6 +10,7 @@ var _top_case := UiKetchupBadgeGrid.new()
 
 @onready var INVENTORY_ITEM_DETAILS_PATH := ($InventoryItemDetails as InstancePlaceholder).get_instance_path()
 @onready var INVENTORY_PEDIA_PATH := ($CollectionPedia as InstancePlaceholder).get_instance_path()
+@onready var BADGE_PATH := (%Badge as InstancePlaceholder).get_instance_path()
 
 
 func _on_hide_show_button_pressed() -> void:
@@ -24,6 +25,7 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	_loader.queue_resource(INVENTORY_ITEM_DETAILS_PATH)
 	_loader.queue_resource(INVENTORY_PEDIA_PATH)
+	_loader.queue_resource(BADGE_PATH)
 
 	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
 		func() -> void:
@@ -38,10 +40,11 @@ func _ready() -> void:
 	_top_case.animate_on_ready = true
 
 	var pedia_icon := UiKetchupBadgeGridIcon.new()
-	pedia_icon.badge = $PediaBtn as Control
+	pedia_icon.badge = %PediaBtn as Control
 	pedia_icon.on_item_hovered.connect(_on_pedia_hovered)
 	_top_case.badges = [pedia_icon]
 
+	await get_tree().process_frame
 	var all_held_items := CurrentRun.inventory.get_all_possible_holdable_items_as_uniques()
 	_case.animate_on_ready = false
 	_case.badges = []
@@ -49,10 +52,15 @@ func _ready() -> void:
 	_case.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
 	for item in all_held_items:
-		var badge := (load((%Badge as InstancePlaceholder).get_instance_path()) as PackedScene).instantiate() as UiKetchupBadge
+		var has_seen := SavedRecords.records.has_seen_badge(item)
+		var has_purchased := SavedRecords.records.has_purchased_badge(item)
+
+		var badge := _loader.get_resource(BADGE_PATH).instantiate() as UiKetchupBadge
 		var icon := UiKetchupBadgeGridIcon.new()
 		badge.icon = item.icon
 		badge.tier = item.get_tier_for_display()
+		badge.is_never_purchased = !has_purchased
+		badge.is_new = !has_seen
 		icon.badge = badge
 
 		icon.on_item_hovered.connect(func() -> void: _on_item_hovered(item))

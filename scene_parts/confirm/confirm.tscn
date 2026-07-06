@@ -168,7 +168,7 @@ content_margin_left = 4.0
 content_margin_right = 8.0
 draw_center = false
 
-[sub_resource type="Theme" id="Theme_p51ry"]
+[sub_resource type="Theme" id="Theme_wv60c"]
 resource_local_to_scene = true
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/icon_normal_color = Color(1, 1, 1, 1)
@@ -253,7 +253,7 @@ VScrollBar/styles/scroll = SubResource("StyleBoxFlat_2j8s8")
 WhiteLabel/base_type = &"Label"
 WhiteLabel/colors/font_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Theme" id="Theme_fftbm"]
+[sub_resource type="Theme" id="Theme_ug1ug"]
 resource_local_to_scene = true
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/icon_normal_color = Color(1, 1, 1, 1)
@@ -339,6 +339,7 @@ WhiteLabel/base_type = &"Label"
 WhiteLabel/colors/font_color = Color(1, 1, 1, 1)
 
 [node name="Confirm" type="Control" unique_id=1565327848]
+z_as_relative = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -347,36 +348,62 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wv60c")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=917293081]
-layout_mode = 0
-offset_right = 834.0
-offset_bottom = 509.0
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=256748242]
+layer = 3
+visible = false
 
-[node name="Title" type="Label" parent="." unique_id=287408962]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1826133395]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control" unique_id=917293081]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=2039243831]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 197.0
-offset_top = 113.0
-offset_right = 554.0
-offset_bottom = 137.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.5
+offset_top = -69.0
+offset_right = 178.5
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/Control/VBoxContainer" unique_id=287408962]
+unique_name_in_owner = true
+z_index = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "hoty diggity damn are you sure>?>"
 
-[node name="Yeah" parent="." unique_id=1854096938 instance=ExtResource("2_ug1ug")]
+[node name="Nay" parent="CanvasLayer/Control/VBoxContainer" unique_id=557004162 instance=ExtResource("2_ug1ug")]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 251.0
-offset_top = 249.0
-offset_right = 413.0
-offset_bottom = 314.0
-theme = SubResource("Theme_p51ry")
-text = "yeah!!!!"
-
-[node name="Nay" parent="." unique_id=557004162 instance=ExtResource("2_ug1ug")]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 490.0
-offset_top = 243.0
-offset_right = 652.0
-offset_bottom = 308.0
-theme = SubResource("Theme_fftbm")
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_wv60c")
 text = "no :((("
+
+[node name="Yeah" parent="CanvasLayer/Control/VBoxContainer" unique_id=1854096938 instance=ExtResource("2_ug1ug")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_ug1ug")
+theme_type_variation = &"ButtonFakeSmall"
+text = "yeah!!!!"
+is_small = true

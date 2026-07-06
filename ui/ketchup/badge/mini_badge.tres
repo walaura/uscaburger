@@ -1,0 +1,154 @@
+[gd_resource type="VisualShader" format=3 uid="uid://dokuvhco0hpl"]
+
+[ext_resource type="Texture2D" uid="uid://brc3v4knogy6o" path="res://asset/badge/badge-overlay-sq.png" id="1_24gt4"]
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_gl4c2"]
+parameter_name = "Noise"
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_lgs5h"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_22g75"]
+output_port_for_preview = 0
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_f7moa"]
+texture = ExtResource("1_24gt4")
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_8hxdw"]
+size = Vector2(780, 440)
+expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_gl4c2"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_22g75"]
+operator = 5
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_f7moa"]
+default_input_values = [0, 0.0, 1, 0.0, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_24gt4"]
+default_input_values = [0, false, 1, Vector3(1, 1, 1), 2, Vector3(0, 0, 0)]
+op_type = 4
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_gl4c2"]
+parameter_name = "Greyscale"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_66haa"]
+parameter_name = "Image"
+texture_filter = 6
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_lgs5h"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_24gt4"]
+parameter_name = "Opacity"
+default_value_enabled = true
+default_value = 0.5
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_24gt4"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_0xu11"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0.05, 1), 2, Vector2(3.945, 0)]
+op_type = 1
+
+[sub_resource type="VisualShaderNodeMultiplyAdd" id="VisualShaderNodeMultiplyAdd_56tro"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(1, 1), 2, Vector2(0.945, 0)]
+op_type = 1
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_pactq"]
+default_input_values = [0, 0.274, 1, 0.0, 2, 0.0]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_ibnn6"]
+parameter_name = "Gloss"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_t1wtm"]
+size = Vector2(620, 380)
+expression = "output = rotate(rotation * PI, UV);"
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_15wmo"]
+parameter_name = "RotaForGloss"
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(1920, 340)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture2DParameter_66haa")
+nodes/fragment/2/position = Vector2(-40, 200)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_24gt4")
+nodes/fragment/3/position = Vector2(374, 410)
+nodes/fragment/4/node = SubResource("VisualShaderNodeMultiplyAdd_0xu11")
+nodes/fragment/4/position = Vector2(-957.6819, -1027.9928)
+nodes/fragment/5/node = SubResource("VisualShaderNodeMultiplyAdd_56tro")
+nodes/fragment/5/position = Vector2(-280, -1220)
+nodes/fragment/6/node = SubResource("VisualShaderNodeVectorCompose_pactq")
+nodes/fragment/6/position = Vector2(-1197.6819, -867.9928)
+nodes/fragment/7/node = SubResource("VisualShaderNodeFloatParameter_ibnn6")
+nodes/fragment/7/position = Vector2(-1620, -820)
+nodes/fragment/8/node = SubResource("VisualShaderNodeExpression_t1wtm")
+nodes/fragment/8/position = Vector2(-1720, -1420)
+nodes/fragment/8/size = Vector2(620, 380)
+nodes/fragment/8/input_ports = "0,3,uv;1,0,rotation;"
+nodes/fragment/8/output_ports = "0,3,output;"
+nodes/fragment/8/expression = "output = rotate(rotation * PI, UV);"
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatParameter_15wmo")
+nodes/fragment/9/position = Vector2(-2264.378, -1008.10034)
+nodes/fragment/10/node = SubResource("VisualShaderNodeTexture2DParameter_gl4c2")
+nodes/fragment/10/position = Vector2(-900, -500)
+nodes/fragment/11/node = SubResource("VisualShaderNodeColorOp_lgs5h")
+nodes/fragment/11/position = Vector2(1220, -240)
+nodes/fragment/12/node = SubResource("VisualShaderNodeTexture_22g75")
+nodes/fragment/12/position = Vector2(540, -340)
+nodes/fragment/13/node = SubResource("VisualShaderNodeTexture_f7moa")
+nodes/fragment/13/position = Vector2(540, -1360)
+nodes/fragment/14/node = SubResource("VisualShaderNodeGlobalExpression_8hxdw")
+nodes/fragment/14/position = Vector2(-2480, 0)
+nodes/fragment/14/size = Vector2(780, 440)
+nodes/fragment/14/input_ports = ""
+nodes/fragment/14/output_ports = ""
+nodes/fragment/14/expression = "vec2 rotate(float rotation, vec2 uv) {
+	vec2 pivot = vec2(.5,.5);
+	float cosa = cos(rotation);
+	float sina = sin(rotation);
+	uv -= pivot;
+	return vec2(
+		cosa * uv.x - sina * uv.y,
+		cosa * uv.y + sina * uv.x 
+	) + pivot;
+}
+
+float rand(float n){
+	return fract(sin(n) * 43758.5453123);
+}"
+nodes/fragment/15/node = SubResource("VisualShaderNodeVectorOp_gl4c2")
+nodes/fragment/15/position = Vector2(1780, -340)
+nodes/fragment/16/node = SubResource("VisualShaderNodeColorOp_22g75")
+nodes/fragment/16/position = Vector2(1580, 180)
+nodes/fragment/17/node = SubResource("VisualShaderNodeMix_f7moa")
+nodes/fragment/17/position = Vector2(1500, -100)
+nodes/fragment/18/node = SubResource("VisualShaderNodeSwitch_24gt4")
+nodes/fragment/18/position = Vector2(1040, 160)
+nodes/fragment/19/node = SubResource("VisualShaderNodeBooleanParameter_gl4c2")
+nodes/fragment/19/position = Vector2(400, 100)
+nodes/fragment/20/node = SubResource("VisualShaderNodeFloatOp_lgs5h")
+nodes/fragment/20/position = Vector2(680, 240)
+nodes/fragment/21/node = SubResource("VisualShaderNodeFloatParameter_24gt4")
+nodes/fragment/21/position = Vector2(1000, -40)
+nodes/fragment/connections = PackedInt32Array(2, 0, 3, 2, 5, 0, 12, 0, 4, 0, 5, 0, 13, 0, 11, 0, 12, 0, 11, 1, 6, 0, 4, 2, 7, 0, 6, 0, 8, 0, 4, 0, 9, 0, 8, 1, 10, 0, 12, 2, 3, 4, 0, 1, 16, 0, 0, 0, 11, 0, 17, 0, 17, 0, 16, 1, 19, 0, 18, 0, 18, 0, 16, 0, 3, 0, 18, 2, 3, 0, 20, 0, 20, 0, 18, 1, 21, 0, 17, 2)

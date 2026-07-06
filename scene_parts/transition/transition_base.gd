@@ -9,6 +9,7 @@ extends Control
 		color = nw
 		set_color()
 
+var audio_player: AudioStreamPlayer
 var autoplay := false
 
 
@@ -21,7 +22,7 @@ func set_color() -> void:
 func _ready() -> void:
 	set_color()
 	if autoplay:
-		var tween := await from_dark()
+		var tween := from_dark()
 		tween.finished.connect(func() -> void: queue_free())
 
 
@@ -31,16 +32,17 @@ func to_dark() -> Tween:
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	tween.tween_property($ColorRect, "modulate:a", 1., length)
+	if audio_player != null:
+		tween.tween_property(audio_player, "volume_linear", 0, length)
+
 	return tween
 
 
 func from_dark() -> Tween:
 	($ColorRect as ColorRect).modulate.a = 1.
-	if hold:
-		await get_tree().create_timer(hold).timeout
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property($ColorRect, "modulate:a", 0., length)
+	tween.tween_property($ColorRect, "modulate:a", 0., length).set_delay(hold)
 	return tween
 
 

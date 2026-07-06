@@ -1,6 +1,8 @@
 class_name CurrentRun_Inventory
 extends RefCounted
 
+var ALL_RAW_ITEMS: Dictionary[String, RsRawItem] = {}
+
 var _held_items: Dictionary[String, int] = {}
 
 signal item_got_held(item: RsItem)
@@ -101,11 +103,15 @@ func is_nonincremental(item: RsItem) -> bool:
 
 
 static func _get_item_raw(file_name: String) -> RsRawItem:
-	return load("res://data/unlockables/" + file_name) as RsRawItem
+	return load(_get_item_path(file_name)) as RsRawItem
 
 
 static func _get_all_items() -> PackedStringArray:
 	return ResourceLoader.list_directory("res://data/unlockables")
+
+
+static func _get_item_path(file_name: String) -> String:
+	return "res://data/unlockables/" + file_name
 
 
 func _get_held_item_tier(resource: RsBaseItem) -> int:

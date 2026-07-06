@@ -44,7 +44,6 @@ func _ready() -> void:
 	CurrentRun.inventory.item_got_held.connect(func(_name: RsItem) -> void: _change_viz())
 
 	(%BigNumber.get_parent() as CanvasItem).hide()
-	%Receipt.remove_child(%Receipt.get_child(0))
 
 
 func _change_viz() -> void:

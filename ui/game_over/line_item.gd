@@ -35,6 +35,7 @@ func _draw_ui() -> void:
 		Style.LINE:
 			(%Deets as Label).text = "-----------------------------------"
 			(%Price as Label).hide()
+			($AudioStreamPlayer2 as AudioStreamPlayer).volume_linear = 0.
 		Style.CENTER:
 			(%Deets as Label).text = deets
 			(%Deets as Label).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -42,6 +43,8 @@ func _draw_ui() -> void:
 		Style.EMPTY:
 			(%Deets as Label).text = " "
 			(%Price as Label).hide()
+			($AudioStreamPlayer2 as AudioStreamPlayer).volume_linear = 0.
+			($AudioStreamPlayer as AudioStreamPlayer).volume_linear = 0.
 		Style.TOT, Style.HONKING:
 			(%Deets as Label).text = deets
 			(%Price as Label).show()
@@ -66,6 +69,8 @@ func set_score(val: int) -> void:
 	var scaler_tween := create_tween()
 	(%Price as Label).offset_transform_rotation = -.2
 	(%Price as Label).offset_transform_scale = Vector2.ONE * 1.5
+	
+	($AudioStreamPlayer as AudioStreamPlayer).play()
 
 	var tease_anim_length := anim_length / 100 * 90
 
@@ -107,6 +112,11 @@ func set_score(val: int) -> void:
 			Vector2.ONE * 1.,
 			anim_length - tease_anim_length,
 		)
+	)
+	
+	scaler_tween.tween_callback(func()->void:
+		($AudioStreamPlayer as AudioStreamPlayer).stop()
+		($AudioStreamPlayer2 as AudioStreamPlayer).play()
 	)
 
 

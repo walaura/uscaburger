@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://b24fqfu18kw74"]
 
 [ext_resource type="Script" uid="uid://dxluyarsidlak" path="res://ui/run_pause/inventory_held.gd" id="1_i57w8"]
-[ext_resource type="Texture2D" uid="uid://cr53xgd5mxcx5" path="res://asset/badge/badge-pedia.png" id="2_84mvr"]
 [ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="2_d2k2i"]
+[ext_resource type="PackedScene" uid="uid://dcgch2q22pq83" path="res://ui/ketchup/badge/mini_badge.tscn" id="2_s0o0b"]
+[ext_resource type="Texture2D" uid="uid://qilky6hqbp0u" path="res://asset/badge/badge-stats.png" id="4_4vnm7"]
 
 [node name="InventoryHeld" type="VBoxContainer" unique_id=1532082109]
 anchors_preset = 15
@@ -28,17 +29,16 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PediaBtn" type="TextureRect" parent="." unique_id=448705669]
+[node name="RunFxBtn" parent="." unique_id=718093527 instance=ExtResource("2_s0o0b")]
 unique_name_in_owner = true
-texture_filter = 5
+custom_minimum_size = Vector2(0, 31.96)
 layout_mode = 2
-texture = ExtResource("2_84mvr")
+image = ExtResource("2_d2k2i")
+opacity = 0.735
 
-[node name="RunFxBtn" type="TextureRect" parent="." unique_id=6363987]
+[node name="PediaBtn" parent="." unique_id=905958878 instance=ExtResource("2_s0o0b")]
 unique_name_in_owner = true
-visible = false
-texture_filter = 6
+custom_minimum_size = Vector2(0, 31.96)
 layout_mode = 2
-texture = ExtResource("2_d2k2i")
-expand_mode = 2
-stretch_mode = 4
+image = ExtResource("4_4vnm7")
+opacity = 0.9

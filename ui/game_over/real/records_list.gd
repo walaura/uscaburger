@@ -7,7 +7,7 @@ var _tween: Tween
 const INTROS: Array[String] = [
 	"As the sun sets you reflect on your day of hard work and dedication.",
 	"You've made it to the end of your shift.",
-	"This is really on you for thinking a restaurant that servers hamburgers stands any chance in 202X.",
+	"This is really on you for thinking a restaurant that serves hamburgers stands any chance in 202X.",
 	"Have you considered switching to tacos? kebabs? Maybe boba? Froyo is due to come back at any point, get in early.",
 	"Did you know that _that_ popular hamburger restaurant actually assembles most of them upside down? Weird",
 	"The buns are really called Heel and Crown, you can look this up."
@@ -24,7 +24,6 @@ const OUTROS: Array[String] = [
 const COUNT: Array[String] = [
 	"You completed [boing]%d[/boing] hamburgers. Good job!",
 	"You completed [boing]%d[/boing] hamburgers. That's a lot!",
-	"You completed [boing]%d[/boing] sandwiches. We don't count the failed ones.",
 	"You closed [boing]%d[/boing] hamburgers. That's a lot!",
 	"You closed [boing]%d[/boing] sanwiches. That's a lot!",
 ]
@@ -60,47 +59,45 @@ func _ready() -> void:
 	var records: Array[UiGameOverRealRecord] = []
 
 	if all_items.size() == 0:
-		printerr("lol")
-		return
+		records.append(_make_record("You can probably do better than this", false))
+	else:
+		var sr := SavedRecordsResource.new()
 
-	var sr := SavedRecordsResource.new()
+		sr.max_height = SavedRecordFloatResource.new(45.5)
 
-	sr.max_height = SavedRecordFloatResource.new(45.5)
+		@warning_ignore("unsafe_call_argument")
+		records.append(_make_record(INTROS.pick_random() + "\n\n", false))
+		@warning_ignore("unsafe_call_argument")
+		records.append(_make_record(COUNT.pick_random() % all_items.size(), false))
 
-	print(sr.serialize())
+		SavedRecords.records.maybe_update_tot(all_items.size())
 
-	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record(INTROS.pick_random() + "\n\n", false))
-	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record(COUNT.pick_random() % all_items.size(), false))
-
-	SavedRecords.records.maybe_update_tot(all_items.size())
-
-	var expensivest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.PRICE)
-	@warning_ignore("unsafe_call_argument")
-	records.append(
-		_make_record(
-			EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price),
-			SavedRecords.records.maybe_update_max_money(expensivest.price)
+		var expensivest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.PRICE)
+		@warning_ignore("unsafe_call_argument")
+		records.append(
+			_make_record(
+				EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price),
+				SavedRecords.records.maybe_update_max_money(expensivest.price)
+			)
 		)
-	)
 
-	var most_parts := CurrentRun.score.get_record_burger(RsBurgerStats.Record.LENGTH)
-	@warning_ignore("unsafe_call_argument")
-	records.append(
-		_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), SavedRecords.records.maybe_update_max_parts(most_parts.length))
-	)
-
-	var tallest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.HEIGHT)
-	@warning_ignore("unsafe_call_argument")
-	records.append(
-		_make_record(
-			HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height), SavedRecords.records.maybe_update_max_height(tallest.height)
+		var most_parts := CurrentRun.score.get_record_burger(RsBurgerStats.Record.LENGTH)
+		@warning_ignore("unsafe_call_argument")
+		records.append(
+			_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), SavedRecords.records.maybe_update_max_parts(most_parts.length))
 		)
-	)
 
-	@warning_ignore("unsafe_call_argument")
-	records.append(_make_record("\n\n" + OUTROS.pick_random(), false))
+		var tallest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.HEIGHT)
+		@warning_ignore("unsafe_call_argument")
+		records.append(
+			_make_record(
+				HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height),
+				SavedRecords.records.maybe_update_max_height(tallest.height)
+			)
+		)
+
+		@warning_ignore("unsafe_call_argument")
+		records.append(_make_record("\n\n" + OUTROS.pick_random(), false))
 
 	for record in records:
 		add_child(record)

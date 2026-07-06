@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://cmxpotaj2iqxf" path="res://ui/theme.tres" id="1_b0ojb"]
 [ext_resource type="Shader" uid="uid://b4l35aywvo7qp" path="res://ui/ketchup/ketchup_button.tres" id="2_1mjlu"]
 [ext_resource type="Texture2D" uid="uid://cvm51je6gcaf1" path="res://asset/ui/splooch.png" id="4_a5ged"]
+[ext_resource type="PackedScene" uid="uid://bbqlp8pukojul" path="res://scene_parts/blooper.tscn" id="5_e86f3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b0ojb"]
 resource_local_to_scene = true
@@ -13,6 +14,7 @@ shader_parameter/HoverScroll = 0.0
 shader_parameter/FadeIn = 1.0
 shader_parameter/Splooch = ExtResource("4_a5ged")
 shader_parameter/Opacity = 0.8
+shader_parameter/AlphaUppers = 0.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_a5ged"]
 
@@ -31,6 +33,7 @@ shader_parameter/Sheen = SubResource("NoiseTexture2D_b0ojb")
 shader_parameter/FadeIn = 0.0
 shader_parameter/Splooch = ExtResource("4_a5ged")
 shader_parameter/Opacity = 0.0
+shader_parameter/AlphaUppers = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e86f3"]
 resource_local_to_scene = true
@@ -40,6 +43,7 @@ shader_parameter/HoverScroll = 0.0
 shader_parameter/FadeIn = 0.0
 shader_parameter/Splooch = ExtResource("4_a5ged")
 shader_parameter/Opacity = 0.5
+shader_parameter/AlphaUppers = 0.0
 
 [node name="KetchupButton" type="Button" unique_id=1854096938]
 z_as_relative = false
@@ -122,6 +126,8 @@ offset_transform_enabled = true
 theme = ExtResource("1_b0ojb")
 theme_type_variation = &"ButtonLabel"
 text = "XXXxx"
+
+[node name="Blooper" parent="." unique_id=945011262 instance=ExtResource("5_e86f3")]
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]

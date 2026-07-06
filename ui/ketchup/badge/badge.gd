@@ -4,38 +4,36 @@ extends Control
 @export var icon: Texture2D:
 	set(val):
 		icon = val
-		if !is_node_ready():
-			await ready
-		_draw_ui()
+		queue_redraw()
 @export var edge: float:
 	set(val):
 		edge = val
 		(get_node("%Badge") as ColorRect).material.set("shader_parameter/Edge", edge)
 @export var animates := true
 @export var tier: int = 0
+
 @export var is_new: bool = false
+@export var is_never_purchased: bool = false
 
 
-func _ready() -> void:
-	if !icon:
-		return
-	_draw_ui()
-
-
-func _draw_ui() -> void:
-	var badge_node := get_node("%Badge") as ColorRect
-	var rng := RandomNumberGenerator.new()
-
+func _draw() -> void:
+	if !is_node_ready():
+		await ready
+	var badge_node := %Badge as ColorRect
 	badge_node.material.set("shader_parameter/Badge", icon)
-	badge_node.material.set("shader_parameter/RotaForEdge", rng.randf())
-	badge_node.material.set("shader_parameter/Rota", rng.randf())
 
 	if tier > 1:
 		(%TierWrapper as Control).show()
 		(%TierLabel as Label).text = str(tier)
 
-	if is_new:
-		(%NewWrapper as Control).show()
+	if is_new or is_never_purchased:
+		(%NewWrapper as UIKetchupMiniBadge).show()
+		(%NewWrapper as UIKetchupMiniBadge).greyscale = !is_new
+
+
+func _ready() -> void:
+	(%Badge as ColorRect).material.set("shader_parameter/RotaForEdge", randf())
+	(%Badge as ColorRect).material.set("shader_parameter/Rota", randf())
 
 	_ready_animation()
 	if animates:

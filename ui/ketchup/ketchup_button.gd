@@ -13,26 +13,22 @@ const ROTATE_FOR := -.075
 		is_small = value
 		if not is_node_ready():
 			await ready
-		_redraw_ui()
+		_draw()
 
 
 func _notification(what: int) -> void:
 	if not Engine.is_editor_hint():
 		return
 	if what == 30:
-		_redraw_ui()
+		_draw()
 
 
-func _redraw_ui() -> void:
+func _draw() -> void:
 	theme_type_variation = "ButtonFakeSmall" if is_small else "ButtonFake"
 	var label := $CenterContainer/Label as Label
 	if label:
 		label.text = text
 		label.theme_type_variation = "ButtonLabelSmall" if is_small == true else "ButtonLabel"
-
-
-func _ready() -> void:
-	_redraw_ui()
 
 
 func _setup_tweens() -> void:
@@ -48,7 +44,8 @@ func _setup_tweens() -> void:
 	_hover_tween.set_ease(Tween.EASE_OUT)
 
 
-func _on_mouse_entered() -> void:
+func _on_focus_entered() -> void:
+	($Blooper as PartsBlooper).play_focus()
 	_setup_tweens()
 	_hover_tween.tween_property((%Hover as ColorRect).material, "shader_parameter/FadeIn", 1., .3)
 	_hover_tween.parallel().tween_property((%HoverShadow as ColorRect).material, "shader_parameter/FadeIn", 1., .3)
@@ -64,7 +61,7 @@ func _on_mouse_entered() -> void:
 	_loop_tween.tween_property((%Hover as ColorRect).material, "shader_parameter/HoverScroll", -30., 60. * 5)
 
 
-func _on_mouse_exited() -> void:
+func _on_focus_exited() -> void:
 	_setup_tweens()
 
 	_hover_tween.tween_property((%Hover as ColorRect).material, "shader_parameter/FadeIn", 0, .3)
@@ -76,25 +73,12 @@ func _on_mouse_exited() -> void:
 
 
 func _on_button_down() -> void:
+	($Blooper as PartsBlooper).play_click()
 	_setup_tweens()
 
 	_hover_tween.parallel().tween_property(%Label, "offset_transform_scale", Vector2.ONE * .9, .125)
 	_hover_tween.parallel().tween_property(self, "offset_transform_scale", Vector2.ONE * .9, .25)
 
 
-func _on_focus_entered() -> void:
-	if Helper.is_joypad:
-		_on_mouse_entered()
-	else:
-		_setup_tweens()
-		_hover_tween.parallel().tween_property((%Rest as ColorRect).material, "shader_parameter/Opacity", .4, .2)
-		_hover_tween.parallel().tween_property(%Label, "offset_transform_scale", Vector2.ONE * 1.1, .125)
-
-
-func _on_focus_exited() -> void:
-	if Helper.is_joypad:
-		_on_mouse_exited()
-	else:
-		_setup_tweens()
-		_hover_tween.parallel().tween_property((%Rest as ColorRect).material, "shader_parameter/Opacity", .8, .2)
-		_hover_tween.parallel().tween_property(%Label, "offset_transform_scale", Vector2.ONE, .125)
+func _on_mouse_entered() -> void:
+	grab_focus()

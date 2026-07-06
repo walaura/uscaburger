@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://drxldp775pkrb" path="res://asset/ct/wall-pillar.glb" id="8_b5vnh"]
 [ext_resource type="Environment" uid="uid://cj6026pk8t6l7" path="res://asset/shop_inside.tres" id="10_80ywi"]
 [ext_resource type="Texture2D" uid="uid://kam47twrakii" path="res://asset/title-card.png" id="12_3rl4h"]
+[ext_resource type="AudioStream" uid="uid://d2xxfpt7qs0nd" path="res://asset/sound/ambiance.mp3" id="14_ojq7p"]
+[ext_resource type="Script" uid="uid://r47a3jerbr4y" path="res://node/audio_player.gd" id="15_e2qfy"]
 
 [sub_resource type="GDScript" id="GDScript_tdcom"]
 script/source = "extends VBoxContainer
@@ -737,6 +739,12 @@ layout_mode = 1
 length = 0.3
 hold = 0.1
 color = Color(0.8666667, 0.7411765, 0.44313726, 1)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=176350484]
+stream = ExtResource("14_ojq7p")
+bus = &"BGM"
+parameters/looping = true
+script = ExtResource("15_e2qfy")
 
 [connection signal="pressed" from="Node/MainMenuWrap/ButtonSeets2" to="." method="_on_button_play_pressed"]
 [connection signal="pressed" from="Node/MainMenuWrap/ButtonSeets" to="." method="_on_button_seets_pressed"]

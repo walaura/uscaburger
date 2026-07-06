@@ -177,6 +177,9 @@ func _play_splooch_in_anim() -> void:
 
 
 func _play_splooch_anim() -> void:
+	($Audio as AudioStreamPlayer).pitch_scale = randf_range(0.5, 1.5)
+	($Audio as AudioStreamPlayer).play()
+
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BACK)
@@ -240,7 +243,7 @@ func _get_drop_timeout() -> float:
 		return difficulty_numbers.drop_timeout
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not part:
 		return
 	match state:

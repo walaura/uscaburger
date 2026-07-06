@@ -10,30 +10,25 @@ var _loader := Loader.new()
 
 func _ready_sc1() -> void:
 	_loader.queue_resource(_inventory_scn_path)
-	(%NextButton as Button).modulate.a = .0
-	(%NextButton as Button).disabled = true
-	(%NextButton as Button).focus_mode = Control.FOCUS_NONE
 
-	var tween := (
-		(%ScoresTkt as UiGameOver_ScoresTkt)
-		. play_intro(
-			CurrentRun.score.last_settled_score,
-		)
-	)
-	tween.finished.connect(
+	((%ScoresTkt as UiGameOver_ScoresTkt).play_intro(CurrentRun.score.last_settled_score)).finished.connect(
 		func() -> void:
 			_tween = TweenHelper.maybe_init(self, _tween)
-			(%NextButton as Button).disabled = false
-			(%NextButton as Button).focus_mode = Control.FOCUS_ALL
-			InputHelper.force_focus.call_deferred(self)
-			_tween.tween_property(%NextButton as Button, "modulate:a", 1., .5)
+			InputHelper.enable($CenterContainer/VBoxContainer as Control)
+			_tween.tween_property(%NextButton as Control, "modulate:a", 1., .5)
 	)
 
 
 func _ready_sc2() -> void:
 	_tween2 = TweenHelper.maybe_init(self, _tween, Tween.EASE_OUT)
 	(%RecordsList as UiGameOverRealRecordsList).animate_in()
-	pass
+	(%RecordsList as UiGameOverRealRecordsList)._tween.finished.connect(
+		func() -> void:
+			_tween = TweenHelper.maybe_init(self, _tween)
+			InputHelper.enable($CenterContainer/VBoxContainer2 as Control)
+			_tween.tween_property(%TryAgainButton as Control, "modulate:a", 1., .5)
+			_tween.parallel().tween_property(%StatsButton as Control, "modulate:a", 1., .5)
+	)
 
 
 func _input(event: InputEvent) -> void:
@@ -47,6 +42,12 @@ func _ready() -> void:
 		handler._push_line("XX", -21000)
 		CurrentRun.score.settle(handler)
 	get_tree().paused = true
+
+	(%NextButton as Control).modulate.a = 0
+	(%TryAgainButton as Control).modulate.a = 0
+	(%StatsButton as Control).modulate.a = 0
+	InputHelper.disable($CenterContainer/VBoxContainer as Control)
+	InputHelper.disable($CenterContainer/VBoxContainer2 as Control)
 
 	_tween = TweenHelper.maybe_init(self, _tween)
 	_ready_sc1()
@@ -64,6 +65,7 @@ func _on_next_button_pressed() -> void:
 	($CenterContainer/VBoxContainer2 as Control).offset_transform_enabled = true
 	($CenterContainer/VBoxContainer2 as Control).modulate.a = 0.
 	($CenterContainer/VBoxContainer2 as Control).visible = true
+	InputHelper.disable($CenterContainer/VBoxContainer as Control)
 
 	_tween.tween_property($CenterContainer/VBoxContainer as Control, "offset_transform_position:x", -300, .5)
 	_tween.parallel().tween_property($CenterContainer/VBoxContainer as Control, "modulate:a", 0., .5)
@@ -75,14 +77,11 @@ func _on_next_button_pressed() -> void:
 
 
 func _on_open_subscreen() -> void:
-	($CenterContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED
-	($CenterContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED
+	InputHelper.disable($CenterContainer as Control)
 
 
 func _on_close_subscreen() -> void:
-	($CenterContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
-	($CenterContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
-	InputHelper.force_focus($CenterContainer as Control)
+	InputHelper.enable($CenterContainer as Control)
 
 
 func _on_stats_button_pressed() -> void:

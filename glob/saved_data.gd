@@ -1,5 +1,7 @@
 extends Node
 
+const CONFIG_FILE := "user://gfx.cfg"
+
 var config := ConfigFile.new()
 
 @warning_ignore("unsafe_call_argument") var viewport_start_size := Vector2(
@@ -78,7 +80,7 @@ static func _get_default_gfx_settings() -> Dictionary[Options, Array]:
 
 
 func _init() -> void:
-	var err := config.load("user://gfx.cfg")
+	var err := config.load(CONFIG_FILE)
 
 	if err != OK:
 		printerr("oopsies")
@@ -122,8 +124,14 @@ func apply_gfx_setting(option: Options, index: Variant) -> void:
 
 
 func _save() -> void:
-	config.save("user://gfx.cfg")
+	config.save(CONFIG_FILE)
 	on_config_changed.emit()
+
+
+func delete_HEY_THIS_IS_DANGEROUS() -> void:
+	config.clear()
+	config.save(CONFIG_FILE)
+	_init.call_deferred()
 
 
 func _apply_gfx_setting_fast(option: Options, index: Variant) -> void:

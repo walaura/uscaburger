@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://dxa4dvghxwbi1"]
 
 [ext_resource type="Script" uid="uid://btd3twuao3f5u" path="res://scene/board/tower/part_renderer.gd" id="1_kcndx"]
+[ext_resource type="AudioStream" uid="uid://de8das5d3peqd" path="res://asset/sound/animals_gerbil_soft_wood_bedding_pack_drop_on_floor.mp3" id="2_q3u2l"]
 
 [node name="PartRenderer" type="Node3D" unique_id=1756369056]
 script = ExtResource("1_kcndx")
+
+[node name="Audio" type="AudioStreamPlayer" parent="." unique_id=1653186923]
+stream = ExtResource("2_q3u2l")

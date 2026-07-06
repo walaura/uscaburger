@@ -581,6 +581,7 @@ theme = SubResource("Theme_cc6xx")
 text = "Try again"
 
 [node name="StatsButton" parent="CenterContainer/VBoxContainer2/VBoxContainer" unique_id=197146512 instance=ExtResource("5_u28h7")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 theme = SubResource("Theme_g205w")

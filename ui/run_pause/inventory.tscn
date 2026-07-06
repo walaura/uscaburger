@@ -37,7 +37,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_cnto3")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(1332, 1024)
+custom_minimum_size = Vector2(1400, 1024)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -72,10 +72,11 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -390.0
+anchor_bottom = 1.0
+offset_left = -420.0
 offset_top = -60.0
-offset_right = 40.0
-offset_bottom = 1207.0
+offset_right = 20.0
+offset_bottom = 0.0
 grow_horizontal = 0
 
 [node name="ButtonPrompts" parent="." unique_id=2053814882 instance=ExtResource("3_n6t8q")]

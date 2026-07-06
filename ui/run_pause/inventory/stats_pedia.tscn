@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://jfkyesv56445" path="res://ui/run_pause/inventory/stats_pedia_row.tscn" id="4_rdrqw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j4g5l"]
-content_margin_top = 40.0
+content_margin_top = 80.0
+content_margin_right = 6.0
 content_margin_bottom = 40.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
@@ -26,7 +27,7 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1490.0
+offset_right = -1480.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_j4g5l")
@@ -38,7 +39,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_right = -20.0
+offset_right = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_j4g5l")
@@ -54,7 +55,7 @@ texture_filter = 4
 custom_minimum_size = Vector2(0, 356)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, -75)
+offset_transform_position = Vector2(0, -115)
 texture = ExtResource("2_j4g5l")
 expand_mode = 1
 stretch_mode = 6
@@ -64,7 +65,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(0, -66.115)
+offset_transform_position = Vector2(0, -106)
 text = " "
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -72,7 +73,9 @@ autowrap_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="ScrollContainer/Control" unique_id=184034332]
 layout_mode = 2
-theme_override_constants/margin_top = -30
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = -70
+theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 200
 
 [node name="Stats" type="PanelContainer" parent="ScrollContainer/Control/MarginContainer" unique_id=913600244]

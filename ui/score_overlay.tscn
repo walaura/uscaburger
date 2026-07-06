@@ -175,6 +175,7 @@ offset_bottom = 327.0
 theme_override_constants/separation = 12
 
 [node name="Label" type="Label" parent="TextureRect/Receipt" unique_id=1062544171]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 0

@@ -42,8 +42,7 @@ func _ready() -> void:
 
 func _draw_ui() -> void:
 	var has_seen := SavedRecords.records.has_seen_badge(product)
-	SavedRecords.records.maybe_mark_badge_as_seen(product)
-	SavedRecords.save.call_deferred()
+	var has_purchased := SavedRecords.records.has_purchased_badge(product)
 	var name_node := get_node("%Name") as RichTextLabel
 	name_node.text = ""
 	name_node.push_bold()
@@ -66,10 +65,14 @@ func _draw_ui() -> void:
 	_badge_node.icon = product.icon
 	_badge_node.tier = product.get_tier_for_display()
 	_badge_node.is_new = !has_seen
+	_badge_node.is_never_purchased = !has_purchased
 	_badge_node.animate_in()
 
 	_stamp_node.badge = _badge_node
-	%BadgeWStamp.replace_by(_stamp_node)
+
+	var old_node := %BadgeWStamp
+	old_node.replace_by(_stamp_node)
+	old_node.queue_free()
 
 	($ColorRect as Control).offset_transform_rotation = randf_range(-.2, .2)
 	if _is_affordable == false:
@@ -91,6 +94,10 @@ func _process(_delta: float) -> void:
 
 func _on_buy_pressed() -> void:
 	_did_purchase = true
+
+
+func _on_buy_down() -> void:
+	($Blooper as PartsBlooper).play_click()
 
 
 func hover(is_out: bool) -> void:

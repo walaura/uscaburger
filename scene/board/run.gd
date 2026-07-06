@@ -20,6 +20,9 @@ func _ready() -> void:
 	_instance_tower()
 	_DBG_set_up()
 
+	($AudioPlayer as AudioPlayer).fade_in()
+	($TransitionBase as Parts_TransitionBase).audio_player = $AudioPlayer as AudioPlayer
+
 	CurrentRun.inventory.item_got_held.connect(
 		func(item: RsItem) -> void:
 			match item.get_key():

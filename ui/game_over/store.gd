@@ -67,6 +67,15 @@ func _on_reroll() -> void:
 	for unlockable_cp in pick:
 		var store_product_scn: UiGameOver_StoreProduct = STORE_PRODUCT_SCN.instantiate()
 		store_product_scn.product = unlockable_cp
-		store_product_scn.on_purchase_pressed.connect(func() -> void: on_purchase.emit(unlockable_cp))
+		store_product_scn.on_purchase_pressed.connect(
+			func() -> void:
+				SavedRecords.records.maybe_mark_badge_as_purchased(unlockable_cp)
+				SavedRecords.save.call_deferred()
+				on_purchase.emit(unlockable_cp)
+		)
 
 		%StoreRoot.add_child(store_product_scn)
+
+	for unlockable_cp in pick:
+		SavedRecords.records.maybe_mark_badge_as_seen(unlockable_cp)
+	SavedRecords.save.call_deferred()

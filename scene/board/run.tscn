@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://b4qak71l0e06o" path="res://scene/board/run.gd" id="1_mmtx2"]
 [ext_resource type="PackedScene" uid="uid://itncaaqookam" path="res://scene_parts/transition/transition_base.tscn" id="2_t7o3d"]
+[ext_resource type="AudioStream" uid="uid://d2xxfpt7qs0nd" path="res://asset/sound/ambiance.mp3" id="3_71857"]
+[ext_resource type="Script" uid="uid://r47a3jerbr4y" path="res://node/audio_player.gd" id="4_c0phs"]
 
 [node name="Run" type="Node3D" unique_id=1709738547]
 script = ExtResource("1_mmtx2")
@@ -9,4 +11,10 @@ script = ExtResource("1_mmtx2")
 [node name="TransitionBase" parent="." unique_id=1094825013 instance=ExtResource("2_t7o3d")]
 length = 0.3
 hold = 0.1
-color = Color(0., 0., 0., 1)
+color = Color(0, 0, 0, 1)
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="." unique_id=1410800416]
+stream = ExtResource("3_71857")
+bus = &"BGM"
+parameters/looping = true
+script = ExtResource("4_c0phs")

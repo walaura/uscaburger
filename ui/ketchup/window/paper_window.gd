@@ -12,12 +12,14 @@ func _ready() -> void:
 	($SubViewport/ColorRect as ColorRect).material.set("shader_parameter/Scale", 1.9)
 	($PanelContainer as Control).modulate.a = 0
 	($PanelContainer as Control).offset_transform_position.y = 1000
+	($PanelContainer as Control).offset_transform_scale = Vector2.ONE * .3
 
 	if open_on_ready:
 		animate_in()
 
 
 func animate_in() -> Tween:
+	($Audio as AudioStreamPlayer).play(0.)
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_QUART)
@@ -27,6 +29,7 @@ func animate_in() -> Tween:
 	tween.parallel().tween_property($PanelContainer as Control, "modulate:a", 1, .1)
 	tween.parallel().tween_property($PanelContainer as Control, "offset_transform_position:y", 0, .75).from(1000)
 	tween.parallel().tween_property(($SubViewport/ColorRect as ColorRect).material, "shader_parameter/Scale", 1, .33).set_delay(.5)
+	tween.parallel().tween_property($PanelContainer as Control, "offset_transform_scale", Vector2.ONE, .33).set_delay(.5)
 	return tween
 
 

@@ -19,11 +19,11 @@ func _input(event: InputEvent) -> void:
 func push_ticket_line(
 	line: CurrentRun_ScoreLineItemResource,
 ) -> Tween:
-	var tkt_line: UiGameOver_LineItem = ($LineItem as InstancePlaceholder).create_instance().duplicate()
 	_tween = TweenHelper.maybe_init(self, _tween)
 	if line is CurrentRun_ScoreLineItemNullResource:
 		return _tween
 
+	var tkt_line: UiGameOver_LineItem = ($LineItem as InstancePlaceholder).create_instance().duplicate()
 	tkt_line.is_white = is_white
 	tkt_line.visible = true
 

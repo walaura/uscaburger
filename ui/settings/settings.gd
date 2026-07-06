@@ -158,7 +158,9 @@ func update_resolution_label() -> void:
 
 	@warning_ignore("unsafe_property_access")
 	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
-	resolution_label.text = ("3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)])
+	resolution_label.text = (
+		"3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
+	)
 
 
 func _on_ui_scale_option_button_item_selected(index: int) -> void:
@@ -251,3 +253,29 @@ func _on_2_preset_pressed() -> void:
 
 func _on_hide_show_button_pressed() -> void:
 	($PaperWindow as UiKetchupPaperWindow).animate_out().finished.connect(func() -> void: on_close.emit())
+
+
+func _on_open_subscreen() -> void:
+	InputHelper.disable(self)
+
+
+func _on_close_subscreen() -> void:
+	InputHelper.enable(self)
+
+
+func _on_delet_pressed() -> void:
+	var conf := $Confirm.duplicate() as PartsConfirm
+	conf.message = "Are you sure? All your hard earned records will be deleted!! This is irreversible."
+	conf.yeah_label = "Yeah it's fine"
+	conf.nah_label = "No no don't do this"
+	add_child(conf)
+	_on_open_subscreen()
+	conf.confirm(
+		func() -> void:
+			SavedData.delete_HEY_THIS_IS_DANGEROUS()
+			SavedRecords.delete_HEY_THIS_IS_DANGEROUS()
+			var reboot_scn: String = ProjectSettings.get("application/run/main_scene")
+			get_tree().paused = false
+			get_tree().change_scene_to_file(reboot_scn),
+		func() -> void: _on_close_subscreen()
+	)

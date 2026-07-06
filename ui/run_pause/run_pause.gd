@@ -37,14 +37,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_open_subscreen() -> void:
-	($VBoxContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED
-	($VBoxContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED
+	InputHelper.disable($VBoxContainer as Control)
 
 
 func _on_close_subscreen() -> void:
-	($VBoxContainer as Control).focus_behavior_recursive = Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
-	($VBoxContainer as Control).mouse_behavior_recursive = Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
-	InputHelper.force_focus($VBoxContainer as Control)
+	InputHelper.enable($VBoxContainer as Control)
 
 
 func _on_unpause() -> void:
@@ -78,10 +75,15 @@ func _on_inventory_button_pressed() -> void:
 
 func _on_quit_btn_pressed() -> void:
 	var conf := $Confirm.duplicate() as PartsConfirm
+	conf.message = "Are you sure? Your run will end here and your totals will be saved."
+	conf.yeah_label = "Go for it, I'm done"
+	conf.nah_label = "Actually no, go back pls"
+	add_child(conf)
+	_on_open_subscreen()
 	conf.confirm(
 		func() -> void:
 			get_tree().paused = false
-			was_end_requested.emit(),
-		func() -> void: pass
+			was_end_requested.emit()
+			_on_close_subscreen(),
+		func() -> void: _on_close_subscreen()
 	)
-	add_child(conf)

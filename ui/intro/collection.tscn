@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bq7v3tjy2xijr" path="res://ui/ketchup/window/paper_window.tscn" id="2_c8b32"]
 [ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_inu2w"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="5_dyqj1"]
-[ext_resource type="Texture2D" uid="uid://cmmq5p268fss1" path="res://asset/badge/badge-runfx.png" id="5_f0l85"]
+[ext_resource type="PackedScene" uid="uid://dcgch2q22pq83" path="res://ui/ketchup/badge/mini_badge.tscn" id="6_iimd8"]
 [ext_resource type="Texture2D" uid="uid://cr53xgd5mxcx5" path="res://asset/badge/badge-pedia.png" id="7_hx7ry"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_f0l85"]
@@ -37,7 +37,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_iimd8")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(1332, 1024)
+custom_minimum_size = Vector2(1420, 1024)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -71,10 +71,11 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -390.0
+anchor_bottom = 1.0
+offset_left = -440.0
 offset_top = -60.0
-offset_right = 40.0
-offset_bottom = 1207.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 0
 
 [node name="CollectionPedia" parent="." unique_id=507983470 instance_placeholder="res://ui/intro/collection/collection_pedia.tscn"]
@@ -117,16 +118,11 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RunFxBtn" type="TextureRect" parent="InventoryHeld" unique_id=6363987]
+[node name="PediaBtn" parent="InventoryHeld" unique_id=718093527 instance=ExtResource("6_iimd8")]
 unique_name_in_owner = true
-visible = false
+custom_minimum_size = Vector2(0, 108.465)
 layout_mode = 2
-texture = ExtResource("5_f0l85")
-
-[node name="PediaBtn" type="TextureRect" parent="." unique_id=2130963703]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-texture = ExtResource("7_hx7ry")
+image = ExtResource("7_hx7ry")
+opacity = 0.87
 
 [editable path="PaperWindow"]

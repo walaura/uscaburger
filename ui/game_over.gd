@@ -17,7 +17,7 @@ func _ready() -> void:
 	if get_tree().current_scene == self:
 		CurrentRun.inventory.hold_item((load("res://data/unlockables/ketchup.tres") as RsRawItem).apply_tier(1))
 		var handler := ScTower_State.new()
-		handler._push_line("XX", -69)
+		handler._push_line("XX", 69)
 		CurrentRun.score.settle(handler)
 	if Helper.is_debug:
 		speed_mult = .4
@@ -133,6 +133,7 @@ func _print_tkt(container: Container, on_done: Callable) -> Callable:
 
 	return func() -> void:
 		var tween := create_tween()
+		($AudioStreamPlayer as AudioStreamPlayer).play.call_deferred()
 		tween.set_ease(Tween.EASE_IN_OUT)
 		tween.set_trans(Tween.TRANS_CIRC)
 		tween.tween_property(container, "offset_transform_position:y", 200, .25 * speed_mult)

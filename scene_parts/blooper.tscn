@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bbqlp8pukojul"]
+
+[ext_resource type="Script" uid="uid://dm682mit5l8g3" path="res://scene_parts/blooper.gd" id="1_obpex"]
+[ext_resource type="AudioStream" uid="uid://bhm0yswckgqds" path="res://asset/sound/zapsplat_multimedia_game_sound_click_selection_menu_001_73511.mp3" id="1_v7aov"]
+[ext_resource type="AudioStream" uid="uid://dg0y52ejs8ioa" path="res://asset/sound/zapsplat_multimedia_game_sound_click_selection_menu_002_73512.mp3" id="2_obpex"]
+
+[node name="Blooper" type="Node" unique_id=945011262]
+script = ExtResource("1_obpex")
+
+[node name="FocusSoundFx" type="AudioStreamPlayer" parent="." unique_id=2125122433]
+unique_name_in_owner = true
+stream = ExtResource("1_v7aov")
+volume_db = -18.0
+pitch_scale = 1.37
+
+[node name="ClickSoundFx" type="AudioStreamPlayer" parent="." unique_id=1942461008]
+unique_name_in_owner = true
+stream = ExtResource("2_obpex")
+volume_db = -18.0

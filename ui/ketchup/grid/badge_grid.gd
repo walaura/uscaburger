@@ -19,7 +19,7 @@ func _ready() -> void:
 				_pop_tween.tween_callback((badge.badge as UiKetchupBadge).animate_in).set_delay(.05)
 
 			badge.size_flags_horizontal = Control.SizeFlags.SIZE_EXPAND_FILL
-			add_child(badge)
+			add_child.call_deferred(badge)
 
 
 func _draw() -> void:

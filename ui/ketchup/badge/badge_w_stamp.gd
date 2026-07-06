@@ -53,6 +53,8 @@ func _setup_tweens() -> void:
 
 
 func _on_mouse_entered() -> void:
+	($Blooper as PartsBlooper).play_focus()
+
 	_setup_tweens()
 	_hover_tween.tween_property($HoverRect as Control, "offset_transform_scale", Vector2.ONE * 1.1, .2)
 	_hover_tween.parallel().tween_property($HoverRect/TextureRect as Control, "modulate:a", 1, .1)

@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dcgch2q22pq83"]
+
+[ext_resource type="Script" uid="uid://b2n8xy73688tm" path="res://ui/ketchup/badge/mini_badge.gd" id="1_8v5bg"]
+[ext_resource type="Shader" uid="uid://dokuvhco0hpl" path="res://ui/ketchup/badge/mini_badge.tres" id="2_7omim"]
+[ext_resource type="Texture2D" uid="uid://c8qqac46ndkue" path="res://asset/badge/badge-condi-mult.png" id="2_118ri"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ecgih"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_s3yxr"]
+height = 2
+noise = SubResource("FastNoiseLite_ecgih")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dn3wt"]
+resource_local_to_scene = true
+shader = ExtResource("2_7omim")
+shader_parameter/Greyscale = false
+shader_parameter/Image = ExtResource("2_118ri")
+shader_parameter/RotaForGloss = -0.2426378013443773
+shader_parameter/Gloss = 1.320599634898102
+shader_parameter/Noise = SubResource("NoiseTexture2D_s3yxr")
+shader_parameter/Opacity = 0.5
+
+[node name="MiniBadge" type="AspectRatioContainer" unique_id=718093527]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8v5bg")
+image = ExtResource("2_118ri")
+opacity = null
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2111942347]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_dn3wt")
+layout_mode = 2

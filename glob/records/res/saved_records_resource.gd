@@ -26,7 +26,6 @@ func has_purchased_badge(resource: RsItem) -> bool:
 
 func maybe_mark_badge_as_seen(resource: RsItem) -> bool:
 	var name := resource.get_key_w_tier()
-	print(seen_badges, name)
 	if !has_seen_badge(resource):
 		seen_badges.push_back(SavedRecordStrResource.new(name))
 		return true
@@ -95,6 +94,12 @@ func serialize() -> Dictionary:
 		for badge in seen_badges:
 			rta.append(badge.serialize())
 		rt["seen_badges"] = rta
+
+	if purchased_badges.size() > 0:
+		var rta := []
+		for badge in purchased_badges:
+			rta.append(badge.serialize())
+		rt["purchased_badges"] = rta
 	return rt
 
 
@@ -122,4 +127,12 @@ static func deserialize(data: Dictionary) -> SavedRecordsResource:
 			if badge is Dictionary:
 				@warning_ignore("UNSAFE_CAST")
 				res.seen_badges.append(SavedRecordStrResource.deserialize(badge as Dictionary))
+	if data.has("purchased_badges") and data["purchased_badges"] is Array:
+		var rta: Array = data["purchased_badges"]
+		if rta is not Array:
+			return
+		for badge: Variant in rta:
+			if badge is Dictionary:
+				@warning_ignore("UNSAFE_CAST")
+				res.purchased_badges.append(SavedRecordStrResource.deserialize(badge as Dictionary))
 	return res
