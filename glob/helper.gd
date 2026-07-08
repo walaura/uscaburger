@@ -58,6 +58,9 @@ func _input(event: InputEvent) -> void:
 	is_joypad = event is InputEventJoypadMotion or event is InputEventJoypadButton
 	if event.is_action_released("DBG-Splort"):
 		is_debug = not is_debug
+	if event.is_action_released("ui_fs"):
+		var screen_mode := SavedData.get_gfx_int_setting(SavedData.Options.SCREEN_MODE)
+		SavedData.apply_gfx_setting(SavedData.Options.SCREEN_MODE, 1 if screen_mode == 0 else 0)
 
 
 func format_number(number: float) -> String:

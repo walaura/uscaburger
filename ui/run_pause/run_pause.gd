@@ -11,6 +11,11 @@ var _loader := Loader.new()
 @onready var _inventory_scn_path := ($InventoryScn as InstancePlaceholder).get_instance_path()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action("ui_pause"):
+		was_unpause_requested.emit()
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_loader.queue_resource(_settings_scn_path)

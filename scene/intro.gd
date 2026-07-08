@@ -72,3 +72,17 @@ func _on_button_play_pressed() -> void:
 	tween.tween_property($"Node/AnimationPlayer/Camera3D", "rotation:x", -1., ($TransitionBase as Parts_TransitionBase).length * 2)
 
 	($TransitionBase as Parts_TransitionBase).swap_to(scene)
+
+
+func _on_quit_button_pressed() -> void:
+	var conf := $Confirm.duplicate() as PartsConfirm
+	conf.message = "Are you sure?"
+	conf.yeah_label = "Yeah close this"
+	conf.nah_label = "Actually no, go back!!!"
+	add_child(conf)
+	_on_open_subscreen()
+	conf.confirm(
+		func() -> void:
+			get_tree().quit(),
+		func() -> void: _on_close_subscreen()
+	)
