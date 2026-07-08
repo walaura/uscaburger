@@ -1,7 +1,7 @@
 extends Node
 
-var score := CurrentRun_Score.new()
 var inventory := CurrentRun_Inventory.new()
+var score := CurrentRun_Score.new()
 
 var player_data := RsPlayerData.new()
 var _preloader := Loader.new()
@@ -17,8 +17,9 @@ func _ready() -> void:
 
 
 func start_new_run() -> void:
-	score = CurrentRun_Score.new()
 	inventory = CurrentRun_Inventory.new()
+	score = CurrentRun_Score.new()
+	inventory.item_got_held.connect(score.on_item_got_held)
 	on_run_start.emit()
 
 

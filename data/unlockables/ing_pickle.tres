@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_hi865")
+requires = Array[StringName]([&"condi_mult.tres"])
 name = "Pickles"
 icon = ExtResource("1_m6nsf")
 desc = "Divisive! After a pickle, [boing]50%[/boing] chance of getting another pickle"
-price = 79
-requires = Array[StringName]([&"ui1.tres"])
+price = 179

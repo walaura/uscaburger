@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="RsRawItemIncremental" format=3 uid="uid://b0a5s6yb3e8sh"]
+
+[ext_resource type="Texture2D" uid="uid://bg2i1fy603k8i" path="res://asset/badge/badge-hotbun.png" id="1_2hy3d"]
+[ext_resource type="Script" uid="uid://cu2c8ww44c1xu" path="res://node/data/unlockable/raw_item_incremental.gd" id="2_tl8pc"]
+
+[resource]
+script = ExtResource("2_tl8pc")
+is_incremental = true
+incremental_mult = 1.5
+name = "Hot buns"
+icon = ExtResource("1_2hy3d")
+desc = "[boing]Halves[/boing] how many parts you need to put in before you can get a top bun"
+price = 5899
+incremental_value = 1.0

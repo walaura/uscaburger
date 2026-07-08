@@ -1,16 +1,15 @@
 [gd_resource type="Resource" script_class="RsRawItemIncremental" format=3 uid="uid://cgwf8guhoxo31"]
-[ext_resource type="Script" uid="uid://cu2c8ww44c1xu" path="res://node/data/unlockable/raw_item_incremental.gd" id="1_nuanb"]
 
 [ext_resource type="Texture2D" uid="uid://drxwn7at4a2gw" path="res://asset/badge/badge-glue.png" id="1_72q06"]
+[ext_resource type="Script" uid="uid://cu2c8ww44c1xu" path="res://node/data/unlockable/raw_item_incremental.gd" id="1_nuanb"]
 
 [resource]
 script = ExtResource("1_nuanb")
+is_incremental = true
+incremental_mult = 1.25
 name = "Glue"
 icon = ExtResource("1_72q06")
 desc = "Food safe! Makes parts [boing]{0}%[/boing] less likely to slide off"
 fx_short_desc = "+[boing]{0}%[/boing] part stickyness"
-price = 1099
-is_incremental = true
-incremental_mult = 1.25
+price = 1899
 incremental_value = 10.0
-metadata/_custom_type_script = "uid://cuu2a4r833k1g"

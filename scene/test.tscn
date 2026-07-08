@@ -92,6 +92,9 @@ material = SubResource("ShaderMaterial_n2ak6")
 [node name="Topz-halloumi" parent="." unique_id=757171774 instance=ExtResource("8_abanw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1210032, 0.23681316, 3.305668)
 
+[node name="Cube_002" parent="Topz-halloumi/Cube_002" parent_id_path=PackedInt32Array(757171774, 1383022555) index="0" unique_id=308406362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8032373, 0)
+
 [editable path="Board"]
 [editable path="Board/Countertop"]
 [editable path="Board/Ct-Glass"]

@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_a34hp")
+requires = Array[StringName]([&"condi_mult.tres"])
 name = "Onions"
 icon = ExtResource("1_eg64w")
 desc = "Aromatic! Each subsequent meat item gains a [boing]1.5x[/boing] bonus"
-price = 89
-requires = Array[StringName]([&"ui1.tres"])
+price = 289

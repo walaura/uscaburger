@@ -40,6 +40,13 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={
+"materials": {
+"halloumi": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://asset/parts/halloumi.tres",
+"use_external/path": "uid://cyhqwkpknkaax"
+}
+},
 "nodes": {
 "PATH:Cube_002": {
 "generate/physics": true,

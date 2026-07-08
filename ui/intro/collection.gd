@@ -59,9 +59,14 @@ func _ready() -> void:
 		var icon := UiKetchupBadgeGridIcon.new()
 		badge.icon = item.icon
 		badge.tier = item.get_tier_for_display()
-		badge.is_never_purchased = !has_purchased
-		badge.is_new = !has_seen
 		icon.badge = badge
+
+		if !has_seen:
+			badge.icon = (%Empty as UiKetchupBadge).icon
+			badge.tier = 0
+		if !has_purchased:
+			badge.tier = 0
+			badge.is_greyed_out = true
 
 		icon.on_item_hovered.connect(func() -> void: _on_item_hovered(item))
 		_case.badges.append(icon)

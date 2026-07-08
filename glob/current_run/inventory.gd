@@ -58,33 +58,6 @@ func get_item_at_held_tier(resource: RsRawItem) -> RsItem:
 	return resource.apply_tier(tier)
 
 
-func get_purchasable_items() -> Array[RsItem]:
-	var purchasable_items: Array[RsItem] = []
-	var all_items: Array[RsItem] = []
-
-	for key in _get_all_items():
-		all_items.append(get_item_at_purchasable_tier(_get_item_raw(key)))
-
-	all_items = all_items.filter(
-		func(item: RsItem) -> bool:
-			if item.og.requires.size() == 0:
-				return true
-			for requisite in item.og.requires:
-				if !CurrentRun.inventory.is_holding_key(requisite):
-					return false
-			return true
-	)
-
-	for item in all_items:
-		if item.og is RsRawItemIncremental == true:
-			purchasable_items.push_back(item)
-		elif !CurrentRun.inventory.is_holding_item(item):
-			purchasable_items.push_back(item)
-	purchasable_items.shuffle()
-
-	return purchasable_items
-
-
 func is_affordable(item: RsItem) -> bool:
 	var money_held := CurrentRun.score.current_session_score
 	return max(0, money_held) >= item.price

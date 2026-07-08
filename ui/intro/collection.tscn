@@ -5,14 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://cvynlvhdkytv2" path="res://ui/ketchup/window/paper_window_panel.tscn" id="4_inu2w"]
 [ext_resource type="PackedScene" uid="uid://devcdtpi66gcl" path="res://ui/button_prompts.tscn" id="5_dyqj1"]
 [ext_resource type="PackedScene" uid="uid://dcgch2q22pq83" path="res://ui/ketchup/badge/mini_badge.tscn" id="6_iimd8"]
+[ext_resource type="PackedScene" uid="uid://bfgumwp7kxacp" path="res://ui/ketchup/badge/badge.tscn" id="7_bcsu7"]
 [ext_resource type="Texture2D" uid="uid://cr53xgd5mxcx5" path="res://asset/badge/badge-pedia.png" id="7_hx7ry"]
+[ext_resource type="Texture2D" uid="uid://4k5q8367wqka" path="res://asset/badge/badge-mystery.png" id="8_3iukr"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_f0l85"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_hx7ry"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iimd8"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bcsu7"]
 resource_local_to_scene = true
-texture = SubResource("ViewportTexture_f0l85")
+texture = SubResource("ViewportTexture_hx7ry")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gjv1i"]
 content_margin_left = 12.0
@@ -33,7 +35,7 @@ script = ExtResource("1_0ddja")
 layout_mode = 1
 
 [node name="PanelContainer" parent="PaperWindow" index="0" unique_id=316710107]
-theme_override_styles/panel = SubResource("StyleBoxTexture_iimd8")
+theme_override_styles/panel = SubResource("StyleBoxTexture_bcsu7")
 
 [node name="Control" type="Control" parent="PaperWindow/PanelContainer" index="0" unique_id=481154443]
 unique_name_in_owner = true
@@ -124,5 +126,14 @@ custom_minimum_size = Vector2(0, 108.465)
 layout_mode = 2
 image = ExtResource("7_hx7ry")
 opacity = 0.87
+
+[node name="Empty" parent="." unique_id=738482611 instance=ExtResource("7_bcsu7")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 2083.0
+offset_top = 375.0
+offset_right = 457.0
+offset_bottom = -355.0
+icon = ExtResource("8_3iukr")
 
 [editable path="PaperWindow"]

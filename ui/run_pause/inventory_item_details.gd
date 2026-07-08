@@ -5,14 +5,22 @@ extends Control
 @export var item: RsItem:
 	set(value):
 		item = value
-		if not is_node_ready():
-			await ready
-		_redraw_ui()
+		queue_redraw()
 
 
-func _redraw_ui() -> void:
-	($VBoxContainer/Label as Label).text = item.name
-	($BadgeImg as UiKetchupBadge).icon = item.icon
-	($BadgeImg as UiKetchupBadge).tier = item.get_tier_for_display()
+func _draw() -> void:
+	if not is_node_ready():
+		await ready
 
-	($VBoxContainer/Powers as RichTextLabel).text = item.desc
+	if SavedRecords.records.has_seen_badge(item):
+		($Deets/VBoxContainer/Label as Label).text = item.name
+		($Deets/VBoxContainer/Price as Label).text = Helper.format_currency(item.price)
+		($Deets/BadgeImg as UiKetchupBadge).icon = item.icon
+		($Deets/BadgeImg as UiKetchupBadge).tier = item.get_tier_for_display()
+
+		($Deets/VBoxContainer/Powers as RichTextLabel).text = item.desc
+		($Early as Label).hide()
+		($Deets as Control).show()
+	else:
+		($Early as Label).show()
+		($Deets as Control).hide()

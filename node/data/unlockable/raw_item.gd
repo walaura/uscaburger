@@ -3,7 +3,6 @@ extends RsBaseItem
 
 ## wont show up without these
 @export var requires: Array[StringName]
-@export var require_condition_script: ItemUnlockCondition
 
 
 func get_max_tier() -> int:

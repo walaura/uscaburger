@@ -9,4 +9,4 @@ requires = Array[StringName]([&"alt_chicken.tres"])
 name = "Plant based"
 icon = ExtResource("1_22sp6")
 desc = "Cows love it! 1 in 6 orders may be [boing]Plant Based[/boing]. 2x markup on every part"
-price = 2099
+price = 2899

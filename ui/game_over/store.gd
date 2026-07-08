@@ -21,12 +21,16 @@ func _ready() -> void:
 
 
 func _set_disabled() -> void:
-	focus_behavior_recursive = (Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED)
-	mouse_behavior_recursive = (Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED)
+	focus_behavior_recursive = (
+		Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
+	)
+	mouse_behavior_recursive = (
+		Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
+	)
 
 
 func _on_reroll() -> void:
-	var all_items := CurrentRun.inventory.get_purchasable_items()
+	var all_items := get_purchasable_items()
 	var all_affordables := all_items.filter(CurrentRun.inventory.is_affordable) as Array[RsItem]
 	var all_rest := all_items.filter(CurrentRun.inventory.is_unaffordable) as Array[RsItem]
 	var pick: Array[RsItem] = []
@@ -75,3 +79,32 @@ func _on_reroll() -> void:
 	for unlockable_cp in pick:
 		SavedRecords.records.maybe_mark_badge_as_seen(unlockable_cp)
 	SavedRecords.save.call_deferred()
+
+
+func get_purchasable_items() -> Array[RsItem]:
+	var purchasable_items: Array[RsItem] = []
+	var all_items: Array[RsItem] = []
+
+	for key in CurrentRun_Inventory._get_all_items():
+		all_items.append(CurrentRun.inventory.get_item_at_purchasable_tier(CurrentRun_Inventory._get_item_raw(key)))
+
+	all_items = all_items.filter(
+		func(item: RsItem) -> bool:
+			if item.get_key() == "hotbuns.tres":
+				return CurrentRun.score.parts_to_close > 18
+			if item.og.requires.size() == 0:
+				return true
+			for requisite in item.og.requires:
+				if !CurrentRun.inventory.is_holding_key(requisite):
+					return false
+			return true
+	)
+
+	for item in all_items:
+		if item.og is RsRawItemIncremental == true:
+			purchasable_items.push_back(item)
+		elif !CurrentRun.inventory.is_holding_item(item):
+			purchasable_items.push_back(item)
+	purchasable_items.shuffle()
+
+	return purchasable_items

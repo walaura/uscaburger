@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_6bih6")
+requires = Array[StringName]([&"condi_mult.tres"])
 name = "Bacon"
 icon = ExtResource("1_ygh02")
 desc = "Tasty! [boing]x1.125[/boing] of your burgers value"
-price = 129
-requires = Array[StringName]([&"ui1.tres"])
+price = 429

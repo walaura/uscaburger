@@ -37,17 +37,27 @@ texture = ExtResource("3_j5cd1")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1620627606]
+[node name="Deets" type="Control" parent="." unique_id=1224493997]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Deets" unique_id=1620627606]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 offset_left = 20.0
 offset_top = 611.0
-offset_right = -20.0
+offset_right = -19.0
+offset_bottom = 861.0
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1741492939]
+[node name="Label" type="Label" parent="Deets/VBoxContainer" unique_id=1741492939]
 layout_mode = 2
 theme_override_fonts/font = SubResource("FontVariation_enxxs")
 theme_override_font_sizes/font_size = 45
@@ -55,7 +65,7 @@ text = "Onions and a longer word"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Powers" type="RichTextLabel" parent="VBoxContainer" unique_id=1372746124]
+[node name="Powers" type="RichTextLabel" parent="Deets/VBoxContainer" unique_id=1372746124]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -64,7 +74,14 @@ fit_content = true
 horizontal_alignment = 1
 custom_effects = [SubResource("RichTextEffect_dn3wt")]
 
-[node name="BadgeImg" parent="." unique_id=1894801696 instance=ExtResource("4_oeqgo")]
+[node name="Price" type="Label" parent="Deets/VBoxContainer" unique_id=1943059793]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "$56.98"
+horizontal_alignment = 1
+
+[node name="BadgeImg" parent="Deets" unique_id=1894801696 instance=ExtResource("4_oeqgo")]
 custom_minimum_size = Vector2(18.995, 66.28)
 layout_mode = 0
 anchors_preset = 0
@@ -79,3 +96,20 @@ grow_vertical = 1
 icon = ExtResource("5_j13h6")
 animates = true
 tier = 1
+
+[node name="Early" type="Label" parent="." unique_id=383335892]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -12.0
+offset_right = 20.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Keep playing to
+find this badge"

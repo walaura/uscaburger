@@ -6,6 +6,8 @@ var total_money_earned := 0
 var current_session_score := 0
 var last_settled_score: Array[CurrentRun_ScoreLineItemResource] = []
 
+var parts_to_close := Helper.MIN_TO_CLOSE
+
 var _insurance_used := -3
 
 const BOM_BASE := .25
@@ -13,8 +15,15 @@ const SALES_TAX_BASE := .20
 const STAFF_BASE := .30
 
 
+func on_item_got_held(item: RsItem) -> void:
+	if(item.get_key() == 'hotbuns.tres'):
+		parts_to_close = ceili(parts_to_close/2.0)
+
+
 func finalize_burger(stats: RsBurgerStats) -> void:
 	burger_history.push_back(stats)
+	if stats is not RsFailedBurgerStats:
+		parts_to_close += 1
 
 
 func get_record_burger(record: RsBurgerStats.Record) -> RsBurgerStats:

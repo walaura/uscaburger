@@ -20,10 +20,7 @@ var ONION_KEY := ScTower_Parts.get_item("onion").name
 
 
 func _init(nw_mode: ScTower.Mode = _mode) -> void:
-	var all_items: Array[RsBurgerStats] = CurrentRun.score.burger_history.duplicate()
-	var all_successful := all_items.filter(func(item: RsBurgerStats) -> bool: return item is not RsFailedBurgerStats)
-
-	close_cooldown = all_successful.size() + Helper.MIN_TO_CLOSE
+	close_cooldown = CurrentRun.score.parts_to_close
 	_mode = nw_mode
 
 

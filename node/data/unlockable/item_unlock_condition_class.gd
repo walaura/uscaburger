@@ -1,4 +1,4 @@
 @abstract
-class_name ItemUnlockCondition extends RefCounted
+class_name ItemUnlockCondition extends Node
 
 @abstract func should_unlock() -> bool
