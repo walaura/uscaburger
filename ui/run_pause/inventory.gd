@@ -25,9 +25,7 @@ func _ready() -> void:
 	_loader.queue_resource(INVENTORY_STATS_FX_PATH)
 	_loader.queue_resource(INVENTORY_PEDIA_PATH)
 
-	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
-		func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in()
-	)
+	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(func() -> void: (%InventoryHeld as UiInventoryHeld).animate_in())
 	($ButtonPrompts as UiButtonPrompts).visible = true
 	($ButtonPrompts as UiButtonPrompts).push("ui_cancel")
 	#TODO find_next_valid_focus().grab_focus.call_deferred()

@@ -1,13 +1,12 @@
 [gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://cx7j3fiy6kevj"]
 
-[ext_resource type="PackedScene" uid="uid://6dysrcuwjbng" path="res://asset/parts/egg.glb" id="1_wfjsw"]
-[ext_resource type="Resource" uid="uid://bgso7dsv62twr" path="res://data/unlockables/ing_egg.tres" id="2_os4u3"]
+[ext_resource type="PackedScene" uid="uid://k7fosplpnuj7" path="res://asset/parts/hallu.glb" id="1_os4u3"]
+[ext_resource type="Resource" uid="uid://b4ta662n27pqe" path="res://data/unlockables/ing_hal.tres" id="2_l3pvl"]
 [ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="2_ynh8o"]
 
 [resource]
 script = ExtResource("2_ynh8o")
-price = 499
-name = "Egg"
-model = ExtResource("1_wfjsw")
-is_upgrade = true
-requires_upgrade = ExtResource("2_os4u3")
+price = 299
+name = "Halloumi"
+model = ExtResource("1_os4u3")
+requires_upgrade = ExtResource("2_l3pvl")

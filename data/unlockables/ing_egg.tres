@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_5x7wf")
+requires = Array[StringName]([&"ing_bacon.tres", &"ing_pickle.tres", &"ing_onion.tres"])
 name = "Egg"
 icon = ExtResource("1_e427c")
 desc = "Breakfast! Each subsequent bacon gains a [boing]10x[/boing] bonus"
-price = 1699
-requires = Array[StringName]([&"ing_bacon.tres", &"ing_pickle.tres", &"ing_onion.tres"])
+price = 2299

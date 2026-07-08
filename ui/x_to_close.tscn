@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bkrebyh71ctql"]
+
+[ext_resource type="Script" uid="uid://dcehfd63y6fa1" path="res://ui/x_to_close.gd" id="1_obvx8"]
+[ext_resource type="FontFile" uid="uid://7p3rhbxnuyhh" path="res://asset/SchibstedGrotesk-Bold.ttf" id="1_quio4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_abu4r"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.9490196, 0.7607843, 0, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[node name="XToClose" type="Control" unique_id=827580101]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_obvx8")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1056514924]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_abu4r")
+
+[node name="Label" type="Label" parent="PanelContainer" unique_id=695901070]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_quio4")

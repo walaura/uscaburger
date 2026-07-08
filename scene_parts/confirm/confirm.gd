@@ -9,8 +9,10 @@ extends Control
 func _ready() -> void:
 	_draw_ui()
 
-func _input(event:InputEvent) -> void:
-	InputHelper.force_grab_focus_on_input(event,%VBoxContainer as VBoxContainer )
+
+func _input(event: InputEvent) -> void:
+	InputHelper.force_grab_focus_on_input(event, %VBoxContainer as VBoxContainer)
+
 
 func _draw_ui() -> void:
 	visible = false

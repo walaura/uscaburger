@@ -21,12 +21,8 @@ func _ready() -> void:
 
 
 func _set_disabled() -> void:
-	focus_behavior_recursive = (
-		Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED
-	)
-	mouse_behavior_recursive = (
-		Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED
-	)
+	focus_behavior_recursive = (Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_DISABLED if disabled else Control.FocusBehaviorRecursive.FOCUS_BEHAVIOR_INHERITED)
+	mouse_behavior_recursive = (Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_DISABLED if disabled else Control.MouseBehaviorRecursive.MOUSE_BEHAVIOR_INHERITED)
 
 
 func _on_reroll() -> void:

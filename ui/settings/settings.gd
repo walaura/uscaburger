@@ -158,9 +158,7 @@ func update_resolution_label() -> void:
 
 	@warning_ignore("unsafe_property_access")
 	var viewport_render_size: Vector2 = viewport.size * viewport.scaling_3d_scale
-	resolution_label.text = (
-		"3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)]
-	)
+	resolution_label.text = ("3D viewport resolution: %d × %d (%d%%)" % [viewport_render_size.x, viewport_render_size.y, round(viewport.scaling_3d_scale * 100)])
 
 
 func _on_ui_scale_option_button_item_selected(index: int) -> void:

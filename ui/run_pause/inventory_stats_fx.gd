@@ -4,10 +4,10 @@ extends Control
 
 func _ready() -> void:
 	var all_items := CurrentRun.inventory._held_items
-	if(all_items.size() == 0):
+	if all_items.size() == 0:
 		($Early as Control).show()
 		return
-	
+
 	($Early as Control).hide()
 	for item_name in all_items:
 		var item := CurrentRun.inventory.get_item_at_held_tier(CurrentRun_Inventory._get_item_raw(item_name))

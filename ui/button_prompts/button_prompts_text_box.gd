@@ -45,7 +45,7 @@ func _get_action_name() -> String:
 		"Drop":
 			return "Drop piece"
 		"Finish":
-			return "Finish this burger"
+			return "Grab a top bun"
 		"Zoom-out":
 			return "Behold"
 		"ui_cancel":

@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_a8184")
-price = 199
+price = 19
 name = "Crown"
 model = ExtResource("1_4cokm")
 is_crown = true

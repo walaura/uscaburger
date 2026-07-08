@@ -1,9 +1,7 @@
 class_name TweenHelper
 
 @warning_ignore("int_as_enum_without_cast", "int_as_enum_without_match")
-static func maybe_init(
-	node: Node, tween: Tween, ease_type: Tween.EaseType = -1, trans_type: Tween.TransitionType = Tween.TRANS_CUBIC
-) -> Tween:
+static func maybe_init(node: Node, tween: Tween, ease_type: Tween.EaseType = -1, trans_type: Tween.TransitionType = Tween.TRANS_CUBIC) -> Tween:
 	if tween == null:
 		tween = node.create_tween()
 	if not tween.is_valid():

@@ -39,7 +39,8 @@ horizontal_alignment = 2
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1880997140]
 stream = SubResource("AudioStreamWAV_xr84f")
-volume_db = -10.0
+volume_db = -16.0
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="." unique_id=1291972565]
 stream = ExtResource("3_8yhx6")
+volume_db = -10.0

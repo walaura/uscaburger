@@ -28,9 +28,7 @@ func _on_button_seets_pressed() -> void:
 	var settings_screen: UiSettings = _loader.get_resource(settings_SCpath).instantiate()
 
 	_camera_anim.play("camera_to_settings", -1, 1)
-	_camera_anim.animation_finished.connect(
-		func(_n: StringName) -> void: add_child.call_deferred(settings_screen), ConnectFlags.CONNECT_ONE_SHOT
-	)
+	_camera_anim.animation_finished.connect(func(_n: StringName) -> void: add_child.call_deferred(settings_screen), ConnectFlags.CONNECT_ONE_SHOT)
 	_on_open_subscreen()
 	settings_screen.on_close.connect(
 		func() -> void:
@@ -45,9 +43,7 @@ func _on_button_coll_pressed() -> void:
 	var coll_screen: UiIntroCollection = _loader.get_resource(collection_SCpath).instantiate()
 
 	_camera_anim.play("camera_to_settings", -1, 1)
-	_camera_anim.animation_finished.connect(
-		func(_n: StringName) -> void: add_child.call_deferred(coll_screen), ConnectFlags.CONNECT_ONE_SHOT
-	)
+	_camera_anim.animation_finished.connect(func(_n: StringName) -> void: add_child.call_deferred(coll_screen), ConnectFlags.CONNECT_ONE_SHOT)
 
 	_on_open_subscreen()
 	coll_screen.on_close.connect(

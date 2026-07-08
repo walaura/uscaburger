@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_xyved")
-price = 299
+price = 199
 name = "Beef patty"
 model = ExtResource("1_51anb")
 is_patty = true

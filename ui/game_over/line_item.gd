@@ -69,7 +69,7 @@ func set_score(val: int) -> void:
 	var scaler_tween := create_tween()
 	(%Price as Label).offset_transform_rotation = -.2
 	(%Price as Label).offset_transform_scale = Vector2.ONE * 1.5
-	
+
 	($AudioStreamPlayer as AudioStreamPlayer).play()
 
 	var tease_anim_length := anim_length / 100 * 90
@@ -113,10 +113,11 @@ func set_score(val: int) -> void:
 			anim_length - tease_anim_length,
 		)
 	)
-	
-	scaler_tween.tween_callback(func()->void:
-		($AudioStreamPlayer as AudioStreamPlayer).stop()
-		($AudioStreamPlayer2 as AudioStreamPlayer).play()
+
+	scaler_tween.tween_callback(
+		func() -> void:
+			($AudioStreamPlayer as AudioStreamPlayer).stop()
+			($AudioStreamPlayer2 as AudioStreamPlayer).play()
 	)
 
 

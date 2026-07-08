@@ -6,12 +6,16 @@ const DROP_TIMEOUT = .5
 const WAVE_MAX_OFFSET = 2
 const WAVE_SPEED_TIMER_SPEED = 3
 const ITEM_Y_SCALE = 1
+const MIN_TO_CLOSE = 6
 
 var anim_speed := 1.
 
-const COLOR_RED := Color("#ff3314")
-const COLOR_TEAL := Color("#1fa39b")
-const COLOR_YELL := Color("#f2c200")
+const COLORS := preload("res://data/colors.tres") as ColorPalette
+
+var COLOR_RED := COLORS.colors.get(0)
+var COLOR_TEAL := COLORS.colors.get(1)
+var COLOR_TEAL_DARKER := COLORS.colors.get(2)
+var COLOR_YELL := COLORS.colors.get(3)
 
 var anim_lib: AnimationLibrary = preload("res://asset/animations.res")
 

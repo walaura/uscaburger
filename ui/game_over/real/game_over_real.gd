@@ -70,9 +70,7 @@ func _on_next_button_pressed() -> void:
 	_tween.tween_property($CenterContainer/VBoxContainer as Control, "offset_transform_position:x", -300, .5)
 	_tween.parallel().tween_property($CenterContainer/VBoxContainer as Control, "modulate:a", 0., .5)
 	_tween.parallel().tween_callback(func() -> void: _ready_sc2()).set_delay(.25)
-	_tween.parallel().tween_property($CenterContainer/VBoxContainer2 as Control, "offset_transform_position:x", 0, .5).from(300).set_delay(
-		.25
-	)
+	_tween.parallel().tween_property($CenterContainer/VBoxContainer2 as Control, "offset_transform_position:x", 0, .5).from(300).set_delay(.25)
 	_tween.parallel().tween_property($CenterContainer/VBoxContainer2 as Control, "modulate:a", 1., .5).from(0.).set_delay(.25)
 
 

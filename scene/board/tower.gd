@@ -1,15 +1,17 @@
 class_name ScTower
 extends Node3D
 
+@onready var SCORE_OVERLAY_SCN := ($ScoreOverlay as InstancePlaceholder).get_instance_path()
+@onready var XTOCLOSE_SCN := ($XToClose as InstancePlaceholder).get_instance_path()
+
 @export var floor_collider: StaticBody3D
 @export var mode := Mode.Normal
-
-static var SCORE_OVERLAY_SCN := preload("res://ui/score_overlay.tscn")
 
 signal on_game_over(did_finish: bool, score: ScTower_State)
 
 var parts_scn := ScTower_Parts.new()
 
+var _loader := Loader.new()
 var _active_renderer: ScTower_PartRenderer
 var _score_overlay: UiScoreOverlay
 
@@ -19,11 +21,15 @@ var _score_overlay: UiScoreOverlay
 enum Mode { Normal, Vegan, Chicken }
 
 
+func _init() -> void:
+	_loader.queue_resource(SCORE_OVERLAY_SCN)
+	_loader.queue_resource(XTOCLOSE_SCN)
+
+
 func _ready() -> void:
-	($PartRenderer as ScTower_PartRenderer).setup(floor_collider, 10, _difficulty_numbers)
 	_on_spawn()
 
-	_score_overlay = SCORE_OVERLAY_SCN.instantiate() as UiScoreOverlay
+	_score_overlay = _loader.get_resource(SCORE_OVERLAY_SCN).instantiate() as UiScoreOverlay
 	_score_overlay.setup(mode)
 	add_child(_score_overlay)
 
@@ -76,28 +82,27 @@ func get_aabb() -> AABB:
 
 
 func _physics_process(delta: float) -> void:
-	var aabb_rect := Helper.get_screen_rect(get_aabb())
-	if _score_overlay == null:
-		return
-	_score_overlay.rotation = -0.025
-	_score_overlay.position = (
-		_score_overlay
-		. position
-		. lerp(
-			Vector2(
-				minf(
-					aabb_rect.end.x,
-					get_viewport().get_visible_rect().end.x - _score_overlay.size.x,
+	if _score_overlay != null:
+		var aabb_rect := Helper.get_screen_rect(get_aabb())
+		_score_overlay.rotation = -0.025
+		_score_overlay.position = (
+			_score_overlay
+			. position
+			. lerp(
+				Vector2(
+					minf(
+						aabb_rect.end.x,
+						get_viewport().get_visible_rect().end.x - _score_overlay.size.x,
+					),
+					clampf(
+						aabb_rect.position.y - (_score_overlay.size.y * .8),
+						0,
+						get_viewport().get_visible_rect().end.y - _score_overlay.size.y,
+					),
 				),
-				clampf(
-					aabb_rect.position.y - (_score_overlay.size.y * .8),
-					0,
-					get_viewport().get_visible_rect().end.y - _score_overlay.size.y,
-				),
-			),
-			delta * 10.,
+				delta * 10.,
+			)
 		)
-	)
 
 
 func _process(_delta: float) -> void:
@@ -108,6 +113,32 @@ func _process(_delta: float) -> void:
 
 
 func _on_finish() -> void:
+	if _state.close_cooldown > 0:
+		var xtoclose_overlay: UiXToClose = _loader.get_resource(XTOCLOSE_SCN).instantiate()
+		xtoclose_overlay.count = _state.close_cooldown
+		xtoclose_overlay.offset_transform_enabled = true
+		xtoclose_overlay.offset_transform_scale = Vector2.ONE * .5
+		xtoclose_overlay.offset_transform_position.y = 20
+
+		var aabb_rect := Helper.get_screen_rect(_active_renderer.get_aabb())
+		xtoclose_overlay.position = Vector2(aabb_rect.position.x + (aabb_rect.size.x / 2), aabb_rect.position.y + (aabb_rect.size.y / 2))
+
+		var tween := create_tween()
+		tween.set_ease(Tween.EASE_IN)
+		tween.set_trans(Tween.TRANS_CIRC)
+
+		add_child(xtoclose_overlay)
+
+		tween.tween_property(xtoclose_overlay, "offset_transform_position:y", -100, 2.5)
+		tween.parallel().tween_property(xtoclose_overlay, "offset_transform_scale", Vector2.ONE, .25)
+		tween.parallel().tween_property(xtoclose_overlay, "modulate:a", 0, .5).set_delay(2)
+		tween.parallel().tween_property(xtoclose_overlay, "offset_transform_rotation", randf_range(-.1, .1), 2.5)
+		tween.finished.connect(
+			func() -> void:
+				if xtoclose_overlay != null:
+					xtoclose_overlay.queue_free()
+		)
+		return
 	#TODO check if can finish
 	swap_part(parts_scn.get_crown())
 
@@ -149,7 +180,9 @@ func _spawn_part(new_part: RsPart) -> void:
 	_active_renderer = ($PartRenderer).duplicate() as ScTower_PartRenderer
 	_active_renderer.was_stacked.connect(_on_stack)
 	_active_renderer.part = new_part
-	_active_renderer.height = _state.stack_height
+	_active_renderer.tower_state = _state
+	_active_renderer.difficulty_numbers = _difficulty_numbers
+	_active_renderer.floor_collider = floor_collider
 	%Stack.add_child(_active_renderer)
 	Camera.GAMEPLAY_target = _active_renderer._rb
 
@@ -170,7 +203,7 @@ func _render_prompts() -> void:
 				prompts.push_tutorial("Rotate-R")
 			4:
 				prompts.push_tutorial("Zoom-out")
-			6:
+			Helper.MIN_TO_CLOSE - 1:
 				CurrentRun.player_data.needs_tutorial = false
 				prompts.push_tutorial("Finish")
 

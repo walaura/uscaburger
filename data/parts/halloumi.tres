@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://bp3satepnb3b4"]
+
+[ext_resource type="PackedScene" uid="uid://6dysrcuwjbng" path="res://asset/parts/egg.glb" id="1_luwhf"]
+[ext_resource type="Resource" uid="uid://bgso7dsv62twr" path="res://data/unlockables/ing_egg.tres" id="2_tre42"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="3_aic20"]
+
+[resource]
+script = ExtResource("3_aic20")
+price = 499
+name = "Egg"
+model = ExtResource("1_luwhf")
+requires_upgrade = ExtResource("2_tre42")

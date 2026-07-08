@@ -3,13 +3,7 @@ extends RefCounted
 
 
 static func force_grab_focus_on_input(event: InputEvent, root_control: Control) -> void:
-	if (
-		event.is_action("ui_down")
-		or event.is_action("ui_up")
-		or event.is_action("ui_left")
-		or event.is_action("ui_accept")
-		or event.is_action("ui_right")
-	):
+	if event.is_action("ui_down") or event.is_action("ui_up") or event.is_action("ui_left") or event.is_action("ui_accept") or event.is_action("ui_right"):
 		if root_control.get_viewport().gui_get_focus_owner() == null:
 			force_focus(root_control)
 

@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_h8m5x")
-price = 129
+price = 79
 name = "Tomato"
 model = ExtResource("1_twf37")

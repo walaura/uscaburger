@@ -6,9 +6,8 @@
 
 [resource]
 script = ExtResource("2_mu0eu")
-price = 199
+price = 99
 name = "Ketchup"
 model = ExtResource("1_2ikoq")
 is_sauce = true
-is_upgrade = true
 requires_upgrade = ExtResource("2_eah01")

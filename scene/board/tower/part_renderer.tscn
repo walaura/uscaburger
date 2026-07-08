@@ -1,10 +1,62 @@
-[gd_scene format=3 uid="uid://dxa4dvghxwbi1"]
+[gd_scene format=3 uid="uid://bsvt4mr4rk66n"]
 
 [ext_resource type="Script" uid="uid://btd3twuao3f5u" path="res://scene/board/tower/part_renderer.gd" id="1_kcndx"]
 [ext_resource type="AudioStream" uid="uid://de8das5d3peqd" path="res://asset/sound/animals_gerbil_soft_wood_bedding_pack_drop_on_floor.mp3" id="2_q3u2l"]
+[ext_resource type="Shader" uid="uid://dgrno8k34hn5q" path="res://scene/board/tower/part_renderer.tres" id="3_o54ne"]
+
+[sub_resource type="Gradient" id="Gradient_o54ne"]
+offsets = PackedFloat32Array(0.58144796, 0.9751131)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_drwvo"]
+gradient = SubResource("Gradient_o54ne")
+
+[sub_resource type="Curve" id="Curve_o54ne"]
+_data = [Vector2(0.45219126, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o54ne"]
+curve = SubResource("Curve_o54ne")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q3u2l"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+flatness = 0.88
+initial_velocity_min = 8.32
+initial_velocity_max = 11.13
+damping_max = 33.684002
+use_scale_3d = true
+scale_3d_min = Vector3(1, 1, 1)
+scale_3d_max = Vector3(1, 1, 1)
+scale_min = 0.19999999
+scale_max = 0.59999996
+scale_curve = SubResource("CurveTexture_o54ne")
+scale_over_velocity_min = 1000.0
+scale_over_velocity_max = 1000.0
+color_ramp = SubResource("GradientTexture1D_drwvo")
+hue_variation_min = -0.010000022
+hue_variation_max = 0.079999976
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3u2l"]
+render_priority = 0
+shader = ExtResource("3_o54ne")
+shader_parameter/Alpha = 0.946
+
+[sub_resource type="QuadMesh" id="QuadMesh_o54ne"]
+material = SubResource("ShaderMaterial_q3u2l")
 
 [node name="PartRenderer" type="Node3D" unique_id=1756369056]
 script = ExtResource("1_kcndx")
 
 [node name="Audio" type="AudioStreamPlayer" parent="." unique_id=1653186923]
 stream = ExtResource("2_q3u2l")
+
+[node name="DropParticles" type="GPUParticles3D" parent="." unique_id=7131769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.374852, 3.6042407, -0.07062006)
+emitting = false
+amount = 500
+collision_base_size = 0.0
+transform_align = 1
+transform_align_channel_filter = 1
+process_material = SubResource("ParticleProcessMaterial_q3u2l")
+draw_pass_1 = SubResource("QuadMesh_o54ne")

@@ -54,9 +54,7 @@ func animate_in() -> void:
 	var tween := create_tween()
 	tween.tween_property(badge_node.material, "shader_parameter/Edge", 0.0, .6)
 	tween.parallel().tween_property(badge_node.material, "shader_parameter/Alpha", 1, .1)
-	tween.parallel().tween_property(badge_node, "scale", Vector2.ONE, 1).from(Vector2.ONE * 1.2).set_trans(Tween.TRANS_SINE).set_ease(
-		Tween.EASE_OUT
-	)
+	tween.parallel().tween_property(badge_node, "scale", Vector2.ONE, 1).from(Vector2.ONE * 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 
 func _process(_delta: float) -> void:
@@ -64,6 +62,4 @@ func _process(_delta: float) -> void:
 
 	if badge_node != null:
 		badge_node.material.set("shader_parameter/Gloss", get_viewport().get_mouse_position().x / get_viewport().get_visible_rect().size.x)
-		badge_node.material.set(
-			"shader_parameter/RotaForGloss", get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y
-		)
+		badge_node.material.set("shader_parameter/RotaForGloss", get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y)

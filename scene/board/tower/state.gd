@@ -10,6 +10,7 @@ var sauce_cooldown := 6
 
 var stack_height := 0.0
 var stack_length := 0
+var close_cooldown := -1
 
 var _mode := ScTower.Mode.Normal
 
@@ -19,6 +20,10 @@ var ONION_KEY := ScTower_Parts.get_item("onion").name
 
 
 func _init(nw_mode: ScTower.Mode = _mode) -> void:
+	var all_items: Array[RsBurgerStats] = CurrentRun.score.burger_history.duplicate()
+	var all_successful := all_items.filter(func(item: RsBurgerStats) -> bool: return item is not RsFailedBurgerStats)
+
+	close_cooldown = all_successful.size() + Helper.MIN_TO_CLOSE
 	_mode = nw_mode
 
 
@@ -104,6 +109,9 @@ func push(part: RsPart, new_height: float) -> Array[ScTower_State_Line]:
 	stack_length += 1
 	if new_height > stack_height:
 		stack_height = new_height
+	close_cooldown -= 1
+
+	print(close_cooldown)
 
 	return returnable
 

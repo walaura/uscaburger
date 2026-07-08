@@ -33,6 +33,4 @@ func _process(_delta: float) -> void:
 
 	if badge_node != null:
 		badge_node.material.set("shader_parameter/Gloss", get_viewport().get_mouse_position().x / get_viewport().get_visible_rect().size.x)
-		badge_node.material.set(
-			"shader_parameter/RotaForGloss", get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y
-		)
+		badge_node.material.set("shader_parameter/RotaForGloss", get_viewport().get_mouse_position().y / get_viewport().get_visible_rect().size.y)

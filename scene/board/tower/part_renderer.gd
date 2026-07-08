@@ -11,7 +11,7 @@ var part: RsPart
 
 @export var floor_collider: StaticBody3D
 @export var difficulty_numbers: RsDifficultyNumbers
-var height := 0.0
+@export var tower_state: ScTower_State
 
 var _drop_timer := Timer.new()
 var _wave_speed_timer := Timer.new()
@@ -25,17 +25,10 @@ var _maybe_splat: MeshInstance3D = null
 var _rb: RigidBody3D
 
 var _did_touch_anything := false
+@onready var _drop_particles := $DropParticles as GPUParticles3D
 @onready var _initial_scale := Vector3(1, Helper.ITEM_Y_SCALE, 1) * randf_range(.9, 1.1)
 
-
-func setup(
-	nw_floor_collider: StaticBody3D,
-	nw_height: int,
-	nw_difficulty_numbers: RsDifficultyNumbers,
-) -> void:
-	floor_collider = nw_floor_collider
-	height = nw_height
-	difficulty_numbers = nw_difficulty_numbers
+var HALLOUMI_KEY := ScTower_Parts.get_item("halloumi").name
 
 
 func get_aabb() -> AABB:
@@ -93,9 +86,15 @@ func _ready() -> void:
 	_rb.scale_object_local(_initial_scale)
 
 	var mat := PHYS_MATERIAL
+	var friction := 0.
+
 	var maybe_glue := CurrentRun.inventory.get_held_item_by_key("glue.tres")
 	if maybe_glue != null:
-		mat.friction = maybe_glue.incremental_value / 100
+		friction += maybe_glue.incremental_value / 100.
+	var halloumis: int = tower_state.appearances.get("HALLOUMI_KEY", 0)
+	friction += (halloumis * 20.) / 100.
+
+	mat.friction = friction
 
 	_rb.continuous_cd = true
 	_rb.physics_material_override = mat
@@ -110,7 +109,12 @@ func _ready() -> void:
 
 	_wave_speed_timer_rand_offsset = randf()
 	_wave_speed_timer.start(difficulty_numbers.wave_speed_timer_speed)
-	self._rb.position = Vector3(0, height + 3, 0)
+	self._rb.position = Vector3(0, tower_state.stack_height + 3, 0)
+
+	_drop_particles.reparent(_rb)
+	_drop_particles.position = Vector3.ZERO
+	(_drop_particles as GPUParticles3D).visible = true
+	(_drop_particles as GPUParticles3D).emitting = false
 
 	_sling_sideways()
 	_play_splooch_in_anim()
@@ -183,6 +187,9 @@ func _play_splooch_anim() -> void:
 	var tween := create_tween()
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BACK)
+
+	_drop_particles.emitting = true
+	get_tree().create_timer(.3).timeout.connect(func() -> void: _drop_particles.emitting = false)
 
 	if _maybe_splat == null:
 		tween.tween_property(_mesh, "scale", _initial_scale * Vector3(1.25, .5, 1.25), .1)
