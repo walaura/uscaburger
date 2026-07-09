@@ -1,8 +1,9 @@
 extends Control
 
-@export_file("*.tscn") var main_SCpath: String
-@export_file("*.tscn") var settings_SCpath: String
-@export_file("*.tscn") var collection_SCpath: String
+@onready var main_SCpath := (%Board as InstancePlaceholder).get_instance_path()
+@onready var settings_SCpath := (%Settings as InstancePlaceholder).get_instance_path()
+@onready var collection_SCpath := (%Collection as InstancePlaceholder).get_instance_path()
+
 var did_load := false
 var _loader := Loader.new()
 
@@ -11,9 +12,9 @@ var _loader := Loader.new()
 
 func _ready() -> void:
 	($SignAnimation as AnimationPlayer).play("new_animation")
-	_loader.queue_resource(main_SCpath)
-	_loader.queue_resource(settings_SCpath)
-	_loader.queue_resource(collection_SCpath)
+	Helper.load_scene(main_SCpath)
+	Helper.load_scene(settings_SCpath)
+	Helper.load_scene(collection_SCpath)
 
 	($AudioStreamPlayer as AudioPlayer).fade_in(.8, 30.)
 	($TransitionBase as Parts_TransitionBase).audio_player = $AudioStreamPlayer as AudioPlayer
@@ -25,10 +26,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_button_seets_pressed() -> void:
-	var settings_screen: UiSettings = _loader.get_resource(settings_SCpath).instantiate()
+	var settings_screen: UiSettings = (await Helper.load_scene(settings_SCpath)).instantiate()
 
 	_camera_anim.play("camera_to_settings", -1, 1)
-	_camera_anim.animation_finished.connect(func(_n: StringName) -> void: add_child.call_deferred(settings_screen), ConnectFlags.CONNECT_ONE_SHOT)
+	_camera_anim.animation_finished.connect(
+		func(_n: StringName) -> void: add_child.call_deferred(settings_screen), ConnectFlags.CONNECT_ONE_SHOT
+	)
 	_on_open_subscreen()
 	settings_screen.on_close.connect(
 		func() -> void:
@@ -40,10 +43,13 @@ func _on_button_seets_pressed() -> void:
 
 
 func _on_button_coll_pressed() -> void:
-	var coll_screen: UiIntroCollection = _loader.get_resource(collection_SCpath).instantiate()
-
+	print(121212)
+	var coll_screen: UiIntroCollection = (await Helper.load_scene(collection_SCpath)).instantiate()
+	print(55555)
 	_camera_anim.play("camera_to_settings", -1, 1)
-	_camera_anim.animation_finished.connect(func(_n: StringName) -> void: add_child.call_deferred(coll_screen), ConnectFlags.CONNECT_ONE_SHOT)
+	_camera_anim.animation_finished.connect(
+		func(_n: StringName) -> void: add_child.call_deferred(coll_screen), ConnectFlags.CONNECT_ONE_SHOT
+	)
 
 	_on_open_subscreen()
 	coll_screen.on_close.connect(
@@ -66,7 +72,7 @@ func _on_close_subscreen() -> void:
 
 
 func _on_button_play_pressed() -> void:
-	var scene := _loader.get_resource(main_SCpath)
+	var scene := await Helper.load_scene(main_SCpath)
 	var tween := create_tween()
 	tween.tween_property($"Node/AnimationPlayer/Camera3D", "rotation:x", .02, .2)
 	tween.tween_property($"Node/AnimationPlayer/Camera3D", "rotation:x", -1., ($TransitionBase as Parts_TransitionBase).length * 2)
@@ -81,8 +87,4 @@ func _on_quit_button_pressed() -> void:
 	conf.nah_label = "Actually no, go back!!!"
 	add_child(conf)
 	_on_open_subscreen()
-	conf.confirm(
-		func() -> void:
-			get_tree().quit(),
-		func() -> void: _on_close_subscreen()
-	)
+	conf.confirm(func() -> void: get_tree().quit(), func() -> void: _on_close_subscreen())

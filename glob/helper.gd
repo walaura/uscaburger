@@ -184,11 +184,20 @@ func get_screen_rect(aabb: AABB) -> Rect2:
 	return Rect2(min_pos, max_pos - min_pos)
 
 
-func maybe_load_preloaded_or_retry(path: String) -> PackedScene:
-	var resource: PackedScene = ResourceLoader.load_threaded_get(path)
-	if resource == null:
-		printerr("did not preload: " + path)
-		ResourceLoader.load_threaded_request(path)
-		return
+func load_scene(path: String) -> PackedScene:
+	var error := ResourceLoader.load_threaded_request(path, type_string(typeof(PackedScene)))
 
-	return resource
+	if error != Error.OK:
+		print(error)
+		return null
+
+	while ResourceLoader.load_threaded_get_status(path) == ResourceLoader.ThreadLoadStatus.THREAD_LOAD_IN_PROGRESS:
+		await get_tree().process_frame
+
+	var status := ResourceLoader.load_threaded_get_status(path)
+	if status != ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
+		print(status)
+		return null
+
+	var packed_scene := ResourceLoader.load_threaded_get(path)
+	return packed_scene as PackedScene

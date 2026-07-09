@@ -11,6 +11,8 @@ func queue_resource(path: String) -> void:
 
 
 func get_resource(path: String) -> PackedScene:
+	var status := ResourceLoader.load_threaded_get_status(path)
+	print(status)
 	if loaded_resources.has(path):
 		return loaded_resources[path]
 	var resource: PackedScene = ResourceLoader.load_threaded_get(path)

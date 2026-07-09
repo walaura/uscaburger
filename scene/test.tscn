@@ -8,42 +8,43 @@
 [ext_resource type="PackedScene" uid="uid://dpbopw7xoksux" path="res://asset/parts/mustard.tscn" id="6_abanw"]
 [ext_resource type="Shader" uid="uid://dgrno8k34hn5q" path="res://scene/board/tower/part_renderer.tres" id="7_pb23w"]
 [ext_resource type="PackedScene" uid="uid://k7fosplpnuj7" path="res://asset/parts/hallu.glb" id="8_abanw"]
+[ext_resource type="PackedScene" uid="uid://cnq1e5p4bbwqt" path="res://asset/parts/ananas.glb" id="8_r7uh7"]
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_abanw"]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_r7uh7"]
 expanded_output_ports = [0]
 source = 5
 
-[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_r7uh7"]
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_sov46"]
 parameter_name = "Texture2DParameter"
 
-[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_sov46"]
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ivktd"]
 constant = Color(0.8274265, 0, 0.07823897, 1)
 
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ivktd"]
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_npe5v"]
 constant = 1.0
 
-[sub_resource type="VisualShader" id="VisualShader_npe5v"]
+[sub_resource type="VisualShader" id="VisualShader_u1fpc"]
 resource_local_to_scene = true
 nodes/vertex/0/position = Vector2(820, 200)
 nodes/fragment/0/position = Vector2(400, 160)
-nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_abanw")
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_r7uh7")
 nodes/fragment/2/position = Vector2(-31.436096, 649.98694)
-nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_r7uh7")
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_sov46")
 nodes/fragment/3/position = Vector2(-391.4361, 489.98697)
-nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_sov46")
+nodes/fragment/4/node = SubResource("VisualShaderNodeColorConstant_ivktd")
 nodes/fragment/4/position = Vector2(40, 340)
-nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_ivktd")
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatConstant_npe5v")
 nodes/fragment/5/position = Vector2(480, 260)
 nodes/fragment/connections = PackedInt32Array(3, 0, 2, 2, 2, 0, 0, 0, 2, 4, 0, 1, 5, 0, 0, 2, 5, 0, 0, 13, 2, 0, 0, 5)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_u1fpc"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ts07n"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ts07n"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2643f"]
 resource_local_to_scene = true
 render_priority = 0
-shader = SubResource("VisualShader_npe5v")
-shader_parameter/Texture2DParameter = SubResource("ViewportTexture_u1fpc")
+shader = SubResource("VisualShader_u1fpc")
+shader_parameter/Texture2DParameter = SubResource("ViewportTexture_ts07n")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n2ak6"]
 render_priority = 0
@@ -69,7 +70,7 @@ directional_shadow_split_3 = 0.15
 directional_shadow_fade_start = 0.291
 
 [node name="MeshInstance3D2" parent="Board" index="7" unique_id=944642751]
-surface_material_override/0 = SubResource("ShaderMaterial_ts07n")
+surface_material_override/0 = SubResource("ShaderMaterial_2643f")
 
 [node name="Topz-egg" parent="." unique_id=2091841506 instance=ExtResource("2_bp0px")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.066803, 0.8940862, -0.7808862)
@@ -89,6 +90,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.787664, 1.1815966, 0.26851
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=2139643126]
 material = SubResource("ShaderMaterial_n2ak6")
 
+[node name="Topz-ananas" parent="." unique_id=425180237 instance=ExtResource("8_r7uh7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.936224, -1.1920929e-07, 1.9706562)
+
 [node name="Topz-halloumi" parent="." unique_id=757171774 instance=ExtResource("8_abanw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1210032, 0.23681316, 3.305668)
 
@@ -101,4 +105,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8032373, 0)
 [editable path="Board/bg"]
 [editable path="Board/bg/Collection 2"]
 [editable path="Topz-pickle"]
+[editable path="Topz-ananas"]
 [editable path="Topz-halloumi"]

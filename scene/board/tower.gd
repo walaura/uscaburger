@@ -167,7 +167,7 @@ func _on_stack(is_success: bool, part: RsPart) -> void:
 		on_game_over.emit(true, _state)
 		return
 
-	_difficulty_numbers.on_successful_stack()
+	_difficulty_numbers.on_successful_stack(part)
 	for line in ticker:
 		_score_overlay.push(line.title, line.value)
 		_score_overlay.get_big_number().set_score(_state.current_session_score)

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RsRawItem" format=3 uid="uid://dgy68bbje7t7t"]
+
+[ext_resource type="Texture2D" uid="uid://b5nuawq5hyxnd" path="res://asset/badge/badge-unl-ananas.png" id="1_mc54y"]
+[ext_resource type="Script" uid="uid://pm3oldicisov" path="res://node/data/unlockable/raw_item.gd" id="2_q4ufb"]
+
+[resource]
+script = ExtResource("2_q4ufb")
+requires = Array[StringName]([&"ing_bacon.tres", &"ing_pickle.tres", &"ing_onion.tres"])
+name = "Pineapple"
+icon = ExtResource("1_mc54y")
+desc = "Never gets old! Each piece gives you [boing]25%[/boing] off sway rate and gives it back as placement time"
+price = 5999

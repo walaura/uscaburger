@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RsPart" format=3 uid="uid://cksx54sllv4xf"]
+
+[ext_resource type="PackedScene" uid="uid://cnq1e5p4bbwqt" path="res://asset/parts/ananas.glb" id="1_yp0q6"]
+[ext_resource type="Resource" uid="uid://b4ta662n27pqe" path="res://data/unlockables/ing_hal.tres" id="2_55j67"]
+[ext_resource type="Script" uid="uid://u35m6awp131f" path="res://node/data/part_resource.gd" id="3_85pdq"]
+
+[resource]
+script = ExtResource("3_85pdq")
+price = 299
+name = "Pineapple"
+model = ExtResource("1_yp0q6")
+requires_upgrade = ExtResource("2_55j67")

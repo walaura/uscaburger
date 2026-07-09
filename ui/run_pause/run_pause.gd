@@ -14,6 +14,8 @@ var _loader := Loader.new()
 func _input(event: InputEvent) -> void:
 	if event.is_action("ui_pause"):
 		was_unpause_requested.emit()
+		get_tree().paused = false
+
 
 
 # Called when the node enters the scene tree for the first time.
