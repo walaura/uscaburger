@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="RsRawItemIncremental" format=3 uid="uid://cgwf8guhoxo31"]
+
+[ext_resource type="Texture2D" uid="uid://b3h0wane6ubx5" path="res://asset/badge/badge-costs.png" id="1_toyer"]
+[ext_resource type="Script" uid="uid://cu2c8ww44c1xu" path="res://node/data/unlockable/raw_item_incremental.gd" id="2_0iyrd"]
+
+[resource]
+script = ExtResource("2_0iyrd")
+is_incremental = true
+incremental_mult = 1.5
+incremental_extra_names = Array[String](["Trip to Costco", "Extra freezers", "Dumpster diving", "Shoplifting"])
+name = "Cryogenics"
+icon = ExtResource("1_toyer")
+desc = "Efficient! Pay [boing]{0}%[/boing] less material costs"
+fx_short_desc = "+[boing]{0}%[/boing] material costs discount"
+price = 399
+incremental_value = 5.0

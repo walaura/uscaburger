@@ -11,25 +11,24 @@ signal on_game_over(did_finish: bool, score: ScTower_State)
 
 var parts_scn := ScTower_Parts.new()
 
-var _loader := Loader.new()
 var _active_renderer: ScTower_PartRenderer
 var _score_overlay: UiScoreOverlay
 
 @onready var _state := ScTower_State.new(mode)
 @onready var _difficulty_numbers := RsDifficultyNumbers.new(mode)
 
-enum Mode { Normal, Vegan, Chicken }
+enum Mode { Normal, Vegan, Chicken, Smash }
 
 
 func _init() -> void:
-	_loader.queue_resource(SCORE_OVERLAY_SCN)
-	_loader.queue_resource(XTOCLOSE_SCN)
+	Helper.preload_scene(SCORE_OVERLAY_SCN)
+	Helper.preload_scene(XTOCLOSE_SCN)
 
 
 func _ready() -> void:
 	_on_spawn()
 
-	_score_overlay = _loader.get_resource(SCORE_OVERLAY_SCN).instantiate() as UiScoreOverlay
+	_score_overlay = (await Helper.load_scene(SCORE_OVERLAY_SCN)).instantiate() as UiScoreOverlay
 	_score_overlay.setup(mode)
 	add_child(_score_overlay)
 
@@ -114,7 +113,7 @@ func _process(_delta: float) -> void:
 
 func _on_finish() -> void:
 	if _state.close_cooldown > 0:
-		var xtoclose_overlay: UiXToClose = _loader.get_resource(XTOCLOSE_SCN).instantiate()
+		var xtoclose_overlay: UiXToClose = (await Helper.load_scene(XTOCLOSE_SCN)).instantiate()
 		xtoclose_overlay.count = _state.close_cooldown
 		xtoclose_overlay.offset_transform_enabled = true
 		xtoclose_overlay.offset_transform_scale = Vector2.ONE * .5
@@ -223,6 +222,9 @@ func _update_paper_color() -> void:
 			mat.set("shader_parameter/flip", true)
 		ScTower.Mode.Chicken:
 			mat.set("shader_parameter/base_color", Color("#f5cc00"))
+			mat.set("shader_parameter/flip", true)
+		ScTower.Mode.Smash:
+			mat.set("shader_parameter/base_color", Color("#38289e"))
 			mat.set("shader_parameter/flip", true)
 		_:
 			mat.set("shader_parameter/base_color", Color.WHITE)

@@ -16,8 +16,8 @@ const STAFF_BASE := .30
 
 
 func on_item_got_held(item: RsItem) -> void:
-	if(item.get_key() == 'hotbuns.tres'):
-		parts_to_close = ceili(parts_to_close/2.0)
+	if item.get_key() == "hotbuns.tres":
+		parts_to_close = ceili(parts_to_close / 2.0)
 
 
 func finalize_burger(stats: RsBurgerStats) -> void:
@@ -150,7 +150,7 @@ func _mk_insurance_line(bom_value: int) -> CurrentRun_ScoreLineItemResource:
 
 func _get_staff_salaries_perc() -> float:
 	var staff_salaries := STAFF_BASE
-	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("labor.tres")
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("disco_labor.tres")
 	if maybe_discount != null:
 		staff_salaries = STAFF_BASE - (staff_salaries / 100 * maybe_discount.incremental_value)
 	return staff_salaries
@@ -158,7 +158,7 @@ func _get_staff_salaries_perc() -> float:
 
 func _get_bom_perc() -> float:
 	var bom := BOM_BASE
-	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("bom.tres")
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("disco_bom.tres")
 	if maybe_discount != null:
 		bom = BOM_BASE - (bom / 100 * maybe_discount.incremental_value)
 	return bom
@@ -166,7 +166,7 @@ func _get_bom_perc() -> float:
 
 func _get_sales_tax_perc() -> float:
 	var sales_tax := SALES_TAX_BASE
-	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("salestax.tres")
+	var maybe_discount := CurrentRun.inventory.get_held_item_by_key("disco_salestax.tres")
 	if maybe_discount != null:
 		sales_tax = SALES_TAX_BASE - (sales_tax / 100 * maybe_discount.incremental_value)
 	return sales_tax

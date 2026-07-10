@@ -11,8 +11,6 @@ static var SCREEN_TS_TIME := .5
 var _tower_scn: ScTower
 var _maybe_force_next_mode: ScTower.Mode
 
-var _loader := Loader.new()
-
 
 func _ready() -> void:
 	CurrentRun.start_new_run()
@@ -40,18 +38,21 @@ func _get_next_tower_mode() -> ScTower.Mode:
 		_maybe_force_next_mode = -1
 		return rt
 
-	if CurrentRun.inventory.is_holding_key("alt_chicken.tres"):
-		if randi_range(1, 10) == 10:
-			return ScTower.Mode.Chicken
 	if CurrentRun.inventory.is_holding_key("alt_vegan.tres"):
-		if randi_range(1, 10) == 10:
+		if randi_range(1, 6) == 10:
 			return ScTower.Mode.Vegan
+	if CurrentRun.inventory.is_holding_key("alt_smash.tres"):
+		if randi_range(1, 6) == 10:
+			return ScTower.Mode.Smash
+	if CurrentRun.inventory.is_holding_key("alt_chicken.tres"):
+		if randi_range(1, 6) == 10:
+			return ScTower.Mode.Chicken
 
 	return ScTower.Mode.Normal
 
 
 func _instance_tower() -> void:
-	_loader.queue_resource(GAME_OVER_SCPATH)
+	Helper.preload_scene(GAME_OVER_SCPATH)
 	_tower_scn = TOWER_SCENE.instantiate()
 	_tower_scn.mode = _get_next_tower_mode()
 	_tower_scn.on_game_over.connect(on_game_over)
@@ -101,8 +102,8 @@ func _input(event: InputEvent) -> void:
 
 
 func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
-	_loader.queue_resource(GAME_OVER_REAL_SCPATH)
-	var SCresource: PackedScene = _loader.get_resource(GAME_OVER_SCPATH)
+	Helper.preload_scene(GAME_OVER_REAL_SCPATH)
+	var SCresource: PackedScene = await Helper.load_scene(GAME_OVER_SCPATH)
 
 	var prev_score_was_under_zero := CurrentRun.score.current_session_score < 0.0
 	if did_finish:
@@ -128,7 +129,7 @@ func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
 
 
 func _on_real_game_over() -> void:
-	var SCresource: PackedScene = _loader.get_resource(GAME_OVER_REAL_SCPATH)
+	var SCresource: PackedScene = await Helper.load_scene(GAME_OVER_REAL_SCPATH)
 	($TransitionBase as Parts_TransitionBase).swap_to(SCresource)
 
 

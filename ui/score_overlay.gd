@@ -60,7 +60,7 @@ func _set_mode() -> void:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.076, 0., 0.))
 			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
 		_:
-			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(0, 0, 0))
+			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.666, -.1, -.2))
 			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
 
 	pass

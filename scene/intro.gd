@@ -1,24 +1,23 @@
 extends Control
 
-@onready var main_SCpath := (%Board as InstancePlaceholder).get_instance_path()
 @onready var settings_SCpath := (%Settings as InstancePlaceholder).get_instance_path()
 @onready var collection_SCpath := (%Collection as InstancePlaceholder).get_instance_path()
 
 var did_load := false
-var _loader := Loader.new()
 
 @onready var _camera_anim := $Node/AnimationPlayer as AnimationPlayer
 
 
 func _ready() -> void:
 	($SignAnimation as AnimationPlayer).play("new_animation")
-	Helper.load_scene(main_SCpath)
-	Helper.load_scene(settings_SCpath)
-	Helper.load_scene(collection_SCpath)
 
 	($AudioStreamPlayer as AudioPlayer).fade_in(.8, 30.)
 	($TransitionBase as Parts_TransitionBase).audio_player = $AudioStreamPlayer as AudioPlayer
 	InputHelper.force_focus(self)
+	
+	
+	Helper.preload_scene(settings_SCpath)
+	Helper.preload_scene(collection_SCpath)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -27,7 +26,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_button_seets_pressed() -> void:
 	var settings_screen: UiSettings = (await Helper.load_scene(settings_SCpath)).instantiate()
-
+	print("ready")
 	_camera_anim.play("camera_to_settings", -1, 1)
 	_camera_anim.animation_finished.connect(
 		func(_n: StringName) -> void: add_child.call_deferred(settings_screen), ConnectFlags.CONNECT_ONE_SHOT
@@ -72,7 +71,7 @@ func _on_close_subscreen() -> void:
 
 
 func _on_button_play_pressed() -> void:
-	var scene := await Helper.load_scene(main_SCpath)
+	var scene := preload("res://scene/board.tscn")
 	var tween := create_tween()
 	tween.tween_property($"Node/AnimationPlayer/Camera3D", "rotation:x", .02, .2)
 	tween.tween_property($"Node/AnimationPlayer/Camera3D", "rotation:x", -1., ($TransitionBase as Parts_TransitionBase).length * 2)

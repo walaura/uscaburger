@@ -4,7 +4,7 @@ extends Control
 signal on_close
 
 var _live_panels: Array[UiKetchupPaperWindowPanel]
-var _loader := Loader.new()
+
 var _case := UiKetchupBadgeGrid.new()
 var _top_case := UiKetchupBadgeGrid.new()
 
@@ -23,9 +23,9 @@ func _input(event: InputEvent) -> void:
 
 
 func _ready() -> void:
-	_loader.queue_resource(INVENTORY_ITEM_DETAILS_PATH)
-	_loader.queue_resource(INVENTORY_PEDIA_PATH)
-	_loader.queue_resource(BADGE_PATH)
+	Helper.preload_scene(INVENTORY_ITEM_DETAILS_PATH)
+	Helper.preload_scene(INVENTORY_PEDIA_PATH)
+	Helper.preload_scene(BADGE_PATH)
 
 	($PaperWindow as UiKetchupPaperWindow).animation_in_almost_ready.connect(
 		func() -> void:
@@ -55,7 +55,7 @@ func _ready() -> void:
 		var has_seen := SavedRecords.records.has_seen_badge(item)
 		var has_purchased := SavedRecords.records.has_purchased_badge(item)
 
-		var badge := _loader.get_resource(BADGE_PATH).instantiate() as UiKetchupBadge
+		var badge := (await Helper.load_scene(BADGE_PATH)).instantiate() as UiKetchupBadge
 		var icon := UiKetchupBadgeGridIcon.new()
 		badge.icon = item.icon
 		badge.tier = item.get_tier_for_display()
@@ -92,11 +92,11 @@ func _spawn_panel(contents: Control, color := Color("#00161c")) -> void:
 
 
 func _on_item_hovered(item: RsItem) -> void:
-	var instance := _loader.get_resource(INVENTORY_ITEM_DETAILS_PATH).instantiate() as UiInventoryItemDetails
+	var instance := (await Helper.load_scene(INVENTORY_ITEM_DETAILS_PATH)).instantiate() as UiInventoryItemDetails
 	instance.item = item
 	_spawn_panel(instance, Color("#1b1c10"))
 
 
 func _on_pedia_hovered() -> void:
-	var instance := _loader.get_resource(INVENTORY_PEDIA_PATH).instantiate() as Control
+	var instance := (await Helper.load_scene(INVENTORY_PEDIA_PATH)).instantiate() as Control
 	_spawn_panel(instance, Color("1c1010ff"))

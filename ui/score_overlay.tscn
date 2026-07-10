@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cgy1xi5wyxtj8" path="res://ui/score_overlay.gd" id="1_fafp4"]
 [ext_resource type="Shader" uid="uid://b0lds446ytdn3" path="res://ui/score_overlay/score_overlay_trim.gdshader" id="2_4e27g"]
 [ext_resource type="Script" uid="uid://baggt65jfxuym" path="res://ui/score_overlay/ticker_item.gd" id="2_4n6jb"]
-[ext_resource type="Texture2D" uid="uid://crg131hv1wneq" path="res://asset/price-arr.png" id="2_83dqk"]
+[ext_resource type="Shader" uid="uid://cabeq6m2oa2n1" path="res://ui/score_overlay/bignumber.tres" id="2_74sqc"]
 [ext_resource type="FontFile" uid="uid://cyoqcqjat0bvp" path="res://asset/Knewave-Regular.ttf" id="3_ox7kp"]
 [ext_resource type="Script" uid="uid://ccjxaub2wvah4" path="res://ui/score_overlay/big_number.gd" id="4_ceu1u"]
 [ext_resource type="Texture2D" uid="uid://bc7jc0ar5x58d" path="res://asset/ui/icon-time.png" id="4_wt3f8"]
@@ -15,78 +15,9 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_4e27g"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_yonsj"]
-expanded_output_ports = [0]
-texture = ExtResource("2_83dqk")
-
-[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_74sqc"]
-size = Vector2(250, 150)
-expression = "vec3 rgb_to_hsv(vec3 c) {
-	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-	float d = q.x - min(q.w, q.y);
-	float e = 1e-10;
-	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-}
-
-vec3 hsv_to_rgb(vec3 c) {
-	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-"
-
-[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_jege7"]
-size = Vector2(500, 380)
-expression = "vec3 hsv = rgb_to_hsv(input0);
-output0 = hsv_to_rgb(hsv+ input1) ;"
-
-[sub_resource type="VisualShaderNodeVec3Parameter" id="VisualShaderNodeVec3Parameter_euwwg"]
-parameter_name = "HSV"
-
-[sub_resource type="VisualShader" id="VisualShader_yonsj"]
-mode = 1
-flags/light_only = false
-nodes/fragment/0/position = Vector2(1260, 500)
-nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_yonsj")
-nodes/fragment/2/position = Vector2(100, 160)
-nodes/fragment/3/node = SubResource("VisualShaderNodeGlobalExpression_74sqc")
-nodes/fragment/3/position = Vector2(-420, -140)
-nodes/fragment/3/size = Vector2(250, 150)
-nodes/fragment/3/input_ports = ""
-nodes/fragment/3/output_ports = ""
-nodes/fragment/3/expression = "vec3 rgb_to_hsv(vec3 c) {
-	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-	float d = q.x - min(q.w, q.y);
-	float e = 1e-10;
-	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-}
-
-vec3 hsv_to_rgb(vec3 c) {
-	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-"
-nodes/fragment/4/node = SubResource("VisualShaderNodeExpression_jege7")
-nodes/fragment/4/position = Vector2(700, 20)
-nodes/fragment/4/size = Vector2(500, 380)
-nodes/fragment/4/input_ports = "0,4,input0;1,4,input1;"
-nodes/fragment/4/output_ports = "0,4,output0;"
-nodes/fragment/4/expression = "vec3 hsv = rgb_to_hsv(input0);
-output0 = hsv_to_rgb(hsv+ input1) ;"
-nodes/fragment/5/node = SubResource("VisualShaderNodeVec3Parameter_euwwg")
-nodes/fragment/5/position = Vector2(200, 20)
-nodes/fragment/connections = PackedInt32Array(2, 4, 0, 1, 2, 0, 4, 0, 4, 0, 0, 0, 5, 0, 4, 1)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wt3f8"]
-shader = SubResource("VisualShader_yonsj")
+shader = ExtResource("2_74sqc")
 shader_parameter/HSV = Vector3(0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hyjl0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dn3wt"]
 content_margin_left = 2.0
@@ -201,7 +132,6 @@ offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 0
 pivot_offset_ratio = Vector2(0.115, 0.5)
-theme_override_styles/panel = SubResource("StyleBoxFlat_hyjl0")
 
 [node name="ExtraUI" type="HBoxContainer" parent="BigNumberBG" unique_id=1139985584]
 unique_name_in_owner = true

@@ -184,9 +184,15 @@ func get_screen_rect(aabb: AABB) -> Rect2:
 	return Rect2(min_pos, max_pos - min_pos)
 
 
+func preload_scene(path: String) -> void:
+	await get_tree().process_frame
+	var error := ResourceLoader.load_threaded_request(path, type_string(typeof(PackedScene)))
+	if error != Error.OK:
+		print(error)
+
+
 func load_scene(path: String) -> PackedScene:
 	var error := ResourceLoader.load_threaded_request(path, type_string(typeof(PackedScene)))
-
 	if error != Error.OK:
 		print(error)
 		return null

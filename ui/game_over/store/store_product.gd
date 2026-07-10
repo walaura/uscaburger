@@ -21,7 +21,7 @@ var _did_purchase := false:
 			on_purchase_pressed.emit()
 
 var _is_affordable := false
-var _loader := Loader.new()
+
 var disabled := false
 
 var _stamp_node: UiKetchupBadgeWStamp
@@ -31,8 +31,8 @@ signal on_purchase_pressed
 
 
 func _init() -> void:
-	_loader.queue_resource(_BADGE_PATH)
-	_loader.queue_resource(_BADGE_STAMP_PATH)
+	Helper.preload_scene(_BADGE_PATH)
+	Helper.preload_scene(_BADGE_STAMP_PATH)
 
 
 func _ready() -> void:
@@ -55,8 +55,8 @@ func _draw_ui() -> void:
 	var price_node := get_node("%Price") as Label
 	price_node.text = Helper.format_currency(product.price)
 
-	_stamp_node = (_loader.get_resource(_BADGE_STAMP_PATH).instantiate())
-	_badge_node = (_loader.get_resource(_BADGE_PATH).instantiate())
+	_stamp_node = (await Helper.load_scene(_BADGE_STAMP_PATH)).instantiate()
+	_badge_node = (await Helper.load_scene(_BADGE_PATH)).instantiate()
 	var rng := RandomNumberGenerator.new()
 	_badge_node.position = Vector2(
 		rng.randf_range(BADGE_SLOP * -1, BADGE_SLOP),

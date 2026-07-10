@@ -6,7 +6,6 @@ const ROTATE_BY = .1
 signal was_unpause_requested
 signal was_end_requested
 
-var _loader := Loader.new()
 @onready var _settings_scn_path := ($SettingsScn as InstancePlaceholder).get_instance_path()
 @onready var _inventory_scn_path := ($InventoryScn as InstancePlaceholder).get_instance_path()
 
@@ -17,11 +16,10 @@ func _input(event: InputEvent) -> void:
 		get_tree().paused = false
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_loader.queue_resource(_settings_scn_path)
-	_loader.queue_resource(_inventory_scn_path)
+	Helper.preload_scene(_settings_scn_path)
+	Helper.preload_scene(_inventory_scn_path)
 	get_tree().paused = true
 	_on_close_subscreen()
 
@@ -57,7 +55,7 @@ func _on_unpause() -> void:
 
 
 func _on_seets_button_pressed() -> void:
-	var settings: UiSettings = _loader.get_resource(_settings_scn_path).instantiate()
+	var settings: UiSettings = (await Helper.load_scene(_settings_scn_path)).instantiate()
 	_on_open_subscreen()
 	settings.on_close.connect(
 		func() -> void:
@@ -69,7 +67,7 @@ func _on_seets_button_pressed() -> void:
 
 
 func _on_inventory_button_pressed() -> void:
-	var inventory: UiInventory = _loader.get_resource(_inventory_scn_path).instantiate()
+	var inventory: UiInventory = (await Helper.load_scene(_inventory_scn_path)).instantiate()
 	_on_open_subscreen()
 	inventory.on_close.connect(
 		func() -> void:

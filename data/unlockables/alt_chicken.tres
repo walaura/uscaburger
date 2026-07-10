@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource("2_abwvx")
-name = "Chicken Sandwiches"
+name = "Chicken sandwiches"
 icon = ExtResource("1_fgvc6")
 desc = "Homophobic! 1 in 6 orders may be a [boing]Chicken sandwich[/boing]. 2x placement time and half sway rate"
 price = 1899

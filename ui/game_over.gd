@@ -15,7 +15,7 @@ signal on_next_round
 func _ready() -> void:
 	# for debug
 	if get_tree().current_scene == self:
-		CurrentRun.inventory.hold_item((load("res://data/unlockables/ketchup.tres") as RsRawItem).apply_tier(1))
+		CurrentRun.inventory.hold_item((load("res://data/unlockables/ings_ketchup.tres") as RsRawItem).apply_tier(1))
 		var handler := ScTower_State.new()
 		handler._push_line("XX", 69)
 		CurrentRun.score.settle(handler)

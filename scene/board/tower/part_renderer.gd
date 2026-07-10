@@ -26,7 +26,7 @@ var _rb: RigidBody3D
 
 var _did_touch_anything := false
 @onready var _drop_particles := $DropParticles as GPUParticles3D
-@onready var _initial_scale := Vector3(1, Helper.ITEM_Y_SCALE, 1) * randf_range(.9, 1.1)
+@onready var _initial_scale := Vector3(1, 1, 1) * randf_range(.9, 1.1)
 
 var HALLOUMI_KEY := ScTower_Parts.get_item("halloumi").name
 
@@ -83,21 +83,13 @@ func _ready() -> void:
 	add_child(model)
 
 	_rotate(randf())
+
+	if tower_state._mode == ScTower.Mode.Smash:
+		_initial_scale = Vector3(1, .5, 1)
 	_rb.scale_object_local(_initial_scale)
 
-	var mat := PHYS_MATERIAL
-	var friction := 0.
-
-	var maybe_glue := CurrentRun.inventory.get_held_item_by_key("glue.tres")
-	if maybe_glue != null:
-		friction += maybe_glue.incremental_value / 100.
-	var halloumis: int = tower_state.appearances.get("HALLOUMI_KEY", 0)
-	friction += (halloumis * 20.) / 100.
-
-	mat.friction = friction
-
 	_rb.continuous_cd = true
-	_rb.physics_material_override = mat
+	_rb.physics_material_override = _get_phys_material()
 	_rb.freeze = 1
 	_rb.contact_monitor = true
 	_rb.max_contacts_reported = 1
@@ -123,6 +115,22 @@ func _ready() -> void:
 	self._rb.body_entered.connect(_on_body_entered)
 	_drop_timer.timeout.connect(_on_drop_timer_time_out)
 	_drop_timer.one_shot = true
+
+
+func _get_phys_material() -> PhysicsMaterial:
+	var mat := PHYS_MATERIAL
+	var friction := 0.
+
+	var maybe_glue := CurrentRun.inventory.get_held_item_by_key("glue.tres")
+	if maybe_glue != null:
+		friction += maybe_glue.incremental_value / 100.
+	var halloumis: int = tower_state.appearances.get("HALLOUMI_KEY", 0)
+	friction += (halloumis * 20.) / 100.
+	if tower_state._mode == ScTower.Mode.Smash:
+		friction = friction * 2
+
+	mat.friction = friction
+	return
 
 
 func _rotate(step: float) -> void:
