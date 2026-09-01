@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://covsdjneqr6gi"]
+
+[ext_resource type="PackedScene" uid="uid://siu7oj5ovauc" path="res://asset/Topz-cheese.glb" id="1_a7nip"]
+
+[node name="Topz-cheese2" unique_id=440267049 instance=ExtResource("1_a7nip")]
+
+[node name="CollisionShape3D" parent="Topz-cheese" parent_id_path=PackedInt32Array(418621301) index="1" unique_id=1543388866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02145386, 0)

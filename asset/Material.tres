@@ -1,0 +1,49 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c0j1i67m8iea1"]
+
+[ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="1_6kbvt"]
+[ext_resource type="Texture2D" uid="uid://c2woxp68jjl86" path="res://asset/Countertop_tiles-gloss_2.png" id="2_udle1"]
+[ext_resource type="Texture2D" uid="uid://bx6bumu6s1x3o" path="res://asset/Countertop_tiles-gloss.png" id="3_8vlob"]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_d22ph"]
+output_port_for_preview = 0
+constant = Color(1, 0, 0, 1)
+
+[sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_d22ph"]
+output_port_for_preview = 0
+default_input_values = [2, false, 3, -33.08]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_gwaha"]
+constant = Color(0.62508196, 0, 0.025546696, 1)
+
+[sub_resource type="VisualShader" id="VisualShader_6kbvt"]
+nodes/vertex/0/position = Vector2(500, 160)
+nodes/vertex/2/node = SubResource("VisualShaderNodeFresnel_d22ph")
+nodes/vertex/2/position = Vector2(-240, 300)
+nodes/vertex/3/node = SubResource("VisualShaderNodeColorConstant_gwaha")
+nodes/vertex/3/position = Vector2(-20, 60)
+nodes/vertex/connections = PackedInt32Array(2, 0, 0, 7, 3, 0, 0, 6)
+nodes/fragment/0/position = Vector2(340, 200)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_d22ph")
+nodes/fragment/2/position = Vector2(-40, 220)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vlob"]
+render_priority = 0
+shader = SubResource("VisualShader_6kbvt")
+
+[resource]
+resource_name = "Material"
+next_pass = SubResource("ShaderMaterial_8vlob")
+cull_mode = 2
+albedo_texture = ExtResource("1_6kbvt")
+metallic_specular = 0.37
+metallic_texture = ExtResource("2_udle1")
+metallic_texture_channel = 2
+roughness = 0.34
+roughness_texture = ExtResource("2_udle1")
+roughness_texture_channel = 1
+normal_texture = ExtResource("3_8vlob")
+heightmap_enabled = true
+heightmap_scale = 4.0
+heightmap_texture = ExtResource("1_6kbvt")
+texture_filter = 2

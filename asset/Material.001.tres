@@ -1,0 +1,30 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cyves46writw2"]
+
+[ext_resource type="Texture2D" uid="uid://dqd1e3r8dppxm" path="res://asset/Countertop_tiles-albeddy-alt.png" id="1_k4omy"]
+[ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="2_qjow4"]
+[ext_resource type="Texture2D" uid="uid://c2woxp68jjl86" path="res://asset/Countertop_tiles-gloss_2.png" id="2_tl2xe"]
+[ext_resource type="Texture2D" uid="uid://bx6bumu6s1x3o" path="res://asset/Countertop_tiles-gloss.png" id="3_qjow4"]
+[ext_resource type="Shader" uid="uid://p0mdv8hia7de" path="res://asset/RimLight.tres" id="4_qjow4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tl2xe"]
+render_priority = 0
+shader = ExtResource("4_qjow4")
+
+[resource]
+resource_name = "Material.001"
+next_pass = SubResource("ShaderMaterial_tl2xe")
+cull_mode = 2
+albedo_texture = ExtResource("1_k4omy")
+metallic = 0.65
+metallic_specular = 1.0
+metallic_texture = ExtResource("2_tl2xe")
+metallic_texture_channel = 2
+roughness = 0.0
+roughness_texture = ExtResource("2_tl2xe")
+roughness_texture_channel = 1
+normal_scale = -1.0
+normal_texture = ExtResource("3_qjow4")
+heightmap_enabled = true
+heightmap_scale = 4.0
+heightmap_texture = ExtResource("2_qjow4")
+texture_filter = 2

@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bd3u4e6rsb03f"]
+
+[ext_resource type="Texture2D" uid="uid://db6x8uhcysjgs" path="res://asset/Topz-cheese_Topz-cheese Base Color.png" id="1_rt6p1"]
+[ext_resource type="Texture2D" uid="uid://drmf52je8hvj" path="res://asset/Topz-cheese_Material.png" id="2_f21bu"]
+
+[resource]
+resource_name = "Cheese"
+cull_mode = 2
+albedo_texture = ExtResource("1_rt6p1")
+metallic_texture = ExtResource("2_f21bu")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_f21bu")
+roughness_texture_channel = 1
+texture_filter = 2
