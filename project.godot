@@ -29,7 +29,7 @@ run/main_scene="uid://dnihigwbv0nhx"
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+config/icon="uid://dc4a11jsg5rnl"
 
 [audio]
 

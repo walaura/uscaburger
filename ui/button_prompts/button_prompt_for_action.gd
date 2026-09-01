@@ -4,6 +4,8 @@ class_name ButtonPromptForAction
 
 const ASSET_BTN_BUMPER_R = preload("res://asset/ui/btn-bumper-r.png")
 const ASSET_BTN_BUMPER_L = preload("res://asset/ui/btn-bumper-l.png")
+const ASSET_BTN_BUMPER_R_PS = preload("res://asset/ui/btn-bumper-r-ps.png")
+const ASSET_BTN_BUMPER_L_PS = preload("res://asset/ui/btn-bumper-l-ps.png")
 const ASSET_BTN_CIRCLE_A = preload("res://asset/ui/btn-circle-a.png")
 const ASSET_BTN_CIRCLE_B = preload("res://asset/ui/btn-circle-b.png")
 const ASSET_BTN_CIRCLE_X = preload("res://asset/ui/btn-circle-x.png")
@@ -23,6 +25,7 @@ const ASSET_BTN_KEEB_ARROW = preload("res://asset/ui/btn-keeb-arrow.png")
 
 
 func get_joypad_asset(index: int) -> Texture2D:
+	var is_steam := Input.get_joy_name(0).to_lower().contains('steam')
 	match index:
 		0:
 			return ASSET_BTN_CIRCLE_A
@@ -33,9 +36,9 @@ func get_joypad_asset(index: int) -> Texture2D:
 		3:
 			return ASSET_BTN_CIRCLE_Y
 		9:
-			return ASSET_BTN_BUMPER_L
+			return ASSET_BTN_BUMPER_L_PS if is_steam else ASSET_BTN_BUMPER_L
 		10:
-			return ASSET_BTN_BUMPER_R
+			return ASSET_BTN_BUMPER_R_PS if is_steam else ASSET_BTN_BUMPER_R
 		_:
 			return ASSET_BTN_MYSTERY
 
