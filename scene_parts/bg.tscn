@@ -3,7 +3,7 @@
 [ext_resource type="Environment" uid="uid://cj6026pk8t6l7" path="res://asset/shop_inside.tres" id="1_1obb1"]
 [ext_resource type="Texture2D" uid="uid://06p8n8ra8uey" path="res://asset/Countertop_tiles-albeddy.png" id="1_pexpi"]
 [ext_resource type="Texture2D" uid="uid://b041muwpqyxmv" path="res://asset/Countertop_tiles-normal.png" id="2_1obb1"]
-[ext_resource type="PackedScene" uid="uid://cbyg04p7n452b" path="res://scene_parts/bg/rfx.tscn" id="4_pexpi"]
+[ext_resource type="PackedScene" uid="uid://cbyg04p7n452b" path="res://SCparts/bg/rfx.tscn" id="4_pexpi"]
 [ext_resource type="PackedScene" uid="uid://vmfl5w0ql3nj" path="res://asset/ct-wall.glb" id="5_1obb1"]
 [ext_resource type="PackedScene" uid="uid://drxldp775pkrb" path="res://asset/ct/wall-pillar.glb" id="6_ln7ar"]
 [ext_resource type="PackedScene" uid="uid://phasd56uh7we" path="res://asset/ct/wall-ceil.glb" id="7_6ah1k"]

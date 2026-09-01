@@ -15,6 +15,4 @@ dest_files=["res://.godot/imported/mobile.svg-00ba6c795da2153bac73ffd20d0b0b50.d
 base_scale=1.0
 saturation=1.0
 color_map={}
-fix_alpha_border=false
-premult_alpha=false
 compress=true
