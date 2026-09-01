@@ -191,7 +191,6 @@ jolt_physics_3d/physics_interpolation=false
 
 [rendering]
 
-rendering_device/driver.windows="d3d12"
 textures/vram_compression/import_etc2_astc=true
 global_illumination/gi/use_half_resolution=true
 camera/depth_of_field/depth_of_field_bokeh_quality=3
