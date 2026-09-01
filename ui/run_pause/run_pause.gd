@@ -11,16 +11,18 @@ signal was_end_requested
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("ui_pause"):
-		was_unpause_requested.emit()
-		get_tree().paused = false
+	if get_tree().paused == false:
+		return
+	if event.is_action_pressed("ui_pause"):
+		print("unpause")
+		_on_unpause()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Helper.preload_scene(_settings_scn_path)
 	Helper.preload_scene(_inventory_scn_path)
-	get_tree().paused = true
+	get_tree().set.call_deferred("paused", true)
 	_on_close_subscreen()
 
 	var pop_tween := create_tween()
@@ -51,7 +53,7 @@ func _on_close_subscreen() -> void:
 
 func _on_unpause() -> void:
 	was_unpause_requested.emit()
-	get_tree().paused = false
+	get_tree().set.call_deferred("paused", false)
 
 
 func _on_seets_button_pressed() -> void:

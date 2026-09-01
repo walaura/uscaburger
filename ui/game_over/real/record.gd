@@ -16,9 +16,13 @@ func _ready() -> void:
 
 
 func animate_in(tween: Tween = null) -> Tween:
-	tween = TweenHelper.maybe_init(self, tween, Tween.EASE_OUT)
+	tween = TweenHelper.maybe_init(self, tween, Tween.EASE_IN)
+	($AudioStreamPlayer as AudioStreamPlayer).play()
 	tween.tween_property($RichTextLabel as RichTextLabel, "visible_ratio", 1.0, 2)
 	if is_new_record:
 		tween.tween_property($Control/NewBadge as Control, "modulate:a", 1.0, .5)
-
+	
+	tween.finished.connect(func()->void:
+		($AudioStreamPlayer as AudioStreamPlayer).stop()	
+	)
 	return tween

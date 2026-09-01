@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://btd3twuao3f5u" path="res://scene/board/tower/part_renderer.gd" id="1_kcndx"]
 [ext_resource type="AudioStream" uid="uid://de8das5d3peqd" path="res://asset/sound/animals_gerbil_soft_wood_bedding_pack_drop_on_floor.mp3" id="2_q3u2l"]
 [ext_resource type="Shader" uid="uid://dgrno8k34hn5q" path="res://scene/board/tower/part_renderer.tres" id="3_o54ne"]
+[ext_resource type="AudioStream" uid="uid://vgqgpkihsih8" path="res://asset/sound/zapsplat_multimedia_alert_ping_chime_correct_answer_check_positive_012_70201.mp3" id="4_vp3l7"]
 
 [sub_resource type="Gradient" id="Gradient_o54ne"]
 offsets = PackedFloat32Array(0.58144796, 0.9751131)
@@ -60,3 +61,6 @@ transform_align = 1
 transform_align_channel_filter = 1
 process_material = SubResource("ParticleProcessMaterial_q3u2l")
 draw_pass_1 = SubResource("QuadMesh_o54ne")
+
+[node name="AudioDing" type="AudioStreamPlayer" parent="." unique_id=1075648468]
+stream = ExtResource("4_vp3l7")

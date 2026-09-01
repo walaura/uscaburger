@@ -115,6 +115,15 @@ func _ready() -> void:
 	self._rb.body_entered.connect(_on_body_entered)
 	_drop_timer.timeout.connect(_on_drop_timer_time_out)
 	_drop_timer.one_shot = true
+	
+	was_stacked.connect(func(success: bool, _part: RsPart)->void:
+		if not success:
+			return
+		if part.is_heel:
+			return
+		($AudioDing as AudioStreamPlayer).pitch_scale = .9 + (tower_state.stack_length/60.)
+		($AudioDing as AudioStreamPlayer).play()
+	)
 
 
 func _get_phys_material() -> PhysicsMaterial:
@@ -130,7 +139,7 @@ func _get_phys_material() -> PhysicsMaterial:
 		friction = friction * 2
 
 	mat.friction = friction
-	return
+	return mat
 
 
 func _rotate(step: float) -> void:

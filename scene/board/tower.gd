@@ -105,9 +105,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("DBG-Spawn"):
-		_on_spawn()
-	if _active_renderer.state == ScTower_PartRenderer.State.WAVE && Input.is_action_just_pressed("Finish"):
+	if _active_renderer != null && _active_renderer.state == ScTower_PartRenderer.State.WAVE && Input.is_action_just_pressed("Finish"):
 		_on_finish()
 
 
@@ -143,9 +141,7 @@ func _on_finish() -> void:
 
 
 func swap_part(part: RsPart) -> void:
-	if !_active_renderer:
-		return
-	_active_renderer.destroy()
+	_destroy_active_part()
 	_spawn_part(part)
 
 
@@ -173,6 +169,12 @@ func _on_stack(is_success: bool, part: RsPart) -> void:
 	_score_overlay.time = _difficulty_numbers.wave_speed_timer_speed
 	_score_overlay.sway = _difficulty_numbers.wave_max_offset
 	_on_spawn()
+
+
+func _destroy_active_part() -> void:
+	if !_active_renderer:
+		return
+	_active_renderer.destroy()
 
 
 func _spawn_part(new_part: RsPart) -> void:
@@ -280,4 +282,5 @@ func _DBG_on_win_pressed() -> void:
 	_state.push(parts_scn.get_random_part(_state), 1.)
 	_state.push(parts_scn.get_random_part(_state), 1.)
 	_state.push(parts_scn.get_random_part(_state), 1.)
+	_destroy_active_part()
 	on_game_over.emit(true, _state)

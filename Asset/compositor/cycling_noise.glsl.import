@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dj3k2jjq57t14"
+path="res://.godot/imported/cycling_noise.glsl-f5bc48628c4901f74e141b4513b2cfb8.res"
+
+[deps]
+
+source_file="res://asset/compositor/cycling_noise.glsl"
+dest_files=["res://.godot/imported/cycling_noise.glsl-f5bc48628c4901f74e141b4513b2cfb8.res"]
+
+[params]
+

@@ -23,7 +23,19 @@ func update_time_sway() -> void:
 
 
 func push(line_item: String, value: int) -> void:
+	var tween := create_tween()
 	push_ticker_line(line_item, value)
+	($AudioStreamPlayer as AudioStreamPlayer).play(randf_range(0,3))
+	tween.tween_property(
+		($AudioStreamPlayer as AudioStreamPlayer),
+		'volume_linear',
+		0.0,
+		1.
+	)
+	tween.tween_callback(func()->void:
+		($AudioStreamPlayer as AudioStreamPlayer).stop()
+		($AudioStreamPlayer as AudioStreamPlayer).volume_db = -16
+	)
 	(%BigNumber as UiScoreOverlayBigNumber).add_to_score(value)
 
 
@@ -59,8 +71,11 @@ func _set_mode() -> void:
 		ScTower.Mode.Chicken:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.076, 0., 0.))
 			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
-		_:
+		ScTower.Mode.Smash:
 			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(.666, -.1, -.2))
+			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
+		_:
+			($BigNumberBG as Panel).material.set("shader_parameter/HSV", Vector3(0, 0, 0))
 			(%BigNumber as UiScoreOverlayBigNumber).multi = 1.
 
 	pass

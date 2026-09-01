@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://3rdxks7u3haa"]
+
+[ext_resource type="Script" uid="uid://dighne4nkb32y" path="res://scene/camera_3d.gd" id="1_5j34a"]
+[ext_resource type="Environment" uid="uid://cj6026pk8t6l7" path="res://asset/shop_inside.tres" id="1_xkd8v"]
+[ext_resource type="PackedScene" uid="uid://dbx3op4it44jy" path="res://asset/Countertop.glb" id="2_v0f0s"]
+[ext_resource type="PackedScene" uid="uid://dwbxrbap8s51s" path="res://asset/Ct-Glass.glb" id="3_5mli6"]
+[ext_resource type="PackedScene" uid="uid://ce5u6ip0hagg8" path="res://scene_parts/bg.tscn" id="4_ks88x"]
+[ext_resource type="PackedScene" uid="uid://c61mq3bawqxuf" path="res://scene/board/badges_on_glass.tscn" id="5_xkd8v"]
+[ext_resource type="PackedScene" uid="uid://bejpf2118t4b7" path="res://asset/Paper-plate.glb" id="6_nipc4"]
+[ext_resource type="PackedScene" uid="uid://d3g1bwh7f5w1v" path="res://asset/Bun-heel.glb" id="7_n2h5c"]
+[ext_resource type="PackedScene" uid="uid://siu7oj5ovauc" path="res://asset/Topz-cheese.glb" id="8_b0irw"]
+[ext_resource type="PackedScene" uid="uid://b4tn17fkip32b" path="res://asset/Topz-lettuce.glb" id="10_nipc4"]
+[ext_resource type="PackedScene" uid="uid://c5hbia0fniax2" path="res://asset/parts/pickle.glb" id="11_n2h5c"]
+[ext_resource type="PackedScene" uid="uid://dy02m4tl5hv6y" path="res://asset/Patty-meat.glb" id="12_b0irw"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_2x24l"]
+exposure_multiplier = 1.1
+dof_blur_far_enabled = true
+dof_blur_far_distance = 19.46
+dof_blur_far_transition = 1.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 0.01
+dof_blur_near_transition = 3869.92
+dof_blur_amount = 0.07
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qago8"]
+margin = 1.367
+size = Vector3(40, 2, 40)
+
+[node name="Art" type="Node3D" unique_id=466652877]
+process_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=839076148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.381051, 11.609)
+environment = ExtResource("1_xkd8v")
+attributes = SubResource("CameraAttributesPractical_2x24l")
+fov = 30.0
+script = ExtResource("1_5j34a")
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=806105850]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1118511484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_qago8")
+debug_fill = false
+
+[node name="Countertop" parent="." unique_id=235850226 instance=ExtResource("2_v0f0s")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 0, -0.009101868, -0.806)
+
+[node name="Ct-Glass" parent="." unique_id=1442348077 instance=ExtResource("3_5mli6")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -0.664, -0.0011018515, -0.864)
+
+[node name="Ct-Glass2" parent="." unique_id=1044857604 instance=ExtResource("3_5mli6")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, 13.091, -0.0011018515, -0.864)
+
+[node name="Ct-Glass3" parent="." unique_id=1459326723 instance=ExtResource("3_5mli6")]
+transform = Transform3D(-1.7484555e-07, 0, -4, 0, 4, 0, 4, 0, -1.7484555e-07, -14.389, -0.0011018515, -0.864)
+
+[node name="bg" parent="." unique_id=1772998672 instance=ExtResource("4_ks88x")]
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1117259539]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(2048, 512)
+
+[node name="Control" parent="SubViewport" unique_id=1421891035 instance=ExtResource("5_xkd8v")]
+
+[node name="Paper-plate" parent="." unique_id=1193309559 instance=ExtResource("6_nipc4")]
+transform = Transform3D(0.29541883, 0, -4.2246842, 0, 4.235, 0, 4.2246842, 0, 0.29541883, 0, -0.41725922, -0.64112324)
+
+[node name="Bun-heel2" parent="." unique_id=1898478153 instance=ExtResource("7_n2h5c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24669886, -0.58294475)
+
+[node name="Topz-cheese2" parent="." unique_id=577916989 instance=ExtResource("8_b0irw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48339415, 0)
+
+[node name="Topz-lettuce" parent="Topz-cheese2" unique_id=1201466329 instance=ExtResource("10_nipc4")]
+transform = Transform3D(0.80410916, 0, -0.5944817, 0, 1, 0, 0.5944817, 0, 0.80410916, 0, 0.217937, 0)
+
+[node name="Topz-pickle" parent="Topz-cheese2/Topz-lettuce" unique_id=1064501407 instance=ExtResource("11_n2h5c")]
+transform = Transform3D(0.9987143, 0.025142537, 0.04402429, -0.025192576, 0.99968255, 0.000581041, -0.043995947, -0.0016892599, 0.9990305, -0.1413065, 0.24362719, 0.47523865)
+
+[node name="Topz-pickle" parent="Topz-cheese2/Topz-lettuce/Topz-pickle" unique_id=202474004 instance=ExtResource("11_n2h5c")]
+transform = Transform3D(0.99799776, 0.06319083, -0.0027081966, -0.063190825, 0.9943346, -0.085473314, -0.0027082264, 0.08547332, 0.9963368, 0.35624862, 0.08969092, -0.9312401)
+
+[node name="Patty-meat2" parent="." unique_id=1437632532 instance=ExtResource("12_b0irw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7606443, 0)
+
+[node name="Topz-cheese3" parent="." unique_id=1074447483 instance=ExtResource("8_b0irw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91074884, 0)
+
+[node name="Patty-meat3" parent="." unique_id=1978626656 instance=ExtResource("12_b0irw")]
+transform = Transform3D(0.9856995, 0.16814724, -0.011091507, -0.16508639, 0.9503586, -0.2637514, -0.033808164, 0.2618107, 0.9645269, 0, 2.4764695, 0)
+
+[editable path="Countertop"]
+[editable path="Ct-Glass"]

@@ -19,9 +19,8 @@ func _ready() -> void:
 		var handler := ScTower_State.new()
 		handler._push_line("XX", 69)
 		CurrentRun.score.settle(handler)
-	if Helper.is_debug:
-		speed_mult = .4
 
+	Camera.on_camera_mode_changed.connect(_on_camera_mode_changed)
 	var show_bank_ultimatum := CurrentRun.score.current_session_score < 0.
 
 	if !did_finish:
@@ -42,7 +41,6 @@ func _ready() -> void:
 
 	_play_intro()
 	_DBG_set_up()
-	get_tree().paused = true
 
 
 func _on_next_round() -> void:
@@ -59,11 +57,7 @@ func _on_next_round() -> void:
 			.5,
 		)
 	)
-	tween.finished.connect(
-		func() -> void:
-			get_tree().paused = false
-			on_next_round.emit()
-	)
+	tween.finished.connect(func() -> void: on_next_round.emit())
 
 
 func _on_purchased_item(item: RsItem) -> void:
@@ -81,6 +75,15 @@ func _on_purchased_item(item: RsItem) -> void:
 
 	tween.tween_interval(.5)
 	tween.finished.connect(func() -> void: _on_next_round())
+
+
+func _on_camera_mode_changed() -> void:
+	var tween := create_tween()
+	tween.tween_property(
+		$UIContainer as Control, "offset_transform_position_ratio:y", 1. if Camera.mode == Camera.Mode.ZOOM_OUT else 0., .2
+	)
+	($NiceOneBg as Control).visible = Camera.mode != Camera.Mode.ZOOM_OUT
+	($Mask as Control).visible = Camera.mode != Camera.Mode.ZOOM_OUT
 
 
 func _play_intro() -> void:

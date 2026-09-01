@@ -1,0 +1,26 @@
+[gd_resource type="Compositor" format=3 uid="uid://dwa8cnlcl7pve"]
+
+[ext_resource type="Script" uid="uid://dkcj85kviu81o" path="res://asset/compositor/tester.gd" id="1_7mu10"]
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_74sqc"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("1_7mu10")
+shader_code = "	// Sample the original screen texture
+	vec4 original_color = imageLoad(color_image, uv);
+	float noise = 0.0;
+	
+	noise = (fract(sin(dot(uv, vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0;
+	// Add noise to the original color
+	original_color.rgb += noise * .5 * .5;
+	
+	// Clamp the final color to make sure it stays in the valid range
+	color = clamp(original_color, 0.0, 1.0);"
+metadata/_custom_type_script = "uid://dkcj85kviu81o"
+
+[resource]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_74sqc")])

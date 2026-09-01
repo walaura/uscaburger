@@ -10,6 +10,7 @@ static var SCREEN_TS_TIME := .5
 
 var _tower_scn: ScTower
 var _maybe_force_next_mode: ScTower.Mode
+var _input_helper := InputHelper.new()
 
 
 func _ready() -> void:
@@ -85,11 +86,18 @@ func _play_again() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Zoom-out"):
-		Camera.set_mode_zoom_out(_tower_scn.get_aabb())
-	if event.is_action_released("Zoom-out"):
-		Camera.set_mode_gameplay()
-	if event.is_action("ui_pause"):
+	_input_helper.handle_toggle(
+		event,
+		"Zoom-out",
+		func() -> void:
+			if _tower_scn._state.stack_length >= 1:
+				Camera.set_mode_zoom_out(_tower_scn.get_aabb()),
+		func() -> void: Camera.set_mode_gameplay()
+	)
+	if event.is_action_pressed("ui_pause"):
+		if get_tree().paused == true:
+			return
+		print("pause")
 		var pause_scene := PAUSE_SCENE.instantiate() as UiRunPause
 		pause_scene.was_end_requested.connect(
 			func() -> void:
@@ -125,6 +133,7 @@ func on_game_over(did_finish: bool, tower_score: ScTower_State) -> void:
 			remove_child(game_over_screen)
 			game_over_screen.queue_free()
 	)
+
 	add_child(game_over_screen)
 
 

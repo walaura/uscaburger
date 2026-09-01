@@ -65,14 +65,14 @@ _data = {
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(1, 1, 1, 1)
-shader_parameter/AspectRatio = 0.5975
+shader_parameter/AspectRatio = 1.0259067357512954
 shader_parameter/Crumple = ExtResource("4_k8651")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xi1dr"]
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(1, 0.23000002, 0.23000002, 1)
-shader_parameter/AspectRatio = 0.5975
+shader_parameter/AspectRatio = 0.46588235294117647
 shader_parameter/Crumple = ExtResource("4_k8651")
 
 [sub_resource type="VisualShaderNodeColorOp" id="VisualShaderNodeColorOp_exxln"]
@@ -411,7 +411,7 @@ WhiteLabel/colors/font_color = Color(1, 1, 1, 1)
 resource_local_to_scene = true
 shader = ExtResource("5_lgxpc")
 shader_parameter/ColorParameter = Color(0.99999994, 0.87990296, 0.68754417, 1)
-shader_parameter/AspectRatio = 0.5975
+shader_parameter/AspectRatio = 0.8757894736842106
 shader_parameter/Crumple = ExtResource("4_k8651")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l87h4"]
@@ -423,7 +423,6 @@ shader_parameter/fade = ExtResource("4_k8651")
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rcx4q"]
 
 [node name="GameOver" type="Control" unique_id=333364085]
-process_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
