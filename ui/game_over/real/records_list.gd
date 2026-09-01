@@ -31,7 +31,7 @@ const COUNT: Array[String] = [
 const EXPENSE_COUNT: Array[String] = [
 	"Your most expensive sandwich made [boing]%s[/boing]. Neat.",
 	"Somebody bought one of your hamburgers for [boing]%s[/boing]. Wild.",
-	"At [boing]%s[/boing] your most expensive hamburger was still reasonably priced when accounting for inlation."
+	"At [boing]%s[/boing] your most expensive hamburger was still reasonably priced when accounting for inflation."
 ]
 
 const PARTS_COUNT: Array[String] = [
@@ -74,15 +74,27 @@ func _ready() -> void:
 
 		var expensivest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.PRICE)
 		@warning_ignore("unsafe_call_argument")
-		records.append(_make_record(EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price), SavedRecords.records.maybe_update_max_money(expensivest.price)))
+		records.append(
+			_make_record(
+				EXPENSE_COUNT.pick_random() % Helper.format_currency(expensivest.price),
+				SavedRecords.records.maybe_update_max_money(expensivest.price)
+			)
+		)
 
 		var most_parts := CurrentRun.score.get_record_burger(RsBurgerStats.Record.LENGTH)
 		@warning_ignore("unsafe_call_argument")
-		records.append(_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), SavedRecords.records.maybe_update_max_parts(most_parts.length)))
+		records.append(
+			_make_record(PARTS_COUNT.pick_random() % str(most_parts.length), SavedRecords.records.maybe_update_max_parts(most_parts.length))
+		)
 
 		var tallest := CurrentRun.score.get_record_burger(RsBurgerStats.Record.HEIGHT)
 		@warning_ignore("unsafe_call_argument")
-		records.append(_make_record(HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height), SavedRecords.records.maybe_update_max_height(tallest.height)))
+		records.append(
+			_make_record(
+				HEIGHT_COUNT.pick_random() % Helper.format_size(tallest.height),
+				SavedRecords.records.maybe_update_max_height(tallest.height)
+			)
+		)
 
 		@warning_ignore("unsafe_call_argument")
 		records.append(_make_record("\n\n" + OUTROS.pick_random(), false))
